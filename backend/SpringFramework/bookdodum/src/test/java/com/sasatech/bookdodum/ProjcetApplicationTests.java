@@ -1,4 +1,4 @@
-package com.sasatech.projcet;
+package com.sasatech.bookdodum;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
