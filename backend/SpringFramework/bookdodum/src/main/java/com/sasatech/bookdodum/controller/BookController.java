@@ -3,7 +3,7 @@ package com.sasatech.bookdodum.controller;
 
 import com.sasatech.bookdodum.dto.request.book.BookRequestDto;
 import com.sasatech.bookdodum.dto.resposne.api.ApiResponseDto;
-import com.sasatech.bookdodum.service.BookService;
+import com.sasatech.bookdodum.service.book.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

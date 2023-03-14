@@ -1,4 +1,4 @@
-package com.sasatech.bookdodum.service;
+package com.sasatech.bookdodum.service.book;
 
 import com.sasatech.bookdodum.dto.request.book.BookRequestDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookListResponseDto;
