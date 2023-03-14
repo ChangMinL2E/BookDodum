@@ -21,7 +21,10 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long isbn;
+    private Long id;
+
+    @Column(nullable = false)
+    private String isbn;
 
     @Column(nullable = false)
     private String title;
@@ -42,9 +45,6 @@ public class Book {
     @Column(nullable = false)
     private String imageUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
-    private User user;
 }
 
 
