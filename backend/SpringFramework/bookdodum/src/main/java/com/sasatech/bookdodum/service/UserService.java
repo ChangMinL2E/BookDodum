@@ -15,10 +15,10 @@ public class UserService {
     public boolean addUser(UserRequestDto userRequestDto) {
         userRepository.save(User.builder()
                 .id(userRequestDto.getId())
-                        .name(userRequestDto.getName())
-                        .email(userRequestDto.getEmail())
-                        .age(userRequestDto.getAge())
-                        .gender(userRequestDto.getGender())
+                .name(userRequestDto.getName())
+                .email(userRequestDto.getEmail())
+                .age(userRequestDto.getAge())
+                .gender(userRequestDto.getGender())
                 .build()
         );
         return true;
