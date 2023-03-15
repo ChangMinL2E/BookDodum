@@ -22,6 +22,7 @@ public class BookController {
         bookService.addBook(bookRequestDto);
         return new ResponseEntity(new ApiResponseDto(true, "addBook Success", null), HttpStatus.OK);
     }
+    //isbn코드가 넘어오고 DB에서 책을 조회한 다음 내 책에 등록
 
     @GetMapping("/")
     public ResponseEntity<?> listBook() {
