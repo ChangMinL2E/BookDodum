@@ -34,14 +34,14 @@ public class BookService {
     }
 
     public List<BookListResponseDto> listBook() {
-        List<Book> bookList = bookRepository.findAllById();
+//        List<Book> bookList = bookRepository.findAllByUserId();
         List<BookListResponseDto> list = new ArrayList<>();
 
 
-        for (Book book : bookList) {
-            BookListResponseDto dto = BookListResponseDto.builder()
-                    .build();
-        }
+//        for (Book book : bookList) {
+//            BookListResponseDto dto = BookListResponseDto.builder()
+//                    .build();
+//        }
 
         return list;
     }
