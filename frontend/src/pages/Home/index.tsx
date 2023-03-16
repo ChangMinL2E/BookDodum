@@ -1,16 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import Card from "./Card";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Home() {
-  const books: string[] = ["어린왕자", "모순"];
+  const bestBooks: string[] = [];
+  const [similarBooks, setSimilarBooks] = useState([]);
   const navigate = useNavigate();
-  
+
+  useEffect(() => {
+    // 상품 정보 axios
+    axios
+      .get(`http://127.0.0.1:8000/books/popular/`)
+      .then((res) => {
+        // setSimilarBooks(res.data);
+        console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <>
-      <div>지우님이 읽고 있는 책</div>
+      <div>베스트셀러 Top20</div>
       <div>
-        {books.map((book, idx) => {
+        {bestBooks.map((book, idx) => {
+          return (
+            <div key={idx}>
+              <h3>{book}</h3>
+            </div>
+          );
+        })}
+      </div>
+      <div>유사한 책 추천</div>
+      <div>
+        {similarBooks.map((book, idx) => {
           return (
             <div key={idx}>
               <h3>{book}</h3>
