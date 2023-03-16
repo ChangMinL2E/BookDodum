@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -24,27 +25,25 @@ public class Book {
     private Long id;
 
     @Column(nullable = false)
-    private String isbn;
-
-    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
     private String author;
 
     @Column(nullable = false)
-    private String siteUrl;
-
-    @Column(nullable = false)
     private String publisher;
-
-    private String content;
-
-    private String category;
 
     @Column(nullable = false)
     private String imageUrl;
 
+    @Column(nullable = false)
+    private String isbn;
+
+    private String siteUrl;
+
+    private String content;
+
+    private String category;
 }
 
 
