@@ -5,7 +5,7 @@
 ```bash
 python -m venv venv
 source venv/Scripts/activate
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 - 서버 실행
