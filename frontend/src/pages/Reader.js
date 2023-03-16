@@ -5,6 +5,7 @@ import ImageCapture from "react-image-data-capture";
 const App = () => {
   const [showImgCapture, setShowImgCapture] = useState(true);
   const config = useMemo(() => ({ video: true }), []);
+  const url = "back api";
   /*
     { video: true } - Default Camera View
     { video: { facingMode: environment } } - Back Camera
@@ -12,14 +13,25 @@ const App = () => {
   */
   const [imgSrc, setImgSrc] = useState(null);
   const [imgFile, setImgFile] = useState(null);
+
   const onCapture = (imageData) => {
-    // read as webP
     setImgSrc(imageData.webP);
-    // read as file
     setImgFile(imageData.file);
     // Unmount component to stop the video track and release camera
     setShowImgCapture(false);
   };
+
+  fetch(url, {
+    method: "POST",
+    body: formData
+  })
+    .then((response) => {
+      return response.text();
+    })
+    .then((data) => {
+      console.log(data);
+    });
+
   const onError = useCallback((error) => {
     console.log(error);
   }, []);
@@ -42,6 +54,7 @@ const App = () => {
         <div>
           <div>Captured Image:</div>
           <img src={imgSrc} alt="captured-img" />
+          <div>{JSON.stringify(imgFile)}</div>
         </div>
       )}
     </>

@@ -1,5 +1,6 @@
 import { useRef, useState, useCallback } from "react";
 import Webcam from "react-webcam";
+import styled from 'styled-components';
 
 const videoConstraints = {
   width: 720,
