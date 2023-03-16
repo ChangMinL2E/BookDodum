@@ -11,21 +11,18 @@ import com.sasatech.bookdodum.entity.book.Category;
 import com.sasatech.bookdodum.repository.CategoryRepository;
 import com.sasatech.bookdodum.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FileUtils;
+import org.aspectj.util.FileUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
+import org.springframework.util.Base64Utils;
 
-import org.mockito.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -114,10 +111,27 @@ public class BookService {
     public void readIsbn(String path) {
 
         try {
-            System.out.println(path);
-            convertToPng(path, "C:/Users/multicampus/Desktop/imgs");
 
-            BufferedImage bf = ImageIO.read(new FileInputStream(path));
+            // base64 데이터 추출
+            String base64Data = path.split(",")[1];
+            base64Data = base64Data.replaceAll(" ", "+");
+//            base64Data = base64Data.replaceAll("[^A-Za-z0-9+/=]", "");
+
+            byte[] decodedBytes = Base64.getDecoder().decode(base64Data);
+
+            // 이미지 파일로 저장
+//            FileOutputStream outputStream = new FileOutputStream("/Users/wonseok/Desktop/SSAFY/test1.jpg");
+//            outputStream.write(decodedBytes);
+//            outputStream.close();
+
+            FileUtils.writeByteArrayToFile(new File("/Users/wonseok/Desktop/SSAFY/image.png"), decodedBytes);
+            BufferedImage bf = ImageIO.read(new FileInputStream("/Users/wonseok/Desktop/SSAFY/wonseok.png"));
+
+            FileInputStream fileInputStream = new FileInputStream("/Users/wonseok/Desktop/SSAFY/wonseok.png");
+
+            System.out.println(fileInputStream.toString());
+            System.out.println(bf);
+
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(
                     new BufferedImageLuminanceSource(bf)
             ));
