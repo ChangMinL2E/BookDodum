@@ -29,5 +29,13 @@ public class BookController {
         bookService.listBook();
         return new ResponseEntity(new ApiResponseDto(true, "addBook Success", null), HttpStatus.OK);
     }
-
 }
+
+
+
+
+//    @GetMapping("/test")
+//    public ResponseEntity<?> test() {
+//        bookService.convertCategory();
+//        return null;
+//    }
