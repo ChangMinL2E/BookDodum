@@ -29,6 +29,13 @@ public class BookController {
         bookService.listBook();
         return new ResponseEntity(new ApiResponseDto(true, "addBook Success", null), HttpStatus.OK);
     }
+
+    @GetMapping("/isbn")
+    public ResponseEntity<?> test(@RequestParam("path") String path) {
+        System.out.println(path);
+        bookService.readIsbn(path);
+        return null;
+    }
 }
 
 
