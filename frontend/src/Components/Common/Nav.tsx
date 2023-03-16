@@ -1,14 +1,31 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import logo from '../../Assets/Images/logo-black.png'
+import SideBar from './SideBar';
+// import {} from '@heroicons/react'
 
 export default function Nav() {
+  const [showSide, setShowSide] = useState<boolean>(true);
+
+  const showSideBar = () => {
+    setShowSide(!showSide);
+    document.body.style.overflow = "hidden";
+  };
+
+  const hideSideBar = () => {
+    setShowSide(false);
+    document.body.style.overflow = "unset";
+  };
+
+
   return (
     <Container>
       <Contents>
-        <Hamburgur></Hamburgur>
+        <Hamburgur>=</Hamburgur>
         <Logo/>
-        <Block/>
+        <div></div>
       </Contents>
+      <SideBar showSide={showSide}/>
     </Container>
   );
 }
@@ -36,8 +53,4 @@ const Logo = styled.div`
   height:30px;
   background-size: cover;
   width : 56px;
-`
-
-const Block = styled.div`
-  
 `
