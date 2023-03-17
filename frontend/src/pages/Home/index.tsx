@@ -53,8 +53,8 @@ export default function Home() {
         console.log(err);
       });
 
-      axios
-      .get(`http://127.0.0.1:8000/books/similar/9788950922382`)
+    axios
+      .get(`http://127.0.0.1:8000/books/similar/9791168473690`)
       .then((res) => {
         var list: SimilarType[] = [];
 
@@ -75,24 +75,10 @@ export default function Home() {
       .catch((err) => {
         console.log(err);
       });
-
   }, []);
 
   return (
     <>
-      <h3>베스트셀러 Top20</h3>
-      <div>
-        {bestBooks.map((book) => 
-          <div key={book.id}>{book.title}</div>
-        )}
-      </div>
-      
-      <h3>유사한 책 추천</h3>
-      <div>
-        {similarBooks.map((book) => 
-          <div key={book.id}>{book.title}</div>
-        )}
-      </div>
       <button
         onClick={() => {
           navigate("/reader");
@@ -100,6 +86,25 @@ export default function Home() {
       >
         책 추가하기
       </button>
+      <h3>베스트셀러 Top20</h3>
+      <div>
+        {bestBooks.map((book) => (
+          <div key={book.id}>
+            <img src={book.image_url} height="160" width="100" />
+            {book.title}
+          </div>
+        ))}
+      </div>
+
+      <h3>유사한 책 추천</h3>
+      <div>
+        {similarBooks.map((book) => (
+          <div key={book.id}>
+            <img src={book.image_url} height="160" width="100" />
+            {book.title}
+          </div>
+        ))}
+      </div>
     </>
   );
 }
