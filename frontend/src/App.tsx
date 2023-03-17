@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import Intro from './pages/Intro';
 import { Reader } from "./pages/Reader";
-import ReaderTest from "./pages/ReaderTest";
 
 import RecommendList from "./pages/RecommendList/index";
 
@@ -11,9 +11,9 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/intro" element={<Intro />} />
         <Route path="/list" element={<RecommendList />} />
         <Route path="/reader" element={<Reader />} />
-        <Route path='/readertest' element={<ReaderTest />} />
       </Routes>
     </BrowserRouter>
   );

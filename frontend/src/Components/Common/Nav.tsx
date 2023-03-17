@@ -6,8 +6,9 @@ import SideBar from './SideBar';
 const Container = styled.div`
         width: 100vw;
         height: 64px;
+        /* opacity: 70%; */
       `;
-
+ 
 const Contents = styled.div`
         width : 100%;
         height: 90%;
@@ -30,7 +31,7 @@ const Logo = styled.div`
 
 const Nav: React.FC = () => {
 
-  const [sideMenu, setSideMenu] = useState<boolean>(false);
+  const [sideMenu, setSideMenu] = useState<boolean>(true);
 
   const showSideMenu = (): void => {
     setSideMenu(!sideMenu);
