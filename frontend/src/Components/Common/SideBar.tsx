@@ -117,7 +117,7 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
   return (
     <>
       <BackGround className={sideMenu ? 'open' : ''} onClick={() => hideSideMenu()} />
-      <Container className={sideMenu ? 'open' : ''}>
+      <Container className={sideMenu ? 'open' : ''} onClick={() => hideSideMenu()}>
         <Wrap>
           <Logo>
             <BookOpenIcon width="40px" strokeWidth="0.5px" color="#5C5649" />

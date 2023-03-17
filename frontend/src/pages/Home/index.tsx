@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Nav from "../../Components/Common/Nav";
 import Banner from "./Banner";
+import Library from "./Library"
+// import BestKeyword from "./BestKeyword";
 
 export default function Home() {
 
@@ -8,7 +10,8 @@ export default function Home() {
     <>
     <Nav/>
     <Banner/>
-      홈페이지
+    <Library/>
+    {/* <BestKeyword/> */}
     </>
   );
 }
