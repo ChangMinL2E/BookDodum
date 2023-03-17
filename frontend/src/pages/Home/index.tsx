@@ -81,7 +81,7 @@ export default function Home() {
     <>
       <button
         onClick={() => {
-          navigate("/reader");
+          navigate("/isbn");
         }}
       >
         책 추가하기
