@@ -17,7 +17,7 @@ spring:
     generate-ddl: true
 
 server:
-  max-http-header-size: 400000
+  max-http-header-size: 8000000
   port: 8080
   servlet:
     context-path: /api
