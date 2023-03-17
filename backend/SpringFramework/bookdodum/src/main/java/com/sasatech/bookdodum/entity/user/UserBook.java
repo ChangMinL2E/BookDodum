@@ -1,11 +1,17 @@
 package com.sasatech.bookdodum.entity.user;
 
 import com.sasatech.bookdodum.entity.book.Book;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 public class UserBook {
 

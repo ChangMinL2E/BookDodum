@@ -6,10 +6,15 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import com.sasatech.bookdodum.dto.request.book.BookRequestDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookListResponseDto;
+import com.sasatech.bookdodum.dto.resposne.book.BookResponseDto;
 import com.sasatech.bookdodum.entity.book.Book;
 import com.sasatech.bookdodum.entity.book.Category;
+import com.sasatech.bookdodum.entity.user.User;
+import com.sasatech.bookdodum.entity.user.UserBook;
 import com.sasatech.bookdodum.repository.CategoryRepository;
 import com.sasatech.bookdodum.repository.BookRepository;
+import com.sasatech.bookdodum.repository.UserBookRepository;
+import com.sasatech.bookdodum.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.aspectj.util.FileUtil;
@@ -31,20 +36,19 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public class BookService {
     private final BookRepository bookRepository;
+    private final UserBookRepository userBookRepository;
     private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
 
-    public boolean addBook(BookRequestDto bookRequestDto) {
-        bookRepository.save(Book.builder()
-                .author(bookRequestDto.getAuthor())
-                .category(bookRequestDto.getCategory())
-                .content(bookRequestDto.getContent())
-                .imageUrl(bookRequestDto.getImageUrl())
-                .isbn(bookRequestDto.getIsbn())
-                .publisher(bookRequestDto.getPublisher())
-                .siteUrl(bookRequestDto.getSiteUrl())
-                .title(bookRequestDto.getTitle())
+    public boolean addBook(Long id) {
+        Book book = bookRepository.findById(id).orElseThrow();
+        User user = userRepository.findById(1L).orElseThrow();
+
+        userBookRepository.save(UserBook.builder()
+                .book(book)
+                .user(user)
                 .build());
-        // 도서 등록 로직
+
         return true;
     }
 
@@ -108,7 +112,7 @@ public class BookService {
 
 
 
-    public void readIsbn(String path) {
+    public BookResponseDto readIsbn(String path) {
 
         try {
 
@@ -138,17 +142,27 @@ public class BookService {
 
 
             // ISBN 기반으로 책 정보 찾기
-            Book book = bookRepository.findByIsnb(result.getText());
-            
+            Book book = bookRepository.findByIsbn(result.getText());
+
+            return BookResponseDto.builder()
+                    .id(book.getId())
+                    .author(book.getAuthor())
+                    .category(book.getCategory())
+                    .content(book.getContent())
+                    .imageUrl(book.getImageUrl())
+                    .isbn(book.getIsbn())
+                    .publisher(book.getPublisher())
+                    .siteUrl(book.getSiteUrl())
+                    .title(book.getTitle())
+                    .build();
+
         } catch (Exception e) {
             e.printStackTrace();
+
+            return null;
         }
     }
 
-    public void addUserBook(String isbn) {
-        Book book = bookRepository.findByIsnb(isbn);
-
-    }
 }
 
 

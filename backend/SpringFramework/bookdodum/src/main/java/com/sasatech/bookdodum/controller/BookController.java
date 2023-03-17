@@ -3,6 +3,7 @@ package com.sasatech.bookdodum.controller;
 
 import com.sasatech.bookdodum.dto.request.book.BookRequestDto;
 import com.sasatech.bookdodum.dto.resposne.api.ApiResponseDto;
+import com.sasatech.bookdodum.dto.resposne.book.BookResponseDto;
 import com.sasatech.bookdodum.service.book.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,13 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
     private final BookService bookService;
 
-    @PostMapping("/")
-    public ResponseEntity<?> addBook(@RequestBody BookRequestDto bookRequestDto) {
-        bookService.addBook(bookRequestDto);
-        return new ResponseEntity(new ApiResponseDto(true, "addBook Success", null), HttpStatus.OK);
-    }
-    //isbn코드가 넘어오고 DB에서 책을 조회한 다음 내 책에 등록
-
     @GetMapping("/")
     public ResponseEntity<?> listBook() {
         bookService.listBook();
@@ -31,11 +25,15 @@ public class BookController {
     }
 
     @GetMapping("/isbn")
-    public ResponseEntity<?> test(@RequestParam("path") String path) {
-        String isbn = bookService.readIsbn(path);
+    public ResponseEntity<?> readIsbn(@RequestParam("path") String path) {
+        return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", bookService.readIsbn(path)), HttpStatus.OK);
+    }
 
-
-        return null;
+    @PostMapping("/isbn/{bookid}")
+    public ResponseEntity<?> addBook(@PathVariable("bookid") Long id) {
+        System.out.println(id);
+        bookService.addBook(id);
+        return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", null), HttpStatus.OK);
     }
 }
 
