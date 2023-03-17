@@ -32,7 +32,9 @@ public class BookController {
 
     @GetMapping("/isbn")
     public ResponseEntity<?> test(@RequestParam("path") String path) {
-        bookService.readIsbn(path);
+        String isbn = bookService.readIsbn(path);
+
+
         return null;
     }
 }
