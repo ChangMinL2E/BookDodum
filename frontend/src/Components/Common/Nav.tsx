@@ -2,7 +2,6 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import logo from '../../Assets/Images/logo-black.png'
 import SideBar from './SideBar';
-// import {} from '@heroicons/react'
 
 const Container = styled.div`
         width: 100vw;
@@ -35,12 +34,11 @@ const Nav: React.FC = () => {
 
   const showSideMenu = (): void => {
     setSideMenu(!sideMenu);
-    document.body.style.overflow = "hidden";
+    console.log(sideMenu)
   };
 
   const hideSideMenu = (): void => {
     setSideMenu(false);
-    document.body.style.overflow = "unset";
   };
 
 
