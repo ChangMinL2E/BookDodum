@@ -115,22 +115,23 @@ public class BookService {
             // base64 데이터 추출
             String base64Data = path.split(",")[1];
             base64Data = base64Data.replaceAll(" ", "+");
-//            base64Data = base64Data.replaceAll("[^A-Za-z0-9+/=]", "");
+            base64Data = base64Data.replaceAll("[^A-Za-z0-9+/=]", "");
 
             byte[] decodedBytes = Base64.getDecoder().decode(base64Data);
 
             // 이미지 파일로 저장
-//            FileOutputStream outputStream = new FileOutputStream("/Users/wonseok/Desktop/SSAFY/test1.jpg");
-//            outputStream.write(decodedBytes);
-//            outputStream.close();
+            FileOutputStream outputStream = new FileOutputStream("isbn1.jpg");
+            outputStream.write(decodedBytes);
+            outputStream.close();
 
-            FileUtils.writeByteArrayToFile(new File("/Users/wonseok/Desktop/SSAFY/image.png"), decodedBytes);
-            BufferedImage bf = ImageIO.read(new FileInputStream("/Users/wonseok/Desktop/SSAFY/wonseok.png"));
 
-            FileInputStream fileInputStream = new FileInputStream("/Users/wonseok/Desktop/SSAFY/wonseok.png");
+            FileUtils.writeByteArrayToFile(new File("isbn2.jpg"), decodedBytes, true);
 
-            System.out.println(fileInputStream.toString());
+            BufferedImage bf = ImageIO.read(new FileInputStream("isbn1.jpg"));
+            BufferedImage bf2 = ImageIO.read(new FileInputStream("isbn2.jpg"));
+
             System.out.println(bf);
+            System.out.println(bf2);
 
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(
                     new BufferedImageLuminanceSource(bf)
@@ -150,35 +151,20 @@ public class BookService {
 }
 
 
-//    private String readBarcode(String fileName) {
-//        File file = new File(fileName);
-//        BufferedImage image = null;
-//        BinaryBitmap bitmap = null;
-//        Result result = null;
+//            FileInputStream fileInputStream = new FileInputStream("abc.png");
 //
-//        try {
-//            image = ImageIO.read(file);
-//            int[] pixels = image.getRGB(0, 0, image.getWidth(), image.getHeight(), null, 0, image.getWidth());
-//            RGBLuminanceSource source = new RGBLuminanceSource(image.getWidth(), image.getHeight(), pixels);
-//            bitmap = new BinaryBitmap(new HybridBinarizer(source));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
 //
-//        if (bitmap == null) {
-//            return null;
-//        }
-//        EAN13Reader reader = new EAN13Reader();
-//        try {
-//
-//            result = reader.decode(bitmap);
-//
-//            System.out.println("Decoded image successfully, result was : '" + result.getText() + "'");
-//            return result.getText();
-//
-//        } catch (FormatException | NotFoundException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return null;
-//    }
+//            try {
+//                if (fileInputStream != null) {
+//                    BufferedImage image = ImageIO.read(new FileInputStream("abc.png"));
+//                    if (image != null) {
+//                        // 이미지 파일이 로드된 경우 수행할 작업
+//                    } else {
+//                        System.out.println("이미지 파일을 로드할 수 없습니다.");
+//                    }
+//                } else {
+//                    System.out.println("파일을 찾을 수 없습니다.");
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
