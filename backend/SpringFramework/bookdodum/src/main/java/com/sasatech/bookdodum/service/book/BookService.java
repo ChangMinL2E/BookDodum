@@ -130,7 +130,9 @@ public class BookService {
 
 //            FileUtils.writeByteArrayToFile(new File("isbn.png"), decodedBytes, true);
 
+
             BufferedImage bf = ImageIO.read(new FileInputStream("isbn.png"));
+
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(
                     new BufferedImageLuminanceSource(bf)
             ));
