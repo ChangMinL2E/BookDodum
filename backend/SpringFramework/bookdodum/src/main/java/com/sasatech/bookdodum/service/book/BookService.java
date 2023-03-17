@@ -131,7 +131,7 @@ public class BookService {
             BufferedImage bf2 = ImageIO.read(new FileInputStream("isbn2.jpg"));
 
             System.out.println(bf);
-            System.out.println(bf2);
+            System.out.println(bf2);-]
 
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(
                     new BufferedImageLuminanceSource(bf)
