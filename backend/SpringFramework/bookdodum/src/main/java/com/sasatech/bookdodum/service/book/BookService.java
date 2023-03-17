@@ -120,19 +120,13 @@ public class BookService {
             byte[] decodedBytes = Base64.getDecoder().decode(base64Data);
 
             // 이미지 파일로 저장
-            FileOutputStream outputStream = new FileOutputStream("isbn1.jpg");
+            FileOutputStream outputStream = new FileOutputStream("isbn.png");
             outputStream.write(decodedBytes);
             outputStream.close();
 
+//            FileUtils.writeByteArrayToFile(new File("isbn.png"), decodedBytes, true);
 
-            FileUtils.writeByteArrayToFile(new File("isbn2.jpg"), decodedBytes, true);
-
-            BufferedImage bf = ImageIO.read(new FileInputStream("isbn1.jpg"));
-            BufferedImage bf2 = ImageIO.read(new FileInputStream("isbn2.jpg"));
-
-            System.out.println(bf);
-            System.out.println(bf2);
-
+            BufferedImage bf = ImageIO.read(new FileInputStream("isbn.png"));
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(
                     new BufferedImageLuminanceSource(bf)
             ));
@@ -142,11 +136,18 @@ public class BookService {
 
             Result result = new MultiFormatReader().decode(bitmap, hints);
 
-            System.out.println(result.getText());
 
+            // ISBN 기반으로 책 정보 찾기
+            Book book = bookRepository.findByIsnb(result.getText());
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void addUserBook(String isbn) {
+        Book book = bookRepository.findByIsnb(isbn);
+
     }
 }
 
