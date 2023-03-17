@@ -8,4 +8,6 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findAll();
     List<Book> findAllById(Long id);
+
+    Book findByIsnb(String isbn);
 }
