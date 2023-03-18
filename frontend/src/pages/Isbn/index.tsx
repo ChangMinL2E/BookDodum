@@ -5,12 +5,24 @@ import { CameraIcon } from "@heroicons/react/24/outline";
 
 const Barcode = styled.div`
   z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const BarcodeBox = styled.div`
   height: 35%;
   width: 95%;
-  top: 30%;
-  left: 1%;
+  top: 20%;
   position: fixed;
-  border: 4px solid #4a6eec;
+  border: 4px solid black;
+`;
+
+const BarcodeText = styled.div`
+  text-align: center;
+  top: 58%;
+  position: fixed;
+  font-weight: bold;
 `;
 
 const Button = styled.div`
@@ -24,10 +36,18 @@ const Button = styled.div`
   position: fixed;
 `;
 
+const Camera = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 const videoConstraints = {
   width: 360,
   height: 740,
-  facingMode: "environment",
+  // facingMode: "environment",
+  facingMode: "user",
 };
 
 export const Isbn = () => {
@@ -48,13 +68,22 @@ export const Isbn = () => {
         screenshotFormat="image/png"
         videoConstraints={videoConstraints}
       />
-      <Barcode></Barcode>
+      <Barcode>
+        <BarcodeBox />
+        <BarcodeText>
+          도서 바코드를 사각형 안에 맞추고
+          <br />
+          사진을 찍어 책을 등록하세요!
+        </BarcodeText>
+      </Barcode>
       <Button onClick={capture}>
-        <CameraIcon
-          width="40px"
-          strokeWidth="2px"
-          color="#ffffff"
-        ></CameraIcon>
+        <Camera>
+          <CameraIcon
+            width="40px"
+            strokeWidth="1.5px"
+            color="#ffffff"
+          ></CameraIcon>
+        </Camera>
       </Button>
       {url && (
         <>
