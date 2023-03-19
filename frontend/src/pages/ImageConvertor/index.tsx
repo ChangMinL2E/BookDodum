@@ -1,9 +1,10 @@
 import React from 'react';
+import Form from './Form';
 
-export default function ImageConvertor() {
+export default function index() {
     return (
         <div>
-            이미지변환
+            <Form/>
         </div>
     );
 }
