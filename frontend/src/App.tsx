@@ -4,7 +4,8 @@ import Home from "./pages/Home";
 import { Isbn } from "./pages/Isbn";
 import Check from "./pages/Isbn/Check";
 import RecommendList from "./pages/RecommendList/index";
-import ImageConvertor from './pages/ImageConvertor'
+import ImageConvertor from './pages/ImageConvertor';
+import Mypage from "./pages/Mypage/Index";
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +15,7 @@ function App() {
         <Route path="/list" element={<RecommendList />} />
         <Route path="/isbn" element={<Isbn />}/>
         <Route path="/image" element={<ImageConvertor/>} />
+        <Route path = "/mypage" element={<Mypage/>} />
       </Routes>
     </BrowserRouter>
   );
