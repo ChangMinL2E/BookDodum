@@ -2,7 +2,6 @@ package com.sasatech.bookdodum.entity.group;
 
 
 import com.sasatech.bookdodum.entity.book.Book;
-import com.sasatech.bookdodum.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -17,10 +16,10 @@ import java.util.Date;
 @ToString
 @Getter
 @Builder
-@Table(name = "group")
+@Table(name = "meeting")
 @DynamicInsert
 @DynamicUpdate
-public class Group {
+public class Meeting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
