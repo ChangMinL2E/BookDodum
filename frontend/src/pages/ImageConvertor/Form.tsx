@@ -1,63 +1,48 @@
 import React, { useState } from "react";
-import { IMAGE_TYPES } from "react-html5-camera-photo";
 import oilpainting from "../../Assets/Images/oilpainting.png";
 import oneline from "../../Assets/Images/oneline.png";
+import styled from "styled-components";
 
-// 입력값 받는 부분
-interface InputProps {
-  value: String;
-  placeholder: String;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-// 라디오버튼 옵션 이름
-interface RadioOption {
-  label: String;
-  value: String;
-}
-
-//라디오 버튼
-
-interface RadioProps {
-  options: RadioOption[];
-  selectedValue: String;
-  onSelectionChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-interface ImageGalleyProps {
-  images: String;
-  selectedImageIndex: number;
-}
-
+const Title = styled.div`
+  color: #5c5649;
+  font-weight: bold;
+`;
+const Wrapper = styled.div`
+  width: 100%;
+  height: 50%;
+`;
 const Form: React.FC = () => {
-  const [text, setText] = useState("");
-  const [type, setType] = useState("");
+  const [text, setText] = useState<string>("");
+
   const handleTextChnage = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
   };
+
   const handelSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setText("");
     console.log(text);
   };
-  const options = ["oilpainting", "one-line"];
-  const [selectedOption, setSelectedOption] = useState("oilpainting");
+  const options: string[] = ["oilpainting", "one-line"];
+  const [selectedOption, setSelectedOption] = useState<string>("oilpainting");
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(event.target.value);
   };
 
   return (
     <>
-      <h3>여러분의 생각을 그림으로 남겨드립니다.</h3>
-      <form onSubmit={handelSubmit}>
-        <input
-          type="text"
-          value={text}
-          placeholder="책을 읽고 소감을 작성해 보세요.
+      <Title>여러분의 생각을 그림으로 남겨드립니다.</Title>
+      <Wrapper>
+        <form onSubmit={handelSubmit}>
+          <input
+            type="text"
+            value={text}
+            placeholder="책을 읽고 소감을 작성해 보세요.
         예시) 들판에 핀 안개 꽃"
-          onChange={handleTextChnage}
-        />
-      </form>
+            onChange={handleTextChnage}
+          />
+        </form>
+      </Wrapper>
       <div>
         <img src={oilpainting} width="40px" height="40px" />
         <img src={oneline} width="40px" height="40px" />

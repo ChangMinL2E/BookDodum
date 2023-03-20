@@ -90,32 +90,9 @@ public class BookService {
     }
 
 
-    public void convertToPng(String webpFile, String pngFile) throws IOException {
-
-        System.out.println(webpFile);
-//        BufferedImage image = ImageIO.read(new File(webpFile));
-//        ImageIO.write(image, "png", new File(pngFile));
-
-//        ImageInputStream input = ImageIO.createImageInputStream(webpFile);
-        ImageReader reader = ImageIO.getImageReadersByMIMEType("image/webp").next();
-//        reader.setInput(input);
-//        BufferedImage image = reader.read(0);
-//
-//        ImageOutputStream output = ImageIO.createImageOutputStream(pngFile);
-//        ImageWriter writer = ImageIO.getImageWritersByFormatName("png").next();
-//        writer.setOutput(output);
-//        writer.write(image);
-//
-//        input.close();
-//        output.close();
-    }
-
-
 
     public BookResponseDto readIsbn(String path) {
-
         try {
-
             // base64 데이터 추출
             String base64Data = path.split(",")[1];
             base64Data = base64Data.replaceAll(" ", "+");
@@ -143,6 +120,8 @@ public class BookService {
             Result result = new MultiFormatReader().decode(bitmap, hints);
 
 
+            System.out.println(result.getText());
+
             // ISBN 기반으로 책 정보 찾기
             Book book = bookRepository.findByIsbn(result.getText());
 
@@ -164,24 +143,4 @@ public class BookService {
             return null;
         }
     }
-
 }
-
-
-//            FileInputStream fileInputStream = new FileInputStream("abc.png");
-//
-//
-//            try {
-//                if (fileInputStream != null) {
-//                    BufferedImage image = ImageIO.read(new FileInputStream("abc.png"));
-//                    if (image != null) {
-//                        // 이미지 파일이 로드된 경우 수행할 작업
-//                    } else {
-//                        System.out.println("이미지 파일을 로드할 수 없습니다.");
-//                    }
-//                } else {
-//                    System.out.println("파일을 찾을 수 없습니다.");
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }

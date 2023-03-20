@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import logo from '../../Assets/Images/logo-black.png'
 import { BookOpenIcon } from '@heroicons/react/24/outline'
+import { useNavigate } from "react-router-dom";
 
 
 const Container = styled.div`
@@ -39,12 +40,12 @@ flex-direction: column;
 `
 const Logo = styled.div`
   display: flex;
-  margin: 20% 0 15% 0;
+  margin: 20% 0 15% 5%;
 `
 
 const LogoImg = styled.div`
   width : 70px;
-  margin-left: 2%;
+  margin-left: 3%;
 `
 
 const LoginBtn = styled.div`
@@ -94,6 +95,14 @@ margin-top: 2%;
 font-size: 12px;
 `
 
+const InfoMsg = styled.div`
+  font-size: 12px;
+  position: absolute;
+  width: 90%;
+  margin-left: 7%;
+  bottom : 2.5%;
+`
+
 // 타입 선언
 
 type Props = {
@@ -102,13 +111,13 @@ type Props = {
 }
 
 // 컴포넌트 정의
-
 const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
+  const navigate = useNavigate();
 
   return (
     <>
       <BackGround className={sideMenu ? 'open' : ''} onClick={() => hideSideMenu()} />
-      <Container className={sideMenu ? 'open' : ''}>
+      <Container className={sideMenu ? 'open' : ''} onClick={() => hideSideMenu()}>
         <Wrap>
           <Logo>
             <BookOpenIcon width="40px" strokeWidth="0.5px" color="#5C5649" />
@@ -132,11 +141,12 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
             </Menu>
           </Menus>
         </Wrap>
+        <InfoMsg onClick={() => navigate('/intro')}>북,돋움에 처음 오셨나요? 더 알아보기</InfoMsg>
       </Container>
     </>
   );
 }
 
-export default SideBar
+export default SideBar 
 
 
