@@ -43,11 +43,11 @@ export const Isbn = () => {
   };
 
   const bookCheck = async () => {
-    await postBookId(bookInfo.id);
+    // await postBookId(bookInfo.id);
   };
 
   useEffect(() => {
-    setTitle(bookInfo.title);
+    // setTitle(bookInfo.title);
   }, [bookInfo]);
 
   return (
