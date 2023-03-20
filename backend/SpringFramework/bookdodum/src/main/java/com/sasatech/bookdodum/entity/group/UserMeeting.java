@@ -32,5 +32,4 @@ public class UserGroup {
     private User user;
 
 
-
 }
