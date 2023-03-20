@@ -2,22 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-
 // 쓰는 방법
 // import 하고 text=텍스트, link=navigate 할 곳
 // <NavBack text="여기다가 넣으면 돼" link="/list"/>
-
-const Container = styled.div`
-  width: 100vw;
-  height: 64px;
-  display: flex;
-  align-items: center;
-`;
-
-const Text = styled.div`
-  font-size: 16px;
-  color: #5c5649;
-`;
 
 type Props = {
   text : String;
@@ -56,3 +43,16 @@ const NavBack: React.FC<Props> = ({text, link}) => {
 };
 
 export default NavBack;
+
+
+const Container = styled.div`
+  width: 100vw;
+  height: 64px;
+  display: flex;
+  align-items: center;
+`;
+
+const Text = styled.div`
+  font-size: 16px;
+  color: #5c5649;
+`;

@@ -1,18 +1,23 @@
 import React from "react";
 import styled from "styled-components";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/effect-coverflow";
+import { EffectCoverflow } from "swiper";
+
+
+
 // Styled Components
 const Container = styled.div`
   width : 100%;
   height: 550px;
   background-color: #F9F9F7;
-  border: 2px solid green;
 `
 const Title = styled.div`
   font-size: 25px;
   font-weight: bold;
   text-align: center;
-  /* text-shadow: 0px 2px 2px 0px #00000040; */
 `;
 
 const Desc = styled.div`
@@ -37,6 +42,31 @@ const Library: React.FC<Props> = ({}) => {
         인기 대출 도서
       </Title>
       <Desc>""의 인기 도서를 만나보세요!</Desc>
+      <Swiper
+        effect={"coverflow"}
+        grabCursor={true}
+        centeredSlides={true}
+        slidesPerView={"auto"}
+        coverflowEffect={{
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        }}
+        modules={[EffectCoverflow]}
+        className="mySwiper"
+      >
+        <SwiperSlide>
+          슬라이드
+        </SwiperSlide>
+        <SwiperSlide>
+          슬라이드
+        </SwiperSlide>
+        <SwiperSlide>
+          슬라이드
+        </SwiperSlide>
+      </Swiper>
     </Container>
   );
 };
