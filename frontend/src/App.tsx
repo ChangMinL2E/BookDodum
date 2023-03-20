@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import { Isbn } from "./pages/Isbn";
+import Check from "./pages/Isbn/Check";
 import RecommendList from "./pages/RecommendList/index";
 
 function App() {
