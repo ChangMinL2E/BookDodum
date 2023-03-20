@@ -1,18 +1,23 @@
 package com.sasatech.bookdodum.entity.user;
 
 import com.sasatech.bookdodum.entity.book.Book;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@Getter
 @Builder
-@Entity
+@Table(name = "userBook")
+@DynamicInsert
+@DynamicUpdate
 public class UserBook {
 
     @Id
