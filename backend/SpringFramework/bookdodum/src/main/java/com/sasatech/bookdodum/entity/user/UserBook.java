@@ -1,6 +1,7 @@
 package com.sasatech.bookdodum.entity.user;
 
 import com.sasatech.bookdodum.entity.book.Book;
+import com.sasatech.bookdodum.entity.book.Review;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -31,6 +32,9 @@ public class UserBook {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
+
+    @OneToOne(mappedBy = "userBook")
+    private Review review;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
