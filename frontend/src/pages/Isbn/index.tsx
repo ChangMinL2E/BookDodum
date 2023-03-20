@@ -6,8 +6,6 @@ import Check from "./Check";
 import { useNavigate } from "react-router-dom";
 import { getBookInfo, postBookId } from "../../apis/isbn";
 
-// booktype 필요
-
 const videoConstraints = {
   width: 360,
   height: 740,
@@ -20,6 +18,25 @@ export const Isbn = () => {
   const webcamRef = useRef<Webcam>(null);
   const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
+  const [bookId, setBookId] = useState<number>(0);
+  
+  const capture = useCallback(() => {
+    const imageSrc = webcamRef.current?.getScreenshot();
+    if (imageSrc) {
+      setUrl(imageSrc);
+      bookGet(url);
+    }
+  }, [webcamRef]);
+
+  const bookGet = async (url: string) => {
+    const data = await getBookInfo(url);
+    setTitle(data.title);
+    setBookId(data.id);
+  };
+
+  const bookCheck = async () => {
+    await postBookId(bookId);
+  };
 
   const clickNoBtn = () => {
     setTitle("");
@@ -30,25 +47,6 @@ export const Isbn = () => {
     alert("등록되었습니다.");
     navigate("/");
   };
-
-  const capture = useCallback(() => {
-    const imageSrc = webcamRef.current?.getScreenshot();
-    if (imageSrc) {
-      setUrl(imageSrc);
-    }
-  }, [webcamRef]);
-
-  const bookInfo = async () => {
-    await getBookInfo(url);
-  };
-
-  const bookCheck = async () => {
-    // await postBookId(bookInfo.id);
-  };
-
-  useEffect(() => {
-    // setTitle(bookInfo.title);
-  }, [bookInfo]);
 
   return (
     <div>
@@ -68,12 +66,7 @@ export const Isbn = () => {
               사진을 찍어 책을 등록하세요!
             </BarcodeText>
           </Barcode>
-          <Button
-            onClick={() => {
-              capture;
-              bookInfo();
-            }}
-          >
+          <Button onClick={capture}>
             <Camera>
               <CameraIcon
                 width="40px"
@@ -82,24 +75,6 @@ export const Isbn = () => {
               ></CameraIcon>
             </Camera>
           </Button>
-          {/* 없애야할 부분 */}
-          {url && (
-            <>
-              <div>
-                <button
-                  onClick={() => {
-                    setUrl("");
-                  }}
-                >
-                  delete
-                </button>
-              </div>
-              <div>
-                <img src={url} alt="Screenshot" />
-                <div>{url}</div>
-              </div>
-            </>
-          )}
         </Cam>
       ) : (
         <Check
