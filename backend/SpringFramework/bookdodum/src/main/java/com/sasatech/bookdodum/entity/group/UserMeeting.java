@@ -1,6 +1,5 @@
 package com.sasatech.bookdodum.entity.group;
 
-import com.sasatech.bookdodum.entity.book.Book;
 import com.sasatech.bookdodum.entity.user.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -14,10 +13,10 @@ import javax.persistence.*;
 @ToString
 @Getter
 @Builder
-@Table(name = "userGroup")
+@Table(name = "userMeeting")
 @DynamicInsert
 @DynamicUpdate
-public class UserGroup {
+public class UserMeeting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +24,7 @@ public class UserGroup {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "GROUP_ID")
-    private Group group;
+    private Meeting meeting;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
