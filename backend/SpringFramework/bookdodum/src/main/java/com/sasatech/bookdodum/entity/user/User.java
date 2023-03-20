@@ -23,7 +23,16 @@ public class User {
     private Long id;
 
     @Column(nullable = false)
+    private String user_id;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
     private String name;
+
+
+    //후에 아래 제거
 
     @Column(nullable = false)
     private String email;
