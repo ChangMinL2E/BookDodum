@@ -19,12 +19,11 @@ export const Isbn = () => {
   const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [bookId, setBookId] = useState<number>(0);
-  
+
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
       setUrl(imageSrc);
-      bookGet(url);
     }
   }, [webcamRef]);
 
@@ -33,6 +32,12 @@ export const Isbn = () => {
     setTitle(data.title);
     setBookId(data.id);
   };
+
+  useEffect(() => {
+    if (url) {
+      bookGet(url);
+    }
+  }, [url]);
 
   const bookCheck = async () => {
     await postBookId(bookId);
