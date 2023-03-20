@@ -21,7 +21,7 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("/list")
-    @Operation(summary = "책 리스트 조회")
+    @Operation(summary = "내 책 리스트 조회")
     public ResponseEntity<?> listBook() {
         bookService.listBook();
         return new ResponseEntity(new ApiResponseDto(true, "addBook Success", null), HttpStatus.OK);
@@ -44,14 +44,14 @@ public class BookController {
     @DeleteMapping("/{bookid}")
     @Operation(summary = "등록한 책 삭제")
     public ResponseEntity<?> deleteBook(@PathVariable("bookid") Long id) {
-        bookService.addBook(id);
+        bookService.deleteBook(id);
         return new ResponseEntity(new ApiResponseDto(true, "deleteBook Success", null), HttpStatus.OK);
     }
 
     @PutMapping("/{bookid}")
     @Operation(summary = "다 읽은 책 update")
     public ResponseEntity<?> finishBook(@PathVariable("bookid") Long id) {
-        bookService.addBook(id);
+        bookService.finishBook(id);
         return new ResponseEntity(new ApiResponseDto(true, "finishBook Success", null), HttpStatus.OK);
     }
 }
