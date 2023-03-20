@@ -1,9 +1,12 @@
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import Webcam from "react-webcam";
 import styled from "styled-components";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import Check from "./Check";
 import { useNavigate } from "react-router-dom";
+import { getBookInfo, postBookId } from "../../apis/isbn";
+
+// booktype 필요
 
 const videoConstraints = {
   width: 360,
@@ -15,15 +18,16 @@ const videoConstraints = {
 export const Isbn = () => {
   const navigate = useNavigate();
   const webcamRef = useRef<Webcam>(null);
-  const [url, setUrl] = useState<string | null>(null);
-  const [title, setTitle] = useState<string>("불편한 편의점");
+  const [url, setUrl] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
 
   const clickNoBtn = () => {
     setTitle("");
   };
 
   const clickYesBtn = () => {
-    alert('등록되었습니다.')
+    bookCheck();
+    alert("등록되었습니다.");
     navigate("/");
   };
 
@@ -33,6 +37,18 @@ export const Isbn = () => {
       setUrl(imageSrc);
     }
   }, [webcamRef]);
+
+  const bookInfo = async () => {
+    await getBookInfo(url);
+  };
+
+  const bookCheck = async () => {
+    await postBookId(bookInfo.id);
+  };
+
+  useEffect(() => {
+    setTitle(bookInfo.title);
+  }, [bookInfo]);
 
   return (
     <div>
@@ -52,7 +68,12 @@ export const Isbn = () => {
               사진을 찍어 책을 등록하세요!
             </BarcodeText>
           </Barcode>
-          <Button onClick={capture}>
+          <Button
+            onClick={() => {
+              capture;
+              bookInfo();
+            }}
+          >
             <Camera>
               <CameraIcon
                 width="40px"
@@ -67,7 +88,7 @@ export const Isbn = () => {
               <div>
                 <button
                   onClick={() => {
-                    setUrl(null);
+                    setUrl("");
                   }}
                 >
                   delete
