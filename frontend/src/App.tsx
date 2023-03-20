@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import { Isbn } from "./pages/Isbn";
 import Check from "./pages/Isbn/Check";
 import RecommendList from "./pages/RecommendList/index";
-
+import ImageConvertor from './pages/ImageConvertor'
 function App() {
   return (
     <BrowserRouter>
@@ -13,6 +13,7 @@ function App() {
         {/* <Route path="/intro" element={<Intro />} /> */}
         <Route path="/list" element={<RecommendList />} />
         <Route path="/isbn" element={<Isbn />}/>
+        <Route path="/image" element={<ImageConvertor/>} />
       </Routes>
     </BrowserRouter>
   );
