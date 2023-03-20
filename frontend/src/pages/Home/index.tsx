@@ -3,8 +3,9 @@ import Nav from "../../Components/Common/Nav";
 import DetailModal from "../../Components/Contents/DetailModal";
 import Banner from "./Banner";
 import BookList from "./BookList";
-import Library from "./Library"
+import LibraryBooks from "./LibraryBooks"
 import sample from '../../Assets/Images/sample.png'
+import ReadingBooks from "./ReadingBooks";
 // import BestKeyword from "./BestKeyword";
 
 export default function Home() {
@@ -13,9 +14,10 @@ export default function Home() {
     <>
     <Nav/>
     <Banner/>
+    <ReadingBooks/>
     <BookList/>
-    <Library/>
-    <DetailModal bookId={1}/>
+    <LibraryBooks/>
+    {/* <DetailModal bookId={1}/> */}
     {/* <BestKeyword/> */}
     </>
   );

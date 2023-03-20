@@ -35,6 +35,24 @@ export default function BookList() {
           categories: [],
           company: "나무 옆 의자"
         }} />
+        <Book book={{
+          imageUrl: sample,
+          title: "불편한 편의점",
+          categories: [],
+          company: "나무 옆 의자"
+        }} />
+        <Book book={{
+          imageUrl: sample,
+          title: "불편한 편의점",
+          categories: [],
+          company: "나무 옆 의자"
+        }} />
+        <Book book={{
+          imageUrl: sample,
+          title: "불편한 편의점",
+          categories: [],
+          company: "나무 옆 의자"
+        }} />
       </List>
     </Container>
   );

@@ -1,24 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { XMarkIcon, UsersIcon } from '@heroicons/react/24/outline'
 import sample from '../../Assets/Images/sample.png';
 
 interface Props {
-    bookId: number
+    bookId: number;
+    modalOpen: boolean;
+    closeModal: () => void;
 }
 
-export default function DetailModal({ bookId }: Props) {
-
+export default function DetailModal(props: Props) {
+console.log(props.modalOpen)
     useEffect(() => {
         // 도서 상세 조회 api
     })
 
     return (
-        <Container>
+        <Container className={props.modalOpen ? 'open' : ''}>
             <Background />
             <Modal>
                 <ModalTop>
-                    <CloseBtn>
+                    <CloseBtn onClick={props.closeModal}>
                         <XMarkIcon width="25px" strokeWidth="1.5px" color="white" />
                     </CloseBtn>
                     <BookImage />
@@ -48,7 +50,12 @@ export default function DetailModal({ bookId }: Props) {
     );
 }
 const Container = styled.div`
-    
+/* width: 100vw;
+height: 100vh; */
+display: none;
+&.open {
+  display: block;
+  }
 `
 const Background = styled.div`
     position: fixed;

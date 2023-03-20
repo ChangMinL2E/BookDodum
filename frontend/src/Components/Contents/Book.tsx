@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import sample from "../../Assets/Images/sample.png";
 import BookCover from './BookCover';
 import { Book } from '../../Store/Types'
+import DetailModal from './DetailModal';
 
 // 타입선언
 interface Props {
@@ -14,8 +15,20 @@ interface ImageProps {
 }
 
 export default function BookCard({ book }: Props) {
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
+
+  const openModal = (): void => {
+    setModalOpen(!modalOpen)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const closeModal = (): void => {
+    setModalOpen(false);
+  }
+
   return (
-    <Container>
+    <Container onClick={openModal}>
+      <DetailModal bookId={0} closeModal={closeModal} modalOpen={modalOpen} />
       <BookCover imageUrl={sample} size={130} />
       <BookTitle>{book?.title}</BookTitle>
       <Categories>
