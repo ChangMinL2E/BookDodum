@@ -40,6 +40,8 @@ dependencies {
 	testImplementation 'io.projectreactor:reactor-test'
 	implementation 'mysql:mysql-connector-java'
 
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.10'
+
 	// QueryDSL
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	annotationProcessor(
