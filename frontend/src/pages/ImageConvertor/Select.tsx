@@ -3,6 +3,7 @@ import image1 from "../../Assets/Images/oilpainting.png";
 import image2 from "../../Assets/Images/oneline.png";
 import image3 from "../../Assets/Images/windflower.png";
 import styled from "styled-components";
+import ImageAI from "../../Components/Contents/ImageAI";
 
 
 const Select: React.FC = () => {
@@ -27,13 +28,15 @@ const Select: React.FC = () => {
           />
         ))}
       </Images>
-      <Image>
+      {/* <Image>
         <img
           src={selected}
           width="200px"
           height="200px"
         />
-        </Image>
+        </Image> */}
+        <ImageAI imageUrl={selected} size={"200px"}/>
+        
     </Container>
         <ButtonContainer>
         <Button type="submit">이 사진으로 할래요!</Button>
@@ -63,6 +66,7 @@ const Image = styled.div`
   width: 200px;
   height: 200px;
 `
+
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
