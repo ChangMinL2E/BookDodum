@@ -1,50 +1,36 @@
-import { BookmarkSlashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import styled from 'styled-components';
 import sample from "../../Assets/Images/sample.png";
+import BookCover from './BookCover';
+import { Book } from '../../Store/Types'
 
 // 타입선언
 interface Props {
-    book: {
-        imageUrl: string;
-        title: string;
-        categories: string[];
-        company: string;
-    }
+  book: Book
 }
 
 interface ImageProps {
-    imageUrl: string;
+  imageUrl: string;
 }
 
-function Book({book}: Props) {
-    return (
-        <BookCard>
-            <BookImage imageUrl={sample}/>
-            <BookTitle>{book?.title}</BookTitle>
-            <Categories>
-                <Category>
-                    국내도서</Category>
-                <Category>소설/시/희곡</Category>
-            </Categories>
-            <Company>{book?.company}</Company>
-        </BookCard>
-    );
+export default function BookCard({ book }: Props) {
+  return (
+    <Container>
+      <BookCover imageUrl={sample} size={130} />
+      <BookTitle>{book?.title}</BookTitle>
+      <Categories>
+        <Category>
+          국내도서</Category>
+        <Category>소설/시/희곡</Category>
+      </Categories>
+      <Company>{book?.company}</Company>
+    </Container>
+  );
 }
 
-export default Book;
-
-const BookCard = styled.div`
+const Container = styled.div`
   width: 130px;
   margin: auto 5%;
-`;
-
-const BookImage = styled.div<ImageProps>`
-  width: 130px;
-  height: 185px;
-  background-image: url(${(props:ImageProps) => props.imageUrl});
-  background-size: contain;
-  box-shadow: 2px 5px 4px 0px #00000040;
 `;
 
 const BookTitle = styled.div`
@@ -66,7 +52,7 @@ const Category = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 10px;
-  padding: 2% 4%;
+  padding: 3% 4%;
   `;
 
 const Company = styled.div`
