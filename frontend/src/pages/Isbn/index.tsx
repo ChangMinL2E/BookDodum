@@ -3,6 +3,7 @@ import Webcam from "react-webcam";
 import styled from "styled-components";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import Check from "./Check";
+import { useNavigate } from "react-router-dom";
 
 const videoConstraints = {
   width: 360,
@@ -12,9 +13,19 @@ const videoConstraints = {
 };
 
 export const Isbn = () => {
+  const navigate = useNavigate();
   const webcamRef = useRef<Webcam>(null);
   const [url, setUrl] = useState<string | null>(null);
   const [title, setTitle] = useState<string>("불편한 편의점");
+
+  const clickNoBtn = () => {
+    setTitle("");
+  };
+
+  const clickYesBtn = () => {
+    alert('등록되었습니다.')
+    navigate("/");
+  };
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
@@ -25,55 +36,63 @@ export const Isbn = () => {
 
   return (
     <div>
-      {!title ? <Cam>
-      <Webcam
-        audio={false}
-        ref={webcamRef}
-        screenshotFormat="image/png"
-        videoConstraints={videoConstraints}
-      />
-      <Barcode>
-        <BarcodeBox />
-        <BarcodeText>
-          도서 바코드를 사각형 안에 맞추고
-          <br />
-          사진을 찍어 책을 등록하세요!
-        </BarcodeText>
-      </Barcode>
-      <Button onClick={capture}>
-        <Camera>
-          <CameraIcon
-            width="40px"
-            strokeWidth="1.5px"
-            color="#ffffff"
-          ></CameraIcon>
-        </Camera>
-      </Button>
-      {url && (
-        <>
-          <div>
-            <button
-              onClick={() => {
-                setUrl(null);
-              }}
-            >
-              delete
-            </button>
-          </div>
-          <div>
-            <img src={url} alt="Screenshot" />
-            <div>{url}</div>
-          </div>
-        </>
+      {!title ? (
+        <Cam>
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/png"
+            videoConstraints={videoConstraints}
+          />
+          <Barcode>
+            <BarcodeBox />
+            <BarcodeText>
+              도서 바코드를 사각형 안에 맞추고
+              <br />
+              사진을 찍어 책을 등록하세요!
+            </BarcodeText>
+          </Barcode>
+          <Button onClick={capture}>
+            <Camera>
+              <CameraIcon
+                width="40px"
+                strokeWidth="1.5px"
+                color="#ffffff"
+              ></CameraIcon>
+            </Camera>
+          </Button>
+          {/* 없애야할 부분 */}
+          {url && (
+            <>
+              <div>
+                <button
+                  onClick={() => {
+                    setUrl(null);
+                  }}
+                >
+                  delete
+                </button>
+              </div>
+              <div>
+                <img src={url} alt="Screenshot" />
+                <div>{url}</div>
+              </div>
+            </>
+          )}
+        </Cam>
+      ) : (
+        <Check
+          title={title}
+          clickNoBtn={clickNoBtn}
+          clickYesBtn={clickYesBtn}
+        />
       )}
-    </Cam> : <Check title={title}/>}
     </div>
   );
 };
 
 // styled component
-const Cam = styled.div`
-`
+const Cam = styled.div``;
 
 const Barcode = styled.div`
   z-index: 999;

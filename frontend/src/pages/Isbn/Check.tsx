@@ -3,6 +3,8 @@ import styled from "styled-components";
 
 interface Props {
   title: string,
+  clickNoBtn: () => void;
+  clickYesBtn: () => void;
 };
 
 export default function Check(bookData: Props) {
@@ -12,8 +14,8 @@ export default function Check(bookData: Props) {
     <Background>
       <BookCheck>
         <Title>'{title}'이 맞습니까?</Title>
-        <Nobtn>아니에요</Nobtn>
-        <Yesbtn>맞아요</Yesbtn>
+        <Nobtn onClick={bookData.clickNoBtn}>아니에요</Nobtn>
+        <Yesbtn onClick={bookData.clickYesBtn}>맞아요</Yesbtn>
       </BookCheck>
     </Background>
   );
@@ -34,13 +36,14 @@ const BookCheck = styled.div`
   top: 30%;
   left: 9%;
   border-radius: 5px;
+  text-align: center;
 `;
 
 const Title = styled.div`
   color: #5c5649;
-  text-align: center;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
+  padding: 50px 10px 40px 10px;
 `;
 
 const Nobtn = styled.button`
@@ -53,6 +56,7 @@ const Nobtn = styled.button`
   border-radius: 5px;
   border: 0px;
   font-weight: 600;
+  margin-right: 20px;
 `;
 
 const Yesbtn = styled.button`
