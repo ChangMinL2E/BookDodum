@@ -8,13 +8,24 @@ import Select from "../../Assets/Images/oilpainting.png";
 const Read: React.FC = () => {
   return (
     <Container>
-      <List>
+
+        <ReadText>나혜싀 님이 읽은 책</ReadText>
+        <BooksWrap>
+
         <BookItem>
-          <ReadText>나혜싀 님이 읽은 책</ReadText>
-          <BookCover size={120} imageUrl={sample} />
-          <ImageAI imageUrl={Select} size={"90px"} />
+          <BookCover name={"bookImg"} size={120} imageUrl={sample} />
+          <ImageAI name={"img"} imageUrl={Select} size={"90px"} />
         </BookItem>
-      </List>
+        <BookItem>
+          <BookCover name={"bookImg"} size={120} imageUrl={sample} />
+          <ImageAI name={"img"} imageUrl={Select} size={"90px"} />
+        </BookItem>
+        <BookItem>
+          <BookCover name={"bookImg"} size={120} imageUrl={sample} />
+          <ImageAI name={"img"} imageUrl={Select} size={"90px"} />
+        </BookItem>
+        </BooksWrap>
+
     </Container>
   );
 };
@@ -26,20 +37,23 @@ const Container = styled.div`
 
 const ReadText = styled.div`
   color: #f9f9f7;
+  padding-top: 3%;
+  margin-left: 5%;
   size: 13px;
 `;
 
-const List = styled.div`
-  width: 100%;
+const List = styled.div``;
 
-  display: flex;
-  overflow-x: scroll;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+const BooksWrap = styled.div`
+  display: grid;
+  width: 95%;
+  margin:auto;
+  grid-template-columns: 1fr 1fr;
+`
+const BookItem = styled.div`
+  width: 150px;
+  height: 200px;
+  margin: 5% auto;
 `;
-
-const BookItem = styled.div``
-
 
 export default Read;

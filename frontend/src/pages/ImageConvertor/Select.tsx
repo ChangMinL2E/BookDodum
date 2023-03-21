@@ -29,7 +29,7 @@ const Select: React.FC = () => {
           />
         ))}
       </Images>
-        <ImageAI imageUrl={selected} size={"200px"}/>
+        <ImageAI imageUrl={selected} size={'200px'}/>
     </Container>
         <ButtonContainer>
         <Button type="submit">이 사진으로 할래요!</Button>
