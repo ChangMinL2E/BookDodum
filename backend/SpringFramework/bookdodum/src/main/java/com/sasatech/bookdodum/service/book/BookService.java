@@ -4,11 +4,8 @@ import com.google.zxing.*;
 
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
-import com.sasatech.bookdodum.dto.request.book.BookRequestDto;
-import com.sasatech.bookdodum.dto.resposne.book.BookListResponseDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookResponseDto;
 import com.sasatech.bookdodum.entity.book.Book;
-import com.sasatech.bookdodum.entity.book.Category;
 import com.sasatech.bookdodum.entity.user.User;
 import com.sasatech.bookdodum.entity.user.UserBook;
 import com.sasatech.bookdodum.repository.CategoryRepository;
@@ -16,20 +13,14 @@ import com.sasatech.bookdodum.repository.BookRepository;
 import com.sasatech.bookdodum.repository.UserBookRepository;
 import com.sasatech.bookdodum.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.FileUtils;
-import org.aspectj.util.FileUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import org.springframework.util.Base64Utils;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Service
 @Transactional(readOnly = false)
@@ -40,6 +31,7 @@ public class BookService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
 
+
     public boolean addBook(Long id) {
         Book book = bookRepository.findById(id).orElseThrow();
         User user = userRepository.findById(1L).orElseThrow();
@@ -47,48 +39,40 @@ public class BookService {
         userBookRepository.save(UserBook.builder()
                 .book(book)
                 .user(user)
+                .endTime(null)
                 .build());
 
         return true;
     }
 
 
-    public List<Book> convertCategory() {
-        List<Book> books = bookRepository.findAll();
-        Pattern pattern = Pattern.compile("[\\w가-힣]+");
+    public List<BookResponseDto> listBook() {
+        User user = userRepository.findById(1L).orElseThrow();
 
-        for (Book book : books) {
-            String category = book.getCategory();
-            Matcher matcher = pattern.matcher(category);
 
-            while (matcher.find()) {
-                String kind = matcher.group();
+        List<BookResponseDto> list = new ArrayList<>();
+        List<UserBook> listUserBook = userBookRepository.findAllByUser_Id(user.getId());
 
-                categoryRepository.save(Category.builder()
-                        .book(book)
-                        .kind(kind)
-                        .build()
-                );
-            }
+        for (UserBook userBook : listUserBook) {
+            Long bookId = userBook.getId();
+            Book myBook = bookRepository.findById(bookId).orElseThrow();
+
+            list.add(BookResponseDto.builder()
+                    .id(myBook.getId())
+                    .title(myBook.getTitle())
+                    .author(myBook.getAuthor())
+                    .publisher(myBook.getPublisher())
+                    .imageUrl(myBook.getImageUrl())
+                    .isbn(myBook.getIsbn())
+                    .siteUrl(myBook.getSiteUrl())
+                    .content(myBook.getContent())
+                    .category(myBook.getCategory())
+                    .build());
         }
 
-        return null;
-    }
-
-
-    public List<BookListResponseDto> listBook() {
-//        List<Book> bookList = bookRepository.findAllByUserId();
-        List<BookListResponseDto> list = new ArrayList<>();
-
-
-//        for (Book book : bookList) {
-//            BookListResponseDto dto = BookListResponseDto.builder()
-//                    .build();
-//        }
 
         return list;
     }
-
 
 
     public BookResponseDto readIsbn(String path) {
@@ -143,4 +127,55 @@ public class BookService {
             return null;
         }
     }
+
+
+    public boolean deleteBook(Long id) {
+        User user = userRepository.findById(1L).orElseThrow();
+        // userId 와 bookId를 FK로 가진 userBook row 삭제
+        return userBookRepository.deleteByBook_IdAndUser_Id(id, user.getId());
+    }
+
+
+    public void finishBook(Long bookId) {
+        Long userId = userRepository.findById(1L).orElseThrow().getId();
+
+        // 다 읽은 책의 id를 통해 userBook 을 찾는다.
+        UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookId, userId);
+
+        // endTime 을 제외하고 Update
+        userBookRepository.save(UserBook.builder()
+                .id(userBook.getId())
+                .book(userBook.getBook())
+                .user(userBook.getUser())
+                .startTime(userBook.getStartTime())
+                .build());
+    }
 }
+
+
+
+
+
+
+
+//    public List<Book> convertCategory() {
+//        List<Book> books = bookRepository.findAll();
+//        Pattern pattern = Pattern.compile("[\\w가-힣]+");
+//
+//        for (Book book : books) {
+//            String category = book.getCategory();
+//            Matcher matcher = pattern.matcher(category);
+//
+//            while (matcher.find()) {
+//                String kind = matcher.group();
+//
+//                categoryRepository.save(Category.builder()
+//                        .book(book)
+//                        .kind(kind)
+//                        .build()
+//                );
+//            }
+//        }
+//
+//        return null;
+//    }
