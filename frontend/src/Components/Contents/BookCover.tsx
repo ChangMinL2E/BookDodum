@@ -3,15 +3,17 @@ import styled from 'styled-components';
 
 
 interface Props {
-    imageUrl: string;
-    size: number;
-    name?: string;
+  imageUrl: string;
+  size: number;
+  name?: string;
 }
 
-export default function BookCover({imageUrl, size, name}: Props) {
-    return (
-        <BookImage className={name} size={size} imageUrl={imageUrl}/>            
-    );
+export default function BookCover({ imageUrl, size, name }: Props) {
+  return (
+    <Container>
+      <BookImage className={name} size={size} imageUrl={imageUrl} />
+    </Container>
+  );
 }
 
 const Container = styled.div`
