@@ -24,7 +24,7 @@ const NavBack: React.FC<Props> = ({text, link}) => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <rect width="64" height="64" fill="white" />
+        <rect width="64" height="64" />
         <path
           d="M30.25 38.5L24 32.25ZM24 32.25L30.25 26ZM24 32.25H39Z"
           fill="white"
