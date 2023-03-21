@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+
 interface Props {
     imageUrl: string;
     size: number;
+    name?: string;
 }
 
-export default function BookCover({ imageUrl, size }: Props) {
-
+export default function BookCover({imageUrl, size, name}: Props) {
     return (
-        <Container>
-            <BookImage size={size} imageUrl={imageUrl}/>
-        </Container>
+        <BookImage className={name} size={size} imageUrl={imageUrl}/>            
     );
 }
 
@@ -25,4 +24,12 @@ const BookImage = styled.div<Props>`
   background-size: contain;
   box-shadow: 2px 5px 4px 0px #00000040;
   margin: auto;
+  &.bookImg {
+    position: absolute;
+  }
+  &.bannerimg {
+    position: relative;
+    top:30px;
+    left:50px;
+  }
 `;

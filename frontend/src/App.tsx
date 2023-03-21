@@ -2,8 +2,9 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import { Isbn } from "./pages/Isbn";
-import Check from "./pages/Isbn/Check";
 import RecommendList from "./pages/RecommendList/index";
+import Mypage from "./pages/Mypage/Index";
+import ReadingBooks from './pages/ReadingBooks'
 import ImageConvertor from './pages/ImageConvertor'
 import Group from "./pages/Group";
 import GroupRoom from "./pages/GroupRoom";
@@ -19,6 +20,8 @@ function App() {
         <Route path="/library" element={<Library />} />
         <Route path="/isbn" element={<Isbn />}/>
         <Route path="/image" element={<ImageConvertor/>} />
+        <Route path = "/mypage" element={<Mypage/>} />
+        <Route path = '/reading' element = {<ReadingBooks/>} />
         <Route path="/bookgroup" element={<Group />} />
         <Route path="/bookgroup/:groupid" element={<GroupRoom />} />
       </Routes>
