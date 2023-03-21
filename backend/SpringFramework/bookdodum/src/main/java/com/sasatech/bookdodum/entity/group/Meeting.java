@@ -28,6 +28,10 @@ public class Meeting {
     @Column(nullable = false)
     private String name;
 
+    private String content;
+
+    private boolean authority;
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
