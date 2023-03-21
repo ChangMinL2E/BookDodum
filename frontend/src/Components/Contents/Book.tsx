@@ -27,24 +27,29 @@ export default function BookCard({ book }: Props) {
   }
 
   return (
-    <Container onClick={openModal}>
+    <Container>
       <DetailModal bookId={0} closeModal={closeModal} modalOpen={modalOpen} />
       <BookCover imageUrl={sample} size={130} />
-      <BookTitle>{book?.title}</BookTitle>
-      <Categories>
-        <Category>
-          국내도서</Category>
-        <Category>소설/시/희곡</Category>
-      </Categories>
-      <Company>{book?.company}</Company>
+      <Contents onClick={openModal}>
+        <BookTitle >{book?.title}</BookTitle>
+        <Categories>
+          <Category>
+            국내도서</Category>
+          <Category>소설/시/희곡</Category>
+        </Categories>
+        <Company>{book?.company}</Company>
+      </Contents>
     </Container>
   );
 }
 
 const Container = styled.div`
   width: 130px;
-  margin: auto 5%;
+  margin: auto 4% 15% 4%;
 `;
+
+const Contents = styled.div`
+`
 
 const BookTitle = styled.div`
   font-size: 14;

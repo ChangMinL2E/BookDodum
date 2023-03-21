@@ -70,14 +70,16 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 25px;
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
   margin: 3% 0; 
+  text-shadow: 0px 3px 3px #00000040;
 `;
 
 const Desc = styled.div`
-  margin-top: 8%;
-  font-size: 12px;
+  margin-top: 7%;
+  font-size: 13px;
+  font-weight: 500;
   color: #5c5c5c;
   text-align: center;
 `;
