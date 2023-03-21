@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 interface Props {
   title: string,
-  clickNoBtn: () => void;
-  clickYesBtn: () => void;
+  clickNoBtn: () => void,
+  clickYesBtn: () => void,
 };
 
 export default function Check(bookData: Props) {

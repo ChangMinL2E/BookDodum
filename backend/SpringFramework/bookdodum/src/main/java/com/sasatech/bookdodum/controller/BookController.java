@@ -2,9 +2,11 @@ package com.sasatech.bookdodum.controller;
 
 
 import com.sasatech.bookdodum.dto.request.book.BookRequestDto;
+import com.sasatech.bookdodum.dto.request.book.ReviewRequestDto;
 import com.sasatech.bookdodum.dto.resposne.api.ApiResponseDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookResponseDto;
 import com.sasatech.bookdodum.service.book.BookService;
+import com.sasatech.bookdodum.service.book.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +19,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/book")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class BookController {
     private final BookService bookService;
+    private final ReviewService reviewService;
+
 
     @GetMapping("/list")
     @Operation(summary = "내 책 리스트 조회")
@@ -54,6 +59,18 @@ public class BookController {
         bookService.finishBook(id);
         return new ResponseEntity(new ApiResponseDto(true, "finishBook Success", null), HttpStatus.OK);
     }
+
+
+    // ====================================== feature/review ===========================================
+
+    @PostMapping("/review")
+    @Operation(summary = "독후감 등록")
+    public ResponseEntity<?> createReview(@RequestBody ReviewRequestDto reviewRequestDto) {
+        reviewService.createReview(reviewRequestDto);
+
+        return new ResponseEntity(new ApiResponseDto(true, "createReview Success", null), HttpStatus.OK);
+    }
+
 }
 
 

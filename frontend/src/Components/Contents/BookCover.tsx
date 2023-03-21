@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 
@@ -14,10 +14,13 @@ export default function BookCover({imageUrl, size, name}: Props) {
     );
 }
 
+const Container = styled.div`
+    margin: 0 5% 0 0;
+`
 const BookImage = styled.div<Props>`
-  width: ${(props:Props) => `${props.size}px`};
-  height: ${(props:Props) => `${props.size*1.48}px`};
-  background-image: url(${(props:Props) => props.imageUrl});
+  width: ${(props: Props) => `${props.size}px`};
+  height: ${(props: Props) => `${props.size * 1.48}px`};
+  background-image: url(${(props: Props) => props.imageUrl});
   background-size: contain;
   box-shadow: 2px 5px 4px 0px #00000040;
   margin: auto;
