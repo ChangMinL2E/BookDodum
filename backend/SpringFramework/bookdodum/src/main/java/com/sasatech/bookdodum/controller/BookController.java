@@ -55,6 +55,18 @@ public class BookController {
         bookService.finishBook(id);
         return new ResponseEntity(new ApiResponseDto(true, "finishBook Success", null), HttpStatus.OK);
     }
+
+
+    // ====================================== feature/review ===========================================
+
+    @PostMapping("/review/{bookid}")
+    @Operation(summary = "독후감 등록")
+    public ResponseEntity<?> createReview(@PathVariable("bookid") Long id) {
+
+
+
+        return null;
+    }
 }
 
 
