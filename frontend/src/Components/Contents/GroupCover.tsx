@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 interface Props {
@@ -6,15 +7,21 @@ interface Props {
   title?: string;
   author?: string;
   participant?: number;
+  id?: number;
 }
 
-export default function GroupCover(groupData: Props) {
+export default function GroupCover(group: Props) {
+  const navigate = useNavigate();
+  const bookRoom = () => {
+    navigate(`/bookgroup/${group.id}`);
+  };
+
   return (
-    <GroupImage imageUrl={groupData.imageUrl}>
+    <GroupImage imageUrl={group.imageUrl} onClick={()=>{bookRoom()}}>
       <WhiteDiv>
-        <Title>{groupData.title}</Title>
-        <Author>{groupData.author}</Author>
-        <Participant>{groupData.participant}명 참여중</Participant>
+        <Title>{group.title}</Title>
+        <Author>{group.author}</Author>
+        <Participant>{group.participant}명 참여중</Participant>
       </WhiteDiv>
     </GroupImage>
   );
@@ -23,7 +30,7 @@ export default function GroupCover(groupData: Props) {
 // styled component
 const GroupImage = styled.div<Props>`
   background-image: url(${(props: Props) => props.imageUrl});
-  min-width: 190px;
+  min-width: 200px;
   height: 150px;
   background-size: cover;
   filter: drop-shadow(2px 5px 4px rgba(0, 0, 0, 0.25));
@@ -32,7 +39,7 @@ const GroupImage = styled.div<Props>`
 `;
 
 const WhiteDiv = styled.div`
-  width: 190px;
+  width: 200px;
   height: 70px;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 0px 0px 3px 3px;

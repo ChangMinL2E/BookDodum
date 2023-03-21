@@ -3,8 +3,11 @@ import GroupCover from "../../Components/Contents/GroupCover";
 import styled from "styled-components";
 import sample from "../../Assets/Images/sample.png";
 import Nav from "../../Components/Common/Nav";
+import { useNavigate } from "react-router-dom";
+import List from "./List";
 
 interface BookGroup {
+  id: number;
   writer: string;
   imageUrl: string;
   title: string;
@@ -17,6 +20,7 @@ export default function Group() {
   let title: string = "불편한 편의점";
   let author: string = "김호연";
   let participant: number = 3;
+  let id: number = 1;
 
   return (
     <Container>
@@ -28,14 +32,17 @@ export default function Group() {
           title={title}
           author={author}
           participant={participant}
+          id={id}
         />
         <GroupCover
           imageUrl={sample}
           title={title}
           author={author}
           participant={participant}
+          id={2}
         />
       </BookGroupCards>
+      <List />
     </Container>
   );
 }

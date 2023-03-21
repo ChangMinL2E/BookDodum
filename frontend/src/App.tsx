@@ -6,6 +6,7 @@ import Check from "./pages/Isbn/Check";
 import RecommendList from "./pages/RecommendList/index";
 import ImageConvertor from './pages/ImageConvertor'
 import Group from "./pages/Group";
+import GroupRoom from "./pages/GroupRoom";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/isbn" element={<Isbn />}/>
         <Route path="/image" element={<ImageConvertor/>} />
         <Route path="/bookgroup" element={<Group />} />
+        <Route path="/bookgroup/:groupid" element={<GroupRoom />} />
       </Routes>
     </BrowserRouter>
   );
