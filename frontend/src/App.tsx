@@ -7,6 +7,7 @@ import RecommendList from "./pages/RecommendList/index";
 import ImageConvertor from './pages/ImageConvertor'
 import Group from "./pages/Group";
 import GroupRoom from "./pages/GroupRoom";
+import Library from "./pages/Library";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
         {/* <Route path="/intro" element={<Intro />} /> */}
         <Route path="/list" element={<RecommendList />} />
+        <Route path="/library" element={<Library />} />
         <Route path="/isbn" element={<Isbn />}/>
         <Route path="/image" element={<ImageConvertor/>} />
         <Route path="/bookgroup" element={<Group />} />
