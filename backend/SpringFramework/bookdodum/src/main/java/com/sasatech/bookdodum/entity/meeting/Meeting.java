@@ -1,4 +1,4 @@
-package com.sasatech.bookdodum.entity.group;
+package com.sasatech.bookdodum.entity.meeting;
 
 
 import com.sasatech.bookdodum.entity.book.Book;
@@ -26,7 +26,11 @@ public class Meeting {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String title;
+
+    private String content;
+
+    private boolean authority;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
