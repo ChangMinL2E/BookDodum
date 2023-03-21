@@ -1,4 +1,4 @@
-package com.sasatech.bookdodum.entity.group;
+package com.sasatech.bookdodum.entity.meeting;
 
 import com.sasatech.bookdodum.entity.user.User;
 import lombok.*;
@@ -13,22 +13,23 @@ import javax.persistence.*;
 @ToString
 @Getter
 @Builder
-@Table(name = "userMeeting")
+@Table(name = "comment")
 @DynamicInsert
 @DynamicUpdate
-public class UserMeeting {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(nullable = false)
+    private String content;
+
+    @ManyToOne
     @JoinColumn(name = "MEETING_ID")
     private Meeting meeting;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User user;
-
-
 }

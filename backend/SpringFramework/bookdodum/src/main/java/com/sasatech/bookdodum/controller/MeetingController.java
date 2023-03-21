@@ -1,5 +1,6 @@
 package com.sasatech.bookdodum.controller;
 
+import com.sasatech.bookdodum.dto.request.meeting.CommentRequestDto;
 import com.sasatech.bookdodum.dto.request.meeting.MeetingRequestDto;
 import com.sasatech.bookdodum.dto.resposne.api.ApiResponseDto;
 import com.sasatech.bookdodum.repository.MeetingRepository;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/meeting")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class MeetingController {
 
     private final MeetingRepository meetingRepository;
@@ -44,6 +44,17 @@ public class MeetingController {
             idx = Long.MAX_VALUE;
         }
 
-        meetingService.listMeeting(pageable, idx);
+        return new ResponseEntity(new ApiResponseDto(true, "readListMeeting Success", meetingService.listMeeting(pageable, idx)), HttpStatus.OK);
+    }
+
+
+    @PostMapping("/comment")
+    public ResponseEntity<?> createComment(@RequestBody CommentRequestDto commentRequestDto) {
+
+        if (meetingService.createComment(commentRequestDto)) {
+            return new ResponseEntity(new ApiResponseDto(true, "createComment Success", null), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(new ApiResponseDto(false, "createComment Fail", null), HttpStatus.OK);
+        }
     }
 }

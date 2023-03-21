@@ -50,3 +50,10 @@ springdoc:
     doc-expansion: none
   paths-to-match:
     /**
+
+app:
+  firebase-configuration-file: ./serviceAccountKey.json
+  firebase-bucket: osiopso.appspot.com
+
+  cors:
+    allowedOrigins: http://localhost:3000,http://localhost:8080

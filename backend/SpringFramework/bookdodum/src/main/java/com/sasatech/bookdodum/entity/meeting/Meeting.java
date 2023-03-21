@@ -1,4 +1,4 @@
-package com.sasatech.bookdodum.entity.group;
+package com.sasatech.bookdodum.entity.meeting;
 
 
 import com.sasatech.bookdodum.entity.book.Book;

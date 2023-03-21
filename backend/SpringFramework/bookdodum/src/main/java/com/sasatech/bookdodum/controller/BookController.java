@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/book")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class BookController {
     private final BookService bookService;
     private final ReviewService reviewService;
@@ -28,8 +27,13 @@ public class BookController {
     @GetMapping("/list")
     @Operation(summary = "내 책 리스트 조회")
     public ResponseEntity<?> listBook() {
-        bookService.listBook();
-        return new ResponseEntity(new ApiResponseDto(true, "addBook Success", null), HttpStatus.OK);
+        return new ResponseEntity(new ApiResponseDto(true, "listBook Success", bookService.listBook()), HttpStatus.OK);
+    }
+
+    @GetMapping("/")
+    @Operation(summary = "내 책 상세조회")
+    public ResponseEntity<?> detailBook(@RequestParam("bookid") Long bookId) {
+        return new ResponseEntity(new ApiResponseDto(true, "detailBook Success", bookService.detailBook(bookId)), HttpStatus.OK);
     }
 
     @GetMapping("/isbn")
@@ -42,7 +46,7 @@ public class BookController {
     @Operation(summary = "읽는 책 등록")
     public ResponseEntity<?> addBook(@PathVariable("bookid") Long id) {
         bookService.addBook(id);
-        return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", null), HttpStatus.OK);
+        return new ResponseEntity(new ApiResponseDto(true, "addBook Success", null), HttpStatus.OK);
     }
 
 
@@ -66,9 +70,11 @@ public class BookController {
     @PostMapping("/review")
     @Operation(summary = "독후감 등록")
     public ResponseEntity<?> createReview(@RequestBody ReviewRequestDto reviewRequestDto) {
-        reviewService.createReview(reviewRequestDto);
-
-        return new ResponseEntity(new ApiResponseDto(true, "createReview Success", null), HttpStatus.OK);
+        if (reviewService.createReview(reviewRequestDto)) {
+            return new ResponseEntity(new ApiResponseDto(true, "createReview Success", null), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(new ApiResponseDto(false, "createReview Fail", null), HttpStatus.OK);
+        }
     }
 
 }
