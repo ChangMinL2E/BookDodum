@@ -1,0 +1,16 @@
+package com.sasatech.bookdodum.dto.request.book;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class ReviewRequestDto {
+    private Long bookId;
+    private String imageURL;
+}

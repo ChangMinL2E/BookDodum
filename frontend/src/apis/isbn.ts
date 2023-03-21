@@ -8,7 +8,7 @@ export async function getBookInfo(imgUrl: string) {
     const { data } = await axios({
       method: "GET",
       url: `${baseUrl}/book/isbn`,
-      data: imgUrl,
+      params: {imgUrl},
     });
     return data;
   } catch (e) {
