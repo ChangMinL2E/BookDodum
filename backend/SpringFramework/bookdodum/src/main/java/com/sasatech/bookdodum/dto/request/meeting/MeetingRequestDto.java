@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class MeetingRequestDto {
 
     private Long bookId;
-    private String name;
+    private String title;
     private String content;
     private boolean authority;
 }
