@@ -9,29 +9,42 @@ interface UserProps {
 
 export default function UserProfile({ imageUrl, username }: UserProps) {
   return (
-    <UserWrapper>
-      <ImageBox>
-        <UserImage>{imageUrl}</UserImage>
-      </ImageBox>
-      <UserName> {username}</UserName>
-    </UserWrapper>
+      <UserWrapper>
+        <ImageBox>
+          <UserImage imageUrl={imageUrl} username={username} />
+        </ImageBox>
+        <UserName> {username}</UserName>
+      </UserWrapper>
   );
 }
 
 const UserWrapper = styled.div`
   display: flex;
+  flex-direction: column;
+  margin:3% ;
 `;
 
 const ImageBox = styled.div`
   width: 35px;
   height: 35px;
   border-radius: 70%;
-  /* overflow: hidden; */
-  border: solid 2px red;
 `;
-const UserImage = styled.div`
+
+const UserImage = styled.div<UserProps>`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  border-radius: 70%;
+  background-size: cover;
+  background-image: url(${(props: UserProps) => `${props.imageUrl}`});
 `;
 const UserName = styled.div``;
+
+
+const List = styled.div`
+  display: flex;
+  overflow-x: scroll;
+   &::-webkit-scrollbar {
+      display: none;
+    }
+
+`;

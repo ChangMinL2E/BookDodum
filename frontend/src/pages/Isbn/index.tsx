@@ -74,7 +74,7 @@ export const Isbn = () => {
           <Button
             onClick={() => {
               // capture;
-              bookInfo();
+              // bookInfo();
             }}
           >
             <Camera>
