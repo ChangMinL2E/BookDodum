@@ -1,10 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import logo from '../../Assets/Images/logo-black.png'
 import { BookOpenIcon } from '@heroicons/react/24/outline'
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
+// 타입 선언
+type Props = {
+  sideMenu: boolean,
+  hideSideMenu: () => void;
+}
 
+// 컴포넌트 정의
+const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const updateScrollPosition = () => {
+    setScrollPosition(window.scrollY || document.documentElement.scrollTop)
+  }
+
+  const [isLogin, setIsLogin] = useState<boolean>(true)
+
+  return (
+    <>
+      <BackGround className={sideMenu ? 'open' : ''} onClick={() => hideSideMenu()} />
+      <Container className={sideMenu ? 'open' : ''} onClick={() => hideSideMenu()}>
+        <Wrap>
+          <Logo>
+            <BookOpenIcon width="40px" strokeWidth="0.5px" color="#5C5649" />
+            <LogoImg>
+              <img src={logo} width="70px" height="35px" />
+            </LogoImg>
+          </Logo>
+          {!isLogin ? <LoginBtn onClick={() => navigate('/login')}>
+            <TextTop>북,돋움 해보기</TextTop>
+            <TextBottom>로그인/회원가입</TextBottom>
+          </LoginBtn> : <LoginBtn>
+            <TextTop>지우님, 반가워요</TextTop>
+            <TextBottom>로그아웃</TextBottom>
+          </LoginBtn>}
+          <Menus>
+            <Menu className={location.pathname === '/' ? 'selected' : ''} onClick={() => {
+              navigate('/')
+              hideSideMenu()
+            }}>
+              <MenuText>홈</MenuText>
+            </Menu>
+            <Menu className={location.pathname === '/bookgroup' ? 'selected' : ''} onClick={() => {
+              navigate('/bookgroup')
+              hideSideMenu()
+            }}>
+              <MenuText>독서모임</MenuText>
+            </Menu>
+            {isLogin &&
+              <Menu className={location.pathname === '/mypage' ? 'selected' : ''}>
+                <MenuText>내 책방</MenuText>
+              </Menu>
+            }
+          </Menus>
+        </Wrap>
+        <InfoMsg onClick={() => navigate('/intro')}>북,돋움에 처음 오셨나요? 더 알아보기</InfoMsg>
+      </Container>
+    </>
+  );
+}
+
+export default SideBar
+
+// Styled Components
 const Container = styled.div`
   z-index: 5;
   height: 100%;
@@ -69,16 +133,18 @@ const Menus = styled.div`
 const Menu = styled.div`
   width:95%;
   height: 35px;
-  background-color: #E4DDCC;
   color: #5C5649;
   border-radius: 35px;
   margin: 3% 0;
   display: flex;
   align-items: center;
+  &.selected {
+    background-color: #E4DDCC;
+  }
 `
 
 const MenuText = styled.div`
-  font-weight: bold;
+  font-weight: 600;
   font-size: 14px;
   margin-left:10%;
 `
@@ -102,51 +168,5 @@ const InfoMsg = styled.div`
   margin-left: 7%;
   bottom : 2.5%;
 `
-
-// 타입 선언
-
-type Props = {
-  sideMenu: boolean,
-  hideSideMenu: () => void;
-}
-
-// 컴포넌트 정의
-const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
-  const navigate = useNavigate();
-
-  return (
-    <>
-      <BackGround className={sideMenu ? 'open' : ''} onClick={() => hideSideMenu()} />
-      <Container className={sideMenu ? 'open' : ''} onClick={() => hideSideMenu()}>
-        <Wrap>
-          <Logo>
-            <BookOpenIcon width="40px" strokeWidth="0.5px" color="#5C5649" />
-            <LogoImg>
-              <img src={logo} width="70px" height="35px" />
-            </LogoImg>
-          </Logo>
-          <LoginBtn>
-            <TextTop>북,돋움 해보기</TextTop>
-            <TextBottom>로그인/회원가입</TextBottom>
-          </LoginBtn>
-          <Menus>
-            <Menu>
-              <MenuText>홈</MenuText>
-            </Menu>
-            <Menu>
-              <MenuText>독서모임</MenuText>
-            </Menu>
-            <Menu>
-              <MenuText>내 책방</MenuText>
-            </Menu>
-          </Menus>
-        </Wrap>
-        <InfoMsg onClick={() => navigate('/intro')}>북,돋움에 처음 오셨나요? 더 알아보기</InfoMsg>
-      </Container>
-    </>
-  );
-}
-
-export default SideBar 
 
 
