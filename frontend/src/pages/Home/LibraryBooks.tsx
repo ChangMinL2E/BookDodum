@@ -12,14 +12,13 @@ import "swiper/css/effect-coverflow";
 import { EffectCoverflow } from "swiper";
 import BookCover from "../../Components/Contents/BookCover";
 
-
 // Type
 type Props = {
   // 도서관 추천 리스트
 };
 
 // Component
-const Library: React.FC<Props> = ({}) => {
+const LibraryBooks: React.FC<Props> = ({}) => {
   return (
     <Container>
       <Title>
@@ -57,7 +56,7 @@ const Library: React.FC<Props> = ({}) => {
   );
 };
 
-export default Library;
+export default LibraryBooks;
 
 // Styled Components
 const Container = styled.div`
@@ -71,14 +70,16 @@ const Container = styled.div`
 
 const Title = styled.div`
   font-size: 25px;
-  font-weight: bold;
+  font-weight: 700;
   text-align: center;
   margin: 3% 0; 
+  text-shadow: 0px 3px 3px #00000040;
 `;
 
 const Desc = styled.div`
-  margin-top: 8%;
-  font-size: 12px;
+  margin-top: 7%;
+  font-size: 13px;
+  font-weight: 500;
   color: #5c5c5c;
   text-align: center;
 `;
