@@ -7,6 +7,7 @@ import RecommendList from "./pages/RecommendList/index";
 import ImageConvertor from './pages/ImageConvertor'
 import Group from "./pages/Group";
 import GroupRoom from "./pages/GroupRoom";
+import Library from "./pages/Library";
 
 function App() {
   return (

@@ -72,10 +72,9 @@ export const Isbn = () => {
             </BarcodeText>
           </Barcode>
           <Button
-            onClick={() => {
-              // capture;
-              bookInfo();
-            }}
+            onClick={
+              capture
+            }
           >
             <Camera>
               <CameraIcon
