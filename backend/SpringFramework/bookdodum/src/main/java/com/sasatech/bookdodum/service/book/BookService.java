@@ -136,11 +136,11 @@ public class BookService {
     }
 
 
-    public void finishBook(Long id) {
-        User user = userRepository.findById(1L).orElseThrow();
+    public void finishBook(Long bookId) {
+        Long userId = userRepository.findById(1L).orElseThrow().getId();
 
         // 다 읽은 책의 id를 통해 userBook 을 찾는다.
-        UserBook userBook = userBookRepository.findByBook_Id(id);
+        UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookId, userId);
 
         // endTime 을 제외하고 Update
         userBookRepository.save(UserBook.builder()

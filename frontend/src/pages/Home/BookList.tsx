@@ -35,6 +35,24 @@ export default function BookList() {
           categories: [],
           company: "나무 옆 의자"
         }} />
+        <Book book={{
+          imageUrl: sample,
+          title: "불편한 편의점",
+          categories: [],
+          company: "나무 옆 의자"
+        }} />
+        <Book book={{
+          imageUrl: sample,
+          title: "불편한 편의점",
+          categories: [],
+          company: "나무 옆 의자"
+        }} />
+        <Book book={{
+          imageUrl: sample,
+          title: "불편한 편의점",
+          categories: [],
+          company: "나무 옆 의자"
+        }} />
       </List>
     </Container>
   );
@@ -45,12 +63,12 @@ const Container = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    margin: 5% auto 10% auto;
+    margin: 5% auto;
   `
 const Title = styled.div`
     font-size: 16px;
-    font-weight: bold;
-    color: #5c5649;
+    font-weight: 600;
+     color: #5c5649;
     width: 90%;
     margin: 5% auto;
   `;
