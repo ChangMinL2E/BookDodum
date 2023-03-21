@@ -33,10 +33,11 @@ public class MeetingService {
         Book book = bookRepository.findById(meetingRequestDto.getBookId()).orElseThrow();
 
         Long userId = user.getId();
-        Long bookId = book.getId();
 
+        UserMeeting userMeeting = userMeetingRepository.findByUser_Id(userId);
+        userMeeting.getUser().getId();
         // 이미 유저가 만든 책 모임이 있는 경우
-        if (userMeetingRepository.findByUser_Id(userId) != null) {
+        if (userMeeting.getUser().getId() == userId) {
             return false;
         }
 
