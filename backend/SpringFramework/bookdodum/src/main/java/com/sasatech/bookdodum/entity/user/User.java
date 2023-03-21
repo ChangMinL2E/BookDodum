@@ -4,8 +4,11 @@ import com.sasatech.bookdodum.dto.user.Gender;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @AllArgsConstructor
@@ -16,14 +19,14 @@ import javax.persistence.*;
 @Table(name = "user")
 @DynamicInsert
 @DynamicUpdate
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String user_id;
+    private String userid;
 
     @Column(nullable = false)
     private String password;
@@ -32,14 +35,34 @@ public class User {
     private String name;
 
 
-    //후에 아래 제거
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
 
-    @Column(nullable = false)
-    private String email;
+    @Override
+    public String getUsername() {
+        return this.userid;
+    }
 
-    @Column(nullable = true)
-    private int age;
+    //상태 다루지 않으면 모두 true
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

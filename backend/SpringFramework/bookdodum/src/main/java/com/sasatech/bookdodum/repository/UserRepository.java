@@ -4,6 +4,8 @@ import com.sasatech.bookdodum.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+    User getByUserid(String userid);
 
-    User getByUid(String user_id);
+
+    User findByUserid(String userid);
 }
