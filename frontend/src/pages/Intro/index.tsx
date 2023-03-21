@@ -1,10 +1,18 @@
 import React from 'react';
+import styled from 'styled-components';
+import intro from '../../Assets/Images/intro.png'
 
-export default function index() {
+export default function Intro() {
     return (
-        <>
-        소개 페이지
-        </>
+        <Container>
+        </Container>
     );
 }
+
+const Container = styled.div`
+width:100vw;
+height: 100vh;
+background-size: cover;
+    background-image: url(${intro});
+`
 
