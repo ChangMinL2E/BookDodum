@@ -2,30 +2,33 @@ import React, { useState } from "react";
 import NavBack from "../../Components/Contents/NavBack";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { createMeeting } from "../../apis/meeting";
 
-interface Group {
-  book: string;
+interface Meeting {
+  bookId: number;
   title: string;
-  say: string;
-  read: boolean;
+  content: string;
+  authority: boolean;
 }
 
-export default function GroupCreate() {
+export default function MeetingCreate() {
   const [title, setTitle] = useState<string>("");
-  const [say, setSay] = useState<string>("");
+  const [content, setContent] = useState<string>("");
   const [read, setRead] = useState<string>("예");
   const options = ["예", "아니요"];
 
-  let id = 1;
+  const postMeeting = async (meeting: Meeting) => {
+    await createMeeting(meeting);
+  };
 
   const navigate = useNavigate();
-  const goGroup = () => {
-    navigate(`/bookgroup/${id}`);
+  const goMeeting = () => {
+    navigate(`/bookmeeting/${1}`);
   };
 
   return (
     <Container>
-      <NavBack text={"모임 만들기"} link={"/bookgroup"} />
+      <NavBack text={"모임 만들기"} link={"/bookmeeting"} />
 
       <Text>도서 선택하기</Text>
       <Book>
@@ -44,7 +47,7 @@ export default function GroupCreate() {
       <Text>모임지기의 말</Text>
       <Say
         placeholder="모임에 대한 설명을 입력해주세요."
-        onChange={(e) => setSay(e.target.value)}
+        onChange={(e) => setContent(e.target.value)}
       />
 
       <Text>읽은 사람만 참여할 수 있는 모임입니다.</Text>
@@ -61,9 +64,8 @@ export default function GroupCreate() {
           </OptionText>
         ))}
       </Wrapper>
-      <Button onClick={goGroup}>모임 만들기</Button>
-    </Container>
-  );
+      <Button onClick={goMeeting}>모임 만들기</Button>
+    </Container>  );
 }
 
 // styled component

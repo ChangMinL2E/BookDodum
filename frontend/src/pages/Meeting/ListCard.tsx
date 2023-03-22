@@ -13,31 +13,31 @@ interface Props {
   id?: number;
 }
 
-export default function ListCard(group: Props) {
+export default function ListCard(meeting: Props) {
   const navigate = useNavigate();
 
-  const goGroup = () => {
-    navigate(`/bookgroup/${group.id}`);
+  const goMeeting = () => {
+    navigate(`/bookmeeting/${meeting.id}`);
   };
 
   return (
-    <Div onClick={() => {goGroup()}}>
+    <Div onClick={() => {goMeeting()}}>
       <Container>
         <Text>
-          <Title>{group.title}</Title>
-          <Context>{group.context}</Context>
+          <Title>{meeting.title}</Title>
+          <Context>{meeting.context}</Context>
           <BottomDiv>
             <WriterDiv>
-              <ProfileImg src={group.profileImg} />
-              <Writer>{group.writer}</Writer>
+              <ProfileImg src={meeting.profileImg} />
+              <Writer>{meeting.writer}</Writer>
             </WriterDiv>
             <ChatCnt>
               <ChatBubbleBottomCenterTextIcon width="15px" />
-              {group.chatCnt}
+              {meeting.chatCnt}
             </ChatCnt>
           </BottomDiv>
         </Text>
-        <BookImg src={group.bookImg} />
+        <BookImg src={meeting.bookImg} />
       </Container>
       <Line />
     </Div>
