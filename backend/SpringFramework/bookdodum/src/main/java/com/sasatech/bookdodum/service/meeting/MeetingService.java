@@ -29,32 +29,49 @@ public class MeetingService {
 
 
     public boolean createMeeting(MeetingRequestDto meetingRequestDto) {
-        User user = userRepository.findById(1L).orElseThrow();
-        Book book = bookRepository.findById(meetingRequestDto.getBookId()).orElseThrow();
 
-        Long userId = user.getId();
-        Long bookId = book.getId();
+        try {
+            User user = userRepository.findById(1L).orElseThrow();
+            Book book = bookRepository.findById(meetingRequestDto.getBookId()).orElseThrow();
 
-        // 이미 유저가 만든 책 모임이 있는 경우
-        if (userMeetingRepository.findByUser_Id(userId) != null) {
+            Long userId = user.getId();
+
+            // 지금 미팅을 만드려는 유저의 미팅을 찾는다.
+            UserMeeting userMeeting = userMeetingRepository.findByUser_Id(userId);
+
+            // 미팅이 존재한다면..
+            if (userMeeting != null) {
+                Meeting meet = meetingRepository.findById(userMeeting.getId()).orElseThrow();
+
+                // 그 미팅의 주제가 되는 책(Book)을 찾는다.
+                Book meetBook = meet.getBook();
+
+                // 해당 모임의 책과 지금 만드려는 모임의 책이 같다면 return false
+                if (book.getId() == meetBook.getId()) {
+                    return false;
+                }
+            }
+
+            // 미팅 생성
+            Meeting meeting = meetingRepository.save(Meeting.builder()
+                    .title(meetingRequestDto.getTitle())
+                    .content(meetingRequestDto.getContent())
+                    .authority(meetingRequestDto.isAuthority())
+                    .book(book)
+                    .build());
+
+            userMeetingRepository.save(UserMeeting.builder()
+                    .meeting(meeting)
+                    .user(user)
+                    .build());
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
-
-
-        Meeting meeting = meetingRepository.save(Meeting.builder()
-                .title(meetingRequestDto.getTitle())
-                .content(meetingRequestDto.getContent())
-                .authority(meetingRequestDto.isAuthority())
-                .book(book)
-                .build());
-
-        userMeetingRepository.save(UserMeeting.builder()
-                .meeting(meeting)
-                .user(user)
-                .build());
-
-        return true;
     }
+
 
     public List<MeetingListResponseDto> listMeeting(Pageable pageable, Long idx) {
         List<Meeting> meetingList = meetingScrollQdslRepositoryImpl.findNoOffsetMeetingPaging(pageable, idx);
