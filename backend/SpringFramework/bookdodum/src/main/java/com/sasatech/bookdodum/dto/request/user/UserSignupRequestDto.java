@@ -9,8 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserLoginDto {
+public class UserSignupRequestDto {
+
     private String userid; //아이디
     private String password; //비밀번호
+
+    private String name; //닉네임
 
 }

@@ -2,7 +2,7 @@ package com.sasatech.bookdodum.service.user;
 
 import com.sasatech.bookdodum.dto.jwt.SignInResultDto;
 import com.sasatech.bookdodum.dto.jwt.SignUpResultDto;
-import com.sasatech.bookdodum.dto.request.user.UserRequestDto;
+import com.sasatech.bookdodum.dto.request.user.UserSignupRequestDto;
 import com.sasatech.bookdodum.entity.user.User;
 import com.sasatech.bookdodum.repository.UserRepository;
 import com.sasatech.bookdodum.security.JwtTokenProvider;
@@ -13,8 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = false)
@@ -72,7 +70,7 @@ public class UserService {
                 .name(name)
                 .build());
 
-        UserRequestDto userRequestDto = UserRequestDto.builder()
+        UserSignupRequestDto userRequestDto = UserSignupRequestDto.builder()
                 .userid(user.getUserid())
                 .password(user.getPassword())
                 .name(user.getName())
