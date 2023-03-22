@@ -12,18 +12,39 @@ interface Meeting {
 }
 
 export default function MeetingCreate() {
+  const bookId = 1;
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
+  const [authority, setAuthority] = useState<boolean>(true);
   const [read, setRead] = useState<string>("예");
-  const options = ["예", "아니요"];
+  const options = [
+    { authority: true, read: "예" },
+    { authority: false, read: "아니요" },
+  ];
 
-  const postMeeting = async (meeting: Meeting) => {
+  const meeting: Meeting = {
+    bookId: bookId,
+    title: title,
+    content: content,
+    authority: authority,
+  };
+
+  const makeMeeting = async (meeting: Meeting) => {
     await createMeeting(meeting);
+  };
+
+  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRead(e.target.value);
+    if (e.target.value === "예") {
+      setAuthority(true);
+    } else {
+      setAuthority(false);
+    }
   };
 
   const navigate = useNavigate();
   const goMeeting = () => {
-    navigate(`/bookmeeting/${1}`);
+    navigate(`/bookmeeting/${bookId}`);
   };
 
   return (
@@ -34,8 +55,8 @@ export default function MeetingCreate() {
       <Book>
         <option>- - - 도서를 선택해 주세요 - - -</option>
         <option>불편한 편의점</option>
-        <option>불편한 편의점</option>
-        <option>불편한 편의점</option>
+        <option>구의 증명</option>
+        <option>모순</option>
       </Book>
 
       <Text>모임 만들기</Text>
@@ -56,16 +77,24 @@ export default function MeetingCreate() {
           <OptionText key={idx}>
             <input
               type="radio"
-              value={option}
-              checked={read === option}
-              onChange={(e) => setRead(e.target.value)}
+              value={option.read}
+              checked={read === option.read}
+              onChange={handleOptionChange}
             />
-            {option}
+            {option.read}
           </OptionText>
         ))}
       </Wrapper>
-      <Button onClick={goMeeting}>모임 만들기</Button>
-    </Container>  );
+      <Button
+        onClick={() => {
+          goMeeting();
+          makeMeeting(meeting);
+        }}
+      >
+        모임 만들기
+      </Button>
+    </Container>
+  );
 }
 
 // styled component
