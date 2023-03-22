@@ -17,11 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-<<<<<<< HEAD
-
-=======
 @CrossOrigin(origins = "*", allowedHeaders = "*")
->>>>>>> 7ff6e482500b12ce23c206648392c9c541b1e7a6
 public class UserController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(UserController.class);

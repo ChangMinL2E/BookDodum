@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+    private final Logger log = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
@@ -29,19 +29,24 @@ public class UserService {
     //로그인
     public SignInResultDto signIn(String userid, String password) {
 
-        System.out.println(password);
+        log.info("[getSignInResult] signDataHandler 로 회원 정보 요청");
         //회원 정보 요청
         User user = userRepository.findByUserid(userid);
-        System.out.println(user.getPassword());
+        log.info("[getSignInResult] userId : {}" , userid);
 
         //패스워드 비교 수행
+        log.info("[getSignInResult] 패스워드 비교 수행");
         if(!passwordEncoder.matches(password, user.getPassword())){
             throw new RuntimeException();
         }
+        log.info("[getSignInResult] 패스워드 일치");
 
+        log.info("[getSignInResult] SignInResultDto 객체 생성");
         SignInResultDto signInResultDto = SignInResultDto.builder()
                 .token(jwtTokenProvider.createToken(String.valueOf(user.getUserid()))).build();
 
+
+        log.info("[getSignInResult] SignInResultDto 객체에 값 주입");
         setSuccessResult(signInResultDto);
 
         return signInResultDto;
