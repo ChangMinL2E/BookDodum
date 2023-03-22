@@ -9,6 +9,7 @@ import ImageConvertor from './pages/ImageConvertor'
 import Group from "./pages/Group";
 import GroupRoom from "./pages/GroupRoom";
 import Library from "./pages/Library";
+import GroupCreate from "./pages/GroupCreate";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path = '/reading' element = {<ReadingBooks/>} />
         <Route path="/bookgroup" element={<Group />} />
         <Route path="/bookgroup/:groupid" element={<GroupRoom />} />
+        <Route path="/groupcreate" element={<GroupCreate />} />
       </Routes>
     </BrowserRouter>
   );
