@@ -1,9 +1,8 @@
 package com.sasatech.bookdodum.controller;
 
 import com.sasatech.bookdodum.dto.jwt.SignInResultDto;
-import com.sasatech.bookdodum.dto.jwt.SignUpResultDto;
-import com.sasatech.bookdodum.dto.request.user.UserLoginDto;
-import com.sasatech.bookdodum.dto.request.user.UserRequestDto;
+import com.sasatech.bookdodum.dto.request.user.UserLoginRequestDto;
+import com.sasatech.bookdodum.dto.request.user.UserSignupRequestDto;
 import com.sasatech.bookdodum.dto.resposne.api.ApiResponseDto;
 import com.sasatech.bookdodum.service.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -33,7 +31,7 @@ public class UserController {
 //    }
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResponseDto> signUp(@RequestBody UserRequestDto userRequestDto){
+    public ResponseEntity<ApiResponseDto> signUp(@RequestBody UserSignupRequestDto userRequestDto){
         LOGGER.info("[signUp] 회원가입을 수행합니다. user_id : {}, password : ****, name : {}", userRequestDto.getUserid(), userRequestDto.getPassword(), userRequestDto.getName());
         userService.signUp(userRequestDto.getUserid(), userRequestDto.getPassword(),
                                                                 userRequestDto.getName());
@@ -41,7 +39,7 @@ public class UserController {
 
     }
     @PostMapping("/signin")
-    public SignInResultDto signIn(@RequestBody UserLoginDto userLoginDto){
+    public SignInResultDto signIn(@RequestBody UserLoginRequestDto userLoginDto){
         LOGGER.info("[signIn] 로그인을 시도하고 있습니다. id : {}, pw : ****", userLoginDto.getUserid());
         SignInResultDto signInResultDto = userService.signIn(userLoginDto.getUserid(), userLoginDto.getPassword());
 
