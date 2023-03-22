@@ -2,6 +2,7 @@ package com.sasatech.bookdodum.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -28,7 +29,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                                         .and()
                                                 .authorizeRequests()
                                                         .antMatchers("/user/signin","/user/signup").permitAll()
-
                                                                 .and()
                                                                         .exceptionHandling().accessDeniedHandler(new CustomAcessDeniedHandler())
                         .and()
@@ -38,6 +38,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),UsernamePasswordAuthenticationFilter.class);
 
 
-        super.configure(http);
+        //super.configure(http);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**","/swagger-ui.html", "/webjars/**","/swagger/**", "sign-api/exception");
+//        super.configure(web);
     }
 }
