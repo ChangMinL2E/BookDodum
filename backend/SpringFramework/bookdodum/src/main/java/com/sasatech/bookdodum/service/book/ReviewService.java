@@ -28,7 +28,7 @@ public class ReviewService {
             UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookId, userId);
 
             reviewRepository.save(Review.builder()
-                    .imageUrl(reviewRequestDto.getImageURL())
+                    .content(reviewRequestDto.getContent())
                     .userBook(userBook)
                     .user(user)
                     .build());

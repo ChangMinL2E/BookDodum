@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReviewRequestDto {
     private Long bookId;
-    private String imageURL;
+    private String content;
 }
