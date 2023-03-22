@@ -77,6 +77,16 @@ public class BookController {
         }
     }
 
+    @DeleteMapping("/review/{reviewid}")
+    @Operation(summary = "독후감 삭제")
+    public ResponseEntity<?> deleteReview(@PathVariable("reviewid") Long reviewId) {
+        if (reviewService.deleteReview(reviewId)) {
+            return new ResponseEntity(new ApiResponseDto(true, "deleteReview Success", null), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(new ApiResponseDto(false, "deleteReview Fail", null), HttpStatus.OK);
+        }
+    }
+
 }
 
 

@@ -40,4 +40,14 @@ public class ReviewService {
             return false;
         }
     }
+
+    public boolean deleteReview(Long reviewId) {
+        try {
+            reviewRepository.deleteById(reviewId);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
