@@ -98,6 +98,31 @@ public class MeetingService {
         return dtoList;
     }
 
+    public Object listMyMeeting(Pageable pageable, long idx, Long userId) {
+        List<Meeting> meetingList = meetingScrollQdslRepositoryImpl.findNoOffsetUserMeetingPaging(pageable, idx, userId);
+        List<MeetingListResponseDto> dtoList = new ArrayList<>();
+
+        for (Meeting meeting : meetingList) {
+            UserMeeting userMeeting = userMeetingRepository.findByMeeting_Id(meeting.getId());
+            User user = userMeeting.getUser();
+
+            Long commentCnt = (long) commentRepository.findAllByMeeting_Id(meeting.getId()).size();
+
+            dtoList.add(MeetingListResponseDto.builder()
+                    .title(meeting.getTitle())
+                    .content(meeting.getContent())
+                    .userName(user.getName())
+                    .commentCnt(commentCnt)
+                    .imageUrl(meeting.getBook().getImageUrl())
+                    .userImageUrl(null)
+                    .build());
+        }
+
+        return dtoList;
+    }
+
+
+
     public boolean createComment(CommentRequestDto commentRequestDto) {
         User user = userRepository.findById(1L).orElseThrow();
 

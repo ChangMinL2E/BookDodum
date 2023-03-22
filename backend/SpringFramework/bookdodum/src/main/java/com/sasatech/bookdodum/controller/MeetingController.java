@@ -3,6 +3,7 @@ package com.sasatech.bookdodum.controller;
 import com.sasatech.bookdodum.dto.request.meeting.CommentRequestDto;
 import com.sasatech.bookdodum.dto.request.meeting.MeetingRequestDto;
 import com.sasatech.bookdodum.dto.resposne.api.ApiResponseDto;
+import com.sasatech.bookdodum.entity.user.User;
 import com.sasatech.bookdodum.repository.MeetingRepository;
 import com.sasatech.bookdodum.service.meeting.MeetingService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Meet", description = "모임 관련 API")
@@ -51,6 +53,23 @@ public class MeetingController {
     }
 
 
+    @GetMapping("/participation")
+    @Operation(summary = "참여중인 모임 목록 조회")
+    public ResponseEntity<?> listMyMeeting(
+            @RequestParam(value = "idx", defaultValue = "0") long idx,
+            @PageableDefault(size = 5, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable,
+            @AuthenticationPrincipal User user) {
+
+        // 최초 로딩시점
+        if (idx == 0) {
+            idx = Long.MAX_VALUE;
+        }
+
+        // userMeeting 테이블에서 내가 참여중인 meeting 만 찾아오자
+        return new ResponseEntity(new ApiResponseDto(true, "listMyMeeting Success", meetingService.listMyMeeting(pageable, idx, user.getId())), HttpStatus.OK);
+    }
+
+
     @PostMapping("/comment")
     @Operation(summary = "모임 댓글 생성")
     public ResponseEntity<?> createComment(@RequestBody CommentRequestDto commentRequestDto) {
@@ -78,5 +97,4 @@ public class MeetingController {
 
         return new ResponseEntity(new ApiResponseDto(true, "readListMeeting Success", meetingService.listComment(pageable, idx, meetingId)), HttpStatus.OK);
     }
-
 }
