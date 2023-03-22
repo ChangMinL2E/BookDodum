@@ -52,15 +52,14 @@ springdoc:
   paths-to-match:
     /**
 
-<<<<<<< HEAD
 app:
   firebase-configuration-file: ./serviceAccountKey.json
   firebase-bucket: osiopso.appspot.com
 
   cors:
     allowedOrigins: http://localhost:3000,http://localhost:8080
-=======
+
 springboot:
   jwt:
     secret: flature!@#
->>>>>>> feature/login
+
