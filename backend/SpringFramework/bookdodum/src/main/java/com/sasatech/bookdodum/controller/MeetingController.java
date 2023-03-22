@@ -24,7 +24,7 @@ public class MeetingController {
     private final MeetingRepository meetingRepository;
     private final MeetingService meetingService;
 
-    @PostMapping("/")
+    @PostMapping
     @Operation(summary = "모임 생성")
     public ResponseEntity<?> createMeeting(@RequestBody MeetingRequestDto meetRequestDto) {
 
@@ -36,11 +36,13 @@ public class MeetingController {
     }
 
     // 무한 스크롤
-    @GetMapping("/")
+    @GetMapping
     @Operation(summary = "모임 목록 조회")
     public ResponseEntity<?> listMeeting(
             @RequestParam(value = "idx", defaultValue = "0") long idx,
             @PageableDefault(size = 5, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        System.out.println(idx);
 
         // 최초 로딩시점
         if (idx == 0) {
