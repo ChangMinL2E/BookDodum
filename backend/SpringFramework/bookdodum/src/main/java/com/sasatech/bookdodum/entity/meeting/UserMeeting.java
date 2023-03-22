@@ -1,7 +1,6 @@
-package com.sasatech.bookdodum.entity.book;
+package com.sasatech.bookdodum.entity.meeting;
 
 import com.sasatech.bookdodum.entity.user.User;
-import com.sasatech.bookdodum.entity.user.UserBook;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -14,23 +13,22 @@ import javax.persistence.*;
 @ToString
 @Getter
 @Builder
-@Table(name = "review")
+@Table(name = "userMeeting")
 @DynamicInsert
 @DynamicUpdate
-public class Review {
+public class UserMeeting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String content;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MEETING_ID")
+    private Meeting meeting;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
-    User user;
+    private User user;
 
-    @OneToOne
-    @JoinColumn(name = "userBook_id", nullable = false)
-    UserBook userBook;
+
 }

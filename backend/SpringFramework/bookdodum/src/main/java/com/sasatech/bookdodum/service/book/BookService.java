@@ -4,8 +4,11 @@ import com.google.zxing.*;
 
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
+import com.sasatech.bookdodum.dto.resposne.book.BookDetailResponseDto;
+import com.sasatech.bookdodum.dto.resposne.book.BookListResponseDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookResponseDto;
 import com.sasatech.bookdodum.entity.book.Book;
+import com.sasatech.bookdodum.entity.book.Category;
 import com.sasatech.bookdodum.entity.user.User;
 import com.sasatech.bookdodum.entity.user.UserBook;
 import com.sasatech.bookdodum.repository.CategoryRepository;
@@ -46,27 +49,39 @@ public class BookService {
     }
 
 
-    public List<BookResponseDto> listBook() {
+    public List<BookListResponseDto> listBook() {
+        List<BookListResponseDto> list = new ArrayList<>();
+
         User user = userRepository.findById(1L).orElseThrow();
-
-
-        List<BookResponseDto> list = new ArrayList<>();
         List<UserBook> listUserBook = userBookRepository.findAllByUser_Id(user.getId());
 
         for (UserBook userBook : listUserBook) {
             Long bookId = userBook.getId();
             Book myBook = bookRepository.findById(bookId).orElseThrow();
 
-            list.add(BookResponseDto.builder()
-                    .id(myBook.getId())
-                    .title(myBook.getTitle())
-                    .author(myBook.getAuthor())
-                    .publisher(myBook.getPublisher())
+            List<Category> categoryList = categoryRepository.findAllByBook_Id(myBook.getId());
+            List<String> categories = new ArrayList<>();
+            for (Category category : categoryList) {
+                categories.add(category.getKind());
+            }
+
+            String startTime = userBook.getStartTime().toString();
+            String endTime = userBook.getEndTime().toString();
+            boolean fin = true;
+
+            // 아직 읽는 중인 책
+            if (startTime.equals(endTime)) {
+                fin = false;
+            }
+
+
+            list.add(BookListResponseDto.builder()
+                    .bookId(myBook.getId())
                     .imageUrl(myBook.getImageUrl())
-                    .isbn(myBook.getIsbn())
-                    .siteUrl(myBook.getSiteUrl())
-                    .content(myBook.getContent())
-                    .category(myBook.getCategory())
+                    .title(myBook.getTitle())
+                    .publisher(myBook.getPublisher())
+                    .category(categories)
+                    .fin(fin)
                     .build());
         }
 
@@ -149,6 +164,19 @@ public class BookService {
                 .user(userBook.getUser())
                 .startTime(userBook.getStartTime())
                 .build());
+    }
+
+    public BookDetailResponseDto detailBook(Long bookId) {
+
+        Book book = userBookRepository.findByBook_IdAndUser_Id(bookId, 1L).getBook();
+
+        return BookDetailResponseDto.builder()
+                .imageUrl(book.getImageUrl())
+                .title(book.getTitle())
+                .author(book.getAuthor())
+                .publisher(book.getPublisher())
+                .content(book.getContent())
+                .build();
     }
 }
 
