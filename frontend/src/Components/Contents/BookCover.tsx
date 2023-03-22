@@ -10,7 +10,9 @@ interface Props {
 
 export default function BookCover({imageUrl, size, name}: Props) {
     return (
+      <Container>
         <BookImage className={name} size={size} imageUrl={imageUrl}/>            
+      </Container>
     );
 }
 

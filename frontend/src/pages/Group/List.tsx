@@ -3,9 +3,9 @@ import styled from "styled-components";
 import ListCard from "./ListCard";
 import sample from "../../Assets/Images/sample.png";
 import profile from "../../Assets/Images/oneline.png";
+import Button from "./Button";
 
 export default function List() {
-
   let title: string = "구의 증명을 읽고난 후,";
   let writer: string = "얌얌이";
   let context: string =
@@ -15,7 +15,10 @@ export default function List() {
 
   return (
     <ListBack>
-      <ListText>모임</ListText>
+      <TopDiv>
+        <ListText>모임</ListText>
+        <Button />
+      </TopDiv>
       <ListCard
         title={title}
         writer={writer}
@@ -54,7 +57,15 @@ const ListBack = styled.div`
   background-color: #f7f3eb;
 `;
 
+const TopDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const ListText = styled.div`
+  font-family: "Gowun Batang", serif;
+
   color: #5c5649;
   text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
   font-weight: 700;

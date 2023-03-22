@@ -20,8 +20,10 @@ export default function GroupCover(group: Props) {
     <GroupImage imageUrl={group.imageUrl} onClick={()=>{bookRoom()}}>
       <WhiteDiv>
         <Title>{group.title}</Title>
+      <Bottom>
         <Author>{group.author}</Author>
         <Participant>{group.participant}명 참여중</Participant>
+      </Bottom>
       </WhiteDiv>
     </GroupImage>
   );
@@ -35,12 +37,12 @@ const GroupImage = styled.div<Props>`
   background-size: cover;
   filter: drop-shadow(2px 5px 4px rgba(0, 0, 0, 0.25));
   border-radius: 3px;
-  margin: 5px;
+  margin: 5px 15px 5px 5px;
 `;
 
 const WhiteDiv = styled.div`
   width: 200px;
-  height: 70px;
+  height: 60px;
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 0px 0px 3px 3px;
   bottom: 0;
@@ -52,6 +54,12 @@ const Title = styled.div`
   font-size: 1rem;
   margin: 10px 5px 0px 10px;
 `;
+
+const Bottom = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
 
 const Author = styled.div`
   font-size: 0.9rem;
