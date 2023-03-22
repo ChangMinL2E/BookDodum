@@ -34,9 +34,6 @@ public class UserBook {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @OneToOne(mappedBy = "userBook")
-    private Review review;
-
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date startTime;

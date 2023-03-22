@@ -45,8 +45,11 @@ public class BookController {
     @PostMapping("/{bookid}")
     @Operation(summary = "읽는 도서 등록")
     public ResponseEntity<?> addBook(@PathVariable("bookid") Long id) {
-        bookService.addBook(id);
-        return new ResponseEntity(new ApiResponseDto(true, "addBook Success", null), HttpStatus.OK);
+        if (bookService.addBook(id)) {
+            return new ResponseEntity(new ApiResponseDto(true, "addBook Success", null), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(new ApiResponseDto(false, "addBook Fail (이미 등록한 책 입니다.)", null), HttpStatus.OK);
+        }
     }
 
 
@@ -76,6 +79,14 @@ public class BookController {
             return new ResponseEntity(new ApiResponseDto(false, "createReview Fail", null), HttpStatus.OK);
         }
     }
+
+
+    @GetMapping("/review")
+    @Operation(summary = "독후감 목록 조회")
+    private ResponseEntity<?> listReview() {
+        return new ResponseEntity(new ApiResponseDto(true, "listReview Success", reviewService.listReview()), HttpStatus.OK);
+    }
+
 
     @DeleteMapping("/review/{reviewid}")
     @Operation(summary = "독후감 삭제")

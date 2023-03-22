@@ -39,6 +39,14 @@ public class BookService {
         Book book = bookRepository.findById(id).orElseThrow();
         User user = userRepository.findById(1L).orElseThrow();
 
+        Long bookId = book.getId();
+        Long userId = user.getId();
+
+        // 이미 등록한 책이 있다면?
+        if (userBookRepository.findByBook_IdAndUser_Id(bookId, userId) != null) {
+            return false;
+        }
+
         userBookRepository.save(UserBook.builder()
                 .book(book)
                 .user(user)
@@ -146,13 +154,21 @@ public class BookService {
 
     public boolean deleteBook(Long id) {
         User user = userRepository.findById(1L).orElseThrow();
-        // userId 와 bookId를 FK로 가진 userBook row 삭제
-        return userBookRepository.deleteByBook_IdAndUser_Id(id, user.getId());
+
+        try {
+            // userId 와 bookId를 FK로 가진 userBook row 삭제
+            userBookRepository.deleteByBook_IdAndUser_Id(id, user.getId());
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
     public void finishBook(Long bookId) {
         Long userId = userRepository.findById(1L).orElseThrow().getId();
+        Date date = new Date();
 
         // 다 읽은 책의 id를 통해 userBook 을 찾는다.
         UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookId, userId);
@@ -163,6 +179,7 @@ public class BookService {
                 .book(userBook.getBook())
                 .user(userBook.getUser())
                 .startTime(userBook.getStartTime())
+                .endTime(date)
                 .build());
     }
 

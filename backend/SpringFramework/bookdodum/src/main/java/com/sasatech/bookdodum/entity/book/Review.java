@@ -30,7 +30,7 @@ public class Review {
     @JoinColumn(name = "USER_ID")
     User user;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userBook_id", nullable = false)
     UserBook userBook;
 }
