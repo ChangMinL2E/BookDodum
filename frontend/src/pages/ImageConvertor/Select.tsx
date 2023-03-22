@@ -13,6 +13,7 @@ const Select: React.FC = () => {
     setSelected(image);
   };
 
+
   return (
     <>
     <Container>
@@ -28,22 +29,12 @@ const Select: React.FC = () => {
           />
         ))}
       </Images>
-      {/* <Image>
-        <img
-          src={selected}
-          width="200px"
-          height="200px"
-        />
-        </Image> */}
-        <ImageAI imageUrl={selected} size={"200px"}/>
-        
+        <ImageAI imageUrl={selected} size={'200px'}/>
     </Container>
         <ButtonContainer>
         <Button type="submit">이 사진으로 할래요!</Button>
       </ButtonContainer>
     </>
-    
-
   );
 };
 
