@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import oilpainting from "../../Assets/Images/oilpainting.png";
 import oneline from "../../Assets/Images/oneline.png";
 import styled from "styled-components";
-interface option {
+type option = {
   name: string;
   image: string;
 }
