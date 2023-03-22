@@ -3,20 +3,25 @@ import NavBack from "../../Components/Contents/NavBack";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
+interface Group {
+  book: string;
+  title: string;
+  say: string;
+  read: boolean;
+}
+
 export default function GroupCreate() {
-  const [selected, setSelected] = useState<string>("예");
+  const [title, setTitle] = useState<string>("");
+  const [say, setSay] = useState<string>("");
+  const [read, setRead] = useState<string>("예");
   const options = ["예", "아니요"];
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelected(e.target.value);
-  };
-
-  let id = 1
+  let id = 1;
 
   const navigate = useNavigate();
   const goGroup = () => {
-    navigate(`/bookgroup/${id}`)
-  }
+    navigate(`/bookgroup/${id}`);
+  };
 
   return (
     <Container>
@@ -31,10 +36,16 @@ export default function GroupCreate() {
       </Book>
 
       <Text>모임 만들기</Text>
-      <Title placeholder="모임 제목을 입력해주세요" />
+      <Title
+        placeholder="모임 제목을 입력해주세요"
+        onChange={(e) => setTitle(e.target.value)}
+      />
 
       <Text>모임지기의 말</Text>
-      <Say placeholder="모임에 대한 설명을 입력해주세요." />
+      <Say
+        placeholder="모임에 대한 설명을 입력해주세요."
+        onChange={(e) => setSay(e.target.value)}
+      />
 
       <Text>읽은 사람만 참여할 수 있는 모임입니다.</Text>
       <Wrapper>
@@ -43,8 +54,8 @@ export default function GroupCreate() {
             <input
               type="radio"
               value={option}
-              checked={selected === option}
-              onChange={handleInputChange}
+              checked={read === option}
+              onChange={(e) => setRead(e.target.value)}
             />
             {option}
           </OptionText>
