@@ -37,7 +37,10 @@ const UserImage = styled.div<UserProps>`
   background-size: cover;
   background-image: url(${(props: UserProps) => `${props.imageUrl}`});
 `;
-const UserName = styled.div``;
+const UserName = styled.div`
+  font-size: 10px;
+  margin: auto;
+`;
 
 
 const List = styled.div`
