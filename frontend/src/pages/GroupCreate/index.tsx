@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import NavBack from "../../Components/Contents/NavBack";
 import styled from "styled-components";
-import { placeholder } from "@babel/types";
 import { useNavigate } from "react-router-dom";
 
 export default function GroupCreate() {
