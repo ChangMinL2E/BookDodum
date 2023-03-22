@@ -71,12 +71,16 @@ export const Isbn = () => {
               사진을 찍어 책을 등록하세요!
             </BarcodeText>
           </Barcode>
+<<<<<<< HEAD
           <Button
             onClick={() => {
               // capture;
               // bookInfo();
             }}
           >
+=======
+          <Button onClick={capture}>
+>>>>>>> 3af0afbb2f87284305be5a325c271fb2e977c56e
             <Camera>
               <CameraIcon
                 width="40px"

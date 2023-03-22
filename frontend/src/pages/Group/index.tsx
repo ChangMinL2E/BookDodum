@@ -25,7 +25,7 @@ export default function Group() {
   return (
     <Container>
       <Nav />
-      <Text>참여중인 독서 모임</Text>
+        <Text>참여중인 독서 모임</Text>
       <BookGroupCards>
         <GroupCover
           imageUrl={sample}
@@ -47,7 +47,7 @@ export default function Group() {
   );
 }
 
-// Styled Components
+// Styled Component
 const Container = styled.div`
   background-color: #f5eede;
   width: 100vw;
@@ -62,6 +62,7 @@ const BookGroupCards = styled.div`
 `;
 
 const Text = styled.div`
+  font-family: "Gowun Batang", serif;
   // 상우하좌
   margin: 20px 0px 15px 20px;
   color: #5c5649;

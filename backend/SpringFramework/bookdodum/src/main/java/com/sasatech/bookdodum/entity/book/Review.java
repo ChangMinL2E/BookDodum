@@ -31,6 +31,6 @@ public class Review {
     User user;
 
     @OneToOne
-    @JoinColumn(name = "userBook_id")
+    @JoinColumn(name = "userBook_id", nullable = false)
     UserBook userBook;
 }
