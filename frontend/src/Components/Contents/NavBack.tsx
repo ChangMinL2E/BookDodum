@@ -17,7 +17,10 @@ const NavBack: React.FC<Props> = ({text, link}) => {
   return (
     <Container>
       <svg
-      onClick={() => navigate(`${link}`)}
+      onClick={() => {
+        if(link === '-1') navigate(-1)
+        else navigate(`${link}`)        
+      }}
         width="64"
         height="64"
         viewBox="0 0 64 64"
@@ -48,6 +51,7 @@ const Container = styled.div`
   height: 64px;
   display: flex;
   align-items: center;
+  background: #F9F9F7;
 `;
 
 const Text = styled.div`

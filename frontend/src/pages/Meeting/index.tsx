@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import GroupCover from "../../Components/Contents/GroupCover";
+import MeetingCover from "../../Components/Contents/MeetingCover";
 import styled from "styled-components";
 import sample from "../../Assets/Images/sample.png";
 import Nav from "../../Components/Common/Nav";
 import { useNavigate } from "react-router-dom";
 import List from "./List";
 
-interface BookGroup {
+interface BookMeeting {
   id: number;
   writer: string;
   imageUrl: string;
@@ -15,7 +15,7 @@ interface BookGroup {
   participant: number;
 }
 
-export default function Group() {
+export default function Meeting() {
   // const [bookGroups, setBookGroups] = useState<BookGroup[]>([])
   let title: string = "불편한 편의점";
   let author: string = "김호연";
@@ -26,22 +26,22 @@ export default function Group() {
     <Container>
       <Nav />
         <Text>참여중인 독서 모임</Text>
-      <BookGroupCards>
-        <GroupCover
+      <BookMeetingCards>
+        <MeetingCover
           imageUrl={sample}
           title={title}
           author={author}
           participant={participant}
           id={id}
         />
-        <GroupCover
+        <MeetingCover
           imageUrl={sample}
           title={title}
           author={author}
           participant={participant}
           id={2}
         />
-      </BookGroupCards>
+      </BookMeetingCards>
       <List />
     </Container>
   );
@@ -54,7 +54,7 @@ const Container = styled.div`
   height: 100vh;
 `;
 
-const BookGroupCards = styled.div`
+const BookMeetingCards = styled.div`
   display: flex;
   overflow-x: scroll;
   min-height: 190px;

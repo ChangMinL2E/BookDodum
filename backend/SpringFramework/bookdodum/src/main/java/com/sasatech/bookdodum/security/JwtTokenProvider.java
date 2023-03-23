@@ -72,8 +72,9 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request){
+        log.info(request.getHeader("Authorization: Bearer"));
         log.info("[resolveToken] Http 헤더에서 Token 값 추출");
-        return request.getHeader("X-AUTH-TOKEN");
+        return request.getHeader("Authorization");
     }
 
     public boolean validateToken(String token){
