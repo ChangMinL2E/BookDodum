@@ -66,9 +66,6 @@ public class BookService {
                 categories.add(category.getKind());
             }
 
-            String startTime = userBook.getStartTime().toString();
-            String endTime = userBook.getEndTime().toString();
-
             list.add(BookListResponseDto.builder()
                     .bookId(myBook.getId())
                     .imageUrl(myBook.getImageUrl())

@@ -27,7 +27,7 @@ public class BookController {
 
 
     @GetMapping("/list/{fin}")
-    @Operation(summary = "내 독서중 목록조회")
+    @Operation(summary = "내 독서중/완 목록조회")
     public ResponseEntity<?> listBook(@PathVariable("fin") boolean fin,
                                       @AuthenticationPrincipal User user) {
         return new ResponseEntity(new ApiResponseDto(true, "listBook Success", bookService.listBook(user.getId(), fin)), HttpStatus.OK);
