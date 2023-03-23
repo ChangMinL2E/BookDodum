@@ -26,6 +26,8 @@ public class UserBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String convertedImageUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOOK_ID")
     private Book book;

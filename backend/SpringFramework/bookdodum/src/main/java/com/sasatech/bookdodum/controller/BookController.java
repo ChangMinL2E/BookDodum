@@ -1,10 +1,9 @@
 package com.sasatech.bookdodum.controller;
 
 
-import com.sasatech.bookdodum.dto.request.book.BookRequestDto;
+import com.sasatech.bookdodum.dto.request.book.BookConvertRequestDto;
 import com.sasatech.bookdodum.dto.request.book.ReviewRequestDto;
 import com.sasatech.bookdodum.dto.resposne.api.ApiResponseDto;
-import com.sasatech.bookdodum.dto.resposne.book.BookResponseDto;
 import com.sasatech.bookdodum.entity.user.User;
 import com.sasatech.bookdodum.service.book.BookService;
 import com.sasatech.bookdodum.service.book.ReviewService;
@@ -86,12 +85,25 @@ public class BookController {
     }
 
 
+    @PutMapping("/conversion")
+    @Operation(summary = "책 표지 변환 저장")
+    public ResponseEntity<?> convertBook(@RequestBody BookConvertRequestDto bookConvertRequestDto,
+                                         @AuthenticationPrincipal User user) {
+        if (bookService.convertBook(bookConvertRequestDto, user.getId())) {
+            return new ResponseEntity(new ApiResponseDto(true, "convertBook Success", null), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(new ApiResponseDto(true, "convertBook Fail", null), HttpStatus.OK);
+        }
+    }
+
+
     // ====================================== feature/review ===========================================
 
     @PostMapping("/review")
     @Operation(summary = "독후감 등록")
     public ResponseEntity<?> createReview(@RequestBody ReviewRequestDto reviewRequestDto,
                                           @AuthenticationPrincipal User user) {
+
         if (reviewService.createReview(reviewRequestDto, user.getId())) {
             return new ResponseEntity(new ApiResponseDto(true, "createReview Success", null), HttpStatus.OK);
         } else {

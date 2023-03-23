@@ -4,6 +4,7 @@ import com.google.zxing.*;
 
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
+import com.sasatech.bookdodum.dto.request.book.BookConvertRequestDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookDetailResponseDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookListResponseDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookResponseDto;
@@ -205,6 +206,29 @@ public class BookService {
         }
 
         return dtoList;
+    }
+
+    public boolean convertBook(BookConvertRequestDto bookConvertRequestDto, Long userId) {
+        // userBook 에 convertedImageUrl 를 update
+        try {
+            UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookConvertRequestDto.getBookId(), userId);
+
+            String path = bookConvertRequestDto.getConvertedImageUrl();
+
+            userBookRepository.save(UserBook.builder()
+                    .id(userBook.getId())
+                    .startTime(userBook.getStartTime())
+                    .endTime(userBook.getEndTime())
+                    .book(userBook.getBook())
+                    .user(userBook.getUser())
+                    .convertedImageUrl(path)
+                    .build());
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
 
