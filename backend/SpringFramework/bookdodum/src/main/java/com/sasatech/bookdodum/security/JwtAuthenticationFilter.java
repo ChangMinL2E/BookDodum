@@ -26,6 +26,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         //토큰 추출
         String token = jwtTokenProvider.resolveToken(request);
+
+        if (token != null) {
+            token = token.split(" ")[1];
+        }
+
         log.info("[doFilterInternal] token 값 추출 완료. token : {}" , token);
 
         log.info("[doFilterInternal] token 값 유효성 검사 시작");
