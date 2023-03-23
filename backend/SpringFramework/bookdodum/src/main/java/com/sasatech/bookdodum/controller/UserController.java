@@ -21,14 +21,6 @@ public class UserController {
     private final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    //회원가입
-//    @PostMapping("/")
-
-//    public ResponseEntity<?> addUser(@RequestBody UserRequestDto userRequestDto) {
-//        userService.addUser(userRequestDto);
-//        return new ResponseEntity(new ApiResponseDto(true, "addUser Success", null), HttpStatus.OK);
-//
-//    }
 
     @PostMapping("/signup")
     public ResponseEntity<ApiResponseDto> signUp(@RequestBody UserSignupRequestDto userRequestDto){
@@ -48,6 +40,33 @@ public class UserController {
         }
         return signInResultDto;
     }
+
+    //닉네임 중복 체크
+    @GetMapping("/checkName")
+    public ResponseEntity<?> CheckName(@RequestParam String name){
+        boolean result = userService.checkName(name);
+        //값 존재 = true, 값 없음 = false
+        if(result){
+            return new ResponseEntity(new ApiResponseDto(true,"exist Name", result),HttpStatus.OK);
+        }else{
+            return new ResponseEntity(new ApiResponseDto(true,"not exist Name", result),HttpStatus.OK);
+        }
+    }
+
+    //아이디 중복 체크
+    @GetMapping("/checkUserid")
+    public ResponseEntity<?> CheckUserid(@RequestParam String userid){
+        boolean result = userService.checkUserid(userid);
+        //값 존재 = true, 값 없음 = false
+        if(result){
+            return new ResponseEntity(new ApiResponseDto(true,"exist Name", result),HttpStatus.OK);
+        }else{
+            return new ResponseEntity(new ApiResponseDto(true,"not exist Name", result),HttpStatus.OK);
+        }
+    }
+
+
+
     //회원탈퇴 구현 중
     @DeleteMapping("/")
     public ResponseEntity<?> deleteUser(@PathVariable Long id){

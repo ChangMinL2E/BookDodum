@@ -88,6 +88,28 @@ public class UserService {
         return signUpResultDto;
 
     }
+
+    public boolean checkName(String name) {
+        Boolean exit = userRepository.existsByName(name);
+
+        if(exit){
+            return true; //값이 존재하면 true;
+        }else{
+            return false; //값이 존재하지 않으면 false;
+        }
+
+    }
+
+    public boolean checkUserid(String userid) {
+        Boolean exit = userRepository.existsByUserid(userid);
+
+        if(exit){
+            return true; //값이 존재하면 true;
+        }else{
+            return false; //값이 존재하지 않으면 false;
+        }
+    }
+
 //    private final JwtTokenProvider jwtTokenProvider;
 
 
