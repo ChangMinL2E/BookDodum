@@ -42,8 +42,6 @@ public class MeetingController {
             @RequestParam(value = "idx", defaultValue = "0") long idx,
             @PageableDefault(size = 5, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable) {
 
-        System.out.println(idx);
-
         // 최초 로딩시점
         if (idx == 0) {
             idx = Long.MAX_VALUE;
@@ -63,4 +61,22 @@ public class MeetingController {
             return new ResponseEntity(new ApiResponseDto(false, "createComment Fail", null), HttpStatus.OK);
         }
     }
+
+
+    // 무한 스크롤
+    @GetMapping("/comment")
+    @Operation(summary = "모임 댓글 목록 조회")
+    public ResponseEntity<?> listComment(
+            @RequestParam(value = "idx", defaultValue = "0") long idx,
+            @RequestParam("id") long meetingId,
+            @PageableDefault(size = 5, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        // 최초 로딩시점
+        if (idx == 0) {
+            idx = Long.MAX_VALUE;
+        }
+
+        return new ResponseEntity(new ApiResponseDto(true, "readListMeeting Success", meetingService.listComment(pageable, idx, meetingId)), HttpStatus.OK);
+    }
+
 }
