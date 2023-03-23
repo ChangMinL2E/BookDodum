@@ -73,10 +73,16 @@ export const Isbn = () => {
           </Barcode>
 <<<<<<< HEAD
           <Button
+<<<<<<< HEAD
+            onClick={
+              capture
+            }
+=======
             onClick={() => {
               // capture;
               // bookInfo();
             }}
+>>>>>>> d92c82335041c6066b020a4463b1a9fac00b1adc
           >
 =======
           <Button onClick={capture}>

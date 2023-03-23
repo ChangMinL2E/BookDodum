@@ -10,20 +10,24 @@ import Group from "./pages/Group";
 import GroupRoom from "./pages/GroupRoom";
 import Library from "./pages/Library";
 <<<<<<< HEAD
+import Intro from "./pages/Intro";
+=======
+<<<<<<< HEAD
 import WriteText from "./pages/WriteText";
 
 =======
 import GroupCreate from "./pages/GroupCreate";
 >>>>>>> 3af0afbb2f87284305be5a325c271fb2e977c56e
+>>>>>>> d92c82335041c6066b020a4463b1a9fac00b1adc
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/intro" element={<Intro />} /> */}
+        <Route path="/intro" element={<Intro />} />
         <Route path="/list" element={<RecommendList />} />
-        <Route path="/library" element={<Library />} />
+        <Route path="/library/:ISBN" element={<Library />} />
         <Route path="/isbn" element={<Isbn />}/>
         <Route path="/image" element={<ImageConvertor/>} />
         <Route path = "/mypage" element={<Mypage/>} />
