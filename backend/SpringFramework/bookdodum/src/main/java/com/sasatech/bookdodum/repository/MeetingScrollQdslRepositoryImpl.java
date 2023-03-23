@@ -23,7 +23,6 @@ public class MeetingScrollQdslRepositoryImpl implements MeetingScrollQdslReposit
         QMeeting meeting = QMeeting.meeting;
 
         if (bookId == -1) {
-            System.out.println("그냥 모임 목록!");
             return jpaQueryFactory.selectFrom(meeting)
                     .where(meeting.id.lt(idx))
                     .orderBy(meeting.id.desc())
@@ -31,7 +30,6 @@ public class MeetingScrollQdslRepositoryImpl implements MeetingScrollQdslReposit
                     .fetch()
                     ;
         } else {
-            System.out.println("도서 기준 모임 목록! , " + bookId);
             return jpaQueryFactory.selectFrom(meeting)
                     .where(meeting.id.lt(idx), meeting.book.id.eq(bookId))
                     .orderBy(meeting.id.desc())
