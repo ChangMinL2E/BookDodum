@@ -3,6 +3,7 @@ package com.sasatech.bookdodum.service.meeting;
 
 import com.sasatech.bookdodum.dto.request.meeting.CommentRequestDto;
 import com.sasatech.bookdodum.dto.request.meeting.MeetingRequestDto;
+import com.sasatech.bookdodum.dto.resposne.meeting.CommentListResponseDto;
 import com.sasatech.bookdodum.dto.resposne.meeting.MeetingListResponseDto;
 import com.sasatech.bookdodum.entity.book.Book;
 import com.sasatech.bookdodum.entity.meeting.Comment;
@@ -26,6 +27,7 @@ public class MeetingService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final CommentRepository commentRepository;
+    private final CommentScrollQdslRepositoryImpl commentScrollQdslRepositoryImpl;
 
 
     public boolean createMeeting(MeetingRequestDto meetingRequestDto) {
@@ -114,5 +116,19 @@ public class MeetingService {
 
             return false;
         }
+    }
+
+    public List<CommentListResponseDto> listComment(Pageable pageable, long idx, long meetingId) {
+        List<Comment> commentList = commentScrollQdslRepositoryImpl.findNoOffsetCommentPaging(pageable, idx, meetingId);
+        System.out.println(commentList.size());
+        List<CommentListResponseDto> dtoList = new ArrayList<>();
+
+        for (Comment comment : commentList) {
+            dtoList.add(CommentListResponseDto.builder()
+                    .content(comment.getContent())
+                    .build());
+        }
+
+        return dtoList;
     }
 }

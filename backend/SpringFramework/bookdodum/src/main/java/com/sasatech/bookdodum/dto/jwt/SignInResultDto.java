@@ -15,6 +15,4 @@ public class SignInResultDto extends SignUpResultDto{
         super(success, code, msg);
         this.token = token;
     }
-
-
 }
