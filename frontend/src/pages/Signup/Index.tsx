@@ -36,7 +36,7 @@ export default function Signup() {
     if (samePwd && userid && name && password) {
       signupUser(userInfo);
     } else {
-      alert("비밀번호가 다릅니다! 다시 입력해주세요.");
+      alert("정보를 제대로 입력해주세요.");
       setPwdCheck("");
     }
   };

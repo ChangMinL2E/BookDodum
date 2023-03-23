@@ -1,25 +1,31 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { PURGE } from "redux-persist";
+
+interface User {
+  userid: string,
+  name: string,
+}
+
+const initialState: User = {
+  userid: "",
+  name: ""
+}
 
 const userSlice = createSlice({
   name: "user",
-  initialState: {
-    name: "",
-    userid: "",
-  },
+  initialState,
   reducers: {
     // login 성공 시
-    loginUser: (state, action) => {
-      state.name = action.payload.name;
+    loginAction(state, action) {
       state.userid = action.payload.userid;
-      return state;
+      state.name = action.payload.name;
     },
-    // login 실패 시
-    clearUser: (state) => {
-      state.name = "";
-      state.userid = "";
-      return state;
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(PURGE, () => initialState);
   },
 });
 
-export default userSlice.reducer;
+export const userAction = userSlice.actions;
+
+export default userSlice;
