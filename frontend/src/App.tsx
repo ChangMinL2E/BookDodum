@@ -12,22 +12,25 @@ import Library from "./pages/Library";
 import WriteText from "./pages/WriteText";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup/Index";
+import Intro from "./pages/Intro";
+import GroupCreate from "./pages/GroupCreate";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/intro" element={<Intro />} /> */}
+        <Route path="/intro" element={<Intro />} />
         <Route path="/list" element={<RecommendList />} />
-        <Route path="/library" element={<Library />} />
-        <Route path="/isbn" element={<Isbn />} />
-        <Route path="/image" element={<ImageConvertor />} />
-        <Route path="/mypage" element={<Mypage />} />
-        <Route path="/reading" element={<ReadingBooks />} />
+        <Route path="/library/:ISBN" element={<Library />} />
+        <Route path="/isbn" element={<Isbn />}/>
+        <Route path="/image" element={<ImageConvertor/>} />
+        <Route path = "/mypage" element={<Mypage/>} />
+        <Route path = '/reading' element = {<ReadingBooks/>} />
         <Route path="/bookgroup" element={<Group />} />
         <Route path="/bookgroup/:groupid" element={<GroupRoom />} />
         <Route path ="/write/" element={<WriteText />} />
+        <Route path="/groupcreate" element={<GroupCreate />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
       </Routes>
