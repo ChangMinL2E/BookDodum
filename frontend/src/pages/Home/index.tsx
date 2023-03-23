@@ -6,7 +6,7 @@ import BookList from "./BookList";
 import LibraryBooks from "./LibraryBooks"
 import sample from '../../Assets/Images/sample.png'
 import ReadingBooks from "./ReadingBooks";
-// import BestKeyword from "./BestKeyword";
+import BestKeyword from "./BestKeyword";
 
 export default function Home() {
 
@@ -18,7 +18,7 @@ export default function Home() {
     <BookList/>
     <LibraryBooks/>
     {/* <DetailModal bookId={1}/> */}
-    {/* <BestKeyword/> */}
+    <BestKeyword/>
     </>
   );
 }

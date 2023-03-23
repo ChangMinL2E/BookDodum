@@ -10,4 +10,5 @@ import java.util.List;
 public interface MeetingScrollQdslRepository {
 
     List<Meeting> findNoOffsetMeetingPaging(Pageable pageable, Long idx);
+    List<Meeting> findNoOffsetUserMeetingPaging(Pageable pageable, Long idx, Long userId);
 }

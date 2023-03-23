@@ -35,9 +35,9 @@ public class BookService {
     private final UserRepository userRepository;
 
 
-    public boolean addBook(Long id) {
-        Book book = bookRepository.findById(id).orElseThrow();
-        User user = userRepository.findById(1L).orElseThrow();
+    public boolean addBook(Long bookId, Long userId) {
+        Book book = bookRepository.findById(bookId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow();
 
         Long bookId = book.getId();
         Long userId = user.getId();
@@ -57,11 +57,10 @@ public class BookService {
     }
 
 
-    public List<BookListResponseDto> listBook() {
+    public List<BookListResponseDto> listBook(Long userId) {
         List<BookListResponseDto> list = new ArrayList<>();
 
-        User user = userRepository.findById(1L).orElseThrow();
-        List<UserBook> listUserBook = userBookRepository.findAllByUser_Id(user.getId());
+        List<UserBook> listUserBook = userBookRepository.findAllByUser_Id(userId);
 
         for (UserBook userBook : listUserBook) {
             Long bookId = userBook.getId();
@@ -152,24 +151,13 @@ public class BookService {
     }
 
 
-    public boolean deleteBook(Long id) {
-        User user = userRepository.findById(1L).orElseThrow();
-
-        try {
-            // userId 와 bookId를 FK로 가진 userBook row 삭제
-            userBookRepository.deleteByBook_IdAndUser_Id(id, user.getId());
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+    public boolean deleteBook(Long bookId, Long userId) {
+        // userId 와 bookId를 FK로 가진 userBook row 삭제
+        return userBookRepository.deleteByBook_IdAndUser_Id(bookId, userId);
     }
 
 
-    public void finishBook(Long bookId) {
-        Long userId = userRepository.findById(1L).orElseThrow().getId();
-        Date date = new Date();
-
+    public void finishBook(Long bookId, Long userId) {
         // 다 읽은 책의 id를 통해 userBook 을 찾는다.
         UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookId, userId);
 
@@ -183,9 +171,9 @@ public class BookService {
                 .build());
     }
 
-    public BookDetailResponseDto detailBook(Long bookId) {
+    public BookDetailResponseDto detailBook(Long bookId, Long userId) {
 
-        Book book = userBookRepository.findByBook_IdAndUser_Id(bookId, 1L).getBook();
+        Book book = userBookRepository.findByBook_IdAndUser_Id(bookId, userId).getBook();
 
         return BookDetailResponseDto.builder()
                 .imageUrl(book.getImageUrl())
