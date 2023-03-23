@@ -5,7 +5,8 @@ import styled from "styled-components";
 type option = {
   name: string;
   image: string;
-}
+};
+
 const Form: React.FC = () => {
   const [text, setText] = useState<string>("");
 
@@ -110,12 +111,12 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-border-radius: 1.5rem ;
-border: none;
-box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 8px;
-background-color: #DBD4C3;
-height: 25px;
-width: 80px;
-color: #5C5649;
-`
+  border-radius: 1.5rem;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 8px;
+  background-color: #dbd4c3;
+  height: 25px;
+  width: 80px;
+  color: #5c5649;
+`;
 export default Form;
