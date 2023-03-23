@@ -28,7 +28,8 @@ public class MeetingController {
 
     @PostMapping
     @Operation(summary = "모임 생성")
-    public ResponseEntity<?> createMeeting(@RequestBody MeetingRequestDto meetRequestDto) {
+    public ResponseEntity<?> createMeeting(@RequestBody MeetingRequestDto meetRequestDto,
+                                           @AuthenticationPrincipal User user) {
 
         if (meetingService.createMeeting(meetRequestDto)) {
             return new ResponseEntity(new ApiResponseDto(true, "createMeeting Success", null), HttpStatus.OK);
@@ -72,7 +73,8 @@ public class MeetingController {
 
     @PostMapping("/comment")
     @Operation(summary = "모임 댓글 생성")
-    public ResponseEntity<?> createComment(@RequestBody CommentRequestDto commentRequestDto) {
+    public ResponseEntity<?> createComment(@RequestBody CommentRequestDto commentRequestDto,
+                                           @AuthenticationPrincipal User user) {
 
         if (meetingService.createComment(commentRequestDto)) {
             return new ResponseEntity(new ApiResponseDto(true, "createComment Success", null), HttpStatus.OK);
