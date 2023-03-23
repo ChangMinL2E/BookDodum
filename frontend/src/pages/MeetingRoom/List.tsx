@@ -18,7 +18,7 @@ export default function List(props: Props) {
   // 모임 내부 axios 불러오기
 
   // 예시 정보
-  const groupInfo: Info[] = [
+  const meetingInfo: Info[] = [
     {
       id: 1,
       name: "독서왕 최종욱",
@@ -41,9 +41,9 @@ export default function List(props: Props) {
 
   return (
     <Container>
-      <NavBack text={props.title} link={"/bookgroup"} />
+      <NavBack text={props.title} link={"/bookmeeting"} />
       <Wrapper>
-        {groupInfo.map(({ name, owner, text, id }: Info) => (
+        {meetingInfo.map(({ name, owner, text, id }: Info) => (
           <ListCard name={name} owner={owner} text={text} id={id} key={id} />
         ))}
       </Wrapper>

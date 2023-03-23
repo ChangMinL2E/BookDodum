@@ -5,9 +5,8 @@ import styled from "styled-components";
 export default function Button() {
   const navigate = useNavigate();
   const createRoom = () => {
-    navigate("/groupcreate");
+    navigate("/meetingcreate");
   };
-
   return <Btn onClick={createRoom}>모임 만들기</Btn>;
 }
 

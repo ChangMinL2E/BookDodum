@@ -10,7 +10,7 @@ interface Props {
   id?: number;
 }
 
-export default function GroupCover(group: Props) {
+export default function MeetingCover(group: Props) {
   const navigate = useNavigate();
   const bookRoom = () => {
     navigate(`/bookgroup/${group.id}`);
