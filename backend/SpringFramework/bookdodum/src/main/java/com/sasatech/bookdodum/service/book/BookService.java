@@ -4,8 +4,11 @@ import com.google.zxing.*;
 
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
+import com.sasatech.bookdodum.dto.resposne.book.BookDetailResponseDto;
+import com.sasatech.bookdodum.dto.resposne.book.BookListResponseDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookResponseDto;
 import com.sasatech.bookdodum.entity.book.Book;
+import com.sasatech.bookdodum.entity.book.Category;
 import com.sasatech.bookdodum.entity.user.User;
 import com.sasatech.bookdodum.entity.user.UserBook;
 import com.sasatech.bookdodum.repository.CategoryRepository;
@@ -32,9 +35,9 @@ public class BookService {
     private final UserRepository userRepository;
 
 
-    public boolean addBook(Long id) {
-        Book book = bookRepository.findById(id).orElseThrow();
-        User user = userRepository.findById(1L).orElseThrow();
+    public boolean addBook(Long bookId, Long userId) {
+        Book book = bookRepository.findById(bookId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow();
 
         userBookRepository.save(UserBook.builder()
                 .book(book)
@@ -46,27 +49,38 @@ public class BookService {
     }
 
 
-    public List<BookResponseDto> listBook() {
-        User user = userRepository.findById(1L).orElseThrow();
+    public List<BookListResponseDto> listBook(Long userId) {
+        List<BookListResponseDto> list = new ArrayList<>();
 
-
-        List<BookResponseDto> list = new ArrayList<>();
-        List<UserBook> listUserBook = userBookRepository.findAllByUser_Id(user.getId());
+        List<UserBook> listUserBook = userBookRepository.findAllByUser_Id(userId);
 
         for (UserBook userBook : listUserBook) {
             Long bookId = userBook.getId();
             Book myBook = bookRepository.findById(bookId).orElseThrow();
 
-            list.add(BookResponseDto.builder()
-                    .id(myBook.getId())
-                    .title(myBook.getTitle())
-                    .author(myBook.getAuthor())
-                    .publisher(myBook.getPublisher())
+            List<Category> categoryList = categoryRepository.findAllByBook_Id(myBook.getId());
+            List<String> categories = new ArrayList<>();
+            for (Category category : categoryList) {
+                categories.add(category.getKind());
+            }
+
+            String startTime = userBook.getStartTime().toString();
+            String endTime = userBook.getEndTime().toString();
+            boolean fin = true;
+
+            // 아직 읽는 중인 책
+            if (startTime.equals(endTime)) {
+                fin = false;
+            }
+
+
+            list.add(BookListResponseDto.builder()
+                    .bookId(myBook.getId())
                     .imageUrl(myBook.getImageUrl())
-                    .isbn(myBook.getIsbn())
-                    .siteUrl(myBook.getSiteUrl())
-                    .content(myBook.getContent())
-                    .category(myBook.getCategory())
+                    .title(myBook.getTitle())
+                    .publisher(myBook.getPublisher())
+                    .category(categories)
+                    .fin(fin)
                     .build());
         }
 
@@ -129,16 +143,13 @@ public class BookService {
     }
 
 
-    public boolean deleteBook(Long id) {
-        User user = userRepository.findById(1L).orElseThrow();
+    public boolean deleteBook(Long bookId, Long userId) {
         // userId 와 bookId를 FK로 가진 userBook row 삭제
-        return userBookRepository.deleteByBook_IdAndUser_Id(id, user.getId());
+        return userBookRepository.deleteByBook_IdAndUser_Id(bookId, userId);
     }
 
 
-    public void finishBook(Long bookId) {
-        Long userId = userRepository.findById(1L).orElseThrow().getId();
-
+    public void finishBook(Long bookId, Long userId) {
         // 다 읽은 책의 id를 통해 userBook 을 찾는다.
         UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookId, userId);
 
@@ -149,6 +160,19 @@ public class BookService {
                 .user(userBook.getUser())
                 .startTime(userBook.getStartTime())
                 .build());
+    }
+
+    public BookDetailResponseDto detailBook(Long bookId, Long userId) {
+
+        Book book = userBookRepository.findByBook_IdAndUser_Id(bookId, userId).getBook();
+
+        return BookDetailResponseDto.builder()
+                .imageUrl(book.getImageUrl())
+                .title(book.getTitle())
+                .author(book.getAuthor())
+                .publisher(book.getPublisher())
+                .content(book.getContent())
+                .build();
     }
 }
 
