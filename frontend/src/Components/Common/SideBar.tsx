@@ -54,7 +54,10 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
               <MenuText>독서모임</MenuText>
             </Menu>
             {isLogin &&
-              <Menu className={location.pathname === '/mypage' ? 'selected' : ''}>
+              <Menu className={location.pathname === '/mypage' ? 'selected' : ''} onClick={() => {
+                navigate('/mypage')
+                hideSideMenu()
+              }}>
                 <MenuText>내 책방</MenuText>
               </Menu>
             }

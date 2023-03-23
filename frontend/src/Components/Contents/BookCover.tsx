@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 
 interface Props {
-    imageUrl: string;
-    size: number;
-    name?: string;
+  imageUrl: string;
+  size: number;
+  name?: string;
 }
 
 export default function BookCover({imageUrl, size, name}: Props) {

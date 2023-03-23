@@ -10,15 +10,17 @@ import Library from "./pages/Library";
 import Meeting from "./pages/Meeting";
 import MeetingCreate from "./pages/MeetingCreate";
 import MeetingRoom from "./pages/MeetingRoom";
+import Intro from "./pages/Intro";
+import WriteText from "./pages/WriteText";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/intro" element={<Intro />} /> */}
+        <Route path="/intro" element={<Intro />} />
         <Route path="/list" element={<RecommendList />} />
-        <Route path="/library" element={<Library />} />
+        <Route path="/library/:ISBN" element={<Library />} />
         <Route path="/isbn" element={<Isbn />} />
         <Route path="/image" element={<ImageConvertor />} />
         <Route path="/mypage" element={<Mypage />} />
@@ -26,6 +28,7 @@ function App() {
         <Route path="/bookmeeting" element={<Meeting />} />
         <Route path="/bookmeeting/:meetid" element={<MeetingRoom />} />
         <Route path="/meetingcreate" element={<MeetingCreate />} />
+        <Route path="/write/" element={<WriteText />} />
       </Routes>
     </BrowserRouter>
   );
