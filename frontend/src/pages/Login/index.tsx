@@ -21,8 +21,13 @@ export default function Login() {
 
   const loginUser = async (userInfo: LoginInfo) => {
     const data = await loginUserAPI(userInfo);
-    if (data) {
+    if (data.code === 200) {
       navigate("/");
+      localStorage.setItem("user", JSON.stringify(data.token));
+    } else if (data.code === 401) {
+      alert(data.msg + "입니다.");
+    } else if (data.code === 402) {
+      alert(data.msg + "입니다.");
     }
   };
 

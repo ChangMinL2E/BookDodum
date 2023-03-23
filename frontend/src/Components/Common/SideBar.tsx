@@ -22,6 +22,11 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
 
   const [isLogin, setIsLogin] = useState<boolean>(true)
 
+  const logout =() => {
+    localStorage.removeItem("user")
+    alert('로그아웃 되었습니다.')
+  }
+
   return (
     <>
       <BackGround className={sideMenu ? 'open' : ''} onClick={() => hideSideMenu()} />
@@ -38,7 +43,7 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
             <TextBottom>로그인/회원가입</TextBottom>
           </LoginBtn> : <LoginBtn>
             <TextTop>지우님, 반가워요</TextTop>
-            <TextBottom>로그아웃</TextBottom>
+            <TextBottom onClick={logout}>로그아웃</TextBottom>
           </LoginBtn>}
           <Menus>
             <Menu className={location.pathname === '/' ? 'selected' : ''} onClick={() => {
@@ -47,8 +52,8 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
             }}>
               <MenuText>홈</MenuText>
             </Menu>
-            <Menu className={location.pathname === '/bookgroup' ? 'selected' : ''} onClick={() => {
-              navigate('/bookgroup')
+            <Menu className={location.pathname === '/bookmeeting' ? 'selected' : ''} onClick={() => {
+              navigate('/bookmeeting')
               hideSideMenu()
             }}>
               <MenuText>독서모임</MenuText>
