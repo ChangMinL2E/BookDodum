@@ -136,24 +136,39 @@ public class BookService {
 
     public boolean deleteBook(Long bookId, Long userId) {
         // userId 와 bookId를 FK로 가진 userBook row 삭제
-        return userBookRepository.deleteByBook_IdAndUser_Id(bookId, userId);
+        try {
+            userBookRepository.deleteByBook_IdAndUser_Id(bookId, userId);
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
-    public void finishBook(Long bookId, Long userId) {
-        // 다 읽은 책의 id를 통해 userBook 을 찾는다.
-        UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookId, userId);
+    public boolean finishBook(Long bookId, Long userId) {
 
-        Date date = new Date();
+        try {
+            // 다 읽은 책의 id를 통해 userBook 을 찾는다.
+            UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookId, userId);
 
-        // endTime 을 제외하고 Update
-        userBookRepository.save(UserBook.builder()
-                .id(userBook.getId())
-                .book(userBook.getBook())
-                .user(userBook.getUser())
-                .startTime(userBook.getStartTime())
-                .endTime(date)
-                .build());
+            Date date = new Date();
+
+            // endTime 을 제외하고 Update
+            userBookRepository.save(UserBook.builder()
+                    .id(userBook.getId())
+                    .book(userBook.getBook())
+                    .user(userBook.getUser())
+                    .startTime(userBook.getStartTime())
+                    .endTime(date)
+                    .build());
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public BookDetailResponseDto detailBook(Long bookId, Long userId) {

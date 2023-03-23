@@ -50,9 +50,11 @@ public class BookController {
     @Operation(summary = "읽는 도서 등록")
     public ResponseEntity<?> addBook(@PathVariable("bookid") Long id,
                                      @AuthenticationPrincipal User user) {
-        System.out.println(user);
-        bookService.addBook(id, user.getId());
-        return new ResponseEntity(new ApiResponseDto(true, "addBook Success", null), HttpStatus.OK);
+        if (bookService.addBook(id, user.getId())){
+            return new ResponseEntity(new ApiResponseDto(true, "addBook Success", null), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(new ApiResponseDto(false, "addBook Fail(이미 등록한 책입니다.)", null), HttpStatus.OK);
+        }
     }
 
 
@@ -76,8 +78,11 @@ public class BookController {
     @Operation(summary = "다 읽은 도서 갱신")
     public ResponseEntity<?> finishBook(@PathVariable("bookid") Long id,
                                         @AuthenticationPrincipal User user) {
-        bookService.finishBook(id, user.getId());
-        return new ResponseEntity(new ApiResponseDto(true, "finishBook Success", null), HttpStatus.OK);
+        if (bookService.finishBook(id, user.getId())) {
+            return new ResponseEntity(new ApiResponseDto(true, "finishBook Success", null), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(new ApiResponseDto(true, "finishBook Fail", null), HttpStatus.OK);
+        }
     }
 
 
