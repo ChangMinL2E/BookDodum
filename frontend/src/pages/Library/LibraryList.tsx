@@ -1,9 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import { LibraryType } from '../../Store/Types';
+import { getLibraryAPI } from '../../apis/library';
 import LibraryModal from './LibraryModal';
 
 export default function LibraryList() {
+    const ISBN = useParams().ISBN
+
     const [modalOpen, setModalOpen] = useState<boolean>(false)
+    const [libs, setLibs] = useState<LibraryType[]>([])
+    const regionCode = 24
+
+    useEffect(() => {
+        // 도서 소장 도서관 조회
+        // getLibrary()
+    }, [])
+
+    const getLibrary = async () => {
+        const data = await getLibraryAPI(ISBN, regionCode)
+
+        let tmp: LibraryType[] = []
+        data.forEach((lib: any) => {
+            tmp.push({
+                libCode: Number(lib.lib.libCode),
+                libName: lib.lib.libName,
+                address: lib.lib.address,
+                latitude: Number(lib.lib.latitude),
+                longitude: Number(lib.lib.longitude),
+                homepage: lib.lib.homepage,
+                closed: lib.lib.closed,
+                operatingTime: lib.lib.operatingTime,
+                tel: lib.lib.tel,
+            })
+        })
+        setLibs(tmp)
+    }
 
     const openModal = () => {
         setModalOpen(true)
@@ -16,18 +48,17 @@ export default function LibraryList() {
 
     return (
         <Container>
-            <Item>
-                <ItemName onClick={openModal}>광주북구운암도서관</ItemName>
-                <ItemDist> · 거리 6.8km</ItemDist>
-            </Item>
-            <Item>
-                <ItemName>광주송정도서관</ItemName>
-                <ItemDist> · 거리 6.8km</ItemDist>
-            </Item>
-            <Item>
-                <ItemName>광주북구일곡도서관</ItemName>
-                <ItemDist> · 거리 7.6km</ItemDist>
-            </Item>
+            <> {
+                libs?.map((lib) => {
+                    return (
+                        <Item key={lib.libCode}>
+                            <ItemName onClick={openModal}>{lib.libName}</ItemName>
+                            <ItemDist> · 거리 6.8km</ItemDist>
+                        </Item>
+                    )
+                })
+            }
+            </>
             {modalOpen &&
                 <LibraryModal modalOpen={modalOpen} closeModal={closeModal} />
             }

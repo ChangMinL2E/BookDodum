@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ReactWordcloud from 'react-wordcloud';
-import { getBestKeyword } from '../../apis/bestkeyword';
+import { getBestKeywordAPI } from '../../apis/bestkeyword';
 
 interface KeyWord {
   text: string;
@@ -13,7 +13,7 @@ export default function BestKeyword() {
 
   useEffect(() => {
     // 이달의 키워드 요청
-    // getKeyword()
+    // getBestKeyword()
   }, [])
 
   const options: any = {
@@ -32,14 +32,14 @@ export default function BestKeyword() {
     transitionDuration: 1000
   };
 
-  const getKeyword = async () => {
+  const getBestKeyword = async () => {
     // 현재 년, 월
     const date = new Date()
     const month = date.getMonth()
     const year = date.getFullYear()
 
     let tmp: KeyWord[] = [];
-    const data = await getBestKeyword(String(year), String(month).padStart(2, '0'));
+    const data = await getBestKeywordAPI(String(year), String(month).padStart(2, '0'));
 
     data.forEach((item: any) => {
       tmp.push({

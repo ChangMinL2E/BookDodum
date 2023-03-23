@@ -59,7 +59,7 @@ export default function Banner() {
 
 
 const Slide1 = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 70vh;
   background: url(${banner1});
   background-size: cover;
