@@ -28,15 +28,29 @@ public class MeetingController {
 
     @PostMapping
     @Operation(summary = "모임 생성")
-    public ResponseEntity<?> createMeeting(@RequestBody MeetingRequestDto meetRequestDto,
+    public ResponseEntity<?> createMeeting(@RequestBody MeetingRequestDto meetingRequestDto,
                                            @AuthenticationPrincipal User user) {
 
-        if (meetingService.createMeeting(meetRequestDto)) {
+        if (meetingService.createMeeting(meetingRequestDto, user)) {
             return new ResponseEntity(new ApiResponseDto(true, "createMeeting Success", null), HttpStatus.OK);
         } else {
             return new ResponseEntity(new ApiResponseDto(false, "createMeeting Fail (이미 생성한 모임이 있습니다.)", null), HttpStatus.OK);
         }
     }
+
+
+    @PostMapping("/join/{meetingid}")
+    @Operation(summary = "모임 참여")
+    public ResponseEntity<?> joinMeeting(@PathVariable("meetingid") Long meetingId,
+                                         @AuthenticationPrincipal User user) {
+        System.out.println(meetingId);
+        if (meetingService.joinMeeting(meetingId, user)) {
+            return new ResponseEntity(new ApiResponseDto(true, "joinMeeting Success", null), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(new ApiResponseDto(false, "joinMeeting Fail(중복참여 불가능)", null), HttpStatus.OK);
+        }
+    }
+
 
     // 무한 스크롤
     @GetMapping
@@ -54,7 +68,7 @@ public class MeetingController {
     }
 
 
-    @GetMapping("/participation")
+    @GetMapping("/join")
     @Operation(summary = "참여중인 모임 목록 조회")
     public ResponseEntity<?> listMyMeeting(
             @RequestParam(value = "idx", defaultValue = "0") long idx,
