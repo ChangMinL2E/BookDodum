@@ -29,18 +29,34 @@ public class UserService {
 
         log.info("[getSignInResult] signDataHandler 로 회원 정보 요청");
         //회원 정보 요청
+        boolean existedUser = userRepository.existsByUserid(userid);
+        //회원 정보 없을 경우
+        if(!existedUser){
+            SignInResultDto notExistedUser = new SignInResultDto();
+            notExistedUser.setMsg("존재하지않는 id");
+            notExistedUser.setCode(401);
+            notExistedUser.setSuccess(false);
+            return notExistedUser;
+        }
+
         User user = userRepository.findByUserid(userid);
         log.info("[getSignInResult] userId : {}" , userid);
 
         //패스워드 비교 수행
         log.info("[getSignInResult] 패스워드 비교 수행");
         if(!passwordEncoder.matches(password, user.getPassword())){
-            throw new RuntimeException();
+            SignInResultDto passwordInvaild = new SignInResultDto();
+            passwordInvaild.setMsg("잘못된 비밀번호");
+            passwordInvaild.setCode(402);
+            passwordInvaild.setSuccess(false);
+            return passwordInvaild;
         }
         log.info("[getSignInResult] 패스워드 일치");
 
         log.info("[getSignInResult] SignInResultDto 객체 생성");
         SignInResultDto signInResultDto = SignInResultDto.builder()
+                .userid(user.getUserid())
+                .name(user.getName())
                 .token(jwtTokenProvider.createToken(String.valueOf(user.getUserid()))).build();
 
 
