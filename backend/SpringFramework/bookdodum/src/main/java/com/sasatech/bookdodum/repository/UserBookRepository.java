@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserBookRepository extends JpaRepository<UserBook, Long> {
 
-    void deleteByBook_IdAndUser_Id(Long bookId, Long userId);
+    boolean deleteByBook_IdAndUser_Id(Long bookId, Long userId);
 
     List<UserBook> findAllByUser_Id(Long id);
 

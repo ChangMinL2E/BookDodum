@@ -23,9 +23,8 @@ public class ReviewService {
     private final UserBookRepository userBookRepository;
 
 
-    public boolean createReview(ReviewRequestDto reviewRequestDto) {
-        User user = userRepository.findById(1L).orElseThrow();
-        Long userId = user.getId();
+    public boolean createReview(ReviewRequestDto reviewRequestDto, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
         Long bookId = reviewRequestDto.getBookId();
 
         try {
@@ -58,8 +57,8 @@ public class ReviewService {
         }
     }
 
-    public List<ReviewListResponseDto> listReview() {
-        List<Review> list = reviewRepository.findAllByUser_Id(1L);
+    public List<ReviewListResponseDto> listReview(Long userId) {
+        List<Review> list = reviewRepository.findAllByUser_Id(userId);
         List<ReviewListResponseDto> dtoList = new ArrayList<>();
 
         for (Review review : list) {
