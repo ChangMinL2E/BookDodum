@@ -19,5 +19,4 @@ const BannerImage = styled.div`
     height: 30vh;
     background: url(${bookBanner});
     background-size: cover;
-    position: absolute;
 `
