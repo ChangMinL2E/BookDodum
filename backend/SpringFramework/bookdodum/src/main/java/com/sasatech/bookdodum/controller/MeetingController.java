@@ -51,23 +51,6 @@ public class MeetingController {
         }
     }
 
-
-    // 무한 스크롤
-    @GetMapping
-    @Operation(summary = "모임 목록 조회")
-    public ResponseEntity<?> listMeeting(
-            @RequestParam(value = "idx", defaultValue = "0") long idx,
-            @PageableDefault(size = 5, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable) {
-
-        // 최초 로딩시점
-        if (idx == 0) {
-            idx = Long.MAX_VALUE;
-        }
-
-        return new ResponseEntity(new ApiResponseDto(true, "readListMeeting Success", meetingService.listMeeting(pageable, idx)), HttpStatus.OK);
-    }
-
-
     @GetMapping("/join")
     @Operation(summary = "참여중인 모임 목록 조회")
     public ResponseEntity<?> listMyMeeting(
@@ -82,6 +65,23 @@ public class MeetingController {
 
         // userMeeting 테이블에서 내가 참여중인 meeting 만 찾아오자
         return new ResponseEntity(new ApiResponseDto(true, "listMyMeeting Success", meetingService.listMyMeeting(pageable, idx, user.getId())), HttpStatus.OK);
+    }
+
+
+    // 무한 스크롤
+    @GetMapping
+    @Operation(summary = "모임 목록/책 기준 조회")
+    public ResponseEntity<?> listMeeting(
+            @RequestParam(value = "idx", defaultValue = "0") Long idx,
+            @RequestParam(value = "bookid", defaultValue = "-1") Long bookId,
+            @PageableDefault(size = 5, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        // 최초 로딩시점
+        if (idx == 0) {
+            idx = Long.MAX_VALUE;
+        }
+
+        return new ResponseEntity(new ApiResponseDto(true, "readListMeeting Success", meetingService.listMeeting(pageable, idx, bookId)), HttpStatus.OK);
     }
 
 

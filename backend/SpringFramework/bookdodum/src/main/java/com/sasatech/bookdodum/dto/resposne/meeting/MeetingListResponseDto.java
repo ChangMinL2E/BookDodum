@@ -16,6 +16,6 @@ public class MeetingListResponseDto {
     private String userName;
     private Long commentCnt;
     private String imageUrl;
-    private String userImageUrl;
+//    private String userImageUrl;
 
 }
