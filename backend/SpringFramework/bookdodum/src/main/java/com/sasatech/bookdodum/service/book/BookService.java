@@ -11,10 +11,7 @@ import com.sasatech.bookdodum.entity.book.Book;
 import com.sasatech.bookdodum.entity.book.Category;
 import com.sasatech.bookdodum.entity.user.User;
 import com.sasatech.bookdodum.entity.user.UserBook;
-import com.sasatech.bookdodum.repository.CategoryRepository;
-import com.sasatech.bookdodum.repository.BookRepository;
-import com.sasatech.bookdodum.repository.UserBookRepository;
-import com.sasatech.bookdodum.repository.UserRepository;
+import com.sasatech.bookdodum.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,11 +30,17 @@ public class BookService {
     private final UserBookRepository userBookRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final UserBookQdslRepositoryImpl userBookQdslRepositoryImpl;
 
 
     public boolean addBook(Long bookId, Long userId) {
         Book book = bookRepository.findById(bookId).orElseThrow();
         User user = userRepository.findById(userId).orElseThrow();
+
+        // 이미 등록한 책이 있다면?
+        if (userBookRepository.findByBook_IdAndUser_Id(bookId, userId) != null) {
+            return false;
+        }
 
         userBookRepository.save(UserBook.builder()
                 .book(book)
@@ -49,10 +52,9 @@ public class BookService {
     }
 
 
-    public List<BookListResponseDto> listBook(Long userId) {
+    public List<BookListResponseDto> listBook(Long userId, boolean fin) {
         List<BookListResponseDto> list = new ArrayList<>();
-
-        List<UserBook> listUserBook = userBookRepository.findAllByUser_Id(userId);
+        List<UserBook> listUserBook = userBookQdslRepositoryImpl.findUserBook(userId, fin);
 
         for (UserBook userBook : listUserBook) {
             Long bookId = userBook.getId();
@@ -64,26 +66,14 @@ public class BookService {
                 categories.add(category.getKind());
             }
 
-            String startTime = userBook.getStartTime().toString();
-            String endTime = userBook.getEndTime().toString();
-            boolean fin = true;
-
-            // 아직 읽는 중인 책
-            if (startTime.equals(endTime)) {
-                fin = false;
-            }
-
-
             list.add(BookListResponseDto.builder()
                     .bookId(myBook.getId())
                     .imageUrl(myBook.getImageUrl())
                     .title(myBook.getTitle())
                     .publisher(myBook.getPublisher())
                     .category(categories)
-                    .fin(fin)
                     .build());
         }
-
 
         return list;
     }
@@ -153,12 +143,15 @@ public class BookService {
         // 다 읽은 책의 id를 통해 userBook 을 찾는다.
         UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookId, userId);
 
+        Date date = new Date();
+
         // endTime 을 제외하고 Update
         userBookRepository.save(UserBook.builder()
                 .id(userBook.getId())
                 .book(userBook.getBook())
                 .user(userBook.getUser())
                 .startTime(userBook.getStartTime())
+                .endTime(date)
                 .build());
     }
 

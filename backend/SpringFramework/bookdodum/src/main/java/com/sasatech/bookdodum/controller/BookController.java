@@ -26,10 +26,11 @@ public class BookController {
     private final ReviewService reviewService;
 
 
-    @GetMapping("/list")
-    @Operation(summary = "내 도서 목록조회")
-    public ResponseEntity<?> listBook(@AuthenticationPrincipal User user) {
-        return new ResponseEntity(new ApiResponseDto(true, "listBook Success", bookService.listBook(user.getId())), HttpStatus.OK);
+    @GetMapping("/list/{fin}")
+    @Operation(summary = "내 독서중/완 목록조회")
+    public ResponseEntity<?> listBook(@PathVariable("fin") boolean fin,
+                                      @AuthenticationPrincipal User user) {
+        return new ResponseEntity(new ApiResponseDto(true, "listBook Success", bookService.listBook(user.getId(), fin)), HttpStatus.OK);
     }
 
     @GetMapping("/")
@@ -76,11 +77,30 @@ public class BookController {
 
     @PostMapping("/review")
     @Operation(summary = "독후감 등록")
-    public ResponseEntity<?> createReview(@RequestBody ReviewRequestDto reviewRequestDto) {
-        if (reviewService.createReview(reviewRequestDto)) {
+    public ResponseEntity<?> createReview(@RequestBody ReviewRequestDto reviewRequestDto,
+                                          @AuthenticationPrincipal User user) {
+        if (reviewService.createReview(reviewRequestDto, user.getId())) {
             return new ResponseEntity(new ApiResponseDto(true, "createReview Success", null), HttpStatus.OK);
         } else {
             return new ResponseEntity(new ApiResponseDto(false, "createReview Fail", null), HttpStatus.OK);
+        }
+    }
+
+
+    @GetMapping("/review")
+    @Operation(summary = "독후감 목록 조회")
+    private ResponseEntity<?> listReview(@AuthenticationPrincipal User user) {
+        return new ResponseEntity(new ApiResponseDto(true, "listReview Success", reviewService.listReview(user.getId())), HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/review/{reviewid}")
+    @Operation(summary = "독후감 삭제")
+    public ResponseEntity<?> deleteReview(@PathVariable("reviewid") Long reviewId) {
+        if (reviewService.deleteReview(reviewId)) {
+            return new ResponseEntity(new ApiResponseDto(true, "deleteReview Success", null), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(new ApiResponseDto(false, "deleteReview Fail", null), HttpStatus.OK);
         }
     }
 

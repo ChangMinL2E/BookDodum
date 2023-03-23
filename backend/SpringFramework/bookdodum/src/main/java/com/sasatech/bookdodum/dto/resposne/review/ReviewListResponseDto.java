@@ -1,16 +1,14 @@
-package com.sasatech.bookdodum.dto.request.book;
+package com.sasatech.bookdodum.dto.resposne.review;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ReviewRequestDto {
-    private Long bookId;
+public class ReviewListResponseDto {
     private String content;
 }
