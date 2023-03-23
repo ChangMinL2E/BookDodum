@@ -19,5 +19,5 @@ public class BookListResponseDto {
     private String title;
     private String publisher;
     private List<String> category;
-    private boolean fin;
+    private String convertedImageUrl;
 }

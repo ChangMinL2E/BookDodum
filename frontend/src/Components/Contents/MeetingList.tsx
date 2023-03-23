@@ -1,5 +1,5 @@
 import React from "react";
-import GroupCover from "../../Components/Contents/GroupCover";
+import MeetingCover from "../../Components/Contents/MeetingCover";
 import sample from "../../Assets/Images/sample.png";
 import styled from "styled-components";
 import { UsersIcon } from "@heroicons/react/24/outline";
@@ -15,21 +15,21 @@ export default function MeetingList() {
         <UsersIcon width={22} /> 진행 중인 독서모임{" "}
       </MeetingText>
       <List>
-        <GroupCover
+        <MeetingCover
           imageUrl={sample}
           title={title}
           author={author}
           participant={participant}
           id={id}
         />
-        <GroupCover
+        <MeetingCover
           imageUrl={sample}
           title={title}
           author={author}
           participant={participant}
           id={id}
         />
-        <GroupCover
+        <MeetingCover
           imageUrl={sample}
           title={title}
           author={author}
