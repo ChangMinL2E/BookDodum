@@ -29,7 +29,7 @@ public class JwtTokenProvider {
 
     @Value("${springboot.jwt.secret}")
     private String secretKey = "secretKey";
-    private final long tokenValidMillisecond = 1000L * 60 * 60; //만료 시간 설정
+    private final long tokenValidMillisecond = 1000L * 60 * 60; //만료 시간 설정 - 1시간
 
     @PostConstruct
     protected void init(){

@@ -37,6 +37,9 @@ public class UserController {
 
         if(signInResultDto.getCode() == 0){
             LOGGER.info("[signIn] 정상적으로 로그인되었습니다. id : {}, token : {}", userLoginDto.getUserid(), signInResultDto.getToken());
+
+        }else{
+
         }
         return signInResultDto;
     }
