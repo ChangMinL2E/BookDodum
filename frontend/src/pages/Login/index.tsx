@@ -1,20 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import logo from "../../Assets/Images/logo-white.png";
+import { loginUserAPI } from "../../apis/auth";
+import { useNavigate } from "react-router-dom";
+
+interface LoginInfo {
+  userid: string;
+  password: string;
+}
 
 export default function Login() {
+  const [userid, setUserid] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+
+  let userInfo: LoginInfo = {
+    userid: userid,
+    password: password,
+  };
+
+  const loginUser = async (userInfo: LoginInfo) => {
+    const data = await loginUserAPI(userInfo);
+    if (data) {
+      navigate("/");
+    }
+  };
+
   return (
     <Container>
       <Div>
         <Logo src={logo} />
 
         <Text>아이디</Text>
-        <Input placeholder="아이디를 입력하세요"/>
+        <Input
+          placeholder="아이디를 입력하세요"
+          onChange={(e) => setUserid(e.target.value)}
+        />
 
         <Text>비밀번호</Text>
-        <Input placeholder="비밀번호를 입력하세요"/>
+        <Input
+          type="password"
+          placeholder="비밀번호를 입력하세요"
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-        <Button>들어가기</Button>
+        <Button
+          onClick={() => {
+            loginUser(userInfo);
+          }}
+        >
+          들어가기
+        </Button>
       </Div>
     </Container>
   );

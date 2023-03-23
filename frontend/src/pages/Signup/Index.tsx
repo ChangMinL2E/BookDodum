@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import logo from "../../Assets/Images/logo-white.png";
 import { signupUserAPI } from "../../apis/auth";
+import { useNavigate } from "react-router-dom";
 
 interface SignupInfo {
   userid: string;
@@ -14,6 +15,7 @@ export default function Signup() {
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [pwdCheck, setPwdCheck] = useState<string>("");
+  const navigate = useNavigate();
 
   let userInfo: SignupInfo = {
     userid: userid,
@@ -22,7 +24,10 @@ export default function Signup() {
   };
 
   const signupUser = async (userInfo: SignupInfo) => {
-    await signupUserAPI(userInfo);
+    const data = await signupUserAPI(userInfo);
+    if (data) {
+      navigate("/");
+    }
   };
 
   return (

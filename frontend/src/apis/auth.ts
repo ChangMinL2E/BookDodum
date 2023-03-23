@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 const baseUrl = process.env.REACT_APP_API_URL;
@@ -21,7 +22,8 @@ export async function signupUserAPI(userInfo: SignupInfo) {
       url: `${baseUrl}/user/signup`,
       data: userInfo,
     });
-    return data;
+    console.log('회원가입 성공')
+    return true;
   } catch (e) {
     console.log(e);
   }
@@ -35,7 +37,8 @@ export async function loginUserAPI(userInfo: LoginInfo) {
       url: `${baseUrl}/user/signin`,
       data: userInfo,
     });
-    return data;
+    console.log('로그인 성공')
+    return true;
   } catch (e) {
     console.log(e);
   }
