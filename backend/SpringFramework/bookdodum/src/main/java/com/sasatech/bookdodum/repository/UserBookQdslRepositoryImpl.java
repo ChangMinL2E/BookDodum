@@ -43,4 +43,18 @@ public class UserBookQdslRepositoryImpl implements UserBookQdslRepository {
                     .fetch();
         }
     }
+
+    public List<UserBook> findUserByReadWith(Long bookId, Long userId) {
+        QUserBook userBook = QUserBook.userBook;
+        // userBook 테이블에서 아직 책을 읽고있는 (endTime 과 startTime 이 다른..),
+        // 나의 bookId 와 같은 row들을 구하자.
+        // 그 row 에서 userId만 뽑아서 return 하셈 ㅋㅋ
+
+        DateTimePath<Date> startTime = userBook.startTime;
+        DateTimePath<Date> endTime = userBook.endTime;
+
+        return jpaQueryFactory.selectFrom(userBook)
+                .where(userBook.book.id.eq(bookId), startTime.eq(endTime))
+                .fetch();
+    }
 }

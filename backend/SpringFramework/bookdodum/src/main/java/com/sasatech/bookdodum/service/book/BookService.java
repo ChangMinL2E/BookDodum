@@ -7,6 +7,7 @@ import com.google.zxing.common.HybridBinarizer;
 import com.sasatech.bookdodum.dto.resposne.book.BookDetailResponseDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookListResponseDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookResponseDto;
+import com.sasatech.bookdodum.dto.resposne.user.UserResponseDto;
 import com.sasatech.bookdodum.entity.book.Book;
 import com.sasatech.bookdodum.entity.book.Category;
 import com.sasatech.bookdodum.entity.user.User;
@@ -166,6 +167,29 @@ public class BookService {
                 .publisher(book.getPublisher())
                 .content(book.getContent())
                 .build();
+    }
+
+    public List<UserResponseDto> listReadWith(Long bookId, Long userId) {
+
+        // userBook 테이블에서 아직 책을 읽고있는 (endTime 과 startTime 이 다른..),
+        // 나의 bookId 와 같은 row들을 구하자.
+        // 그 row 에서 userId만 뽑아서 return 하셈 ㅋㅋ
+        List<UserBook> list = userBookQdslRepositoryImpl.findUserByReadWith(bookId, userId);
+        List<UserResponseDto> dtoList = new ArrayList<>();
+
+        for (UserBook userBook : list) {
+            Long readWithUserId = userBook.getUser().getId();
+            User readWithUser = userRepository.findById(readWithUserId).orElseThrow();
+
+            // 내 아이디를 제외하고 가져오기
+            if (readWithUser.getId() != userId) {
+                dtoList.add(UserResponseDto.builder()
+                        .name(readWithUser.getName())
+                        .build());
+            }
+        }
+
+        return dtoList;
     }
 }
 

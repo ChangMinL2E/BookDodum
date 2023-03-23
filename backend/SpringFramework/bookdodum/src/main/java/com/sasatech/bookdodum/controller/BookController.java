@@ -56,6 +56,14 @@ public class BookController {
     }
 
 
+    @GetMapping("/readwith/{bookid}")
+    @Operation(summary = "이 책을 읽고 있는 사람 목록 조회")
+    public ResponseEntity<?> listReadWith(@PathVariable("bookid") Long bookId,
+                                          @AuthenticationPrincipal User user) {
+        return new ResponseEntity(new ApiResponseDto(true, "listReadWith Success", bookService.listReadWith(bookId, user.getId())), HttpStatus.OK);
+    }
+
+
     @DeleteMapping("/{bookid}")
     @Operation(summary = "등록 도서 삭제")
     public ResponseEntity<?> deleteBook(@PathVariable("bookid") Long id,

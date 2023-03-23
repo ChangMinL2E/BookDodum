@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface UserBookQdslRepository {
     List<UserBook> findUserBook(Long userId, Boolean fin);
+
+    List<UserBook> findUserByReadWith(Long bookId, Long userId);
 }
