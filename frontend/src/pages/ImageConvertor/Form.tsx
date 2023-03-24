@@ -1,47 +1,63 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import oilpainting from "../../Assets/Images/oilpainting.png";
 import oneline from "../../Assets/Images/oneline.png";
 import styled from "styled-components";
+import { getTextAPI } from "../../apis/translate";
+import { changeImageAPI } from "../../apis/changeImage";
+
 type option = {
   name: string;
   image: string;
 };
 
 const Form: React.FC = () => {
-  const [text, setText] = useState<string>("");
 
-  const handleTextChnage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value);
-  };
-
-  const handelSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setText("");
-    console.log(text);
-  };
+  const [korean, setKorean] = useState<string>("");
+  const [sentence, setSentence] = useState<string>("");
+  const [result, setResult] = useState<string>("");
+  const [image, setImage] = useState<any>();
   const options: option[] = [
     {
-      name: "oil painting",
+      name: "oilpainting",
       image: oilpainting,
     },
     {
-      name: "one-line",
+      name: "oneline drawing",
       image: oneline,
     },
   ];
 
-  const [selectedOption, setSelectedOption] = useState<string>("oilpainting");
+  const [selectedOption, setSelectedOption] = useState<string>("");
+
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(event.target.value);
+  };
+
+  const handleTextChnage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setKorean(event.target.value);
+  };
+
+  const handleSubmit = async () => {
+    const data = await getTextAPI(korean);
+    setSentence(data);
+  };
+
+  useEffect(() => {
+    setResult(result.concat(sentence, " ", selectedOption));
+  }, [sentence]);
+
+  const changeImage = async (result: string) => {
+    const imageUrl = await changeImageAPI(result);
+    setImage(imageUrl);
   };
 
   return (
     <Container>
       <Title>여러분의 생각을 그림으로 남겨드립니다.</Title>
-      <form onSubmit={handelSubmit}>
+      <form>
         <Input
           type="text"
-          value={text}
+          value={korean}
           placeholder="책을 읽고 소감을 작성해 보세요.&#13;&#10;
         예시) 들판에 핀 안개 꽃"
           onChange={handleTextChnage}
@@ -64,7 +80,11 @@ const Form: React.FC = () => {
         ))}
       </Wrapper>
       <ButtonContainer>
-        <Button type="submit">변환하기</Button>
+        <Button type="submit" onClick={handleSubmit}>
+          변환하기
+        </Button>
+        <button onClick={()=>{changeImage(result)}}>찐으로 변환하기</button>
+        <img src={image} width="80px" height="80px" />
       </ButtonContainer>
     </Container>
   );
