@@ -231,6 +231,33 @@ public class BookService {
             return false;
         }
     }
+
+    public boolean searchBook(String isbn) {
+        if(bookRepository.existsByIsbn(isbn)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //도서관에서 책 isbn 넘어오면 책 정보 return
+    public BookResponseDto infoBook(String isbn) {
+        Book infoBook = bookRepository.findByIsbn(isbn);
+
+        return BookResponseDto.builder()
+                .id(infoBook.getId())
+                .title(infoBook.getTitle())
+                .author(infoBook.getAuthor())
+                .publisher(infoBook.getPublisher())
+                .imageUrl(infoBook.getImageUrl())
+                .isbn(infoBook.getIsbn())
+                .siteUrl(infoBook.getSiteUrl())
+                .content(infoBook.getContent())
+                .category(infoBook.getCategory())
+                .build();
+
+
+    }
 }
 
 
