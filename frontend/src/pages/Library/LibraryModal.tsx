@@ -1,13 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useParams } from 'react-router';
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import { getBookExistAPI, getItemSrchAPI } from '../../apis/library';
+import { LibInfo } from '../../Store/Types'
 
 interface LibraryProps {
     modalOpen: boolean;
     closeModal: () => void;
+    libCode: number;
 }
 
-export default function LibraryModal({ modalOpen, closeModal }: LibraryProps) {
+export default function LibraryModal({ modalOpen, closeModal, libCode }: LibraryProps) {
+    const ISBN = useParams().ISBN
+    const [libInfo, setLibInfo] = useState<LibInfo>()
+    const [exist, setExist] = useState<Boolean>(false)
+
+    useEffect(() => {
+        // getItemSrch()
+        // getBookExist()
+    }, [])
+
+    // 도서관별 장서/대출 데이터 조회
+    const getItemSrch = async () => {
+        const data = await getItemSrchAPI(ISBN, libCode)
+
+        let tmp: LibInfo = {
+            bookName: data.bookname,
+            classNum: data.class_no,
+            bookCode: data.callNumbers[0].callNumber['book_code'],
+            locName: data.callNumbers[0].callNumber['shelf_loc_name'],
+        }
+        setLibInfo(tmp)
+    }
+
+    // 도서관별 도서 소장여부 및 대출 가능여부 조회
+    const getBookExist = async () => {
+        const res = await getBookExistAPI(ISBN, libCode)
+        if (res === 'Y') setExist(true)
+    }
+
     return (
         <Container>
             <BackGround />
@@ -17,13 +49,17 @@ export default function LibraryModal({ modalOpen, closeModal }: LibraryProps) {
                 </CloseBtn>
                 <ModalBottom>
                     <TitleWrap>
-                        <Possible><div>대출가능</div></Possible>
-                        <Title>불편한 편의점</Title>
+                        <Possible>{
+                            exist ?
+                                <div>대출가능</div> : <div>대출중</div>
+                        }
+                        </Possible>
+                        <Title>{libInfo?.bookName}</Title>
                     </TitleWrap>
                     <Mini>청구기호</Mini>
-                    <Contents>470.4-밀294ㅁ</Contents>
+                    <Contents>{libInfo?.classNum} - {libInfo?.bookCode}</Contents>
                     <Mini>위치</Mini>
-                    <Contents>광주북구운암도서관</Contents>
+                    <Contents>{libInfo?.locName}</Contents>
                 </ModalBottom>
             </Modal>
         </Container>

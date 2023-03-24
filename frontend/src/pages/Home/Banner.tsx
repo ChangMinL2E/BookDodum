@@ -60,7 +60,7 @@ export default function Banner() {
 
 const Slide1 = styled.div`
   width: 100%;
-  height: 70vh;
+  height: 100%;
   background: url(${banner1});
   background-size: cover;
 `;
@@ -85,6 +85,7 @@ const Slide2 = styled.div`
   height: 70vh;
   background: url(${banner2});
   background-size: cover;
+  background-position: center;
   align-items: center;
 `;
 

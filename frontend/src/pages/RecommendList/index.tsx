@@ -15,31 +15,8 @@ export default function RecommendList() {
             imageUrl: sample,
             title: "불편한 편의점",
             categories: [],
-            company: "나무 옆 의자"
-          }} />
-          <Book book={{
-            imageUrl: sample,
-            title: "불편한 편의점",
-            categories: [],
-            company: "나무 옆 의자"
-          }} />
-          <Book book={{
-            imageUrl: sample,
-            title: "불편한 편의점",
-            categories: [],
-            company: "나무 옆 의자"
-          }} />
-          <Book book={{
-            imageUrl: sample,
-            title: "불편한 편의점",
-            categories: [],
-            company: "나무 옆 의자"
-          }} />
-           <Book book={{
-            imageUrl: sample,
-            title: "불편한 편의점",
-            categories: [],
-            company: "나무 옆 의자"
+            publisher: "나무 옆 의자",
+            ISBN: 0,
           }} />
         </BooksWrap>
       </Contents>

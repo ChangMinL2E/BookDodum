@@ -7,16 +7,18 @@ import LibraryModal from './LibraryModal';
 
 export default function LibraryList() {
     const ISBN = useParams().ISBN
+    const [selectedLib, setSelectedLib] = useState<number>(0) 
+    
 
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     const [libs, setLibs] = useState<LibraryType[]>([])
     const regionCode = 24
 
     useEffect(() => {
-        // 도서 소장 도서관 조회
         // getLibrary()
     }, [])
 
+    // 도서 소장 도서관 조회
     const getLibrary = async () => {
         const data = await getLibraryAPI(ISBN, regionCode)
 
@@ -37,9 +39,10 @@ export default function LibraryList() {
         setLibs(tmp)
     }
 
-    const openModal = () => {
+    // 모달 열고 닫기
+    const openModal = (libCode:number) => {
         setModalOpen(true)
-        console.log(modalOpen)
+        setSelectedLib(libCode)
     }
 
     const closeModal = () => {
@@ -52,7 +55,7 @@ export default function LibraryList() {
                 libs?.map((lib) => {
                     return (
                         <Item key={lib.libCode}>
-                            <ItemName onClick={openModal}>{lib.libName}</ItemName>
+                            <ItemName onClick={() => { openModal(lib.libCode) }}>{lib.libName}</ItemName>
                             <ItemDist> · 거리 6.8km</ItemDist>
                         </Item>
                     )
@@ -60,8 +63,9 @@ export default function LibraryList() {
             }
             </>
             {modalOpen &&
-                <LibraryModal modalOpen={modalOpen} closeModal={closeModal} />
+                <LibraryModal modalOpen={modalOpen} closeModal={closeModal} libCode={selectedLib} />
             }
+
         </Container>
     );
 }
