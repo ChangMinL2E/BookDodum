@@ -8,6 +8,7 @@ interface Props {
   name?: string;
 }
 
+
 export default function BookCover({ imageUrl, size, name }: Props) {
   return (
     <Container>
@@ -43,5 +44,4 @@ const BookImage = styled.div<Props>`
   display: flex;
   justify-content: center;
   align-items : center;
-
 `;

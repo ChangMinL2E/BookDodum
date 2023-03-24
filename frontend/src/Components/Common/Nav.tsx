@@ -70,9 +70,11 @@ const Contents = styled.div`
   align-items: center;
 `;
 
-const Hamburgur = styled.div``;
+const Hamburgur = styled.div`
+opacity: 1`;
 
 const Image = styled.img`
   height: 31px;
   width: 57px;
+  opacity: 1;
 `;
