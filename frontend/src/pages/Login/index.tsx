@@ -3,6 +3,8 @@ import styled from "styled-components";
 import logo from "../../Assets/Images/logo-white.png";
 import { loginUserAPI } from "../../apis/auth";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userAction } from '../../Store/userSlice'
 
 interface LoginInfo {
   userid: string;
@@ -13,16 +15,23 @@ export default function Login() {
   const [userid, setUserid] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   let userInfo: LoginInfo = {
-    userid: userid,
-    password: password,
+    userid,
+    password,
   };
 
   const loginUser = async (userInfo: LoginInfo) => {
     const data = await loginUserAPI(userInfo);
-    if (data) {
+    if (data.code === 401) {
+      alert(data.msg + "입니다.");
+    } else if (data.code === 402) {
+      alert(data.msg + "입니다.");
+    } else {
       navigate("/");
+      localStorage.setItem("user", JSON.stringify(data.token));
+      dispatch(userAction.loginAction({userid: data.userid, name: data.name}))
     }
   };
 

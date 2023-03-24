@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const baseUrl = process.env.REACT_APP_API_URL;
@@ -22,8 +22,7 @@ export async function signupUserAPI(userInfo: SignupInfo) {
       url: `${baseUrl}/user/signup`,
       data: userInfo,
     });
-    console.log('회원가입 성공')
-    return true;
+    return data;
   } catch (e) {
     console.log(e);
   }
@@ -37,8 +36,8 @@ export async function loginUserAPI(userInfo: LoginInfo) {
       url: `${baseUrl}/user/signin`,
       data: userInfo,
     });
-    console.log('로그인 성공')
-    return true;
+    console.log(data)
+    return data;
   } catch (e) {
     console.log(e);
   }
@@ -50,6 +49,34 @@ export async function deleteUserAPI(userid: string) {
     const { data } = await axios({
       method: "DELETE",
       url: `${baseUrl}/user/`,
+      params: { userid },
+    });
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+// 닉네임 중복확인
+export async function checkNameAPI(name: string) {
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: `${baseUrl}/user/checkName`,
+      params: { name },
+    });
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+// id 중복확인
+export async function checkUseridAPI(userid: string) {
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: `${baseUrl}/user/checkUserid`,
       params: { userid },
     });
     return data;
