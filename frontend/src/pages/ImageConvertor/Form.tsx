@@ -11,11 +11,12 @@ type option = {
 };
 
 const Form: React.FC = () => {
+  const [selectedOption, setSelectedOption] = useState<string>(""); // 그림 옵션 선택
+  const [korean, setKorean] = useState<string>(""); // 번역할 문장
+  const [sentence, setSentence] = useState<string>(""); // 번역된 문장
+  const [result, setResult] = useState<string>(""); // 번역 + 화풍
+  const [image, setImage] = useState(); // 변환된 이미지 url
 
-  const [korean, setKorean] = useState<string>("");
-  const [sentence, setSentence] = useState<string>("");
-  const [result, setResult] = useState<string>("");
-  const [image, setImage] = useState<any>();
   const options: option[] = [
     {
       name: "oilpainting",
@@ -27,29 +28,27 @@ const Form: React.FC = () => {
     },
   ];
 
-  const [selectedOption, setSelectedOption] = useState<string>("");
-
-  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(event.target.value);
-  };
-
-  const handleTextChnage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setKorean(event.target.value);
-  };
-
+  // 변환하기 버튼 눌렀을 때 번역 문장 받기
   const handleSubmit = async () => {
     const data = await getTextAPI(korean);
     setSentence(data);
   };
 
+  // 번역 문장 + 화풍 합치기
   useEffect(() => {
-    setResult(result.concat(sentence, " ", selectedOption));
+    if (sentence !== "")
+      setResult(result.concat(sentence, " ", selectedOption));
   }, [sentence]);
 
+  // dall-e-2에 문장 axios
   const changeImage = async (result: string) => {
     const imageUrl = await changeImageAPI(result);
     setImage(imageUrl);
   };
+
+  useEffect(() => {
+    if (result !== "") changeImage(result);
+  }, [result]);
 
   return (
     <Container>
@@ -60,7 +59,7 @@ const Form: React.FC = () => {
           value={korean}
           placeholder="책을 읽고 소감을 작성해 보세요.&#13;&#10;
         예시) 들판에 핀 안개 꽃"
-          onChange={handleTextChnage}
+          onChange={(e) => setKorean(e.target.value)}
         />
       </form>
       <Wrapper>
@@ -72,7 +71,7 @@ const Form: React.FC = () => {
                 type="radio"
                 value={option.name}
                 checked={selectedOption === option.name}
-                onChange={handleOptionChange}
+                onChange={(e) => setSelectedOption(e.target.value)}
               />
               <OptionName>{option.name}</OptionName>
             </OptionValue>
@@ -83,8 +82,7 @@ const Form: React.FC = () => {
         <Button type="submit" onClick={handleSubmit}>
           변환하기
         </Button>
-        <button onClick={()=>{changeImage(result)}}>찐으로 변환하기</button>
-        <img src={image} width="80px" height="80px" />
+        {/* <img src={image} width="80px" height="80px" /> */}
       </ButtonContainer>
     </Container>
   );
