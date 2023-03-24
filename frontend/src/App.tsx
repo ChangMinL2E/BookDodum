@@ -12,6 +12,8 @@ import MeetingCreate from "./pages/MeetingCreate";
 import MeetingRoom from "./pages/MeetingRoom";
 import Intro from "./pages/Intro";
 import WriteText from "./pages/WriteText";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup/Index";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
         <Route path="/bookmeeting/:meetid" element={<MeetingRoom />} />
         <Route path="/meetingcreate" element={<MeetingCreate />} />
         <Route path="/write/" element={<WriteText />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </BrowserRouter>
   );
