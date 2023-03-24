@@ -11,11 +11,6 @@ interface LoginInfo {
   password: string;
 }
 
-interface User {
-  userid: string;
-  name: string;
-}
-
 export default function Login() {
   const [userid, setUserid] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -34,10 +29,8 @@ export default function Login() {
     } else if (data.code === 402) {
       alert(data.msg + "입니다.");
     } else {
-      console.log(data);
       navigate("/");
       localStorage.setItem("user", JSON.stringify(data.token));
-      
       dispatch(userAction.loginAction({userid: data.userid, name: data.name}))
     }
   };

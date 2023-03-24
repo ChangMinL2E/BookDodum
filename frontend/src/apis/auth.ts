@@ -36,6 +36,7 @@ export async function loginUserAPI(userInfo: LoginInfo) {
       url: `${baseUrl}/user/signin`,
       data: userInfo,
     });
+    console.log(data)
     return data;
   } catch (e) {
     console.log(e);

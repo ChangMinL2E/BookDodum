@@ -15,7 +15,18 @@ export default function Signup() {
   const [name, setName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [pwdCheck, setPwdCheck] = useState<string>("");
+
+  // 회원가입 시 확인
   const [samePwd, setSamePwd] = useState<boolean>(false);
+  const [validUserid, setValidUserid] = useState<boolean>(false);
+  const [validName, setValidName] = useState<boolean>(false);
+  const [confirm, setConfirm] = useState<boolean>(false);
+
+  // 유효성 검사
+  const [nameCheck, setNameCheck] = useState<boolean>(false);
+  const [useridCheck, setUseridCheck] = useState<boolean>(false);
+  const [passwordCheck, setPasswordCheck] = useState<boolean>(false);
+
   const navigate = useNavigate();
 
   let userInfo: SignupInfo = {
@@ -23,6 +34,37 @@ export default function Signup() {
     password: password,
     name: name,
   };
+
+  // 닉네임 유효성 검사
+  useEffect(() => {
+    if (name.length >= 2 && name.length <= 10) {
+      setNameCheck(true);
+    } else {
+      setNameCheck(false);
+    }
+  }, [name]);
+
+  // 아이디 유효성 검사
+  useEffect(() => {
+    const regex = /^[a-zA-Z0-9]{4,16}$/;
+    if (regex.test(userid)) {
+      setUseridCheck(true);
+    } else {
+      setUseridCheck(false);
+    }
+    console.log(useridCheck)
+  }, [userid]);
+
+  // 비밀번호 유효성 검사
+  useEffect(() => {
+    const regex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,30}$/;
+    if (regex.test(password)) {
+      setPasswordCheck(true);
+    } else {
+      setPasswordCheck(false)
+    }
+  }, [password]);
 
   // 회원 가입
   const signupUser = async (userInfo: SignupInfo) => {
@@ -32,42 +74,68 @@ export default function Signup() {
     }
   };
 
-  const checkSignup = (userInfo: SignupInfo) => {
-    if (samePwd && userid && name && password) {
-      signupUser(userInfo);
-    } else {
-      alert("정보를 제대로 입력해주세요.");
-      setPwdCheck("");
-    }
-  };
-
   // 닉네임 중복확인
   const checkName = async (name: string) => {
     const data = await checkNameAPI(name);
-    if (!data.responseData) {
-      alert("사용 가능한 닉네임입니다.");
+    if (nameCheck) {
+      if (!data.responseData) {
+        alert("사용 가능한 닉네임입니다.");
+        setValidName(true);
+      } else {
+        alert("중복된 닉네임입니다.");
+      }
     } else {
-      alert("중복된 닉네임입니다.");
+      alert("2~10자로 입력해주세요.");
     }
   };
 
   // id 중복확인
   const checkUserid = async (userid: string) => {
     const data = await checkUseridAPI(userid);
-    if (!data.responseData) {
-      alert("사용 가능한 닉네임입니다.");
+    if (useridCheck) {
+      if (!data.responseData) {
+        alert("사용 가능한 아이디입니다.");
+        setValidUserid(true);
+      } else {
+        alert("중복된 아이디입니다.");
+      }
     } else {
-      alert("중복된 닉네임입니다.");
+      alert("영문, 숫자 4~16자로 입력해주세요.");
     }
   };
 
+  // 비밀번호 확인
   useEffect(() => {
-    if (password !== pwdCheck) {
+    if (password.length && password !== pwdCheck) {
       setSamePwd(false);
-    } else {
+    } else if (password.length && password === pwdCheck) {
       setSamePwd(true);
     }
   }, [pwdCheck]);
+
+  // button 색상
+  useEffect(() => {
+    if (
+      nameCheck &&
+      useridCheck &&
+      passwordCheck &&
+      validName &&
+      validUserid &&
+      samePwd
+    ) {
+      setConfirm(true);
+    }
+  }, [nameCheck, useridCheck, passwordCheck, validName, validUserid, samePwd]);
+
+  // 회원가입 가능 여부
+  const checkSignup = (userInfo: SignupInfo) => {
+    if (confirm) {
+      signupUser(userInfo);
+    } else {
+      alert("정보를 제대로 입력해주세요.");
+      setPwdCheck("");
+    }
+  };
 
   return (
     <Container>
@@ -76,7 +144,7 @@ export default function Signup() {
         <Text>닉네임</Text>
         <Input
           value={name}
-          placeholder="닉네임을 입력하세요"
+          placeholder="2~10자"
           onChange={(e) => setName(e.target.value)}
         />
         <DoubleN
@@ -90,7 +158,7 @@ export default function Signup() {
         <Text>아이디</Text>
         <Input
           value={userid}
-          placeholder="아아디를 입력하세요"
+          placeholder="영문/숫자 4~16자"
           onChange={(e) => setUserid(e.target.value)}
         ></Input>
         <DoubleI
@@ -105,20 +173,24 @@ export default function Signup() {
         <Input
           value={password}
           type="password"
-          placeholder="비밀번호를 입력하세요"
+          placeholder="영문, 숫자, 특수문자 포함 8~30자"
           onChange={(e) => setPassword(e.target.value)}
         />
 
         <Text>비밀번호 확인</Text>
         <Input
-          style={{ borderColor: samePwd ? "" : "red" }}
+          // style={{ borderColor: samePwd ? "" : "red" }}
           value={pwdCheck}
           type="password"
-          placeholder="비밀번호를 확인하세요"
+          placeholder="영문, 숫자, 특수문자 포함 8~30자"
           onChange={(e) => setPwdCheck(e.target.value)}
         />
 
         <Button
+          style={{
+            backgroundColor: confirm ? "rgba(219, 219, 219, 0.7)" : "",
+            color: confirm ? "black" : "",
+          }}
           onClick={() => {
             checkSignup(userInfo);
           }}
@@ -168,7 +240,7 @@ const Input = styled.input`
 const Button = styled.button`
   background-color: rgba(219, 219, 219, 0.3);
   color: white;
-  border: 1px solid #fffefc;
+  border: 1px solid white;
   border-radius: 40px;
   padding: 5%;
   width: 200px;
