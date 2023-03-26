@@ -22,6 +22,6 @@ export async function changeImageAPI(result) {
     console.log(data)
     return data.data[0].url;
   } catch (e) {
-    console.log(e);
+    console.log(e,'❤❤');
   }
 }

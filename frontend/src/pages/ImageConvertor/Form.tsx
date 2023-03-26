@@ -40,15 +40,17 @@ const Form: React.FC = () => {
       setResult(result.concat(sentence, " ", selectedOption));
   }, [sentence]);
 
+  useEffect(() => {
+    if (result !== "") changeImage(result);
+  }, [result]);
+
+
   // dall-e-2에 문장 axios
   const changeImage = async (result: string) => {
     const imageUrl = await changeImageAPI(result);
     setImage(imageUrl);
   };
 
-  useEffect(() => {
-    if (result !== "") changeImage(result);
-  }, [result]);
 
   return (
     <Container>
