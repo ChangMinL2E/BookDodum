@@ -33,6 +33,7 @@ public class MeetingService {
     public boolean createMeeting(MeetingRequestDto meetingRequestDto, User user) {
 
         try {
+            System.out.println(meetingRequestDto.getBookId());
             Book book = bookRepository.findById(meetingRequestDto.getBookId()).orElseThrow();
 
             // 지금 미팅을 만드려는 유저의 미팅을 찾는다.
@@ -74,8 +75,8 @@ public class MeetingService {
     }
 
 
-    public List<MeetingListResponseDto> listMeeting(Pageable pageable, Long idx) {
-        List<Meeting> meetingList = meetingScrollQdslRepositoryImpl.findNoOffsetMeetingPaging(pageable, idx);
+    public List<MeetingListResponseDto> listMeeting(Pageable pageable, Long idx, Long bookId) {
+        List<Meeting> meetingList = meetingScrollQdslRepositoryImpl.findNoOffsetMeetingPaging(pageable, idx, bookId);
         List<MeetingListResponseDto> dtoList = new ArrayList<>();
 
         for (Meeting meeting : meetingList) {
@@ -90,7 +91,7 @@ public class MeetingService {
                     .userName(user.getName())
                     .commentCnt(commentCnt)
                     .imageUrl(meeting.getBook().getImageUrl())
-                    .userImageUrl(null)
+//                    .userImageUrl(null)
                     .build());
         }
 
@@ -113,7 +114,7 @@ public class MeetingService {
                     .userName(user.getName())
                     .commentCnt(commentCnt)
                     .imageUrl(meeting.getBook().getImageUrl())
-                    .userImageUrl(null)
+//                    .userImageUrl(null)
                     .build());
         }
 

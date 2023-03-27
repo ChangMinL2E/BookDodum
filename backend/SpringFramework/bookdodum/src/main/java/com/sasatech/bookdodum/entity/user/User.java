@@ -19,7 +19,7 @@ import java.util.Collection;
 @Table(name = "user")
 @DynamicInsert
 @DynamicUpdate
-public class User implements UserDetails {
+public class                           User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
