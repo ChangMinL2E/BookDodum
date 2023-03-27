@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import BookCover from "../../Components/Contents/BookCover";
-import sample from "../../Assets/Images/sample.png";
 import styled from "styled-components";
 import ImageAI from "../../Components/Contents/ImageAI";
 import Select from "../../Assets/Images/oilpainting.png";
 import useSelectorTyped from "../../Store";
 import { getReadBooksAPI } from "../../apis/read";
-import { string } from "yargs";
+import { useNavigate } from "react-router-dom";
 
 const Read: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
+  const navigate = useNavigate();
 
   interface Book {
     bookId: number;
@@ -46,8 +46,8 @@ const Read: React.FC = () => {
       <ReadText>{nickname}님이 다 읽은 책</ReadText>
       <BooksWrap>
         {books?.map((book: Book) => (
-          <BookItem key={book.bookId}>
-            <BookCover name={"bookImg"} size={120} imageUrl={book.imageUrl} />
+          <BookItem key={book.bookId} onClick={() => navigate('/reading')}>
+            <BookCover  name={"bookImg"} size={120} imageUrl={book.imageUrl} />
             <ImageAI name={"img"} imageUrl={Select} size={"90px"} />
           </BookItem>
         ))}

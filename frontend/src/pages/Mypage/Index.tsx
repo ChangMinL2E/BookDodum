@@ -9,8 +9,7 @@ export default function Mypage() {
   return (
     <Container>
       <MypageBanner />
-      {/* <ReadingBooks theme={"dark"}/> */}
-      <ReadingBooks/>
+      <ReadingBooks theme={"dark"}/>
       <Read />
     </Container>
   );
