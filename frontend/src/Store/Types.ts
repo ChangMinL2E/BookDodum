@@ -32,4 +32,5 @@ export interface LibraryBook  {
     imageUrl: string;
     ISBN: number;
     ranking: string;
+    title: string;
   }
