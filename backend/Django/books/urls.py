@@ -6,7 +6,8 @@ app_name = 'books'
 urlpatterns = [
     path('booklist/', views.books_list),
     path('popular/',views.books_list_popular),
-    path('similar/<str:isbn_code>/',views.books_list_similar)
+    path('similar/<str:isbn_code>/',views.books_list_similar),
     # path('create_books/', views.create_book_from_json),
+    path('create_matrix/',views.create_matrix)
 ]
 
