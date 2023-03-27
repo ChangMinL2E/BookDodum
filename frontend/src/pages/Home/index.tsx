@@ -8,7 +8,6 @@ import LibraryBooks from "./LibraryBooks"
 import sample from '../../Assets/Images/sample.png'
 import ReadingBooks from "./ReadingBooks";
 import BestKeyword from "./BestKeyword";
-import { getGeoLocationAPI } from "../../apis/geolocation";
 
 declare global {
   interface Window {
@@ -20,10 +19,6 @@ const { kakao } = window;
 
 export default function Home() {
   const [map, setMap] = useState(null)
-
-  useEffect(() => {
-    getGeoLocationAPI()
-  }, [])
 
   const getRegionCode = async (longitude: string, latitude: string) => {
     // const data = await getRegionLibraryAPI()

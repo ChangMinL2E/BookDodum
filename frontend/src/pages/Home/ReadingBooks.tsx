@@ -4,6 +4,8 @@ import sample from "../../Assets/Images/sample.png";
 import BookCover from "../../Components/Contents/BookCover";
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from "react-router-dom";
+import { getReadingBooksAPI } from "../../apis/reading";
+import { getRegionCodeAPI } from "../../apis/region";
 
 // 컴포넌트 정의
 export default function ReadingBooks() {
@@ -11,6 +13,15 @@ export default function ReadingBooks() {
 
   const handleClickReading = () => {
     navigate('/reading')
+  }
+
+  useEffect(() => {
+    // 읽고 있는 책 목록 조회
+    getReadingBooks()
+  }, [])
+
+  const getReadingBooks = () => {
+    getReadingBooksAPI()
   }
   
   return (
