@@ -38,7 +38,7 @@ const BookImage = styled.div<Props>`
   }
   &.bannerimg {
     position: relative;
-    top:30px;
+    top:10px;
     left:50px;
   }
   display: flex;

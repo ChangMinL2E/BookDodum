@@ -7,20 +7,21 @@ import styled from "styled-components";
 // <NavBack text="여기다가 넣으면 돼" link="/list"/>
 
 type Props = {
-  text : String;
+  text: String;
   link: String;
-}
+  name?: string;
+};
 
-const NavBack: React.FC<Props> = ({text, link}) => {
+export default function NavBack({ text, link, name }: Props) {
   const navigate = useNavigate();
 
   return (
-    <Container>
+    <Container className={name}>
       <svg
-      onClick={() => {
-        if(link === '-1') navigate(-1)
-        else navigate(`${link}`)        
-      }}
+        onClick={() => {
+          if (link === "-1") navigate(-1);
+          else navigate(`${link}`);
+        }}
         width="64"
         height="64"
         viewBox="0 0 64 64"
@@ -41,17 +42,17 @@ const NavBack: React.FC<Props> = ({text, link}) => {
       <Text>{text}</Text>
     </Container>
   );
-};
-
-export default NavBack;
-
+}
 
 const Container = styled.div`
   width: 100vw;
   height: 64px;
   display: flex;
   align-items: center;
-  background: #F9F9F7;
+  background:#f9f9f7;
+  &.mypage {
+    background-color: #DBD4C3;
+  }
 `;
 
 const Text = styled.div`

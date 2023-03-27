@@ -46,7 +46,7 @@ const Read: React.FC = () => {
       <ReadText>{nickname}님이 다 읽은 책</ReadText>
       <BooksWrap>
         {books?.map((book: Book) => (
-          <BookItem key={book.bookId} onClick={() => navigate('/reading')}>
+          <BookItem key={book.bookId} onClick={() => navigate('/reading/:bookid', { state: { image: book.imageUrl ,title: book.title} })}>
             <BookCover  name={"bookImg"} size={120} imageUrl={book.imageUrl} />
             <ImageAI name={"img"} imageUrl={Select} size={"90px"} />
           </BookItem>
