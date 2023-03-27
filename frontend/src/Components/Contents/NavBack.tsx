@@ -17,14 +17,17 @@ const NavBack: React.FC<Props> = ({text, link}) => {
   return (
     <Container>
       <svg
-      onClick={() => navigate(`${link}`)}
+      onClick={() => {
+        if(link === '-1') navigate(-1)
+        else navigate(`${link}`)        
+      }}
         width="64"
         height="64"
         viewBox="0 0 64 64"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <rect width="64" height="64" fill="white" />
+        <rect width="64" height="64" />
         <path
           d="M30.25 38.5L24 32.25ZM24 32.25L30.25 26ZM24 32.25H39Z"
           fill="white"
@@ -32,9 +35,7 @@ const NavBack: React.FC<Props> = ({text, link}) => {
         <path
           d="M30.25 38.5L24 32.25M24 32.25L30.25 26M24 32.25H39"
           stroke="#5C5649"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
         />
       </svg>
       <Text>{text}</Text>
@@ -50,9 +51,11 @@ const Container = styled.div`
   height: 64px;
   display: flex;
   align-items: center;
+  background: #F9F9F7;
 `;
 
 const Text = styled.div`
   font-size: 16px;
+  font-weight: 500;
   color: #5c5649;
 `;

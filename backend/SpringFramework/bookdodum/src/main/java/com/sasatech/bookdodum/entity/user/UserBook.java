@@ -1,23 +1,32 @@
 package com.sasatech.bookdodum.entity.user;
 
 import com.sasatech.bookdodum.entity.book.Book;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import com.sasatech.bookdodum.entity.book.Review;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@Getter
 @Builder
-@Entity
+@Table(name = "userBook")
+@DynamicInsert
+@DynamicUpdate
 public class UserBook {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String convertedImageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOOK_ID")
