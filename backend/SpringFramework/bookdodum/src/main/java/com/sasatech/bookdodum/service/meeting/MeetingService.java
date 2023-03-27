@@ -109,6 +109,7 @@ public class MeetingService {
             Long commentCnt = (long) commentRepository.findAllByMeeting_Id(meeting.getId()).size();
 
             dtoList.add(MeetingListResponseDto.builder()
+                    .id(meeting.getId())
                     .title(meeting.getTitle())
                     .content(meeting.getContent())
                     .userName(user.getName())
