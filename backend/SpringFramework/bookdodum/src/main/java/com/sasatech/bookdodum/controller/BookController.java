@@ -37,6 +37,11 @@ public class BookController {
         return new ResponseEntity(new ApiResponseDto(true, "listBook Success", bookService.listBook(user.getId(), fin)), HttpStatus.OK);
     }
 
+    
+
+
+
+
     @GetMapping("/")
     @Operation(summary = "내 도서 상세조회")
     public ResponseEntity<?> detailBook(@RequestParam("bookid") Long bookId,
@@ -110,6 +115,14 @@ public class BookController {
         }else{
             return new ResponseEntity(new ApiResponseDto(false, "NotexistBook", null), HttpStatus.OK);
         }
+
+    }
+
+    @GetMapping("/recommand")
+    public ResponseEntity<?> recommandBook(@RequestParam long bookId,
+                                           @AuthenticationPrincipal User user){
+
+        return new ResponseEntity(new ApiResponseDto(true,"recommandBook",bookService.recommandBook(bookId, user.getId())),HttpStatus.OK);
 
     }
 
