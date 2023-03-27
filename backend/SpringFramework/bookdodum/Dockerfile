@@ -12,9 +12,15 @@
 
 FROM gradle:7.6.1-jdk17-alpine as builder
 
-WORKDIR /var/jenkins_home/workspace/S08P22C104/backend/SpringFramework/bookdodum
+ENV APP_HOME=/apps
 
-CMD ["pwd"]
+WORKDIR $APP_HOME
+
+COPY build.gradle settings.gradle gradlew $APP_HOME
+
+COPY gradle $APP_HOME/gradle
+
+RUN chmod +x gradlew
 
 # 빌드 스크립트 실행
 RUN ./gradlew clean build
