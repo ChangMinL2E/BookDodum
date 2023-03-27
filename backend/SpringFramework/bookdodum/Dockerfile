@@ -1,6 +1,6 @@
 # base 이미지 설정
 # FROM openjdk:17-jdk-alpine
-FROM gradle:7.4-jdk17-alpine as builder
+FROM gradle:7.6.1-jdk17-alpine as builder
 
 RUN gradle clean build
 
