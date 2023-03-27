@@ -8,7 +8,6 @@ import LibraryModal from './LibraryModal';
 export default function LibraryList() {
     const ISBN = useParams().ISBN
     const [selectedLib, setSelectedLib] = useState<number>(0) 
-    
 
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     const [libs, setLibs] = useState<LibraryType[]>([])
