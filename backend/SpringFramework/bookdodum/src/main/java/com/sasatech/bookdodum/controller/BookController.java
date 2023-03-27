@@ -118,13 +118,13 @@ public class BookController {
 
     }
 
-    @GetMapping("/recommand")
-    public ResponseEntity<?> recommandBook(@RequestParam long bookId,
-                                           @AuthenticationPrincipal User user){
-
-        return new ResponseEntity(new ApiResponseDto(true,"recommandBook",bookService.recommandBook(bookId, user.getId())),HttpStatus.OK);
-
-    }
+//    @GetMapping("/recommand")
+//    public ResponseEntity<?> recommandBook(@RequestParam long bookId,
+//                                           @AuthenticationPrincipal User user){
+//
+//        return new ResponseEntity(new ApiResponseDto(true,"recommandBook",bookService.recommandBook(bookId, user.getId())),HttpStatus.OK);
+//
+//    }
 
 
     // ====================================== feature/review ===========================================
