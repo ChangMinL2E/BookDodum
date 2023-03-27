@@ -1,7 +1,6 @@
 
 import axios from "axios";
 import { off } from "process";
-import { getGeoLocationAPI } from "./geolocation";
 
 const regions: {[key:string]:number} = {
     '서울' : 11,
@@ -28,22 +27,19 @@ const LIBRARY_API_URL = process.env.REACT_APP_LIBRARY_API_URL
 const LIBRARY_API_KEY = process.env.REACT_APP_LIBRARY_API_KEY
 
 // 현재 좌표를 기준으로 지역코드 불러오기
-export async function getRegionCodeAPI(longitude:string, latitude:string) {
+export async function getRegionCodeAPI(longitude:number, latitude:number) {
   try {
-    // const [latitude, longitude] = getGeoLocationAPI();
-    
-
     const data  = await axios({
       method: "GET",
       url: `https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${longitude}&y=${latitude}&input_coord=WGS84`,
       headers: {
         'Authorization': `KakaoAK ${KAKAO_REST_API_KEY}`,
       }
-    });
+    })
 
     // 지역 이름 - string
     const region:string = data.data.documents[0].address['region_1depth_name']
-    
+
     return regions[region];
   } catch (e) {
     console.log(e);
@@ -51,15 +47,13 @@ export async function getRegionCodeAPI(longitude:string, latitude:string) {
 }
 
 // 내 지역 도서관 인기 대출 도서 목록 조회
-export async function getLibraryBooksAPI() {
+export async function getLibraryBooksAPI(REGION_CODE:number) {
   let tmp:any = []  
   let title : string[] = []
   try {
-      // const REGION_CODE = await getRegionCodeAPI(longitude, latitude)
-
       const data  = await axios({
         method: "GET",
-        url: `http://data4library.kr/api/loanItemSrchByLib?authKey=${LIBRARY_API_KEY}&region=${24}&format=json`,
+        url: `${LIBRARY_API_URL}/loanItemSrchByLib?authKey=${LIBRARY_API_KEY}&region=${REGION_CODE}&format=json`,
       });
 
       for(let book of data.data.response.docs) {
