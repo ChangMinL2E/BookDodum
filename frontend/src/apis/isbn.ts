@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const baseUrl = process.env.REACT_APP_API_URL;
-const token = localStorage.getItem("user")
+const user: any = window.localStorage.getItem("user");
+const token = JSON.parse(user);
 
 // 책 정보 불러오기
 export async function getBookInfoAPI(imgUrl: string) {
