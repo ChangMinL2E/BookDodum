@@ -4,28 +4,21 @@ import sample from "../../Assets/Images/sample.png";
 import styled from "styled-components";
 import ImageAI from "../../Components/Contents/ImageAI";
 import Select from "../../Assets/Images/oilpainting.png";
+import useSelectorTyped from "../../Store";
+
+
 
 const Read: React.FC = () => {
+  const nickname = useSelectorTyped((state) => state.user.name);
   return (
     <Container>
-
-        <ReadText>나혜싀 님이 읽은 책</ReadText>
-        <BooksWrap>
-
+      <ReadText>{nickname} 님이 다 읽은 책</ReadText>
+      <BooksWrap>
         <BookItem>
-          <BookCover name={"bookImg"} size={120} imageUrl={sample} />
+          <BookCover name={"bookImg"}  size={120} imageUrl={sample} />
           <ImageAI name={"img"} imageUrl={Select} size={"90px"} />
         </BookItem>
-        <BookItem>
-          <BookCover name={"bookImg"} size={120} imageUrl={sample} />
-          <ImageAI name={"img"} imageUrl={Select} size={"90px"} />
-        </BookItem>
-        <BookItem>
-          <BookCover name={"bookImg"} size={120} imageUrl={sample} />
-          <ImageAI name={"img"} imageUrl={Select} size={"90px"} />
-        </BookItem>
-        </BooksWrap>
-
+      </BooksWrap>
     </Container>
   );
 };
@@ -47,9 +40,9 @@ const List = styled.div``;
 const BooksWrap = styled.div`
   display: grid;
   width: 95%;
-  margin:auto;
+  margin: auto;
   grid-template-columns: 1fr 1fr;
-`
+`;
 const BookItem = styled.div`
   width: 150px;
   height: 200px;
