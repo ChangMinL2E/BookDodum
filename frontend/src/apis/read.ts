@@ -2,8 +2,9 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL
 
-export async function getReadingBooksAPI() {
-    const token = window.localStorage.getItem('token')
+export async function getReadBooksAPI() {
+    const user: any = window.localStorage.getItem('user')
+    const token = JSON.parse(user)
     
     try {
         const { data } = await axios({
@@ -13,8 +14,8 @@ export async function getReadingBooksAPI() {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(data);
-        return data;
+        console.log(data.responseData);
+        return data.responseData;
       } catch (e) {
         console.log(e);
       }

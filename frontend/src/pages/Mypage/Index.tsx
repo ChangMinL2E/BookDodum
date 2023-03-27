@@ -1,15 +1,16 @@
 import React from "react";
 import Read from "./Read";
 import MypageBanner from "./MypageBanner";
-import Reading from "./Reading";
 import styled from "styled-components";
+import ReadingBooks from "../Home/ReadingBooks";
 
 
 export default function Mypage() {
   return (
     <Container>
       <MypageBanner />
-      <Reading />
+      {/* <ReadingBooks theme={"dark"}/> */}
+      <ReadingBooks/>
       <Read />
     </Container>
   );
