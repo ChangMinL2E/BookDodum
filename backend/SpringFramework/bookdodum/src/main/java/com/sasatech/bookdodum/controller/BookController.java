@@ -37,6 +37,12 @@ public class BookController {
         return new ResponseEntity(new ApiResponseDto(true, "listBook Success", bookService.listBook(user.getId(), fin)), HttpStatus.OK);
     }
 
+//    @GetMapping("/mylist")
+//    @Operation(summary = "내 독서 목록조회")
+//    public ResponseEntity<?> mybookList(
+//                                      @AuthenticationPrincipal User user) {
+//        return new ResponseEntity(new ApiResponseDto(true, "mybookList Success", bookService.mybookList(user.getId())), HttpStatus.OK);
+//    }
     
 
 
@@ -54,6 +60,8 @@ public class BookController {
     public ResponseEntity<?> readIsbn(@RequestParam("path") String path) {
         return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", bookService.readIsbn(path)), HttpStatus.OK);
     }
+
+    //isbn 직접 입력하여 책 조회
 
     @PostMapping("/{bookid}")
     @Operation(summary = "읽는 도서 등록")
