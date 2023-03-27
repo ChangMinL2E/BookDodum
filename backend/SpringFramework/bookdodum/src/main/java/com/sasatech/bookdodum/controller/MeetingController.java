@@ -14,7 +14,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Meet", description = "모임 관련 API")
@@ -30,6 +32,8 @@ public class MeetingController {
     @Operation(summary = "모임 생성")
     public ResponseEntity<?> createMeeting(@RequestBody MeetingRequestDto meetingRequestDto,
                                            @AuthenticationPrincipal User user) {
+
+        System.out.println(meetingRequestDto.getBookId());
 
         if (meetingService.createMeeting(meetingRequestDto, user)) {
             return new ResponseEntity(new ApiResponseDto(true, "createMeeting Success", null), HttpStatus.OK);
@@ -90,7 +94,7 @@ public class MeetingController {
     public ResponseEntity<?> createComment(@RequestBody CommentRequestDto commentRequestDto,
                                            @AuthenticationPrincipal User user) {
 
-        if (meetingService.createComment(commentRequestDto)) {
+        if (meetingService.createComment(commentRequestDto, user)) {
             return new ResponseEntity(new ApiResponseDto(true, "createComment Success", null), HttpStatus.OK);
         } else {
             return new ResponseEntity(new ApiResponseDto(false, "createComment Fail", null), HttpStatus.OK);

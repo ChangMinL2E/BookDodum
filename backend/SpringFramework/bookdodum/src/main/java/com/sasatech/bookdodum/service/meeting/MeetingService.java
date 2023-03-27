@@ -124,9 +124,7 @@ public class MeetingService {
 
 
 
-    public boolean createComment(CommentRequestDto commentRequestDto) {
-        User user = userRepository.findById(1L).orElseThrow();
-
+    public boolean createComment(CommentRequestDto commentRequestDto, User user) {
         Meeting meeting = meetingRepository.findById(commentRequestDto.getMeetingId()).orElseThrow();
 
         try {
@@ -149,10 +147,34 @@ public class MeetingService {
         System.out.println(commentList.size());
         List<CommentListResponseDto> dtoList = new ArrayList<>();
 
+        // 모임의 장 이라면, leader_content 를 가져온다. 그렇지 않으면 null 을 가져온다.
+        // 모임의 장을 찾으려면 meetingId를 통해 찾는다.
+
+        UserMeeting userMeeting = userMeetingRepository.findByMeeting_Id(meetingId);
+        Meeting meeting = meetingRepository.findById(userMeeting.getMeeting().getId()).orElseThrow();
+
+        Long leader_id = userMeeting.getUser().getId();
+
         for (Comment comment : commentList) {
-            dtoList.add(CommentListResponseDto.builder()
-                    .content(comment.getContent())
-                    .build());
+            Long user_id = comment.getUser().getId();
+
+            System.out.println(user_id + ", " + leader_id);
+
+            // 해당 모임 장의 아이디와 Comment를 작성한 유저의 id가 같다면 모임의 장이다.
+            if (user_id == leader_id) {
+                dtoList.add(CommentListResponseDto.builder()
+                        .commentId(comment.getId())
+                        .userId(user_id)
+                        .leader_content(meeting.getContent())
+                        .content(comment.getContent())
+                        .build());
+            } else {
+                dtoList.add(CommentListResponseDto.builder()
+                        .commentId(comment.getId())
+                        .userId(user_id)
+                        .content(comment.getContent())
+                        .build());
+            }
         }
 
         return dtoList;
