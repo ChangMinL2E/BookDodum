@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const baseUrl = process.env.REACT_APP_API_URL;
-const token = localStorage.getItem("user")
+const user: any = localStorage.getItem("user")
+const token = JSON.parse(user)
 
 interface Meeting {
   bookId: number;
@@ -23,7 +24,7 @@ export async function createMeetingAPI(meeting: Meeting) {
       url: `${baseUrl}/meeting`,
       data: meeting,
       headers:{
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
       }
     });
     return data;
@@ -93,6 +94,20 @@ export async function getMeetingJoinAPI() {
 }
 
 // 읽은 책 목록 조회
+export async function getIngBooksAPI() {
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: `${baseUrl}/book/list/false`,
+      headers:{
+        Authorization: `Bearer ${token}`,
+      }
+    });
+    return data.responseData;
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 
 // 모임 참여

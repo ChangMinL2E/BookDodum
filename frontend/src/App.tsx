@@ -38,8 +38,8 @@ function App() {
         <Route path="/write" element={<WriteText />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/survey" element={<Survey />} />
-        <Route path="login" element={<Login />} />
-        <Route path="signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </BrowserRouter>
   );

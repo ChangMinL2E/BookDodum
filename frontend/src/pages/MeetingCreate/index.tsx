@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavBack from "../../Components/Contents/NavBack";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { createMeetingAPI } from "../../apis/meeting";
+import { createMeetingAPI, getIngBooksAPI } from "../../apis/meeting";
 
 interface Meeting {
   bookId: number;
@@ -11,9 +11,23 @@ interface Meeting {
   authority: boolean;
 }
 
+interface Book {
+  bookId: number;
+  imageUrl: string;
+  title: string;
+  publisher: string;
+  category: string[];
+  convertedImageUrl: string | null;
+}
+
+interface BookInfo {
+  bookId: number;
+  title: string;
+}
+
 export default function MeetingCreate() {
-  const bookId = 1;
-  const [bookTitle, setBookTitle] = useState<string[]>(['---도서를 선택해 주세요---'])
+  const [bookInfo, setBookInfo] = useState<BookInfo[]>([]);
+  const [bookId, setBookId] = useState<number>(0);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [authority, setAuthority] = useState<boolean>(true);
@@ -30,19 +44,31 @@ export default function MeetingCreate() {
     authority: authority,
   };
 
-  useEffect(()=> {
+  useEffect(() => {
     getIngBooks();
-  }, [])
+  }, []);
 
+  // 읽고있는 책, 읽은 책 불러오는 api
   const getIngBooks = async () => {
-    // const data = await getIngBooksAPI();
-    // setTitle()
-  }
+    const data = await getIngBooksAPI();
+    let list: BookInfo[] = [];
 
-  const makeMeeting = async (meeting: Meeting) => {
-    await createMeetingAPI(meeting);
+    data.forEach((item: Book) => {
+      list.push({
+        bookId: item.bookId,
+        title: item.title,
+      });
+    });
+    setBookInfo(list);
   };
 
+  // 모임 만드는 api
+  const makeMeeting = async (meeting: Meeting) => {
+    await createMeetingAPI(meeting);
+    goMeeting();
+  };
+
+  // 예, 아니오 변경
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRead(e.target.value);
     if (e.target.value === "예") {
@@ -57,19 +83,22 @@ export default function MeetingCreate() {
     navigate(`/bookmeeting`);
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setBookId(parseInt(value));
+  };
+
   return (
     <Container>
       <NavBack text={"모임 만들기"} link={"/bookmeeting"} />
-
       <Text>도서 선택하기</Text>
-      <Book>
-        {bookTitle.map((title)=>(
-          <option>{title}</option>
+      <Book onChange={handleChange}>
+        <option value="0">--- 도서를 선택해 주세요 ---</option>
+        {bookInfo.map(({ bookId, title }: BookInfo) => (
+          <option value={bookId} key={bookId}>
+            {title}
+          </option>
         ))}
-        {/* <option>- - - 도서를 선택해 주세요 - - -</option>
-        <option>불편한 편의점</option>
-        <option>구의 증명</option>
-        <option>모순</option> */}
       </Book>
 
       <Text>모임 만들기</Text>
@@ -100,7 +129,6 @@ export default function MeetingCreate() {
       </Wrapper>
       <Button
         onClick={() => {
-          goMeeting();
           makeMeeting(meeting);
         }}
       >
