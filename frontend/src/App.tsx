@@ -15,6 +15,8 @@ import MeetingCreate from "./pages/MeetingCreate";
 import MeetingRoom from "./pages/MeetingRoom";
 import Intro from "./pages/Intro";
 import WriteText from "./pages/WriteText";
+import Questions from "./pages/Questions";
+import Survey from "./pages/Survey";
 
 function App() {
   return (
@@ -31,7 +33,9 @@ function App() {
         <Route path="/bookmeeting" element={<Meeting />} />
         <Route path="/bookmeeting/:meetid" element={<MeetingRoom />} />
         <Route path="/meetingcreate" element={<MeetingCreate />} />
-        <Route path="/write/" element={<WriteText />} />
+        <Route path="/write" element={<WriteText />} />
+        <Route path="/questions" element={<Questions />} />
+        <Route path="/survey" element={<Survey />} />
       </Routes>
     </BrowserRouter>
   );
