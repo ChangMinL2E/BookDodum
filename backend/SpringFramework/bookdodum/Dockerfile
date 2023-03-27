@@ -83,7 +83,7 @@
 
 
 # Base image
-FROM adoptopenjdk:17.0.5_10-jdk-hotspot-bionic
+FROM gradle:7.6.1-jdk17-alpine as builder
 
 # Set working directory
 WORKDIR /app
