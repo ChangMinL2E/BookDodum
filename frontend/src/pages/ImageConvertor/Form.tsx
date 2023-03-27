@@ -1,50 +1,67 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import oilpainting from "../../Assets/Images/oilpainting.png";
 import oneline from "../../Assets/Images/oneline.png";
 import styled from "styled-components";
+import { getTextAPI } from "../../apis/translate";
+import { changeImageAPI } from "../../apis/changeImage";
+
 type option = {
   name: string;
   image: string;
 };
 
 const Form: React.FC = () => {
-  const [text, setText] = useState<string>("");
+  const [selectedOption, setSelectedOption] = useState<string>(""); // 그림 옵션 선택
+  const [korean, setKorean] = useState<string>(""); // 번역할 문장
+  const [sentence, setSentence] = useState<string>(""); // 번역된 문장
+  const [result, setResult] = useState<string>(""); // 번역 + 화풍
+  const [image, setImage] = useState(); // 변환된 이미지 url
 
-  const handleTextChnage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value);
-  };
-
-  const handelSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setText("");
-    console.log(text);
-  };
   const options: option[] = [
     {
-      name: "oil painting",
+      name: "oilpainting",
       image: oilpainting,
     },
     {
-      name: "one-line",
+      name: "oneline drawing",
       image: oneline,
     },
   ];
 
-  const [selectedOption, setSelectedOption] = useState<string>("oilpainting");
-  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(event.target.value);
+  // 변환하기 버튼 눌렀을 때 번역 문장 받기
+  const handleSubmit = async () => {
+    const data = await getTextAPI(korean);
+    setSentence(data);
   };
+
+  // 번역 문장 + 화풍 합치기
+  useEffect(() => {
+    if (sentence !== "")
+      setResult(result.concat(sentence, " ", selectedOption));
+  }, [sentence]);
+
+  useEffect(() => {
+    if (result !== "") changeImage(result);
+  }, [result]);
+
+
+  // dall-e-2에 문장 axios
+  const changeImage = async (result: string) => {
+    const imageUrl = await changeImageAPI(result);
+    setImage(imageUrl);
+  };
+
 
   return (
     <Container>
       <Title>여러분의 생각을 그림으로 남겨드립니다.</Title>
-      <form onSubmit={handelSubmit}>
+      <form>
         <Input
           type="text"
-          value={text}
+          value={korean}
           placeholder="책을 읽고 소감을 작성해 보세요.&#13;&#10;
         예시) 들판에 핀 안개 꽃"
-          onChange={handleTextChnage}
+          onChange={(e) => setKorean(e.target.value)}
         />
       </form>
       <Wrapper>
@@ -56,7 +73,7 @@ const Form: React.FC = () => {
                 type="radio"
                 value={option.name}
                 checked={selectedOption === option.name}
-                onChange={handleOptionChange}
+                onChange={(e) => setSelectedOption(e.target.value)}
               />
               <OptionName>{option.name}</OptionName>
             </OptionValue>
@@ -64,7 +81,10 @@ const Form: React.FC = () => {
         ))}
       </Wrapper>
       <ButtonContainer>
-        <Button type="submit">변환하기</Button>
+        <Button type="submit" onClick={handleSubmit}>
+          변환하기
+        </Button>
+        {/* <img src={image} width="80px" height="80px" /> */}
       </ButtonContainer>
     </Container>
   );
