@@ -16,23 +16,9 @@ const Select: React.FC = () => {
 // 이미지 url, text 결과값 props
   return (
     <>
-    <Container>
-      <Images>
-        {images?.map((image, index) => (
-          <img
-            src={image}
-            key={index}
-            alt={`painting/${index}`}
-            width="40px"
-            height="40px"
-            onClick={() => handleImageChange(image)}
-          />
-        ))}
-      </Images>
-        <ImageAI imageUrl={selected} size={'200px'}/>
-    </Container>
+    
         <ButtonContainer>
-        <Button type="submit">이 사진으로 할래요!</Button>
+        <Button type="submit">확인</Button>
       </ButtonContainer>
     </>
   );
