@@ -23,6 +23,7 @@
 # COPY ${JAR_FILE} app.jar
 # ENTRYPOINT ["java","-jar","./app.jar"]
 # Gradle 빌드를 수행할 Docker 이미지를 빌드합니다.
+#
 
 FROM gradle:7.6.1-jdk17-alpine as build
 
