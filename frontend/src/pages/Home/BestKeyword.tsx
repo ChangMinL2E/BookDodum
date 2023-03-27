@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ReactWordcloud from 'react-wordcloud';
 import { getBestKeywordAPI } from '../../apis/bestkeyword';
+import { useInView } from 'react-intersection-observer';
 
 interface KeyWord {
   text: string;
@@ -9,6 +10,7 @@ interface KeyWord {
 }
 
 export default function BestKeyword() {
+  const [ref, inView] = useInView()
   const [keywords, setKeywords] = useState<KeyWord[]>([])
 
   useEffect(() => {
@@ -17,7 +19,7 @@ export default function BestKeyword() {
   }, [])
 
   const options: any = {
-    colors: ["#edb02b", "#3464f7","#258247","#ed2b82","#5a5752","#6830bd",],
+    colors: ["#edb02b", "#3464f7", "#258247", "#ed2b82", "#5a5752", "#6830bd",],
     enableTooltip: true,
     deterministic: false,
     fontFamily: "Inter",
@@ -54,16 +56,15 @@ export default function BestKeyword() {
   return (
     <Container>
       <Contents>
-
-      <Title>
-        지난 달의 베스트 키워드
-        <br />
-        TOP 70
-      </Title>
-      <Desc>월별 대출 급상승 도서의<br/> 책 소개, 서평 등에서 추출된 베스트 키워드!</Desc>
-      <WordCloud>
-        <ReactWordcloud words={keywords} options={options} />
-      </WordCloud>
+        <Title ref={ref} className={inView ? 'title' : ''}>
+          지난 달의 베스트 키워드
+          <br />
+          TOP 70
+        </Title>
+        <Desc>월별 대출 급상승 도서의<br /> 책 소개, 서평 등에서 추출된 베스트 키워드!</Desc>
+        <WordCloud>
+          <ReactWordcloud words={keywords} options={options} />
+        </WordCloud>
       </Contents>
     </Container>
   );
@@ -83,7 +84,6 @@ const Container = styled.div`
 
 const Contents = styled.div`
   width: 95%;
-  border : 2px solid red;
 `
 
 const Title = styled.div`
@@ -92,6 +92,20 @@ const Title = styled.div`
   text-align: center;
   margin: 3% 0; 
   text-shadow: 0px 3px 3px #00000040;
+  &.title {
+    animation: fadeIn 2s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity:3;
+      transform: none;
+    }   
+  }
 `;
 
 const Desc = styled.div`

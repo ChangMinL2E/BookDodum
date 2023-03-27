@@ -3,13 +3,6 @@ import styled from "styled-components";
 import sample from "../../Assets/Images/sample.png";
 import Book from "../../Components/Contents/Book";
 
-// 타입선언
-// type book = {
-//   imageUrl : String;
-//   title : String;
-//   categories : String[];
-//   company : String;
-// }
 
 // 컴포넌트 정의
 export default function BookList() {
@@ -33,25 +26,8 @@ export default function BookList() {
           imageUrl: sample,
           title: "불편한 편의점",
           categories: [],
-          company: "나무 옆 의자"
-        }} />
-        <Book book={{
-          imageUrl: sample,
-          title: "불편한 편의점",
-          categories: [],
-          company: "나무 옆 의자"
-        }} />
-        <Book book={{
-          imageUrl: sample,
-          title: "불편한 편의점",
-          categories: [],
-          company: "나무 옆 의자"
-        }} />
-        <Book book={{
-          imageUrl: sample,
-          title: "불편한 편의점",
-          categories: [],
-          company: "나무 옆 의자"
+          publisher: "나무 옆 의자",
+          ISBN : 0,
         }} />
       </List>
     </Container>
