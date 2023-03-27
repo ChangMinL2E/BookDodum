@@ -14,6 +14,8 @@ FROM gradle:7.6.1-jdk17-alpine as builder
 
 WORKDIR /var/jenkins_home/workspace/S08P22C104/backend/SpringFramework/bookdodum
 
+RUN ls
+
 # 빌드 스크립트 실행
 RUN ./gradlew clean build
 
