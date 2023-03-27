@@ -3,7 +3,8 @@
 # FROM gradle:7.6.1-jdk17-alpine as builder
 FROM gradle:7.6.1-jdk11-alpine
 
-RUN gradle clean build
+# RUN gradle clean build
+RUN ./gradlew clean build
 
 # jar 파일 위치를 변수로 설정
 ARG JAR_FILE=build/*.jar
