@@ -8,14 +8,16 @@ import { useNavigate } from "react-router-dom";
 // 컴포넌트 정의
 export default function ReadingBooks() {
   const navigate = useNavigate();
+
+  const handleClickReading = () => {
+    navigate('/reading')
+  }
   
   return (
     <Container>
       <Title>나혜승님이 읽고 있는 책</Title>
       <List>
         <AddBtn onClick={() => navigate('/isbn')}><PlusIcon width="40px" strokeWidth="0.7px" color="#5c5649"/></AddBtn>
-        <BookCover imageUrl={sample} size={120} />
-        <BookCover imageUrl={sample} size={120} />
         <BookCover imageUrl={sample} size={120} />
       </List>
     </Container>

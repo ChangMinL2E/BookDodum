@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import sample from '../../Assets/Images/sample.png'
-
+import { LibraryBook } from '../../Store/Types'
+import { useInView } from "react-intersection-observer";
 // import Components
-import Book from "../../Components/Contents/Book";
 
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,57 +10,81 @@ import "swiper/css";
 import "swiper/css/effect-coverflow";
 import { EffectCoverflow } from "swiper";
 import BookCover from "../../Components/Contents/BookCover";
+import { getLibraryBooksAPI } from "../../apis/region";
 
-// Type
-type Props = {
-  // 도서관 추천 리스트
-};
+
 
 // Component
-const LibraryBooks: React.FC<Props> = ({}) => {
+export default function LibraryBooks() {
+  const [ref, inView] = useInView();
+  const [books, setBooks] = useState<LibraryBook[]>();
+
+  useEffect(() => {
+    // 현재 지역 도서관 인기도서 불러오기
+    // getLibraryBooks()
+  }, [])
+
+  const getLibraryBooks = async () => {
+    const data = await getLibraryBooksAPI()
+
+    let tmp: LibraryBook[] = []
+    data.forEach((book: any) => {
+      tmp.push({
+        imageUrl: book.bookImageURL,
+        ISBN: book.isbn13,
+        ranking: book.ranking,
+      })
+    })
+    setBooks(tmp)
+  }
+
   return (
     <Container>
-      <Title>
-        가장 가까운 도서관의
+      <Title ref={ref} className={inView ? 'title' : ''}>
+        유나님이 계신 지역의
         <br />
         인기 대출 도서
       </Title>
-      <Desc>"광주북구운암도서관"의 인기 도서를 만나보세요!</Desc>
+      <Desc>{ } 지역의 인기 도서를 만나보세요!</Desc>
       <SwiperWrap>
-      <Swiper
-        effect={"coverflow"}
-        grabCursor={true}
-        centeredSlides={true}
-        slidesPerView={2}
-        coverflowEffect={{
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-        }}
-        modules={[EffectCoverflow]}
+        <Swiper
+          effect={"coverflow"}
+          grabCursor={true}
+          centeredSlides={true}
+          slidesPerView={2}
+          coverflowEffect={{
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+          }}
+          modules={[EffectCoverflow]}
         >
-        <SwiperSlide>
-          <BookCover imageUrl={sample} size={170}/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <BookCover imageUrl={sample} size={170}/>
-        </SwiperSlide>
-        <SwiperSlide>
-          <BookCover imageUrl={sample} size={170}/>
-        </SwiperSlide>
-      </Swiper>
-        </SwiperWrap>
+          <>{
+
+            books?.map((book, idx) => {
+              return (
+                <SwiperSlide key={book.ISBN} style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                  <BookCover imageUrl={book.imageUrl} size={170} />
+                  <Ranking>
+                    {idx + 1}위
+                  </Ranking>
+                </SwiperSlide>
+              )
+            })
+          }
+          </>
+        </Swiper>
+      </SwiperWrap>
     </Container>
   );
 };
 
-export default LibraryBooks;
 
 // Styled Components
 const Container = styled.div`
   width : 100%;
-  height: 550px;
+  height: 600px;
   background-color: #F9F9F7;
   display: flex;
   flex-direction: column;
@@ -74,6 +97,20 @@ const Title = styled.div`
   text-align: center;
   margin: 3% 0; 
   text-shadow: 0px 3px 3px #00000040;
+  &.title {
+    animation: fadeIn 2s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity:3;
+      transform: none;
+    }   
+  }
 `;
 
 const Desc = styled.div`
@@ -85,5 +122,16 @@ const Desc = styled.div`
 `;
 
 const SwiperWrap = styled.div`
-  margin-top: 15%;
+  margin-top: 12%;
+`
+
+const Ranking = styled.div`
+  border: 2px solid #edc200;
+  color: #edc200;
+  border-radius: 20px;
+  display: flex;
+  width: 50px;
+  margin: auto;
+  margin-top: 10%;
+  justify-content: center;
 `

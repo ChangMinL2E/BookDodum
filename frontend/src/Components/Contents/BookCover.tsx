@@ -8,16 +8,23 @@ interface Props {
   name?: string;
 }
 
-export default function BookCover({imageUrl, size, name}: Props) {
-    return (
-      <Container>
-        <BookImage className={name} size={size} imageUrl={imageUrl}/>            
-      </Container>
-    );
+
+export default function BookCover({ imageUrl, size, name }: Props) {
+  return (
+    <Container>
+      {imageUrl === '' ?
+        <BookImage className={name} size={size} imageUrl={''}><div>
+          No image
+        </div>
+        </BookImage> :
+        <BookImage className={name} size={size} imageUrl={imageUrl} />
+      }
+    </Container>
+  );
 }
 
 const Container = styled.div`
-    margin: 0 5% 0 0;
+    margin: 0 3% 0 3%;
 `
 const BookImage = styled.div<Props>`
   width: ${(props: Props) => `${props.size}px`};
@@ -34,4 +41,7 @@ const BookImage = styled.div<Props>`
     top:30px;
     left:50px;
   }
+  display: flex;
+  justify-content: center;
+  align-items : center;
 `;
