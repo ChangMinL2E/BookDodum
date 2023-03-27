@@ -1,12 +1,15 @@
 package com.sasatech.bookdodum.controller;
 
 
+import com.sasatech.bookdodum.dto.request.book.BookRequestDto;
+import com.sasatech.bookdodum.dto.request.book.PapagoRequestDto;
 import com.sasatech.bookdodum.dto.request.book.BookConvertRequestDto;
 import com.sasatech.bookdodum.dto.request.book.ReviewRequestDto;
 import com.sasatech.bookdodum.dto.resposne.api.ApiResponseDto;
 import com.sasatech.bookdodum.entity.user.User;
 import com.sasatech.bookdodum.service.book.BookService;
 import com.sasatech.bookdodum.service.book.ReviewService;
+import com.sasatech.bookdodum.service.book.TranslationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 
 @Tag(name = "Book", description = "도서 관련 API")
@@ -96,6 +101,18 @@ public class BookController {
         }
     }
 
+    @GetMapping("/search")
+    @Operation(summary = "도서관 isbn 도서정보")
+    public ResponseEntity<?> searchBook(@RequestParam String isbn
+                                        ){
+        if(bookService.searchBook(isbn)){
+            return new ResponseEntity(new ApiResponseDto(true, "searchBook Success", bookService.infoBook(isbn)), HttpStatus.OK);
+        }else{
+            return new ResponseEntity(new ApiResponseDto(false, "NotexistBook", null), HttpStatus.OK);
+        }
+
+    }
+
 
     // ====================================== feature/review ===========================================
 
@@ -109,6 +126,13 @@ public class BookController {
         } else {
             return new ResponseEntity(new ApiResponseDto(false, "createReview Fail", null), HttpStatus.OK);
         }
+    }
+
+    @PostMapping("/papago")
+    public String getEnglish(@RequestBody PapagoRequestDto papagoRequestDto) throws IOException {
+        String Eng = TranslationService.getEnglish(papagoRequestDto.getKorean());
+
+        return Eng;
     }
 
 
@@ -128,6 +152,8 @@ public class BookController {
             return new ResponseEntity(new ApiResponseDto(false, "deleteReview Fail", null), HttpStatus.OK);
         }
     }
+
+
 
 }
 

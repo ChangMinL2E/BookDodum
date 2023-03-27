@@ -13,7 +13,7 @@ const Select: React.FC = () => {
     setSelected(image);
   };
 
-
+// 이미지 url, text 결과값 props
   return (
     <>
     <Container>
@@ -53,10 +53,10 @@ const Images = styled.div`
   
 `
 
-const Image = styled.div`
-  width: 200px;
-  height: 200px;
-`
+// const Image = styled.div`
+//   width: 200px;
+//   height: 200px;
+// `
 
 const ButtonContainer = styled.div`
   display: flex;

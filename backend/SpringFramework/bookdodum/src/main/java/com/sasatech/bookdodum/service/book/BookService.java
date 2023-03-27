@@ -35,6 +35,7 @@ public class BookService {
     private final UserBookQdslRepositoryImpl userBookQdslRepositoryImpl;
 
 
+
     public boolean addBook(Long bookId, Long userId) {
         Book book = bookRepository.findById(bookId).orElseThrow();
         User user = userRepository.findById(userId).orElseThrow();
@@ -229,6 +230,33 @@ public class BookService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean searchBook(String isbn) {
+        if(bookRepository.existsByIsbn(isbn)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    //도서관에서 책 isbn 넘어오면 책 정보 return
+    public BookResponseDto infoBook(String isbn) {
+        Book infoBook = bookRepository.findByIsbn(isbn);
+
+        return BookResponseDto.builder()
+                .id(infoBook.getId())
+                .title(infoBook.getTitle())
+                .author(infoBook.getAuthor())
+                .publisher(infoBook.getPublisher())
+                .imageUrl(infoBook.getImageUrl())
+                .isbn(infoBook.getIsbn())
+                .siteUrl(infoBook.getSiteUrl())
+                .content(infoBook.getContent())
+                .category(infoBook.getCategory())
+                .build();
+
+
     }
 }
 
