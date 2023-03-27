@@ -37,24 +37,25 @@ public class MeetingService {
             Book book = bookRepository.findById(meetingRequestDto.getBookId()).orElseThrow();
 
             // 지금 미팅을 만드려는 유저의 미팅을 찾는다.
-            UserMeeting userMeeting = userMeetingRepository.findByUser_Id(user.getId());
+            List<UserMeeting> userMeetingList = userMeetingRepository.findAllByUser_Id(user.getId());
 
             // 미팅이 존재한다면..
-            if (userMeeting != null) {
-                Meeting meet = meetingRepository.findById(userMeeting.getMeeting().getId()).orElseThrow();
+            if (userMeetingList != null) {
 
-                // 그 미팅의 주제가 되는 책(Book)을 찾는다.
-                Book meetBook = meet.getBook();
+                for (UserMeeting userMeeting : userMeetingList) {
+                    Meeting meet = meetingRepository.findById(userMeeting.getMeeting().getId()).orElseThrow();
 
-                System.out.println(book.getId() + ", " + meetBook.getId());
+                    // 그 미팅의 주제가 되는 책(Book)을 찾는다.
+                    Book meetBook = meet.getBook();
 
-                // 해당 모임의 책과 지금 만드려는 모임의 책이 같다면 return false
-                if (book.getId() == meetBook.getId()) {
-                    return false;
+                    // 해당 모임의 책과 지금 만드려는 모임의 책이 같다면 return false
+                    if (book.getId() == meetBook.getId()) {
+                        return false;
+                    }
                 }
             }
 
-            // 미팅 생성
+            // validation 후에 미팅 생성
             Meeting meeting = meetingRepository.save(Meeting.builder()
                     .title(meetingRequestDto.getTitle())
                     .content(meetingRequestDto.getContent())
