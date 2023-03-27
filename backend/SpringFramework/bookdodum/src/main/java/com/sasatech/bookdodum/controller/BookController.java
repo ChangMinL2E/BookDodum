@@ -121,6 +121,7 @@ public class BookController {
         String Eng = TranslationService.getEnglish(papagoRequestDto.getKorean());
 
         return Eng;
+    }
 
 
     @GetMapping("/review")
