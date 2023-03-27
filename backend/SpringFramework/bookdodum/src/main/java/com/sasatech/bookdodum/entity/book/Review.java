@@ -23,14 +23,14 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(nullable = false)
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     User user;
 
-    @OneToOne
-    @JoinColumn(name = "userBook_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userBook_id", nullable = false)
     UserBook userBook;
 }

@@ -5,13 +5,14 @@ import sample from '../../Assets/Images/sample.png';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {
-    bookId: number;
+    ISBN: number;
     modalOpen: boolean;
     closeModal: () => void;
 }
 
 export default function DetailModal(props: Props) {
     const navigate = useNavigate();
+    const ISBN = 9791168473690
     
     useEffect(() => {
         // 도서 상세 조회 api
@@ -44,7 +45,7 @@ export default function DetailModal(props: Props) {
                         <Content>나무 옆 의자</Content>
                         <Title>소개</Title>
                         <Content>새로 온 알바는 커다란 덩치와 부담스러운 행동이 누군가를 연상시키는 40대 사내. 그는 인간 알바몬이라도 되는 양 화려한 알바 경력을 자랑하지만 정작 편의점 일은 어수룩하기만 하다. 게다가 수다쟁이에 오지랖은 못 말릴 지경이어서 점장 선숙에게 핀잔을 뜯기 일쑤다. 그러거나 말거나 그는 황근배라는 이름 대신 홍금보라는 별명이 적힌 명찰을 가슴에 달고 마냥 느긋하게 손님들을 맞으며 편의점의 밤을 지켜 나간다.</Content>
-                        <Link onClick={() => navigate('/library')}>도서관 정보 확인하기</Link>
+                        <Link onClick={() => navigate(`/library/${ISBN}`)}>도서관 정보 확인하기</Link>
                     </Contents>
                 </ModalBottom>
             </Modal>

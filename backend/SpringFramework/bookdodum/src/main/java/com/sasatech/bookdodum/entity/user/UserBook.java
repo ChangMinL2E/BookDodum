@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -25,6 +26,8 @@ public class UserBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String convertedImageUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOOK_ID")
     private Book book;
@@ -32,9 +35,6 @@ public class UserBook {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
-
-    @OneToOne(mappedBy = "userBook")
-    private Review review;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)

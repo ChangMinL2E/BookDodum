@@ -28,7 +28,7 @@ export default function BookCard({ book }: Props) {
 
   return (
     <Container>
-      <DetailModal bookId={0} closeModal={closeModal} modalOpen={modalOpen} />
+      <DetailModal ISBN={0} closeModal={closeModal} modalOpen={modalOpen} />
       <BookCover imageUrl={sample} size={130} />
       <Contents onClick={openModal}>
         <BookTitle >{book?.title}</BookTitle>
@@ -37,7 +37,7 @@ export default function BookCard({ book }: Props) {
             국내도서</Category>
           <Category>소설/시/희곡</Category>
         </Categories>
-        <Company>{book?.company}</Company>
+        <Company>{book?.publisher}</Company>
       </Contents>
     </Container>
   );

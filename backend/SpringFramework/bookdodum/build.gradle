@@ -32,6 +32,10 @@ dependencies {
 	implementation group: 'com.google.zxing', name: 'javase', version: '3.5.1'
 	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -48,6 +52,12 @@ dependencies {
 			"javax.persistence:javax.persistence-api",
 			"javax.annotation:javax.annotation-api",
 			"com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
+
+	bootRun {
+		systemProperty 'server.servlet.encoding.force-response', 'true'
+	}
+
+
 }
 
 tasks.named('test') {

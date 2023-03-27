@@ -56,7 +56,7 @@ export default Nav;
 
 // Styled Components
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 64px;
   background-color: rgba(249, 249, 247, 0.7);
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
@@ -70,9 +70,11 @@ const Contents = styled.div`
   align-items: center;
 `;
 
-const Hamburgur = styled.div``;
+const Hamburgur = styled.div`
+opacity: 1`;
 
 const Image = styled.img`
   height: 31px;
   width: 57px;
+  opacity: 1;
 `;
