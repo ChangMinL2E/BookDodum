@@ -17,6 +17,8 @@ import Intro from "./pages/Intro";
 import WriteText from "./pages/WriteText";
 import Questions from "./pages/Questions";
 import Survey from "./pages/Survey";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup/Index";
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
         <Route path="/write" element={<WriteText />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/survey" element={<Survey />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
       </Routes>
     </BrowserRouter>
   );
