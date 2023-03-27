@@ -10,14 +10,18 @@
 # COPY ${JAR_FILE} app.jar
 # ENTRYPOINT ["java","-jar","./app.jar"]
 
-
 FROM gradle:7.6.1-jdk17-alpine as builder
+
+WORKDIR /app
 
 # 변수 설정
 ARG JAR_FILE=build/libs/*.jar
 
+# 빌드 스크립트 실행
+RUN ./gradlew clean build
+
 # 빌드파일을 컨테이너로 복사
-COPY ${JAR_FILE} app.jar
+COPY build/libs/*.jar /app/app.jar
 
 # jar 파일 실행
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
