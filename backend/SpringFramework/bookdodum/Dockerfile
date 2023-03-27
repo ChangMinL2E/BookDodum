@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-alpine
+FROM gradle:7.6.1-jdk17-alpine as builder
 
 WORKDIR /var/jenkins_home/workspace/S08P22C104/backend/SpringFramework/bookdodum
 
