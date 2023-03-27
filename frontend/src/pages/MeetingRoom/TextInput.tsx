@@ -1,16 +1,26 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { postMeetingCommentAPI } from "../../apis/meeting";
+
+interface Comment {
+  meetingId: number;
+  content: string;
+}
 
 export default function TextInput() {
   const [text, setText] = useState<string>("");
+  const comment: Comment = {
+    meetingId: 2,
+    content: text,
+  };
 
-  const handleSubmit = () => {
-    setText("");
+  const postMeetingComment = async () => {
+    await postMeetingCommentAPI(comment);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      handleSubmit();
+      postMeetingComment();
     }
   };
 
