@@ -5,12 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class ReviewRequestDto {
+@AllArgsConstructor
+public class BookConvertRequestDto {
     private Long bookId;
-    private String content;
+    private String convertedImageUrl;
 }

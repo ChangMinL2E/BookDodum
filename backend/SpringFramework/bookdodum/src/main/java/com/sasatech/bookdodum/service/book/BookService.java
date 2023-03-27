@@ -4,17 +4,16 @@ import com.google.zxing.*;
 
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
+import com.sasatech.bookdodum.dto.request.book.BookConvertRequestDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookDetailResponseDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookListResponseDto;
 import com.sasatech.bookdodum.dto.resposne.book.BookResponseDto;
+import com.sasatech.bookdodum.dto.resposne.user.UserResponseDto;
 import com.sasatech.bookdodum.entity.book.Book;
 import com.sasatech.bookdodum.entity.book.Category;
 import com.sasatech.bookdodum.entity.user.User;
 import com.sasatech.bookdodum.entity.user.UserBook;
-import com.sasatech.bookdodum.repository.CategoryRepository;
-import com.sasatech.bookdodum.repository.BookRepository;
-import com.sasatech.bookdodum.repository.UserBookRepository;
-import com.sasatech.bookdodum.repository.UserRepository;
+import com.sasatech.bookdodum.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,11 +32,17 @@ public class BookService {
     private final UserBookRepository userBookRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final UserBookQdslRepositoryImpl userBookQdslRepositoryImpl;
 
 
     public boolean addBook(Long bookId, Long userId) {
         Book book = bookRepository.findById(bookId).orElseThrow();
         User user = userRepository.findById(userId).orElseThrow();
+
+        // 이미 등록한 책이 있다면?
+        if (userBookRepository.findByBook_IdAndUser_Id(bookId, userId) != null) {
+            return false;
+        }
 
         userBookRepository.save(UserBook.builder()
                 .book(book)
@@ -49,10 +54,9 @@ public class BookService {
     }
 
 
-    public List<BookListResponseDto> listBook(Long userId) {
+    public List<BookListResponseDto> listBook(Long userId, boolean fin) {
         List<BookListResponseDto> list = new ArrayList<>();
-
-        List<UserBook> listUserBook = userBookRepository.findAllByUser_Id(userId);
+        List<UserBook> listUserBook = userBookQdslRepositoryImpl.findUserBook(userId, fin);
 
         for (UserBook userBook : listUserBook) {
             Long bookId = userBook.getId();
@@ -64,26 +68,14 @@ public class BookService {
                 categories.add(category.getKind());
             }
 
-            String startTime = userBook.getStartTime().toString();
-            String endTime = userBook.getEndTime().toString();
-            boolean fin = true;
-
-            // 아직 읽는 중인 책
-            if (startTime.equals(endTime)) {
-                fin = false;
-            }
-
-
             list.add(BookListResponseDto.builder()
                     .bookId(myBook.getId())
                     .imageUrl(myBook.getImageUrl())
                     .title(myBook.getTitle())
                     .publisher(myBook.getPublisher())
                     .category(categories)
-                    .fin(fin)
                     .build());
         }
-
 
         return list;
     }
@@ -145,21 +137,39 @@ public class BookService {
 
     public boolean deleteBook(Long bookId, Long userId) {
         // userId 와 bookId를 FK로 가진 userBook row 삭제
-        return userBookRepository.deleteByBook_IdAndUser_Id(bookId, userId);
+        try {
+            userBookRepository.deleteByBook_IdAndUser_Id(bookId, userId);
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 
-    public void finishBook(Long bookId, Long userId) {
-        // 다 읽은 책의 id를 통해 userBook 을 찾는다.
-        UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookId, userId);
+    public boolean finishBook(Long bookId, Long userId) {
 
-        // endTime 을 제외하고 Update
-        userBookRepository.save(UserBook.builder()
-                .id(userBook.getId())
-                .book(userBook.getBook())
-                .user(userBook.getUser())
-                .startTime(userBook.getStartTime())
-                .build());
+        try {
+            // 다 읽은 책의 id를 통해 userBook 을 찾는다.
+            UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookId, userId);
+
+            Date date = new Date();
+
+            // endTime 을 제외하고 Update
+            userBookRepository.save(UserBook.builder()
+                    .id(userBook.getId())
+                    .book(userBook.getBook())
+                    .user(userBook.getUser())
+                    .startTime(userBook.getStartTime())
+                    .endTime(date)
+                    .build());
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public BookDetailResponseDto detailBook(Long bookId, Long userId) {
@@ -173,6 +183,52 @@ public class BookService {
                 .publisher(book.getPublisher())
                 .content(book.getContent())
                 .build();
+    }
+
+    public List<UserResponseDto> listReadWith(Long bookId, Long userId) {
+
+        // userBook 테이블에서 아직 책을 읽고있는 (endTime 과 startTime 이 다른..),
+        // 나의 bookId 와 같은 row들을 구하자.
+        // 그 row 에서 userId만 뽑아서 return 하셈 ㅋㅋ
+        List<UserBook> list = userBookQdslRepositoryImpl.findUserByReadWith(bookId, userId);
+        List<UserResponseDto> dtoList = new ArrayList<>();
+
+        for (UserBook userBook : list) {
+            Long readWithUserId = userBook.getUser().getId();
+            User readWithUser = userRepository.findById(readWithUserId).orElseThrow();
+
+            // 내 아이디를 제외하고 가져오기
+            if (readWithUser.getId() != userId) {
+                dtoList.add(UserResponseDto.builder()
+                        .name(readWithUser.getName())
+                        .build());
+            }
+        }
+
+        return dtoList;
+    }
+
+    public boolean convertBook(BookConvertRequestDto bookConvertRequestDto, Long userId) {
+        // userBook 에 convertedImageUrl 를 update
+        try {
+            UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookConvertRequestDto.getBookId(), userId);
+
+            String path = bookConvertRequestDto.getConvertedImageUrl();
+
+            userBookRepository.save(UserBook.builder()
+                    .id(userBook.getId())
+                    .startTime(userBook.getStartTime())
+                    .endTime(userBook.getEndTime())
+                    .book(userBook.getBook())
+                    .user(userBook.getUser())
+                    .convertedImageUrl(path)
+                    .build());
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
 

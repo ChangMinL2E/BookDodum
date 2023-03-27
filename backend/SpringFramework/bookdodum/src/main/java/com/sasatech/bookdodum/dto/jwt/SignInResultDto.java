@@ -6,13 +6,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Builder
 public class SignInResultDto extends SignUpResultDto{
 
     private String token;
+    private String userid;
+    private String name;
 
-    @Builder
-    public SignInResultDto(boolean success, int code, String msg, String token){
-        super(success, code, msg);
-        this.token = token;
-    }
+
+
 }

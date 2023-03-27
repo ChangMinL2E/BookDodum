@@ -19,15 +19,24 @@ public class MeetingScrollQdslRepositoryImpl implements MeetingScrollQdslReposit
     }
 
     @Override
-    public List<Meeting> findNoOffsetMeetingPaging(Pageable pageable, Long idx) {
+    public List<Meeting> findNoOffsetMeetingPaging(Pageable pageable, Long idx, Long bookId) {
         QMeeting meeting = QMeeting.meeting;
 
-        return jpaQueryFactory.selectFrom(meeting)
-                .where(meeting.id.lt(idx))
-                .orderBy(meeting.id.desc())
-                .limit(pageable.getPageSize())
-                .fetch()
-                ;
+        if (bookId == -1) {
+            return jpaQueryFactory.selectFrom(meeting)
+                    .where(meeting.id.lt(idx))
+                    .orderBy(meeting.id.desc())
+                    .limit(pageable.getPageSize())
+                    .fetch()
+                    ;
+        } else {
+            return jpaQueryFactory.selectFrom(meeting)
+                    .where(meeting.id.lt(idx), meeting.book.id.eq(bookId))
+                    .orderBy(meeting.id.desc())
+                    .limit(pageable.getPageSize())
+                    .fetch()
+                    ;
+        }
     }
 
     @Override

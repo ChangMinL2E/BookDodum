@@ -27,20 +27,18 @@ public class Book {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
     private String author;
 
-    @Column(nullable = false)
     private String publisher;
 
     @Column(nullable = false)
     private String imageUrl;
 
-    @Column(nullable = false)
     private String isbn;
 
     private String siteUrl;
 
+    @Column(length = 6300)
     private String content;
 
     private String category;

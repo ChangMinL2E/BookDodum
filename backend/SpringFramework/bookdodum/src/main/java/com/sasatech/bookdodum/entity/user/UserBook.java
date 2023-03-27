@@ -26,6 +26,8 @@ public class UserBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String convertedImageUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOOK_ID")
     private Book book;
@@ -33,9 +35,6 @@ public class UserBook {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
-
-    @OneToOne(mappedBy = "userBook")
-    private Review review;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
