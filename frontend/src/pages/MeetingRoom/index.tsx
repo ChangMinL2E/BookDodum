@@ -1,14 +1,15 @@
 import React from 'react';
+import { useParams } from 'react-router';
 import List from './List';
 import TextInput from './TextInput';
 
 export default function MeetingRoom() {
-  const title = "구의 증명을 읽고난 후,"
+  const id: number = Number(useParams().meetid);
 
   return (
     <>
-      <List title={title} />
-      <TextInput />
+      <List />
+      <TextInput id={id}/>
     </>
   );
 }

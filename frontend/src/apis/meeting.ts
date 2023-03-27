@@ -51,7 +51,7 @@ export async function postMeetingCommentAPI(comment: Comment) {
   try {
     const { data } = await axios({
       method: "POST",
-      url: `${baseUrl}/meegitting/comment`,
+      url: `${baseUrl}/meeting/comment`,
       data: comment,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -71,7 +71,7 @@ export async function getMeetingCommentAPI(id: number) {
       url: `${baseUrl}/meeting/comment`,
       params: { id },
     });
-    return data;
+    return data.responseData;
   } catch (e) {
     console.log(e);
   }

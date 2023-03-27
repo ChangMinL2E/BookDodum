@@ -8,6 +8,7 @@ interface Props {
   imageUrl?: string;
   title?: string;
   userName?: string;
+  id?: number;
 }
 
 export default function MeetingCover(meeting: Props) {
@@ -17,7 +18,9 @@ export default function MeetingCover(meeting: Props) {
     <GroupImage
       imageUrl={meeting.imageUrl}
       onClick={() => {
-        navigate(`/bookmeeting/1`);
+        navigate(`/bookmeeting/${meeting.id}`, {
+          state: { title: meeting.title },
+        });
       }}
     >
       <WhiteDiv>

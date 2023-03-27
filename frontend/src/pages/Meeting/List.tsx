@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ListCard from "./ListCard";
-import sample from "../../Assets/Images/sample.png";
-import profile from "../../Assets/Images/oneline.png";
 import Button from "./Button";
 import { getMeetingJoinAPI } from "../../apis/meeting";
 
@@ -12,6 +10,7 @@ interface BookMeeting {
   imageUrl: string;
   title: string;
   userName: string;
+  id: number;
 }
 
 export default function List() {
@@ -27,6 +26,7 @@ export default function List() {
         imageUrl: item.imageUrl,
         title: item.title,
         userName: item.userName,
+        id: item.id
       });
     });
     setBookMeetings(list);

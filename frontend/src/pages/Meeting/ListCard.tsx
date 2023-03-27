@@ -10,6 +10,7 @@ interface Props {
   imageUrl?: string;
   title?: string;
   userName?: string;
+  id?: number;
 }
 
 export default function ListCard(meeting: Props) {
@@ -18,7 +19,9 @@ export default function ListCard(meeting: Props) {
   return (
     <Div
       onClick={() => {
-        navigate(`/bookmeeting/1`);
+        navigate(`/bookmeeting/${meeting.id}`, {
+          state: { title: meeting.title },
+        });
       }}
     >
       <Container>

@@ -7,15 +7,21 @@ interface Comment {
   content: string;
 }
 
-export default function TextInput() {
+interface Props {
+  id: number;
+}
+
+export default function TextInput(id: Props) {
   const [text, setText] = useState<string>("");
+
   const comment: Comment = {
-    meetingId: 2,
+    meetingId: id.id,
     content: text,
   };
 
   const postMeetingComment = async () => {
     await postMeetingCommentAPI(comment);
+    alert("등록되었습니다.");
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
