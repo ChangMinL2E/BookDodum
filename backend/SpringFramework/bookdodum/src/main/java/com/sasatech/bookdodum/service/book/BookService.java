@@ -60,7 +60,7 @@ public class BookService {
         List<UserBook> listUserBook = userBookQdslRepositoryImpl.findUserBook(userId, fin);
 
         for (UserBook userBook : listUserBook) {
-            Long bookId = userBook.getId();
+            Long bookId = userBook.getBook().getId();
             Book myBook = bookRepository.findById(bookId).orElseThrow();
 
             List<Category> categoryList = categoryRepository.findAllByBook_Id(myBook.getId());
