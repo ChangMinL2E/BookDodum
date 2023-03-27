@@ -4,6 +4,8 @@ import oneline from "../../Assets/Images/oneline.png";
 import styled from "styled-components";
 import { getTextAPI } from "../../apis/translate";
 import { changeImageAPI } from "../../apis/changeImage";
+import ImageAI from "../../Components/Contents/ImageAI";
+
 
 type option = {
   name: string;
@@ -38,10 +40,12 @@ const Form: React.FC = () => {
   useEffect(() => {
     if (sentence !== "")
       setResult(result.concat(sentence, " ", selectedOption));
+      console.log('❤')
   }, [sentence]);
 
   useEffect(() => {
     if (result !== "") changeImage(result);
+    console.log("🧡")
   }, [result]);
 
 
@@ -84,8 +88,11 @@ const Form: React.FC = () => {
         <Button type="submit" onClick={handleSubmit}>
           변환하기
         </Button>
-        {/* <img src={image} width="80px" height="80px" /> */}
+     
       </ButtonContainer>
+      <SelectImageContainer>
+      </SelectImageContainer>
+      <ImageAI imageUrl="image" size="280" />
     </Container>
   );
 };
@@ -139,4 +146,8 @@ const Button = styled.button`
   width: 80px;
   color: #5c5649;
 `;
+
+const SelectImageContainer = styled.div`
+
+`
 export default Form;
