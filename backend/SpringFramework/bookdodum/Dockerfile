@@ -10,36 +10,9 @@
 # COPY ${JAR_FILE} app.jar
 # ENTRYPOINT ["java","-jar","./app.jar"]
 
-# FROM gradle:7.6.1-jdk17-alpine as builder
-
-# ENV APP_HOME=/apps
-
-# WORKDIR $APP_HOME
-
-# COPY build.gradle settings.gradle gradlew $APP_HOME
-
-# COPY gradle $APP_HOME/gradle
-
-# RUN chmod +x gradlew
-
-# # 빌드 스크립트 실행
-# RUN ./gradlew clean build
-
-# # 변수 설정
-# ARG JAR_FILE=build/libs/*.jar
-
-# # 빌드파일을 컨테이너로 복사
-# COPY build/libs/*.jar /app.jar
-
-# # jar 파일 실행
-# ENTRYPOINT ["java", "-jar", "/app.jar"]
-
-
 FROM gradle:7.6.1-jdk17-alpine as builder
 
-RUN apk add --no-cache curl bash
-
-ENV APP_HOME=/app
+ENV APP_HOME=/apps
 
 WORKDIR $APP_HOME
 
@@ -52,14 +25,41 @@ RUN chmod +x gradlew
 # 빌드 스크립트 실행
 RUN ./gradlew clean build
 
-# 빌드된 jar 파일 이름을 변수로 설정
-ARG JAR_FILE=build/libs/my-app.jar
+# 변수 설정
+ARG JAR_FILE=build/libs/*.jar
 
 # 빌드파일을 컨테이너로 복사
-COPY $JAR_FILE $APP_HOME/app.jar
-
-# 필요한 경우 라이브러리 설치
-RUN apk add --no-cache openjdk17-jdk
+COPY build/libs/*.jar /app.jar
 
 # jar 파일 실행
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
+
+
+# FROM gradle:7.6.1-jdk17-alpine as builder
+
+# RUN apk add --no-cache curl bash
+
+# ENV APP_HOME=/app
+
+# WORKDIR $APP_HOME
+
+# COPY build.gradle settings.gradle gradlew $APP_HOME
+
+# COPY gradle $APP_HOME/gradle
+
+# RUN chmod +x gradlew
+
+# # 빌드 스크립트 실행
+# RUN ./gradlew clean build
+
+# # 빌드된 jar 파일 이름을 변수로 설정
+# ARG JAR_FILE=build/libs/my-app.jar
+
+# # 빌드파일을 컨테이너로 복사
+# COPY $JAR_FILE $APP_HOME/app.jar
+
+# # 필요한 경우 라이브러리 설치
+# RUN apk add --no-cache openjdk17-jdk
+
+# # jar 파일 실행
+# ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app/app.jar"]
