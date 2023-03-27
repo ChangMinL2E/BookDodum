@@ -1,15 +1,30 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { ThemeProps } from "styled-components";
 import sample from "../../Assets/Images/sample.png";
 import BookCover from "../../Components/Contents/BookCover";
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from "react-router-dom";
 import { getReadingBooksAPI } from "../../apis/reading";
 import { getRegionCodeAPI } from "../../apis/region";
+import useSelectorTyped from "../../Store";
+
+interface ReadingBook {
+  bookId: number;
+  category: string[];
+  imageUrl: string;
+  publisher: string;
+  title: string
+}
+
+interface Props {
+  theme: string;
+}
 
 // 컴포넌트 정의
-export default function ReadingBooks() {
+export default function ReadingBooks({ theme }: Props) {
+  const nickname = useSelectorTyped((state) => state.user.name);
   const navigate = useNavigate();
+  const [books, setBooks] = useState<ReadingBook[]>([]);
 
   const handleClickReading = () => {
     navigate('/reading')
@@ -20,16 +35,38 @@ export default function ReadingBooks() {
     getReadingBooks()
   }, [])
 
-  const getReadingBooks = () => {
-    getReadingBooksAPI()
+  const getReadingBooks = async () => {
+    const data = await getReadingBooksAPI()
+
+    let tmp: ReadingBook[] = []
+    data.forEach((book: any) => {
+      tmp.push({
+        bookId: book.bookId,
+        category: book.category,
+        imageUrl: book.imageUrl,
+        publisher: book.publisher,
+        title: book.title,
+      })
+    })
+
+    setBooks(tmp)
   }
-  
+
   return (
     <Container>
-      <Title>나혜승님이 읽고 있는 책</Title>
+      <Title>{nickname}님이 읽고 있는 책</Title>
       <List>
-        <AddBtn onClick={() => navigate('/isbn')}><PlusIcon width="40px" strokeWidth="0.7px" color="#5c5649"/></AddBtn>
-        <BookCover imageUrl={sample} size={120} />
+        <AddBtn onClick={() => navigate('/isbn')}><PlusIcon width="40px" strokeWidth="0.7px" color="#5c5649" /></AddBtn>
+        <>{
+          books?.map((book) => {
+            return (
+              <div onClick={handleClickReading} key={book.bookId}>
+                <BookCover imageUrl={book.imageUrl} size={120} />
+              </div>
+            )
+          })
+        }
+        </>
       </List>
     </Container>
   );
@@ -42,10 +79,10 @@ const Container = styled.div`
     flex-direction: column;
     margin: 5% auto 10% auto;
   `
-const Title = styled.div`
+const Title = styled.div<Props>`
     font-size: 16px;
     font-weight: 600;
-    color: #5c5649;
+    color: ${(props: Props) => props.theme === 'dark' ? '#F9F9F7' : '#5c5649'};
     width: 90%;
     margin: 5% auto;
   `;
@@ -60,7 +97,7 @@ const List = styled.div`
 const AddBtn = styled.div`
     min-width: 120px;
     height: 177.6px;
-    border: 1px dashed #5c5649;
+    border: ${(props: Props) => props.theme === 'dark' ? '1px dashed #F9F9F7' : '1px dashed #5c5649'};
     display: flex;
     justify-content: center;
     align-items: center;
