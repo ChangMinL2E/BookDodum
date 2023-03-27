@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.DateTimePath;
 import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sasatech.bookdodum.entity.book.Book;
 import com.sasatech.bookdodum.entity.book.QCategory;
 import com.sasatech.bookdodum.entity.meeting.QComment;
 import com.sasatech.bookdodum.entity.user.QUserBook;
@@ -57,4 +58,5 @@ public class UserBookQdslRepositoryImpl implements UserBookQdslRepository {
                 .where(userBook.book.id.eq(bookId), startTime.eq(endTime))
                 .fetch();
     }
+
 }
