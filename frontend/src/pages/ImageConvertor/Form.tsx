@@ -69,7 +69,7 @@ const Form: React.FC = () => {
         />
       </form>
       <Wrapper>
-        {options.map((option, idx) => (
+        {options.map((option, idx) => ( 
           <Option key={idx}>
             <img src={option.image} width="80px" height="80px" />
             <OptionValue>

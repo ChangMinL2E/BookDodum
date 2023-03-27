@@ -19,11 +19,6 @@ export const Isbn = () => {
   const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [bookId, setBookId] = useState<number>(0);
-  const [token, setToken] = useState<any>()
-
-  useEffect(() => {
-    setToken(window.localStorage.getItem("user"))
-  }, [])
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
@@ -45,7 +40,7 @@ export const Isbn = () => {
   }, [url]);
 
   const bookCheck = async () => {
-    await postBookIdAPI(bookId, JSON.parse(token));
+    await postBookIdAPI(bookId);
   };
 
   const clickNoBtn = () => {
