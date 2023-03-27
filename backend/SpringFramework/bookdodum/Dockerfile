@@ -1,7 +1,8 @@
 # base 이미지 설정
 # FROM openjdk:17-jdk-alpine
 FROM gradle:7.4-jdk17-alpine as builder
-RUN ./gradle clean build
+
+RUN gradle clean build
 
 # jar 파일 위치를 변수로 설정
 ARG JAR_FILE=build/*.jar
