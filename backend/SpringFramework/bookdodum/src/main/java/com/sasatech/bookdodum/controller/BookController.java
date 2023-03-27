@@ -96,6 +96,18 @@ public class BookController {
         }
     }
 
+    @GetMapping("/search")
+    @Operation(summary = "도서관 isbn 도서정보")
+    public ResponseEntity<?> searchBook(@RequestParam String isbn
+                                        ){
+        if(bookService.searchBook(isbn)){
+            return new ResponseEntity(new ApiResponseDto(true, "searchBook Success", bookService.infoBook(isbn)), HttpStatus.OK);
+        }else{
+            return new ResponseEntity(new ApiResponseDto(false, "NotexistBook", null), HttpStatus.OK);
+        }
+
+    }
+
 
     // ====================================== feature/review ===========================================
 
@@ -128,6 +140,8 @@ public class BookController {
             return new ResponseEntity(new ApiResponseDto(false, "deleteReview Fail", null), HttpStatus.OK);
         }
     }
+
+
 
 }
 

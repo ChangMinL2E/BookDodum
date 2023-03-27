@@ -53,6 +53,10 @@ dependencies {
 			"javax.annotation:javax.annotation-api",
 			"com.querydsl:querydsl-apt:${queryDslVersion}:jpa")
 
+	bootRun {
+		systemProperty 'server.servlet.encoding.force-response', 'true'
+	}
+
 
 }
 
