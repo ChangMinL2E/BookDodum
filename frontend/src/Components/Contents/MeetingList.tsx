@@ -1,7 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import MeetingCover from "../../Components/Contents/MeetingCover";
-import sample from "../../Assets/Images/sample.png";
 import styled from "styled-components";
 import { UsersIcon } from "@heroicons/react/24/outline";
 import { getBookMeetingAPI } from "../../apis/meeting";

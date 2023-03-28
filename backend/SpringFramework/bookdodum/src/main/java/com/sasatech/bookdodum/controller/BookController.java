@@ -63,8 +63,6 @@ public class BookController {
         return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", bookService.readIsbn(path)), HttpStatus.OK);
     }
 
-    //isbn 직접 입력하여 책 조회
-
     @PostMapping("/{bookid}")
     @Operation(summary = "읽는 도서 등록")
     public ResponseEntity<?> addBook(@PathVariable("bookid") Long id,
@@ -77,9 +75,14 @@ public class BookController {
         }
     }
 
-    
 
-    //없으면 500error말고 다른 명시적인 값 리턴 필요
+    @GetMapping("/readwith/{bookid}")
+    @Operation(summary = "이 책을 읽고 있는 사람 목록 조회")
+    public ResponseEntity<?> listReadWith(@PathVariable("bookid") Long bookId,
+                                          @Parameter(hidden = true)
+                                          @AuthenticationPrincipal User user) {
+        return new ResponseEntity(new ApiResponseDto(true, "listReadWith Success", bookService.listReadWith(bookId, user.getId())), HttpStatus.OK);
+    }
 
 
     @DeleteMapping("/{bookid}")
@@ -126,14 +129,6 @@ public class BookController {
         }
 
     }
-
-//    @GetMapping("/recommand")
-//    public ResponseEntity<?> recommandBook(@RequestParam long bookId,
-//                                           @AuthenticationPrincipal User user){
-//
-//        return new ResponseEntity(new ApiResponseDto(true,"recommandBook",bookService.recommandBook(bookId, user.getId())),HttpStatus.OK);
-//
-//    }
 
 
     // ====================================== feature/review ===========================================
