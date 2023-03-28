@@ -11,6 +11,8 @@ COPY gradlew .
 # Gradle 의존성을 복사합니다.
 COPY gradle gradle
 
+RUN chmod +x ./gradlew
+
 # 의존성 다운로드를 실행합니다.
 RUN ./gradlew downloadDependencies
 
