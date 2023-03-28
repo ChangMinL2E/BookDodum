@@ -59,6 +59,18 @@ public class BookService {
         List<BookListResponseDto> list = new ArrayList<>();
         List<UserBook> listUserBook = userBookQdslRepositoryImpl.findUserBook(userId, fin);
 
+        return getBookListResponseDtos(list, listUserBook);
+    }
+
+
+    public List<BookListResponseDto> listAllBook(Long userId) {
+        List<BookListResponseDto> list = new ArrayList<>();
+        List<UserBook> listUserBook = userBookRepository.findAllByUser_Id(userId);
+
+        return getBookListResponseDtos(list, listUserBook);
+    }
+
+    private List<BookListResponseDto> getBookListResponseDtos(List<BookListResponseDto> list, List<UserBook> listUserBook) {
         for (UserBook userBook : listUserBook) {
             Long bookId = userBook.getBook().getId();
             Book myBook = bookRepository.findById(bookId).orElseThrow();

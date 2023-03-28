@@ -39,22 +39,21 @@ public class BookController {
         return new ResponseEntity(new ApiResponseDto(true, "listBook Success", bookService.listBook(user.getId(), fin)), HttpStatus.OK);
     }
 
-//    @GetMapping("/mylist")
-//    @Operation(summary = "내 독서 목록조회")
-//    public ResponseEntity<?> mybookList(
-//                                      @AuthenticationPrincipal User user) {
-//        return new ResponseEntity(new ApiResponseDto(true, "mybookList Success", bookService.mybookList(user.getId())), HttpStatus.OK);
-//    }
-    
+
+    @GetMapping("/list")
+    @Operation(summary = "내 독서 전체 목록 조회")
+    public ResponseEntity<?> listAllBook(@Parameter(hidden = true)
+                                         @AuthenticationPrincipal User user) {
+        return new ResponseEntity(new ApiResponseDto(true, "listAllBook Success", bookService.listAllBook(user.getId())), HttpStatus.OK);
+    }
 
 
 
-
-    @GetMapping("/")
     @Operation(summary = "내 도서 상세조회")
     public ResponseEntity<?> detailBook(@RequestParam("bookid") Long bookId,
                                         @Parameter(hidden = true)
                                         @AuthenticationPrincipal User user) {
+
         return new ResponseEntity(new ApiResponseDto(true, "detailBook Success", bookService.detailBook(bookId, user.getId())), HttpStatus.OK);
     }
 
