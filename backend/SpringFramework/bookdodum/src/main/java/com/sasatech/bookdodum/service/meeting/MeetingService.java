@@ -28,6 +28,7 @@ public class MeetingService {
     private final BookRepository bookRepository;
     private final CommentRepository commentRepository;
     private final CommentScrollQdslRepositoryImpl commentScrollQdslRepositoryImpl;
+    private final UserBookRepository userBookRepository;
 
 
     public boolean createMeeting(MeetingRequestDto meetingRequestDto, User user) {
@@ -128,7 +129,7 @@ public class MeetingService {
 
     public boolean createComment(CommentRequestDto commentRequestDto, User user) {
         Meeting meeting = meetingRepository.findById(commentRequestDto.getMeetingId()).orElseThrow();
-
+        // 권한이 있는 사람만 댓글 달도록 제한.
         try {
             commentRepository.save(Comment.builder()
                     .meeting(meeting)
@@ -205,6 +206,20 @@ public class MeetingService {
             e.printStackTrace();
 
             return false;
+        }
+    }
+
+    public boolean authorityCheck(Long meetingId, Long userId) {
+        // 해당 모임의 도서를 확인한다.
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow();
+        Long bookId = meeting.getBook().getId();
+
+        // 댓글을 작성하려는 유저가 해당 도서를 등록했는지 확인한다.
+        if (userBookRepository.findByBook_IdAndUser_Id(bookId, userId) == null) {
+            // 해당 유저가 도서를 읽지 않았면..
+            return false;
+        } else {
+            return true;
         }
     }
 }
