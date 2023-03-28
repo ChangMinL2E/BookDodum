@@ -21,7 +21,7 @@ interface Props {
 }
 
 // 컴포넌트 정의
-export default function ReadingBooks({ theme }: Props) {
+export default function ReadingBooks(theme : Props) {
   const nickname = useSelectorTyped((state) => state.user.name);
   const navigate = useNavigate();
   const [books, setBooks] = useState<ReadingBook[]>([]);
@@ -56,10 +56,10 @@ export default function ReadingBooks({ theme }: Props) {
     <Container>
       <Title theme={theme}>{nickname}님이 읽고 있는 책</Title>
       <List>
-        <AddBtn theme={theme} onClick={() => navigate('/isbn')}><PlusIcon width="40px" strokeWidth="0.7px" color={theme==='dark'? '#F9F9F7': '#5c5649'} /></AddBtn>
+        <AddBtn theme={theme} onClick={() => navigate('/isbn')}><PlusIcon width="40px" strokeWidth="0.7px" /></AddBtn>
         <>{
           books?.map((book) => {
-            return (
+            return (  
               <div onClick={handleClickReading} key={book.bookId}>
                 <BookCover imageUrl={book.imageUrl} size={120} />
               </div>
@@ -67,7 +67,7 @@ export default function ReadingBooks({ theme }: Props) {
           })
         }
         </>
-      </List>
+      </List> 
     </Container>
   );
 }

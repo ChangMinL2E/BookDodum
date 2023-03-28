@@ -17,7 +17,7 @@ export default function Comment({ comment }: CommentProps) {
     >
       {comment}
       <Icon>
-      <PaperClipIcon width={15}/>
+      <PaperClipIcon width={20}/>
       </Icon>
     </CommentBox>
     </>

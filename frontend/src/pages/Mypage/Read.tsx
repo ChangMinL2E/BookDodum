@@ -1,31 +1,64 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BookCover from "../../Components/Contents/BookCover";
-import sample from "../../Assets/Images/sample.png";
 import styled from "styled-components";
 import ImageAI from "../../Components/Contents/ImageAI";
 import Select from "../../Assets/Images/oilpainting.png";
+import useSelectorTyped from "../../Store";
+import { getReadBooksAPI } from "../../apis/read";
+import { useNavigate } from "react-router-dom";
 
 const Read: React.FC = () => {
+  const [books, setBooks] = useState<Book[]>([]);
+  const navigate = useNavigate();
+
+  interface Book {
+    bookId: number;
+    category: [];
+    convertedImageUrl?: string;
+    imageUrl: string;
+    publisher: string;
+    title: string;
+  }
+
+  useEffect(() => {
+    getReadingAPI();
+  }, []);
+
+  const getReadingAPI = async () => {
+    const data = await getReadBooksAPI();
+    let list: Book[] = [];
+    data.forEach((item: Book) => {
+      list.push({
+        bookId: item.bookId,
+        category: item.category,
+        convertedImageUrl: item.convertedImageUrl,
+        imageUrl: item.imageUrl,
+        publisher: item.publisher,
+        title: item.title,
+      });
+    });
+    setBooks(list);
+  };
+
+  const nickname = useSelectorTyped((state) => state.user.name);
   return (
     <Container>
-
-        <ReadText>나혜싀 님이 읽은 책</ReadText>
-        <BooksWrap>
-
-        <BookItem>
-          <BookCover name={"bookImg"} size={120} imageUrl={sample} />
-          <ImageAI name={"img"} imageUrl={Select} size={"90px"} />
-        </BookItem>
-        <BookItem>
-          <BookCover name={"bookImg"} size={120} imageUrl={sample} />
-          <ImageAI name={"img"} imageUrl={Select} size={"90px"} />
-        </BookItem>
-        <BookItem>
-          <BookCover name={"bookImg"} size={120} imageUrl={sample} />
-          <ImageAI name={"img"} imageUrl={Select} size={"90px"} />
-        </BookItem>
-        </BooksWrap>
-
+      <ReadText>{nickname}님이 다 읽은 책</ReadText>
+      <BooksWrap>
+        {books?.map((book: Book) => (
+          <BookItem
+            key={book.bookId}
+            onClick={() =>
+              navigate(`/reading/${book.bookId}`, {
+                state: { image: book.imageUrl, title: book.title, id: book.bookId },
+              })
+            }
+          >
+            <BookCover name={"bookImg"} size={120} imageUrl={book.imageUrl} />
+            <ImageAI name={"img"} imageUrl={Select} size={"90px"} />
+          </BookItem>
+        ))}
+      </BooksWrap>
     </Container>
   );
 };
@@ -47,9 +80,10 @@ const List = styled.div``;
 const BooksWrap = styled.div`
   display: grid;
   width: 95%;
-  margin:auto;
+  margin: auto;
   grid-template-columns: 1fr 1fr;
-`
+`;
+
 const BookItem = styled.div`
   width: 150px;
   height: 200px;

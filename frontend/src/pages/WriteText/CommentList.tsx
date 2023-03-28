@@ -21,16 +21,16 @@ export default function CommentList() {
     <Container>
       <FirstBox>
         <>
-          {odd?.map((comment) => {
-            return <Comment comment={comment}></Comment>;
+          {odd?.map((comment, idx) => {
+            return <Comment key={idx} comment={comment}></Comment>;
           })}
         </>
       </FirstBox>
 
       <SecondBox>
         <>
-          {even?.map((comment) => {
-            return <Comment comment={comment}></Comment>;
+          {even?.map((comment, idx) => {
+            return <Comment key={idx} comment={comment}></Comment>;
           })}
         </>
       </SecondBox>

@@ -24,7 +24,7 @@ const Select: React.FC = () => {
   );
 };
 
-const Container = styled.div`
+const Container = styled. div`
   width: 70%;
   margin: 5% auto;
   display: flex;
