@@ -125,3 +125,19 @@ export async function postMeetingJoinAPI(meetingid: number) {
     console.log(e);
   }
 }
+
+// 모임 목록 / 책 기준 조회
+export async function getBookMeetingAPI(bookid: number) {
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: `${baseUrl}/meeting`,
+      params: {
+        bookid,
+      },
+    });
+    return data.responseData;
+  } catch (e) {
+    console.log(e);
+  }
+}

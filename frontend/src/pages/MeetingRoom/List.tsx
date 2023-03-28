@@ -6,6 +6,9 @@ import NavBack from "../../Components/Contents/NavBack";
 import ListCard from "./ListCard";
 
 interface Info {
+  commentId: number;
+  userId: number;
+  leader_content: string | null;
   content: string;
 }
 
@@ -26,6 +29,9 @@ export default function List() {
 
     data.forEach((item: Info) => {
       list.push({
+        commentId: item.commentId,
+        userId: item.userId,
+        leader_content: item.leader_content,
         content: item.content,
       });
     });
