@@ -21,7 +21,7 @@ COPY . .
 RUN ./gradlew build
 
 # 빌드된 jar 파일을 복사합니다.
-COPY build/libs/app.jar app.jar
+COPY build/libs/*.jar app.jar
 
 # 컨테이너 실행 시 실행할 명령어를 정의합니다.
 CMD ["java", "-jar", "app.jar"]
