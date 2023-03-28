@@ -7,7 +7,7 @@ import TextForm from "./TextForm";
 export default function WriteText() {
   return (
     <Container>
-      <NavBack text={"독후감 쓰기"} link={"/reading/:bookid"} />
+      <NavBack text={"독후감 쓰기"} link={"-1"} />
       <TextForm/>
       <CommentList />
     </Container>

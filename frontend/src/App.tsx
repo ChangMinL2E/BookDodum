@@ -35,7 +35,7 @@ function App() {
         <Route path="/bookmeeting" element={<Meeting />} />
         <Route path="/bookmeeting/:meetid" element={<MeetingRoom />} />
         <Route path="/meetingcreate" element={<MeetingCreate />} />
-        <Route path="/write" element={<WriteText />} />
+        <Route path="/write/:bookid" element={<WriteText />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/survey" element={<Survey />} />
         <Route path="login" element={<Login />} />

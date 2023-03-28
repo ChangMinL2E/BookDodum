@@ -2,20 +2,31 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { writeTextAPI } from "../../apis/writeText";
+import { useParams } from "react-router-dom";
+
+interface Comment {
+  bookId: number;
+  content: string;
+}
 
 export default function TextForm() {
-  const [text, setText] = useState<string>("");
-  // const handelSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   setText("");
-  //   console.log(text);
-  // };
-  const handleTextChnage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setText(event.target.value);
+  const bookId: number = Number(useParams().bookid);
+  const [content, setContent] = useState<string>("");
+  const comment: Comment = {
+    bookId: bookId,
+    content: content,
   };
 
-  const wirteText = async (text:string) => {
-    await writeTextAPI(text);
+  // bookId와 text를 한꺼번에 보내기
+
+  const handleTextChnage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setContent(event.target.value);
+  };
+
+  const wirteText = async (comment: Comment) => {
+    const data = await writeTextAPI(comment);
+    console.log(data);
+    setContent("");
   };
 
   return (
@@ -25,13 +36,13 @@ export default function TextForm() {
         <Form>
           <Input
             type="text"
-            value={text}
+            value={content}
             // placeholder="여기에 글을 작성해주세요."
             onChange={handleTextChnage}
           ></Input>
           <Button
             onClick={() => {
-              wirteText(text);
+              wirteText(comment);
             }}
           >
             <Icon>
