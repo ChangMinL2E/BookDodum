@@ -10,5 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentListResponseDto {
+    private Long commentId;
+    private Long userId;
+    private String leader_content;
     private String content;
 }
