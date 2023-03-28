@@ -87,6 +87,7 @@ public class MeetingService {
             Long commentCnt = (long) commentRepository.findAllByMeeting_Id(meeting.getId()).size();
 
             dtoList.add(MeetingListResponseDto.builder()
+                    .meetingId(meeting.getId())
                     .title(meeting.getTitle())
                     .content(meeting.getContent())
                     .userName(user.getName())
@@ -110,7 +111,7 @@ public class MeetingService {
             Long commentCnt = (long) commentRepository.findAllByMeeting_Id(meeting.getId()).size();
 
             dtoList.add(MeetingListResponseDto.builder()
-                    .id(meeting.getId())
+                    .meetingId(meeting.getId())
                     .title(meeting.getTitle())
                     .content(meeting.getContent())
                     .userName(user.getName())
@@ -165,6 +166,7 @@ public class MeetingService {
             if (user_id == leader_id) {
                 dtoList.add(CommentListResponseDto.builder()
                         .commentId(comment.getId())
+                        .userName(comment.getUser().getUsername())
                         .userId(user_id)
                         .leader_content(meeting.getContent())
                         .content(comment.getContent())
@@ -172,6 +174,7 @@ public class MeetingService {
             } else {
                 dtoList.add(CommentListResponseDto.builder()
                         .commentId(comment.getId())
+                        .userName(comment.getUser().getUsername())
                         .userId(user_id)
                         .content(comment.getContent())
                         .build());
