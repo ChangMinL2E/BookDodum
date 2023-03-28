@@ -260,22 +260,22 @@ public class BookService {
     }
 
     //내가 읽고 있는 책은 읽고 있거나 읽은 사용자들이 읽었던 책들
-//    public List<BookResponseDto> recommandBook(long bookId, Long id) {
-//        List<UserBook> listUserId = userBookRepository.findByBook_Id(bookId);
-//        List<Long> IdList = new ArrayList<>();
-//
-//        //같은 책을 읽고 있거나 읽은 사용자 id list = IdList
-//        for(UserBook userBook : listUserId){
-//            if(userBook.getId() == id)continue;
-//            IdList.add(userBook.getId());
-//        }
-//
-//
-//
-//
-//
-//
-//    }
+    public List<BookResponseDto> recommandBook(long bookId, Long id) {
+        List<UserBook> listUserId = userBookRepository.findByBook_Id(bookId);
+        List<Long> IdList = new ArrayList<>();
+
+        //같은 책을 읽고 있거나 읽은 사용자 id list = IdList
+        for(UserBook userBook : listUserId){
+            if(userBook.getId() == id)continue;
+            IdList.add(userBook.getId());
+        }
+
+
+
+
+
+
+    }
 
 
     public List<BookListResponseDto> mybookList(Long id) {

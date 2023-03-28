@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const baseUrl = process.env.REACT_APP_API_URL;
-const user: any = localStorage.getItem("user")
-const token = JSON.parse(user)
+const user: any = localStorage.getItem("user");
+const token = JSON.parse(user);
 
 interface Meeting {
   bookId: number;
@@ -23,9 +23,9 @@ export async function createMeetingAPI(meeting: Meeting) {
       method: "POST",
       url: `${baseUrl}/meeting`,
       data: meeting,
-      headers:{
+      headers: {
         Authorization: `Bearer ${token}`,
-      }
+      },
     });
     return data;
   } catch (e) {
@@ -53,9 +53,9 @@ export async function postMeetingCommentAPI(comment: Comment) {
       method: "POST",
       url: `${baseUrl}/meeting/comment`,
       data: comment,
-      headers:{
-        Authorization: token,
-      }
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data;
   } catch (e) {
@@ -69,9 +69,9 @@ export async function getMeetingCommentAPI(id: number) {
     const { data } = await axios({
       method: "GET",
       url: `${baseUrl}/meeting/comment`,
-      params: { id: id },
+      params: { id },
     });
-    return data;
+    return data.responseData;
   } catch (e) {
     console.log(e);
   }
@@ -83,11 +83,11 @@ export async function getMeetingJoinAPI() {
     const { data } = await axios({
       method: "GET",
       url: `${baseUrl}/meeting/join`,
-      headers:{
-        Authorization: token,
-      }
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
-    return data;
+    return data.responseData;
   } catch (e) {
     console.log(e);
   }
@@ -99,16 +99,16 @@ export async function getIngBooksAPI() {
     const { data } = await axios({
       method: "GET",
       url: `${baseUrl}/book/list/false`,
-      headers:{
+      headers: {
         Authorization: `Bearer ${token}`,
-      }
+      },
     });
+    console.log(data.responseData);
     return data.responseData;
   } catch (e) {
     console.log(e);
   }
 }
-
 
 // 모임 참여
 export async function postMeetingJoinAPI(meetingid: number) {
@@ -116,13 +116,12 @@ export async function postMeetingJoinAPI(meetingid: number) {
     const { data } = await axios({
       method: "POST",
       url: `${baseUrl}/meeting/join/${meetingid}`,
-      headers:{
-        Authorization: token,
-      }
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data;
   } catch (e) {
     console.log(e);
   }
 }
-

@@ -9,13 +9,14 @@ export default function MeetingList() {
   let author: string = "김호연";
   let participant: number = 3;
   let id: number = 1;
+
   return (
     <Container>
       <MeetingText>
         <UsersIcon width={22} /> 진행 중인 독서모임{" "}
       </MeetingText>
       <List>
-        <MeetingCover
+        {/* <MeetingCover
           imageUrl={sample}
           title={title}
           author={author}
@@ -35,7 +36,7 @@ export default function MeetingList() {
           author={author}
           participant={participant}
           id={id}
-        />
+        /> */}
       </List>
     </Container>
   );

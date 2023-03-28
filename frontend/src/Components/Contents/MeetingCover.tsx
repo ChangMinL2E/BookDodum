@@ -3,27 +3,32 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 interface Props {
+  commentCnt?: number;
+  content?: string;
   imageUrl?: string;
   title?: string;
-  author?: string;
-  participant?: number;
+  userName?: string;
   id?: number;
 }
 
-export default function MeetingCover(group: Props) {
+export default function MeetingCover(meeting: Props) {
   const navigate = useNavigate();
-  const bookRoom = () => {
-    navigate(`/bookgroup/${group.id}`);
-  };
 
   return (
-    <GroupImage imageUrl={group.imageUrl} onClick={()=>{bookRoom()}}>
+    <GroupImage
+      imageUrl={meeting.imageUrl}
+      onClick={() => {
+        navigate(`/bookmeeting/${meeting.id}`, {
+          state: { title: meeting.title },
+        });
+      }}
+    >
       <WhiteDiv>
-        <Title>{group.title}</Title>
-      <Bottom>
-        <Author>{group.author}</Author>
-        <Participant>{group.participant}명 참여중</Participant>
-      </Bottom>
+        <Title>{meeting.title}</Title>
+        <Bottom>
+          <Author>{meeting.userName}</Author>
+          <Participant>{meeting.commentCnt}명 참여중</Participant>
+        </Bottom>
       </WhiteDiv>
     </GroupImage>
   );
@@ -59,7 +64,7 @@ const Bottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
 const Author = styled.div`
   font-size: 0.9rem;

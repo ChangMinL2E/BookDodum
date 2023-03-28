@@ -2,42 +2,44 @@ import React from "react";
 import styled from "styled-components";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import profile from "../../Assets/Images/userprofile.png";
 
 interface Props {
+  commentCnt?: number;
+  content?: string;
+  imageUrl?: string;
   title?: string;
-  writer?: string;
-  context?: string;
-  chatCnt?: number;
-  bookImg: string;
-  profileImg?: string;
+  userName?: string;
   id?: number;
 }
 
 export default function ListCard(meeting: Props) {
   const navigate = useNavigate();
 
-  const goMeeting = () => {
-    navigate(`/bookmeeting/${meeting.id}`);
-  };
-
   return (
-    <Div onClick={() => {goMeeting()}}>
+    <Div
+      onClick={() => {
+        navigate(`/bookmeeting/${meeting.id}`, {
+          state: { title: meeting.title },
+        });
+      }}
+    >
       <Container>
         <Text>
           <Title>{meeting.title}</Title>
-          <Context>{meeting.context}</Context>
+          <Context>{meeting.content}</Context>
           <BottomDiv>
             <WriterDiv>
-              <ProfileImg src={meeting.profileImg} />
-              <Writer>{meeting.writer}</Writer>
+              <ProfileImg src={profile} />
+              <Writer>{meeting.userName}</Writer>
             </WriterDiv>
             <ChatCnt>
               <ChatBubbleBottomCenterTextIcon width="15px" />
-              {meeting.chatCnt}
+              {meeting.commentCnt}
             </ChatCnt>
           </BottomDiv>
         </Text>
-        <BookImg src={meeting.bookImg} />
+        <BookImg src={meeting.imageUrl} />
       </Container>
       <Line />
     </Div>
@@ -66,6 +68,8 @@ const Title = styled.div`
 
 const Context = styled.div`
   font-size: 0.7rem;
+  min-height: 60px;
+  min-width: 210px;
 `;
 
 const BottomDiv = styled.div`
