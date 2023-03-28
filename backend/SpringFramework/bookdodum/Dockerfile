@@ -1,40 +1,27 @@
-# FROM gradle:7.6.1-jdk17-alpine as builder
+# 사용할 base 이미지를 정의합니다.
+FROM openjdk:11.0.11-jdk-slim-buster
 
-# WORKDIR /var/jenkins_home/workspace/S08P22C104/backend/SpringFramework/bookdodum
+# 작업 디렉토리를 설정합니다.
+WORKDIR /app
 
-# RUN ./gradlew clean build
+# Gradle 빌드 스크립트 파일을 복사합니다.
+COPY build.gradle .
+COPY gradlew .
 
-# COPY build/libs/bookdodum-0.0.1-SNAPSHOT.jar bookdodum.jar
+# Gradle 의존성을 복사합니다.
+COPY gradle gradle
 
-# ENTRYPOINT ["java","-jar","bookdodum.jar"]
+# 의존성 다운로드를 실행합니다.
+RUN ./gradlew downloadDependencies
 
-# bookdodum-0.0.1-SNAPSHOT.jar
-
-# FROM gradle:7.6.1-jdk17-alpine as builder
-
-# WORKDIR /app
-
-# COPY . .
-
-# RUN ./gradlew clean build
-
-# FROM openjdk:17-jdk-alpine
-
-# COPY --from=builder /app/build/libs/bookdodum-0.0.1-SNAPSHOT.jar /app/bookdodum.jar
-
-# WORKDIR /app
-
-# ENTRYPOINT ["java","-jar","bookdodum.jar"]
-
-FROM gradle:7.6.1-jdk17-alpine as builder
-
-WORKDIR /var/jenkins_home/workspace/S08P22C104/backend/SpringFramework/bookdodum
-
+# 소스 코드를 복사합니다.
 COPY . .
 
-RUN chmod +x ./gradlew && \
-    ./gradlew clean build
+# 애플리케이션을 빌드합니다.
+RUN ./gradlew build
 
-COPY build/libs/bookdodum-0.0.1-SNAPSHOT.jar bookdodum.jar
+# 빌드된 jar 파일을 복사합니다.
+COPY build/libs/app.jar app.jar
 
-ENTRYPOINT ["java","-jar","bookdodum.jar"]
+# 컨테이너 실행 시 실행할 명령어를 정의합니다.
+CMD ["java", "-jar", "app.jar"]
