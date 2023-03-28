@@ -47,9 +47,17 @@ public class BookController {
         return new ResponseEntity(new ApiResponseDto(true, "listAllBook Success", bookService.listAllBook(user.getId())), HttpStatus.OK);
     }
 
+    @GetMapping("/list/recommend/{bookid}")
+    public ResponseEntity<?> listRecommendBook(@PathVariable("bookid") Long id,
+                                               @Parameter(hidden = true)
+                                               @AuthenticationPrincipal User user) {
+        bookService.listRecommendBook(id, user.getId());
+    }
 
 
-    @Operation(summary = "내 도서 상세조회")
+
+
+                                         @Operation(summary = "내 도서 상세조회")
     public ResponseEntity<?> detailBook(@RequestParam("bookid") Long bookId,
                                         @Parameter(hidden = true)
                                         @AuthenticationPrincipal User user) {
@@ -129,6 +137,7 @@ public class BookController {
         }
 
     }
+
 
 
     // ====================================== feature/review ===========================================

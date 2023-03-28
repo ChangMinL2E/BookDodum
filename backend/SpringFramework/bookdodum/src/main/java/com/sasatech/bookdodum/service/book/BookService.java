@@ -70,6 +70,49 @@ public class BookService {
         return getBookListResponseDtos(list, listUserBook);
     }
 
+
+    public void listRecommendBook(Long bookId, Long userId) {
+        // 1번 책을 읽은 모든 유저들을 가져온다.
+        List<UserBook> userBookListByBookId = userBookRepository.findAllByBook_Id(bookId);
+
+        // 내가 읽은 책 List 들을 가져온다.
+        List<UserBook> myBookList = userBookRepository.findAllByUser_Id(userId);
+
+        HashMap<Long, Long> bookCntMap = new HashMap<>();
+
+        // 유저들 중에서 나와 가장 읽은책이 많이 겹치는 유저들을 우선순위로 정렬한다.
+        for (UserBook userBook : userBookListByBookId) {
+            Long cnt = 0L;
+
+            // 해당 유저가 읽은 책 목록을 가져온다.
+            User user = userBook.getUser();
+            List<UserBook> userBookListByUserId = userBookRepository.findAllByUser_Id(user.getId());
+
+
+            // 내 책들을 기준으로 겹치는 다른 유저의 책 개수를 구하자.
+            for (UserBook myBook : myBookList) {
+                for (UserBook otherBook : userBookListByUserId) {
+                    if (myBook.getId() == otherBook.getId()) {
+                        cnt++;
+                    }
+                }
+            }
+
+            bookCntMap.put(cnt, user.getId());
+        }
+
+        Object[] mapKeys = bookCntMap.keySet().toArray();
+        Arrays.sort(mapKeys);
+
+        for (Long key : bookCntMap.keySet()) {
+            Long userIdSorted = bookCntMap.get(key);
+
+
+
+        }
+        
+    }
+
     private List<BookListResponseDto> getBookListResponseDtos(List<BookListResponseDto> list, List<UserBook> listUserBook) {
         for (UserBook userBook : listUserBook) {
             Long bookId = userBook.getBook().getId();
