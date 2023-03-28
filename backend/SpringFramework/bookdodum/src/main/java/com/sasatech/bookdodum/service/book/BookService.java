@@ -290,6 +290,17 @@ public class BookService {
 //    }
 
 
+    public List<BookListResponseDto> mybookList(Long id) {
+        List<BookListResponseDto> list = new ArrayList<>();
+
+        //List<UserBook> userid = UserBookRepository.findByUser_Id(id);
+
+    }
+
+    public boolean existReadWith(Long bookId, Long id) {
+
+
+    }
 }
 
 

@@ -83,8 +83,15 @@ public class BookController {
     public ResponseEntity<?> listReadWith(@PathVariable("bookid") Long bookId,
                                           @Parameter(hidden = true)
                                           @AuthenticationPrincipal User user) {
-        return new ResponseEntity(new ApiResponseDto(true, "listReadWith Success", bookService.listReadWith(bookId, user.getId())), HttpStatus.OK);
+        if(bookService.existReadWith(bookId, user.getId())){
+            return new ResponseEntity(new ApiResponseDto(true, "listReadWith Success", bookService.listReadWith(bookId, user.getId())), HttpStatus.OK);
+        }else{
+            return new ResponseEntity(new ApiResponseDto(false, "not exist readwith",null), HttpStatus.OK);
+        }
+
     }
+
+    //없으면 500error말고 다른 명시적인 값 리턴 필요
 
 
     @DeleteMapping("/{bookid}")
