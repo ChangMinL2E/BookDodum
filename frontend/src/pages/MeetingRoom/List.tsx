@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {
   getMeetingCommentAPI,
   postMeetingCommentAPI,
+  postMeetingJoinAPI,
 } from "../../apis/meeting";
 import NavBack from "../../Components/Contents/NavBack";
 import ListCard from "./ListCard";
@@ -67,7 +68,8 @@ export default function List() {
   // 댓글 작성하는 axios
   const postMeetingComment = async () => {
     await postMeetingCommentAPI(comment);
-    alert("등록되었습니다.");
+    postMeetingJoin();
+    alert("댓글이 등록되었습니다.");
     setText("");
     getMeetingComment(id); // 등록한 후 axios 다시 호출
   };
@@ -77,6 +79,11 @@ export default function List() {
     if (e.key === "Enter") {
       postMeetingComment();
     }
+  };
+
+  // 모임 참여하기
+  const postMeetingJoin = async () => {
+    await postMeetingJoinAPI(id);
   };
 
   return (
