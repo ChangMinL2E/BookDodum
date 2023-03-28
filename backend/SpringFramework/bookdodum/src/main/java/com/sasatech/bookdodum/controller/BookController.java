@@ -156,7 +156,7 @@ public class BookController {
     }
 
     @PostMapping("/papago")
-    @Operation(summary = "독후감 목록 조회")
+    @Operation(summary = "파파고 번역")
     public String getEnglish(@RequestBody PapagoRequestDto papagoRequestDto) throws IOException {
         String Eng = TranslationService.getEnglish(papagoRequestDto.getKorean());
 
