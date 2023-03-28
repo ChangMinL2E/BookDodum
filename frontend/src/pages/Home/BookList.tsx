@@ -11,12 +11,7 @@ export default function BookList() {
   // const [books , setBooks] = useState<Book[]>([])
 
   useEffect(() => {
-    // setBooks([{
-    //     imageUrl: sample,
-    //     title: "불편한 편의점",
-    //     categories: ["국내도서", "소설/시/희곡"],
-    //     company: "나무 옆 의자" ,
-    //   },])
+   
   })
 
   return (

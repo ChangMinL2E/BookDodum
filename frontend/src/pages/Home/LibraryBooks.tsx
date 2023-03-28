@@ -121,7 +121,7 @@ export default function LibraryBooks() {
           </Swiper>
         </SwiperWrap>
       </Container>
-      <DetailModal ISBN={9791168473690} closeModal={closeModal} modalOpen={modalOpen} />
+      <DetailModal ISBN={9791185701752} closeModal={closeModal} modalOpen={modalOpen} />
     </>
   );
 };

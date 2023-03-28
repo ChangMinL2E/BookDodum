@@ -15,8 +15,10 @@ export default function BookBanner() {
     );
 }
 const BannerImage = styled.div`
-    width: 100vw;
+    width: 100%;
     height: 30vh;
     background: url(${bookBanner});
     background-size: cover;
 `
+
+

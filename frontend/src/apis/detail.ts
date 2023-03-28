@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export async function getBookDetailAPI(isbn: string) {
+export async function getBookDetailAPI(isbn: number) {
   const token = window.localStorage.getItem("user");
   try {
     const data = await axios({
@@ -12,7 +12,7 @@ export async function getBookDetailAPI(isbn: string) {
         Authorization: `Bearer ${token}`,
       },
       params: {
-        isbn,
+        isbn: String(isbn),
       },
     });
     return { success: data.data.success, responseData: data.data.responseData };

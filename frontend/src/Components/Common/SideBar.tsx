@@ -13,7 +13,7 @@ type Props = {
 };
 
 // 컴포넌트 정의
-const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
+export default function SideBar({ sideMenu, hideSideMenu }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const nickname = useSelectorTyped((state) => state.user.name);
@@ -23,7 +23,6 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
   };
   const token = window.localStorage.getItem('user')
-  const [isLogin, setIsLogin] = useState<boolean>(true);
 
   const logout = () => {
     localStorage.removeItem("user");
@@ -35,12 +34,12 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
   }, )
 
   return (
-    <>
+    <Container>
       <BackGround
         className={sideMenu ? "open" : ""}
         onClick={() => hideSideMenu()}
       />
-      <Container
+      <Bar
         className={sideMenu ? "open" : ""}
         onClick={() => hideSideMenu()}
       >
@@ -97,20 +96,23 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
         <InfoMsg onClick={() => navigate("/intro")}>
           북,돋움에 처음 오셨나요? 더 알아보기
         </InfoMsg>
-      </Container>
-    </>
+      </Bar>
+    </Container>
   );
 };
 
-export default SideBar;
-
 // Styled Components
 const Container = styled.div`
+  position: relative;
+  background-color: #f7f3eb;
+
+` 
+const Bar = styled.div` 
+  position: fixed;
   z-index: 5;
   height: 100%;
-  left: -70%;
+  left: -250%;
   top: 0;
-  position: fixed;
   transition: 0.5s ease;
   &.open {
     left: 0;
@@ -124,6 +126,7 @@ const BackGround = styled.div`
   &.open {
     position: fixed;
     top: 0;
+    left: 0;
     z-index: 4;
     width: 100vw;
     height: 100%;

@@ -25,11 +25,10 @@ interface BookDetail {
     category: string[];
 }
 
-export default function DetailModal(props: Props) {
+export default function DetailModal({ ISBN, modalOpen, closeModal }: Props) {
     const navigate = useNavigate();
     const [isSucceed, setSucceed] = useState<boolean>(false)
     const [bookDetail, setBookDetail] = useState<BookDetail>();
-    const ISBN = 9788950960667
 
     useEffect(() => {
         // 도서 상세 조회 api
@@ -37,7 +36,7 @@ export default function DetailModal(props: Props) {
     }, [])
 
     const getBookDetail = async () => {
-        const data = await getBookDetailAPI('9788950960667')
+        const data = await getBookDetailAPI(ISBN)
         setSucceed(data?.success)
         setBookDetail(data?.responseData)
         // getReadWith(data?.responseData.id)
@@ -49,11 +48,11 @@ export default function DetailModal(props: Props) {
     }
 
     return (
-        <Container className={props.modalOpen ? 'open' : ''}>
+        <Container className={modalOpen ? 'open' : ''}>
             <Background />
             <Modal>
                 <ModalTop>
-                    <CloseBtn onClick={props.closeModal}>
+                    <CloseBtn onClick={closeModal}>
                         <XMarkIcon width="25px" strokeWidth="1.5px" color="white" />
                     </CloseBtn>
                     <BookImage imageUrl={bookDetail?.imageUrl} />
@@ -89,6 +88,7 @@ display: none;
 &.open {
   display: block;
   }
+ 
 `
 const Background = styled.div`
     position: fixed;
@@ -103,6 +103,8 @@ const Background = styled.div`
 
 const Modal = styled.div`
     width: 95%;
+    margin : auto;
+  max-width: 33rem;
     background-color: white;
     position: absolute;
     top: 15%;

@@ -28,7 +28,7 @@ export default function BookCard({ book }: Props) {
 
   return (
     <Container>
-      <DetailModal ISBN={0} closeModal={closeModal} modalOpen={modalOpen} />
+      <DetailModal ISBN={9791185701752} closeModal={closeModal} modalOpen={modalOpen} />
       <BookCover imageUrl={sample} size={130} />
       <Contents onClick={openModal}>
         <BookTitle >{book?.title}</BookTitle>
