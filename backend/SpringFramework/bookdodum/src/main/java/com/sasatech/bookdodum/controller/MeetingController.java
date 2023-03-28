@@ -109,6 +109,19 @@ public class MeetingController {
     }
 
 
+    @GetMapping("/comment/authority/{meetingid}")
+    @Operation(summary = "댓글 작성 권한 확인")
+    public ResponseEntity<?> authorityCheck(@PathVariable("meetingid") Long meetingId,
+                                            @Parameter(hidden = true)
+                                            @AuthenticationPrincipal User user) {
+        if (meetingService.authorityCheck(meetingId, user.getId())) {
+            return new ResponseEntity(new ApiResponseDto(true, "authorityCheck true", null), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(new ApiResponseDto(false, "authorityCheck false", null), HttpStatus.OK);
+        }
+    }
+
+
     // 무한 스크롤
     @GetMapping("/comment")
     @Operation(summary = "모임 댓글 목록 조회")

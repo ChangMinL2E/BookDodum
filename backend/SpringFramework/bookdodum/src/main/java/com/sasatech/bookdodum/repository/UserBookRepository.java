@@ -17,4 +17,5 @@ public interface UserBookRepository extends JpaRepository<UserBook, Long> {
     UserBook findByBook_IdAndUser_Id(Long bookId, Long userId);
 
     List<UserBook> findByBook_Id(long bookId);
+    List<UserBook> findAllByBook_Id(Long bookId);
 }
