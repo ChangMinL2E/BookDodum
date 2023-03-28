@@ -3,31 +3,35 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 interface Props {
-  commentCnt?: number;
-  content?: string;
-  imageUrl?: string;
+  meetingId?: number;
   title?: string;
+  content?: string;
   userName?: string;
-  id?: number;
+  commentCnt?: number;
+  imageUrl?: string;
 }
 
-export default function MeetingCover(meeting: Props) {
+export default function MeetingCover(props: Props) {
   const navigate = useNavigate();
-
+  
   return (
     <GroupImage
-      imageUrl={meeting.imageUrl}
+      imageUrl={props.imageUrl}
       onClick={() => {
-        navigate(`/bookmeeting/${meeting.id}`, {
-          state: { title: meeting.title },
+        navigate(`/bookmeeting/${props.meetingId}`, {
+          state: {
+            title: props.title,
+            userName: props.userName,
+            content: props.content,
+          },
         });
       }}
     >
       <WhiteDiv>
-        <Title>{meeting.title}</Title>
+        <Title>{props.title}</Title>
         <Bottom>
-          <Author>{meeting.userName}</Author>
-          <Participant>{meeting.commentCnt}명 참여중</Participant>
+          <Author>{props.userName}</Author>
+          <Participant>{props.commentCnt}개의 댓글</Participant>
         </Bottom>
       </WhiteDiv>
     </GroupImage>

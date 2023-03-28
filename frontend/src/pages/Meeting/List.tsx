@@ -10,7 +10,7 @@ interface BookMeeting {
   imageUrl: string;
   title: string;
   userName: string;
-  id: number;
+  meetingId: number;
 }
 
 export default function List() {
@@ -26,7 +26,7 @@ export default function List() {
         imageUrl: item.imageUrl,
         title: item.title,
         userName: item.userName,
-        id: item.id
+        meetingId: item.meetingId
       });
     });
     setBookMeetings(list);

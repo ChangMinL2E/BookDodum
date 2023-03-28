@@ -5,20 +5,19 @@ import profile from "../../Assets/Images/oilpainting.png";
 interface Props {
   commentId: number;
   userId: number;
+  userName: string;
   leader_content: string | null;
   content: string;
 }
 
 export default function ListCard(props: Props) {
-  const owner = true;
   return (
     <Container
-    style={{ backgroundColor: props.commentId % 2 ? "#f7f3eb" : "#F9F9F7" }}
+      style={{ backgroundColor: props.commentId % 2 ? "#f7f3eb" : "#F9F9F7" }}
     >
       <ProfileImg src={profile} />
       <TopDiv>
-        <Name>냠냠이</Name>
-        {owner ? <Owner>모임지기의 말</Owner> : null}
+        <Name>{props.userName}</Name>
       </TopDiv>
       <Text>{props.content}</Text>
     </Container>

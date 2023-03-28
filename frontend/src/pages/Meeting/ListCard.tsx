@@ -10,36 +10,40 @@ interface Props {
   imageUrl?: string;
   title?: string;
   userName?: string;
-  id?: number;
+  meetingId?: number;
 }
 
-export default function ListCard(meeting: Props) {
+export default function ListCard(props: Props) {
   const navigate = useNavigate();
-
+  
   return (
     <Div
       onClick={() => {
-        navigate(`/bookmeeting/${meeting.id}`, {
-          state: { title: meeting.title },
+        navigate(`/bookmeeting/${props.meetingId}`, {
+          state: {
+            title: props.title,
+            userName: props.userName,
+            content: props.content,
+          },
         });
       }}
     >
       <Container>
         <Text>
-          <Title>{meeting.title}</Title>
-          <Context>{meeting.content}</Context>
+          <Title>{props.title}</Title>
+          <Context>{props.content}</Context>
           <BottomDiv>
             <WriterDiv>
               <ProfileImg src={profile} />
-              <Writer>{meeting.userName}</Writer>
+              <Writer>{props.userName}</Writer>
             </WriterDiv>
             <ChatCnt>
               <ChatBubbleBottomCenterTextIcon width="15px" />
-              {meeting.commentCnt}
+              {props.commentCnt}
             </ChatCnt>
           </BottomDiv>
         </Text>
-        <BookImg src={meeting.imageUrl} />
+        <BookImg src={props.imageUrl} />
       </Container>
       <Line />
     </Div>

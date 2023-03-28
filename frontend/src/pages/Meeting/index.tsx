@@ -6,12 +6,12 @@ import List from "./List";
 import { getMeetingJoinAPI } from "../../apis/meeting";
 
 interface BookMeeting {
-  commentCnt: number;
-  content: string;
-  imageUrl: string;
+  meetingId: number;
   title: string;
+  content: string;
   userName: string;
-  id: number;
+  commentCnt: number;
+  imageUrl: string;
 }
 
 export default function Meeting() {
@@ -27,7 +27,7 @@ export default function Meeting() {
         imageUrl: item.imageUrl,
         title: item.title,
         userName: item.userName,
-        id: item.id
+        meetingId: item.meetingId,
       });
     });
     setBookMeetings(list);
@@ -42,8 +42,8 @@ export default function Meeting() {
       <Nav />
       <Text>참여중인 독서 모임</Text>
       <BookMeetingCards>
-        {bookMeetings.map((bookMeeting: BookMeeting, idx) => (
-          <MeetingCover key={idx} {...bookMeeting} />
+        {bookMeetings.map((bookMeeting: BookMeeting) => (
+          <MeetingCover key={bookMeeting.meetingId} {...bookMeeting} />
         ))}
       </BookMeetingCards>
       <List />
