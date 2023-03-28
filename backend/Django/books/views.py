@@ -9,8 +9,9 @@ from collections import Counter
 import json, Levenshtein
 import numpy as np
 import nltk
+import time
 
-from .models import Book
+from .models import Book, Matrix
 from .serializers import BookListSerializer
 
 # 책 조회
@@ -30,48 +31,48 @@ def books_list_popular(request):
     return Response(serializer.data)
 
 # 유사도 행렬 만들기
-def make_sim_matrix(data_file):
-    sim_matrix = np.zeros((len(data_file),len(data_file)),dtype=object)
+# def make_sim_matrix(data_file):
+#     sim_matrix = np.zeros((len(data_file),len(data_file)),dtype=object)
 
-    for i in range(len(data_file)):
-        for j in range(len(data_file)):
-            similarity_lst = []
-            for key in data_file[0].keys():
-                if not key == 'id':
-                    similarity = Levenshtein.distance(data_file[i][key],data_file[j][key])
-                    similarity_lst.append(similarity)
-            similarity_score = sum(similarity_lst)/len(similarity_lst)
+#     for i in range(len(data_file)):
+#         for j in range(len(data_file)):
+#             similarity_lst = []
+#             for key in data_file[0].keys():
+#                 if not key == 'id':
+#                     similarity = Levenshtein.distance(data_file[i][key],data_file[j][key])
+#                     similarity_lst.append(similarity)
+#             similarity_score = sum(similarity_lst)/len(similarity_lst)
 
-            sim_matrix[i][j] = (j,similarity_score)
-    return sim_matrix
+#             sim_matrix[i][j] = (j,similarity_score)
+#     return sim_matrix
 
 
 # 추천하기
-def recommend(isbn_num,data_file,sim_matrix):
-  # isbn으로 책 인덱스 찾기
-  book_idx = -1
-  for i in range(len(data_file)):
-      if data_file[i]['isbn'] == str(isbn_num):
-          book_idx = i
-          break
+# def recommend(isbn_num,data_file,sim_matrix):
+#   # isbn으로 책 인덱스 찾기
+#   book_idx = -1
+#   for i in range(len(data_file)):
+#       if data_file[i]['isbn'] == str(isbn_num):
+#           book_idx = i
+#           break
 
-  if book_idx == -1:
-      result = False
-  else:
-    required_lst = sim_matrix[book_idx]
-    low_num_lst = sorted(required_lst, key=lambda x:x[1])[1:6]
+#   if book_idx == -1:
+#       result = False
+#   else:
+#     required_lst = sim_matrix[book_idx]
+#     low_num_lst = sorted(required_lst, key=lambda x:x[1])[1:6]
     
-    result = []
-    for seq in low_num_lst:
-        result.append(data_file[seq[0]])
+#     result = []
+#     for seq in low_num_lst:
+#         result.append(data_file[seq[0]])
 
-  return result
+#   return result
 
 # 
 def count_words_in_book(book, words):
     # 제목, 내용, 카테고리를 모두 합친 텍스트를 만듭니다.
-    book = book['fields']
-    print(book)
+    # book = book['fields']
+    # print(book)
     text = f"{book['title']} {book['content']} {book['category']}"
     
     # 텍스트를 토큰화합니다.
@@ -101,13 +102,12 @@ def convert(o):
         return int(o)
     elif isinstance(o, np.ndarray):
         return o.tolist()
+
     
 @api_view(['GET'])
 def create_matrix(request):
     if request.method == 'GET':
-        # books = list(Book.objects.values())
-        with open('books/fixtures/books.json', 'r', encoding="utf-8") as f:
-            books = json.load(f)
+        books = list(Book.objects.values())
         
         tokens = [
         '경제','경영','건강/취미','고전','과학','만화','달력','대학교재/전문서적','사회과학','소설/시/희곡',
@@ -119,51 +119,109 @@ def create_matrix(request):
         books_matrix = []
         for book in books:
             arr = count_words_in_book(book, tokens)
-            books_matrix.append(arr)
+            books_matrix.append(list(arr))
             if len(books_matrix) % 100 == 0:
                 print(len(books_matrix))
+        # print(books_matrix)
+        # books_matrix = list(map(lambda x: convert(x), books_matrix))
         
-        with open('total_array.json', 'w') as f:
-            json.dump(books_matrix, f, default=convert)
 
-        # return HttpResponse('matrix 생성중')
-        return JsonResponse({'books_matrix': books_matrix})
+        matrix = Matrix(
+            data = books_matrix
+        )
+        matrix.save()    
+
+        return HttpResponse('matrix 생성중')
 
 @api_view(['GET'])
-def books_list_similar(request, isbn_code):
-    if request.method == 'GET':
-        test_books = list(Book.objects.values())
+def test_load(request):
+    start_time = time.time()
+    books = Book.objects.values()
+
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"총 실행 시간: {elapsed_time:.2f}초")
+    return HttpResponse('view 함수 완료.')
+
+@api_view(['GET'])
+def recommend_books(request):
+    matrix = list(Matrix.objects.values())
+    matrix = matrix[0]['data']
+    matrix = np.array(eval(matrix))
+    books = Book.objects.values()
+    # print(matrix)
+    user_matrix = matrix[0]
+    # print(user_matrix)
+    
+    C = np.dot(matrix, user_matrix)
+    C = list(enumerate(C))
+    C = sorted(C,key=lambda x: x[1], reverse=True)[:20]
+
+    lst = []
+    for tu in C:
+        lst.append(books[tu[0]])
+
+    # print(lst)
+    json_data = json.dumps(lst)
+    # return HttpResponse('test success')
+    return HttpResponse(json_data, content_type='application/json')
+
+# @api_view(['GET'])
+# def books_list_similar(request, isbn_code):
+#     if request.method == 'GET':
+#         test_books = list(Book.objects.values())
         
-        # 유사도 행렬
-        sim_matrix = make_sim_matrix(test_books)
+#         # 유사도 행렬
+#         sim_matrix = make_sim_matrix(test_books)
         
-        # 추천 도서 목록
-        recommend_lst = recommend(isbn_code,test_books,sim_matrix)
-        if recommend_lst:
-            json_data = json.dumps(recommend_lst)
+#         # 추천 도서 목록
+#         recommend_lst = recommend(isbn_code,test_books,sim_matrix)
+#         if recommend_lst:
+#             json_data = json.dumps(recommend_lst)
 
-            return HttpResponse(json_data, content_type='application/json')
-        # db에 없는책이면
-        else:
-            return HttpResponse('db에 존재하는 책을 입력해주세요.')
-    # return Response(serializer.data)
+#             return HttpResponse(json_data, content_type='application/json')
+#         # db에 없는책이면
+#         else:
+#             return HttpResponse('db에 존재하는 책을 입력해주세요.')
+#    # return Response(serializer.data)
 
 
 
-# def create_book_from_json(request):
-#     with open('./data/merged_data.json', 'r', encoding='utf-8-sig') as file:
-#         data_file = json.load(file)
-#         for dic in data_file:
-#             book = Book(
-#                 title=dic['title'],
-#                 author=dic['author'],
-#                 publisher=dic['publisher'],
-#                 image_url=dic['image_url'],
-#                 isbn=dic['isbn'],
-#                 category=dic['category'],
-#                 content = dic['content']
-#             )
-#             book.save()
+def create_book_from_json(request):
+    with open('./data/merged_data.json', 'r', encoding='utf-8-sig') as file:
+        data_file = json.load(file) 
+        for dic in data_file:
+            book = Book(
+                title=dic['title'],
+                author=dic['author'],
+                publisher=dic['publisher'],
+                image_url=dic['image_url'],
+                isbn=dic['isbn'],
+                category=dic['category'],
+                content = dic['content']
+            )
+            book.save()
 
-#     return HttpResponse("Success! Books created from books.json file.")
+    return HttpResponse("Success! Books created from books.json file.")
 
+def test_matrix(request):
+    # with open('./data/array.json','r',encoding='utf-8-sig') as file:
+    #     data_file = json.load(file)
+    matrix = list(Matrix.objects.values())
+    print(type(matrix[0]['data']))
+    with open('matrix2.json','w',encoding='utf-8-sig') as file:
+        json.dump(matrix[0], file)
+        
+        # matrix = Matrix(
+        #     data = data_file
+        # )
+        # matrix.save()
+        # print(data_file)
+        
+    return HttpResponse("행렬 읽어짐.")
+
+def delete_matrix(request):
+    matrix = Matrix.objects.all()
+    matrix.delete()
+
+    return HttpResponse('행렬 삭제.')

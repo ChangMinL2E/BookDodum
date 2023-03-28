@@ -10,3 +10,7 @@ class Book(models.Model):
   category = models.TextField()
   content = models.TextField()
 
+class Matrix(models.Model):
+  data = models.TextField()
+
+  
