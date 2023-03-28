@@ -56,7 +56,7 @@ export default function ReadingBooks(theme : Props) {
     <Container>
       <Title theme={theme}>{nickname}님이 읽고 있는 책</Title>
       <List>
-        <AddBtn theme={theme} onClick={() => navigate('/isbn')}><PlusIcon width="40px" strokeWidth="0.7px" color={theme==='dark'? '#F9F9F7': '#5c5649'} /></AddBtn>
+        <AddBtn theme={theme} onClick={() => navigate('/isbn')}><PlusIcon width="40px" strokeWidth="0.7px" /></AddBtn>
         <>{
           books?.map((book) => {
             return (  
