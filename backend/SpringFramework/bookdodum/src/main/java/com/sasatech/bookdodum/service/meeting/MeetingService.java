@@ -127,7 +127,7 @@ public class MeetingService {
 
     public boolean createComment(CommentRequestDto commentRequestDto, User user) {
         Meeting meeting = meetingRepository.findById(commentRequestDto.getMeetingId()).orElseThrow();
-
+        // 권한이 있는 사람만 댓글 달도록 제한.
         try {
             commentRepository.save(Comment.builder()
                     .meeting(meeting)

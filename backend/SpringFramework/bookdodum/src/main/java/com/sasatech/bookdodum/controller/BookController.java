@@ -48,16 +48,16 @@ public class BookController {
     }
 
     @GetMapping("/list/recommend/{bookid}")
+    @Operation(summary = "나와 같은 책을 읽는 사람이 읽는 다른 책 추천")
     public ResponseEntity<?> listRecommendBook(@PathVariable("bookid") Long id,
                                                @Parameter(hidden = true)
                                                @AuthenticationPrincipal User user) {
-        bookService.listRecommendBook(id, user.getId());
+        return new ResponseEntity(new ApiResponseDto(true, "listRecommendBook Success", bookService.listRecommendBook(id, user.getId())), HttpStatus.OK);
     }
 
 
 
-
-                                         @Operation(summary = "내 도서 상세조회")
+    @Operation(summary = "내 도서 상세조회")
     public ResponseEntity<?> detailBook(@RequestParam("bookid") Long bookId,
                                         @Parameter(hidden = true)
                                         @AuthenticationPrincipal User user) {
