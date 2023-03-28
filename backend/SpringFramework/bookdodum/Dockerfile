@@ -13,12 +13,6 @@ COPY gradle gradle
 
 RUN chmod +x ./gradlew
 
-# 의존성 다운로드를 실행합니다.
-RUN ./gradlew downloadDependencies
-
-# 소스 코드를 복사합니다.
-COPY . .
-
 # 애플리케이션을 빌드합니다.
 RUN ./gradlew build
 
