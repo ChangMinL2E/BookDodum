@@ -22,7 +22,7 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
   const updateScrollPosition = () => {
     setScrollPosition(window.scrollY || document.documentElement.scrollTop);
   };
-
+  const token = window.localStorage.getItem('user')
   const [isLogin, setIsLogin] = useState<boolean>(true);
 
   const logout = () => {
@@ -30,6 +30,9 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
     alert("로그아웃 되었습니다.");
     persistor.purge();
   };
+
+  useEffect(() => {
+  }, )
 
   return (
     <>
@@ -48,7 +51,7 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
               <img src={logo} width="70px" height="35px" />
             </LogoImg>
           </Logo>
-          {!isLogin ? (
+          {!token ? (
             <LoginBtn onClick={() => navigate("/login")}>
               <TextTop>북,돋움 해보기</TextTop>
               <TextBottom>로그인/회원가입</TextBottom>
@@ -78,7 +81,7 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
             >
               <MenuText>독서모임</MenuText>
             </Menu>
-            {isLogin && (
+            {token && (
               <Menu
                 className={location.pathname === "/mypage" ? "selected" : ""}
                 onClick={() => {

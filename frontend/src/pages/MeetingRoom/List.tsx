@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { getMeetingCommentAPI } from "../../apis/meeting";
 import NavBack from "../../Components/Contents/NavBack";
 import ListCard from "./ListCard";
 
@@ -15,7 +16,18 @@ interface Info {
 }
 
 export default function List(props: Props) {
+  const [comments, setComments] = useState();
+  const id: number = 1;
+
+  useEffect(() => {
+    getMeetingComment(id);
+  }, []);
+
   // 모임 내부 axios 불러오기
+  const getMeetingComment = async (id: number) => {
+    const data = await getMeetingCommentAPI(id);
+    setComments(data);
+  };
 
   // 예시 정보
   const meetingInfo: Info[] = [

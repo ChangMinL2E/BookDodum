@@ -2,14 +2,15 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import sample from "../../Assets/Images/sample.png";
 import Book from "../../Components/Contents/Book";
+import useSelectorTyped from "../../Store";
 
 
 // 컴포넌트 정의
 export default function BookList() {
+  const nickname = useSelectorTyped((state) => state.user.name);
   // const [books , setBooks] = useState<Book[]>([])
 
   useEffect(() => {
-
     // setBooks([{
     //     imageUrl: sample,
     //     title: "불편한 편의점",
@@ -20,7 +21,7 @@ export default function BookList() {
 
   return (
     <Container>
-      <Title>나혜승 님의 취향 가득 추천 도서</Title>
+      <Title>{nickname}님의 취향 가득 추천 도서</Title>
       <List>
         <Book book={{
           imageUrl: sample,

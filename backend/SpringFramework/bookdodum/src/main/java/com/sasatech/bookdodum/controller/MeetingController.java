@@ -7,6 +7,7 @@ import com.sasatech.bookdodum.entity.user.User;
 import com.sasatech.bookdodum.repository.MeetingRepository;
 import com.sasatech.bookdodum.service.meeting.MeetingService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Meet", description = "모임 관련 API")
@@ -29,7 +32,10 @@ public class MeetingController {
     @PostMapping
     @Operation(summary = "모임 생성")
     public ResponseEntity<?> createMeeting(@RequestBody MeetingRequestDto meetingRequestDto,
+                                           @Parameter(hidden = true)
                                            @AuthenticationPrincipal User user) {
+
+        System.out.println(meetingRequestDto.getBookId());
 
         if (meetingService.createMeeting(meetingRequestDto, user)) {
             return new ResponseEntity(new ApiResponseDto(true, "createMeeting Success", null), HttpStatus.OK);
@@ -42,6 +48,7 @@ public class MeetingController {
     @PostMapping("/join/{meetingid}")
     @Operation(summary = "모임 참여")
     public ResponseEntity<?> joinMeeting(@PathVariable("meetingid") Long meetingId,
+                                         @Parameter(hidden = true)
                                          @AuthenticationPrincipal User user) {
         System.out.println(meetingId);
         if (meetingService.joinMeeting(meetingId, user)) {
@@ -55,7 +62,9 @@ public class MeetingController {
     @Operation(summary = "참여중인 모임 목록 조회")
     public ResponseEntity<?> listMyMeeting(
             @RequestParam(value = "idx", defaultValue = "0") long idx,
+            @Parameter(hidden = true)
             @PageableDefault(size = 5, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable,
+            @Parameter(hidden = true)
             @AuthenticationPrincipal User user) {
 
         // 최초 로딩시점
@@ -74,6 +83,7 @@ public class MeetingController {
     public ResponseEntity<?> listMeeting(
             @RequestParam(value = "idx", defaultValue = "0") Long idx,
             @RequestParam(value = "bookid", defaultValue = "-1") Long bookId,
+            @Parameter(hidden = true)
             @PageableDefault(size = 5, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable) {
 
         // 최초 로딩시점
@@ -88,9 +98,10 @@ public class MeetingController {
     @PostMapping("/comment")
     @Operation(summary = "모임 댓글 생성")
     public ResponseEntity<?> createComment(@RequestBody CommentRequestDto commentRequestDto,
+                                           @Parameter(hidden = true)
                                            @AuthenticationPrincipal User user) {
 
-        if (meetingService.createComment(commentRequestDto)) {
+        if (meetingService.createComment(commentRequestDto, user)) {
             return new ResponseEntity(new ApiResponseDto(true, "createComment Success", null), HttpStatus.OK);
         } else {
             return new ResponseEntity(new ApiResponseDto(false, "createComment Fail", null), HttpStatus.OK);
@@ -104,6 +115,7 @@ public class MeetingController {
     public ResponseEntity<?> listComment(
             @RequestParam(value = "idx", defaultValue = "0") long idx,
             @RequestParam("id") long meetingId,
+            @Parameter(hidden = true)
             @PageableDefault(size = 5, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable) {
 
         // 최초 로딩시점

@@ -1,6 +1,8 @@
 import axios from "axios";
 
 const baseUrl = process.env.REACT_APP_API_URL;
+const user: any = window.localStorage.getItem("user");
+const token = JSON.parse(user);
 
 // 책 정보 불러오기
 export async function getBookInfoAPI(imgUrl: string) {
@@ -17,7 +19,8 @@ export async function getBookInfoAPI(imgUrl: string) {
   }
 }
 
-export async function postBookIdAPI(id: number, token: any) {
+// isbn으로 책 등록하기
+export async function postBookIdAPI(id: number) {
   try {
     const { data } = await axios({
       method: "POST",

@@ -23,7 +23,7 @@ public class CommentScrollQdslRepositoryImpl implements CommentScrollQdslReposit
 
         return jpaQueryFactory.selectFrom(comment)
                 .where(comment.id.lt(idx), comment.meeting.id.eq(meetingId))
-                .orderBy(comment.id.desc())
+                .orderBy(comment.id.asc())
                 .limit(pageable.getPageSize())
                 .fetch()
                 ;

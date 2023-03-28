@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBack from "../../Components/Contents/NavBack";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { createMeeting } from "../../apis/meeting";
+import { createMeetingAPI } from "../../apis/meeting";
 
 interface Meeting {
   bookId: number;
@@ -13,6 +13,7 @@ interface Meeting {
 
 export default function MeetingCreate() {
   const bookId = 1;
+  const [bookTitle, setBookTitle] = useState<string[]>(['---도서를 선택해 주세요---'])
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
   const [authority, setAuthority] = useState<boolean>(true);
@@ -29,8 +30,17 @@ export default function MeetingCreate() {
     authority: authority,
   };
 
+  useEffect(()=> {
+    getIngBooks();
+  }, [])
+
+  const getIngBooks = async () => {
+    // const data = await getIngBooksAPI();
+    // setTitle()
+  }
+
   const makeMeeting = async (meeting: Meeting) => {
-    await createMeeting(meeting);
+    await createMeetingAPI(meeting);
   };
 
   const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +54,7 @@ export default function MeetingCreate() {
 
   const navigate = useNavigate();
   const goMeeting = () => {
-    navigate(`/bookmeeting/${bookId}`);
+    navigate(`/bookmeeting`);
   };
 
   return (
@@ -53,10 +63,13 @@ export default function MeetingCreate() {
 
       <Text>도서 선택하기</Text>
       <Book>
-        <option>- - - 도서를 선택해 주세요 - - -</option>
+        {bookTitle.map((title)=>(
+          <option>{title}</option>
+        ))}
+        {/* <option>- - - 도서를 선택해 주세요 - - -</option>
         <option>불편한 편의점</option>
         <option>구의 증명</option>
-        <option>모순</option>
+        <option>모순</option> */}
       </Book>
 
       <Text>모임 만들기</Text>
