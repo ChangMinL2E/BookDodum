@@ -6,6 +6,7 @@ import {
   getMeetingCommentAPI,
   postMeetingCommentAPI,
   postMeetingJoinAPI,
+  getCommentAuthorityAPI,
 } from "../../apis/meeting";
 import NavBack from "../../Components/Contents/NavBack";
 import ListCard from "./ListCard";
@@ -41,6 +42,9 @@ export default function List() {
   // 댓글 입력
   const [text, setText] = useState<string>("");
 
+  // 댓글 권한
+  const [authority, setAuthority] = useState<boolean>(false);
+
   // 댓글 올릴 때 필요한 정보
   const comment: Comment = {
     meetingId: id,
@@ -54,7 +58,7 @@ export default function List() {
   // 무한 스크롤
   useEffect(() => {
     if (InView) {
-      setIdx(comments[comments.length-1]?.commentId);
+      setIdx(comments[comments.length - 1]?.commentId);
     }
   }, [inView]);
 
@@ -80,6 +84,7 @@ export default function List() {
     await postMeetingCommentAPI(comment);
     alert("댓글이 등록되었습니다.");
     setText("");
+    postMeetingJoin();
     getMeetingComment(); // 등록한 후 axios 다시 호출
   };
 
@@ -90,6 +95,15 @@ export default function List() {
     }
   };
 
+  const getCommentAuthority = async () => {
+    const data = await getCommentAuthorityAPI(4);
+    setAuthority(data);
+  };
+
+  useEffect(() => {
+    getCommentAuthority();
+  }, []);
+
   // 모임 참여하기
   const postMeetingJoin = async () => {
     await postMeetingJoinAPI(id);
@@ -99,32 +113,36 @@ export default function List() {
     <Container>
       <NavBack text={title} link={"-1"} />
 
-      {/* 모임지기의 말 */}
-      <Master style={{ backgroundColor: "#E7E1D2" }}>
-        <ProfileImg src={profile} />
-        <TopDiv>
-          <Name>{master}</Name>
-          <Owner>모임지기의 말</Owner>
-        </TopDiv>
-        <Text>{masterContent}</Text>
-      </Master>
+      <Comment>
+        {/* 모임지기의 말 */}
+        <Master style={{ backgroundColor: "#E7E1D2" }}>
+          <ProfileImg src={profile} />
+          <TopDiv>
+            <Name>{master}</Name>
+            <Owner>모임지기의 말</Owner>
+          </TopDiv>
+          <Text>{masterContent}</Text>
+        </Master>
 
-      {/* 모임 댓글 */}
-      <Wrapper>
-        {comments.map((info: Info) => (
-          <ListCard {...info} key={info.commentId} />
-        ))}
-        <Ref ref={ref} />
-      </Wrapper>
+        {/* 모임 댓글 */}
+        <Wrapper>
+          {comments.map((info: Info) => (
+            <ListCard {...info} key={info.commentId} />
+          ))}
+          <Ref ref={ref} style={{ height: authority ? "60px" : "0px" }} />
+        </Wrapper>
+      </Comment>
 
       {/* 댓글 입력 */}
-      <Input
-        type="text"
-        placeholder="생각을 나눠 주세요"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        onKeyPress={handleKeyPress}
-      />
+      {authority ? (
+        <Input
+          type="text"
+          placeholder="생각을 나눠 주세요"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onKeyPress={handleKeyPress}
+        />
+      ) : null}
     </Container>
   );
 }
@@ -132,7 +150,14 @@ export default function List() {
 const Container = styled.div`
   background-color: #f9f9f7;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Comment = styled.div`
+  height: 95%;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
 `;

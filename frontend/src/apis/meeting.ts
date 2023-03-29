@@ -142,4 +142,18 @@ export async function getBookMeetingAPI(bookid: number) {
   }
 }
 
-// 
+// 모임 댓글작성 권한 확인
+export async function getCommentAuthorityAPI(meetingid: number) {
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: `${baseUrl}/meeting/comment/authority/${meetingid}`,
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return data.success;
+  } catch (e) {
+    console.log(e);
+  }
+}
