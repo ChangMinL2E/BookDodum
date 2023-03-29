@@ -10,6 +10,7 @@ import Comment from "./Comment";
 interface Comment {
   bookId: number;
   content: string;
+  reviewId?: string;
 }
 
 // 독후감 리스트 타입 지정

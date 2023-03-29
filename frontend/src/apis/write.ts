@@ -7,7 +7,6 @@ const token = JSON.parse(user)
 interface Comment {
   bookId: number;
   content:string;
-  reviewId: number;
 };
 
 
