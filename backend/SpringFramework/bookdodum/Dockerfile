@@ -20,5 +20,6 @@ RUN ./gradlew build
 ARG JAR_FILE=build/libs/*.jar
 COPY ${JAR_FILE} app.jar    
 
+
 # 컨테이너 실행 시 실행할 명령어를 정의합니다.
 CMD ["java", "-jar", "app.jar"]
