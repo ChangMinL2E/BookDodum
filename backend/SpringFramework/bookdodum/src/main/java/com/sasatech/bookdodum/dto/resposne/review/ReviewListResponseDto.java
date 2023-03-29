@@ -10,5 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewListResponseDto {
+
+    private String bookid;
     private String content;
 }
