@@ -10,6 +10,7 @@ import json, Levenshtein
 import numpy as np
 import nltk
 import time
+# nltk.download('punkt')
 
 from .models import Book, Matrix
 from .serializers import BookListSerializer
@@ -190,6 +191,7 @@ def recommend_books(request):
 def create_book_from_json(request):
     with open('./data/merged_data.json', 'r', encoding='utf-8-sig') as file:
         data_file = json.load(file) 
+        # data_file = data_file[:100]
         for dic in data_file:
             book = Book(
                 title=dic['title'],
