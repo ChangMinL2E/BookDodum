@@ -4,6 +4,7 @@ import { PURGE } from "redux-persist";
 interface User {
   userid: string,
   name: string,
+  
 }
 
 const initialState: User = {

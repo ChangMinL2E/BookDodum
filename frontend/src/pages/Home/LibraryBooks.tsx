@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { LibraryBook } from '../../Store/Types'
 import { useInView } from "react-intersection-observer";
 import useSelectorTyped from "../../Store";
-// import Components
-
+// Components
+import BookCover from "../../Components/Contents/BookCover";
+import DetailModal from "../../Components/Contents/DetailModal";
+// Types
+import { LibraryBook } from '../../Store/Types'
+// APIs
+import { getLibraryBooksAPI, getRegionCodeAPI } from "../../apis/region";
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import { EffectCoverflow } from "swiper";
-import BookCover from "../../Components/Contents/BookCover";
-import { getLibraryBooksAPI, getRegionCodeAPI } from "../../apis/region";
-import DetailModal from "../../Components/Contents/DetailModal";
 
 
 // Component
@@ -41,10 +42,10 @@ export default function LibraryBooks() {
 
   // 지역코드로 도서관 인기도서 받기
   useEffect(() => {
-    if (regionCode !== -1) {
-      // getLibraryBooks(regionCode)
+    if (regionCode !== -1 && inView) {
+      getLibraryBooks(regionCode)
     }
-  }, [regionCode])
+  }, [regionCode, inView])
 
   const getRegionCode = async () => {
     const data = await getRegionCodeAPI(position[0], position[1])

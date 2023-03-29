@@ -89,7 +89,6 @@ export default function LibraryList() {
             {modalOpen &&
                 <LibraryModal modalOpen={modalOpen} closeModal={closeModal} libCode={selectedLib} />
             }
-
         </Container>
     );
 }

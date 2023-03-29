@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ReactWordcloud from 'react-wordcloud';
-import { getBestKeywordAPI } from '../../apis/bestkeyword';
 import { useInView } from 'react-intersection-observer';
+// APIs
+import { getBestKeywordAPI } from '../../apis/bestkeyword';
 
 interface KeyWord {
   text: string;
@@ -15,8 +16,8 @@ export default function BestKeyword() {
 
   useEffect(() => {
     // 이달의 키워드 요청
-    // getBestKeyword()
-  }, [])
+    if(inView) getBestKeyword()
+  }, [inView])
 
   const options: any = {
     colors: ["#edb02b", "#3464f7", "#258247", "#ed2b82", "#5a5752", "#6830bd",],

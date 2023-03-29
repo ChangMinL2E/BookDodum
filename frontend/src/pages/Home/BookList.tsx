@@ -4,24 +4,25 @@ import useSelectorTyped from "../../Store";
 // Components
 import Book from "../../Components/Contents/Book";
 // Types
-import {BookInfo} from '../../Store/Types'
+import { BookInfo } from '../../Store/Types'
 // APIs
 import { getUserRecommendAPI } from "../../apis/recommend";
 
 interface Props {
-  type : string;
-  bookId : number;
+  type: string;
+  bookId: number;
+  title: string;
 }
 
 // 컴포넌트 정의
-export default function BookList({type, bookId} : Props) {
+export default function BookList({ type, bookId, title }: Props) {
   const nickname = useSelectorTyped((state) => state.user.name);
   const [books, setBooks] = useState<BookInfo[]>([])
 
   useEffect(() => {
     if (type === 'user') {
       getUserRecommend()
-    } else if(type=== 'contents') {
+    } else if (type === 'contents') {
       getContentsRecommend()
     }
   }, [])
@@ -29,7 +30,7 @@ export default function BookList({type, bookId} : Props) {
   // 협업 필터링 기반
   const getUserRecommend = async () => {
     const data = await getUserRecommendAPI(bookId);
-    
+
     let tmp: BookInfo[] = []
     data.forEach((book: BookInfo) => {
       tmp.push({
@@ -52,13 +53,12 @@ export default function BookList({type, bookId} : Props) {
   return (
     <Container>
       {
-        type === 'user' ? <Title>{nickname}님의 취향 가득 추천 도서</Title> : <Title>{nickname}님의 취향 가득 추천 도서</Title>
+        type === 'user' ? <Title>{title.length > 8 ? title.slice(0, 8) + '...' : title}을 읽은 사용자들이 선택한 도서 </Title> : <Title>{nickname}님의 취향 가득 추천 도서</Title>
       }
       <List>
         <>
           {
             books.map((book) => {
-              console.log(book)
               return (
                 <Book key={book.bookId} book={{
                   imageUrl: book.imageUrl,

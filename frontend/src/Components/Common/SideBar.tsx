@@ -92,9 +92,6 @@ export default function SideBar({ sideMenu, hideSideMenu }: Props) {
             )}
           </Menus>
         </Wrap>
-        <InfoMsg onClick={() => navigate("/intro")}>
-          북,돋움에 처음 오셨나요? 더 알아보기
-        </InfoMsg>
       </Bar>
     </Container>
   );
@@ -199,10 +196,3 @@ const TextBottom = styled.div`
   font-size: 12px;
 `;
 
-const InfoMsg = styled.div`
-  font-size: 12px;
-  position: absolute;
-  width: 90%;
-  margin-left: 7%;
-  bottom: 2.5%;
-`;
