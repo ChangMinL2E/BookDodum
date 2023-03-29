@@ -11,7 +11,7 @@ COPY gradlew .
 # Gradle 의존성을 복사합니다.
 COPY gradle gradle
 
-RUN chmod +x ./gradlew
+RUN chmod +x gradlew
 
 # 애플리케이션을 빌드합니다.
 RUN ./gradlew build
