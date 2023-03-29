@@ -5,13 +5,14 @@ import { deleteCommentAPI } from "../../apis/write";
 
 interface CommentProps {
   content: string;
+  reviewId: number;
 }
 
 
 
-export default function Comment({ content}: CommentProps) {
+export default function Comment({ content,reviewId}: CommentProps) {
   const deleteComment  = async () => {
-    const data = await deleteCommentAPI()
+    const data = await deleteCommentAPI(reviewId)
   }
   return (
     <>
