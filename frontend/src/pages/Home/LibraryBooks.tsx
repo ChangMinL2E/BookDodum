@@ -73,6 +73,7 @@ export default function LibraryBooks() {
   const openModal = (ISBN: number): void => {
     setModalOpen(!modalOpen)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+    setIsbn(ISBN)
   }
 
   const closeModal = (): void => {
@@ -128,7 +129,6 @@ export default function LibraryBooks() {
   );
 };
 
-
 // Styled Components
 const Container = styled.div`
   width : 100%;
@@ -177,6 +177,7 @@ const BookTitle = styled.div`
   font-size: 15px;
   margin-top: 5%;
   white-space: pre-line;
+  text-align: center;
 `
 const Ranking = styled.div`
   border: 2px solid #edc200;

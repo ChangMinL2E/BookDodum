@@ -10,10 +10,11 @@ import { getUserRecommendAPI } from "../../apis/recommend";
 
 interface Props {
   type : string;
+  bookId : number;
 }
 
 // 컴포넌트 정의
-export default function BookList({type} : Props) {
+export default function BookList({type, bookId} : Props) {
   const nickname = useSelectorTyped((state) => state.user.name);
   const [books, setBooks] = useState<BookInfo[]>([])
 
@@ -27,7 +28,7 @@ export default function BookList({type} : Props) {
 
   // 협업 필터링 기반
   const getUserRecommend = async () => {
-    const data = await getUserRecommendAPI(3);
+    const data = await getUserRecommendAPI(bookId);
     
     let tmp: BookInfo[] = []
     data.forEach((book: BookInfo) => {
