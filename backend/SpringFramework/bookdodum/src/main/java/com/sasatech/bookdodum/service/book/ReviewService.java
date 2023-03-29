@@ -57,8 +57,8 @@ public class ReviewService {
         }
     }
 
-    public List<ReviewListResponseDto> listReview(Long userId) {
-        List<Review> list = reviewRepository.findAllByUser_Id(userId);
+    public List<ReviewListResponseDto> listReview(Long bookId, Long userId) {
+        List<Review> list = reviewRepository.findAllByBook_IdAndUser_Id(bookId, userId);
         List<ReviewListResponseDto> dtoList = new ArrayList<>();
 
         for (Review review : list) {
