@@ -28,14 +28,21 @@ export default function BookCard({ book }: Props) {
 
   return (
     <Container>
-      <DetailModal ISBN={0} closeModal={closeModal} modalOpen={modalOpen} />
+      <DetailModal ISBN={9791185701752} closeModal={closeModal} modalOpen={modalOpen} />
       <BookCover imageUrl={sample} size={130} />
       <Contents onClick={openModal}>
         <BookTitle >{book?.title}</BookTitle>
         <Categories>
-          <Category>
-            국내도서</Category>
-          <Category>소설/시/희곡</Category>
+          <>
+            {
+              book.category.map((text) => {
+                return (
+                  <Category>{text}</Category>
+                )
+              })
+            }
+          </>
+
         </Categories>
         <Company>{book?.publisher}</Company>
       </Contents>

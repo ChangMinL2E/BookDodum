@@ -8,14 +8,13 @@ import LibraryModal from './LibraryModal';
 export default function LibraryList() {
     const ISBN = useParams().ISBN
     const [selectedLib, setSelectedLib] = useState<number>(0) 
-    
 
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     const [libs, setLibs] = useState<LibraryType[]>([])
     const regionCode = 24
 
     useEffect(() => {
-        // getLibrary()
+        getLibrary()
     }, [])
 
     // 도서 소장 도서관 조회
@@ -37,6 +36,7 @@ export default function LibraryList() {
             })
         })
         setLibs(tmp)
+        console.log(tmp)
     }
 
     // 모달 열고 닫기
