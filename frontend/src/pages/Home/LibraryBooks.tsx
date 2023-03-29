@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { LibraryBook } from '../../Store/Types'
 import { useInView } from "react-intersection-observer";
+import useSelectorTyped from "../../Store";
 // import Components
 
 // Swiper
@@ -11,15 +12,18 @@ import "swiper/css/effect-coverflow";
 import { EffectCoverflow } from "swiper";
 import BookCover from "../../Components/Contents/BookCover";
 import { getLibraryBooksAPI, getRegionCodeAPI } from "../../apis/region";
+import DetailModal from "../../Components/Contents/DetailModal";
 
 
 // Component
 export default function LibraryBooks() {
+  const nickname = useSelectorTyped((state) => state.user.name);
   const [ref, inView] = useInView();
   const [books, setBooks] = useState<LibraryBook[]>();
   const [position, setPosition] = useState<[number, number]>([-1, -1]);
+  const [regionName, setRegionName] = useState<any>('');
   const [regionCode, setRegionCode] = useState<any>(-1);
-
+  const [isbn, setIsbn] = useState<number>(0);
 
   useEffect(() => {
     // 현재 좌표 구하기
@@ -30,21 +34,22 @@ export default function LibraryBooks() {
 
   // 좌표로 지역코드 받아오기
   useEffect(() => {
-    if(position[0] !== -1) {
+    if (position[0] !== -1) {
       getRegionCode()
     }
   }, [position])
 
   // 지역코드로 도서관 인기도서 받기
   useEffect(() => {
-    if(regionCode !== -1) {
+    if (regionCode !== -1) {
       // getLibraryBooks(regionCode)
     }
   }, [regionCode])
 
   const getRegionCode = async () => {
     const data = await getRegionCodeAPI(position[0], position[1])
-    setRegionCode(data)
+    setRegionName(data?.regionName)
+    setRegionCode(data?.regionCode)
   }
 
   const getLibraryBooks = async (REGION_CODE: number) => {
@@ -62,48 +67,64 @@ export default function LibraryBooks() {
     setBooks(tmp)
   }
 
+  // modal관련 함수
+  const [modalOpen, setModalOpen] = useState<boolean>(false)
+
+  const openModal = (ISBN: number): void => {
+    setModalOpen(!modalOpen)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const closeModal = (): void => {
+    setModalOpen(false);
+  }
+
   return (
-    <Container>
-      <Title ref={ref} className={inView ? 'title' : ''}>
-        유나님이 계신 지역의
-        <br />
-        인기 대출 도서
-      </Title>
-      <Desc>{ } 지역의 인기 도서를 만나보세요!</Desc>
-      <SwiperWrap>
-        <Swiper
-          effect={"coverflow"}
-          grabCursor={true}
-          centeredSlides={true}
-          slidesPerView={2}
-          coverflowEffect={{
-            rotate: 50,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-          }}
-          modules={[EffectCoverflow]}
-        >
-          <>{
-            books?.map((book, idx) => {
-              return (
-                <SwiperSlide key={book.ISBN} style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-                  <BookCover imageUrl={book.imageUrl} size={170} />
-                  <BookTitle>
-                    {book.title}
-                    
+    <>
+      <Container>
+        <Title ref={ref} className={inView ? 'title' : ''}>
+          {nickname}님이 계신 지역의
+          <br />
+          인기 대출 도서
+        </Title>
+        <Desc>{regionName} 지역의 인기 도서를 만나보세요!</Desc>
+        <SwiperWrap>
+          <Swiper
+            effect={"coverflow"}
+            grabCursor={true}
+            centeredSlides={true}
+            slidesPerView={2}
+            coverflowEffect={{
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+            }}
+            modules={[EffectCoverflow]}
+          >
+            <>{
+              books?.map((book, idx) => {
+                return (
+                  <SwiperSlide onClick={() => openModal(book.ISBN)} key={book.ISBN} style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                    <BookCover imageUrl={book.imageUrl} size={170} />
+                    <BookTitle>
+                      {book.title}
                     </BookTitle>
-                  <Ranking>
-                    {idx + 1}위
-                  </Ranking>
-                </SwiperSlide>
-              )
-            })
-          }
-          </>
-        </Swiper>
-      </SwiperWrap>
-    </Container>
+                    <Ranking>
+                      {idx + 1}위
+                    </Ranking>
+                  </SwiperSlide>
+                )
+              })
+            }
+            </>
+          </Swiper>
+        </SwiperWrap>
+      </Container>
+      {modalOpen &&
+        <DetailModal ISBN={isbn} closeModal={closeModal} modalOpen={modalOpen} />
+      }
+    </>
   );
 };
 

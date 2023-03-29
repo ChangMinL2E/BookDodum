@@ -37,7 +37,7 @@ function App() {
         <Route path="/meetingcreate" element={<MeetingCreate />} />
         <Route path="/write/:bookid" element={<WriteText />} />
         <Route path="/questions" element={<Questions />} />
-        <Route path="/survey" element={<Survey />} />
+        <Route path="/survey/:step" element={<Survey />} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
       </Routes>

@@ -47,7 +47,7 @@ export default function Banner() {
         <SwiperSlide>
           <Slide3>
             <Link3>
-              <Text onClick={() => navigate('/signup') }>지금 시작하기</Text>
+              <Text onClick={() => navigate('/signup')}>지금 시작하기</Text>
               <ArrowRightCircleIcon width="20px" color="white" />
             </Link3>
           </Slide3>
@@ -82,12 +82,11 @@ const Text = styled.div`
 `;
 
 const Slide2 = styled.div`
-  width: 100vw;
+ width: 100%;
   height: 80vh;
   background: url(${banner2});
   background-size: cover;
   background-position: center;
-  align-items: center;
 `;
 
 const Link2 = styled.div`
@@ -101,12 +100,11 @@ const Link2 = styled.div`
 `;
 
 const Slide3 = styled.div`
-  width: 100vw;
+ width: 100%;
   height: 80vh;
   background: url(${banner3});
   background-size: cover;
   background-position: center;
-  align-items: center;
 `;
 
 const Link3 = styled.div`
