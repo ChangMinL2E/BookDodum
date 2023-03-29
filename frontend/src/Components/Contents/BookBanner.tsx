@@ -17,7 +17,6 @@ export default function BookBanner({imageUrl}: Props) {
   );
 }
 const BannerImage = styled.div`
-<<<<<<< HEAD
     width: 100%;
     height: 30vh;
     background: url(${bookBanner});
@@ -25,10 +24,3 @@ const BannerImage = styled.div`
 `
 
 
-=======
-  width: 100vw;
-  height: 30vh;
-  background: url(${bookBanner});
-  background-size: cover;
-`;
->>>>>>> 8db66cc6913cd5ed8442a244964793310f250d80

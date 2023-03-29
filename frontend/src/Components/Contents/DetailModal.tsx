@@ -29,6 +29,7 @@ export default function DetailModal({ ISBN, modalOpen, closeModal }: Props) {
     const navigate = useNavigate();
     const [isSucceed, setSucceed] = useState<boolean>(false)
     const [bookDetail, setBookDetail] = useState<BookDetail>();
+    const [readWith, setReadWith] = useState<number>(0)
 
     useEffect(() => {
         // 도서 상세 조회 api
@@ -39,12 +40,12 @@ export default function DetailModal({ ISBN, modalOpen, closeModal }: Props) {
         const data = await getBookDetailAPI(ISBN)
         setSucceed(data?.success)
         setBookDetail(data?.responseData)
-        // getReadWith(data?.responseData.id)
+        getReadWith(data?.responseData.id)
     }
 
     const getReadWith = async (bookId: number) => {
-        const data = await getReadWithAPI(bookId)
-        console.log(data)
+        const data: any = await getReadWithAPI(bookId)
+        setReadWith(data?.length)
     }
 
     return (
@@ -63,7 +64,7 @@ export default function DetailModal({ ISBN, modalOpen, closeModal }: Props) {
                             <div style={{ margin: '0 3% 0 0' }}>
                                 <UsersIcon width="25px" />
                             </div>
-                            <div >현재 이 책을 읽고 있는 사람  · 14명</div>
+                            <div >현재 이 책을 읽고 있는 사람  · {readWith}명</div>
                         </People>
                         <InfoTitle></InfoTitle>
                         <Title>제목</Title>
@@ -82,13 +83,12 @@ export default function DetailModal({ ISBN, modalOpen, closeModal }: Props) {
     );
 }
 const Container = styled.div`
-/* width: 100vw;
-height: 100vh; */
-display: none;
-&.open {
-  display: block;
-  }
- 
+    /* width: 100vw;
+    height: 100vh; */
+    display: none;
+    &.open {
+    display: block;
+    }
 `
 const Background = styled.div`
     position: fixed;
@@ -104,7 +104,7 @@ const Background = styled.div`
 const Modal = styled.div`
     width: 95%;
     margin : auto;
-  max-width: 33rem;
+    max-width: 33rem;
     background-color: white;
     position: absolute;
     top: 15%;
@@ -136,6 +136,7 @@ const BookImage = styled.div<ImgProps>`
 
 const ModalBottom = styled.div`
 `
+
 const Contents = styled.div`
     width: 85%;
     margin: 10% auto;

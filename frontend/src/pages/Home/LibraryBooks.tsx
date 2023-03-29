@@ -23,7 +23,7 @@ export default function LibraryBooks() {
   const [position, setPosition] = useState<[number, number]>([-1, -1]);
   const [regionName, setRegionName] = useState<any>('');
   const [regionCode, setRegionCode] = useState<any>(-1);
-
+  const [isbn, setIsbn] = useState<number>(0);
 
   useEffect(() => {
     // 현재 좌표 구하기
@@ -70,7 +70,7 @@ export default function LibraryBooks() {
   // modal관련 함수
   const [modalOpen, setModalOpen] = useState<boolean>(false)
 
-  const openModal = (): void => {
+  const openModal = (ISBN: number): void => {
     setModalOpen(!modalOpen)
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -105,7 +105,7 @@ export default function LibraryBooks() {
             <>{
               books?.map((book, idx) => {
                 return (
-                  <SwiperSlide onClick={openModal} key={book.ISBN} style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                  <SwiperSlide onClick={() => openModal(book.ISBN)} key={book.ISBN} style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                     <BookCover imageUrl={book.imageUrl} size={170} />
                     <BookTitle>
                       {book.title}
@@ -121,7 +121,9 @@ export default function LibraryBooks() {
           </Swiper>
         </SwiperWrap>
       </Container>
-      <DetailModal ISBN={9791185701752} closeModal={closeModal} modalOpen={modalOpen} />
+      {modalOpen &&
+        <DetailModal ISBN={isbn} closeModal={closeModal} modalOpen={modalOpen} />
+      }
     </>
   );
 };

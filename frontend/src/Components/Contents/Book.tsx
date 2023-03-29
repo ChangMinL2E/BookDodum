@@ -33,9 +33,16 @@ export default function BookCard({ book }: Props) {
       <Contents onClick={openModal}>
         <BookTitle >{book?.title}</BookTitle>
         <Categories>
-          <Category>
-            국내도서</Category>
-          <Category>소설/시/희곡</Category>
+          <>
+            {
+              book.category.map((text) => {
+                return (
+                  <Category>{text}</Category>
+                )
+              })
+            }
+          </>
+
         </Categories>
         <Company>{book?.publisher}</Company>
       </Contents>

@@ -14,7 +14,7 @@ export default function LibraryList() {
     const regionCode = 24
 
     useEffect(() => {
-        // getLibrary()
+        getLibrary()
     }, [])
 
     // 도서 소장 도서관 조회
@@ -36,6 +36,7 @@ export default function LibraryList() {
             })
         })
         setLibs(tmp)
+        console.log(tmp)
     }
 
     // 모달 열고 닫기
