@@ -65,6 +65,7 @@ public class ReviewService {
         for (Review review : list) {
             if (review.getUserBook().getBook().getId() == bookId) {
                 dtoList.add(ReviewListResponseDto.builder()
+                        .reviewId(review.getId())
                         .content(review.getContent())
                         .build());
             }
