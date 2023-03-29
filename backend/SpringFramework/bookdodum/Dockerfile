@@ -16,6 +16,8 @@ RUN chmod +x gradlew
 # 애플리케이션을 빌드합니다.
 RUN ./gradlew build
 
+RUN ls build/libs/
+
 # 빌드된 jar 파일을 복사합니다.
 COPY build/libs/bookdodum-0.0.1-SNAPSHOT.jar app.jar
 
