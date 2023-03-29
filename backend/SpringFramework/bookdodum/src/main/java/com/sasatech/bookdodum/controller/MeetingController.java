@@ -63,7 +63,7 @@ public class MeetingController {
     public ResponseEntity<?> listMyMeeting(
             @RequestParam(value = "idx", defaultValue = "0") long idx,
             @Parameter(hidden = true)
-            @PageableDefault(size = 5, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable,
+            @PageableDefault(size = 7, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable,
             @Parameter(hidden = true)
             @AuthenticationPrincipal User user) {
 
@@ -84,7 +84,7 @@ public class MeetingController {
             @RequestParam(value = "idx", defaultValue = "0") Long idx,
             @RequestParam(value = "bookid", defaultValue = "-1") Long bookId,
             @Parameter(hidden = true)
-            @PageableDefault(size = 5, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable) {
+            @PageableDefault(size = 7, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable) {
 
         // 최초 로딩시점
         if (idx == 0) {
@@ -129,11 +129,11 @@ public class MeetingController {
             @RequestParam(value = "idx", defaultValue = "0") long idx,
             @RequestParam("id") long meetingId,
             @Parameter(hidden = true)
-            @PageableDefault(size = 5, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable) {
+            @PageableDefault(size = 7, sort = "idx", direction = Sort.Direction.ASC) Pageable pageable) {
 
         // 최초 로딩시점
         if (idx == 0) {
-            idx = Long.MAX_VALUE;
+            idx = Long.MIN_VALUE;
         }
 
         return new ResponseEntity(new ApiResponseDto(true, "readListMeeting Success", meetingService.listComment(pageable, idx, meetingId)), HttpStatus.OK);
