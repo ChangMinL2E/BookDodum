@@ -2,30 +2,56 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import sample from "../../Assets/Images/sample.png";
 import Book from "../../Components/Contents/Book";
+import useSelectorTyped from "../../Store";
+import { getUserRecommendAPI } from "../../apis/recommend";
+
+interface BookInfo {
+  bookId: number;
+  imageUrl: string;
+  publisher: string;
+  title: string;
+  category: string[];
+}
 
 
 // 컴포넌트 정의
 export default function BookList() {
-  // const [books , setBooks] = useState<Book[]>([])
+  const nickname = useSelectorTyped((state) => state.user.name);
+  const [books , setBooks] = useState<BookInfo[]>([])
+
+
+  const type = 1
 
   useEffect(() => {
+    if (type === 1) {
+      getUserRecommend()
+    }
+  }, [])
 
-    // setBooks([{
-    //     imageUrl: sample,
-    //     title: "불편한 편의점",
-    //     categories: ["국내도서", "소설/시/희곡"],
-    //     company: "나무 옆 의자" ,
-    //   },])
-  })
+  const getUserRecommend = async () => {
+    const data = await getUserRecommendAPI(3);
 
+    let tmp: BookInfo[] = []
+    data.forEach((book: BookInfo) => {
+      tmp.push({
+        title: book.title,
+        imageUrl: book.imageUrl,
+        publisher: book.publisher,
+        category: book.category,
+        bookId: book.bookId,
+      })
+    })
+    console.log(tmp)
+    setBooks(tmp)
+  }
   return (
     <Container>
-      <Title>나혜승 님의 취향 가득 추천 도서</Title>
+      <Title>{nickname}님의 취향 가득 추천 도서</Title>
       <List>
         <Book book={{
           imageUrl: sample,
           title: "불편한 편의점",
-          categories: [],
+          category: [],
           publisher: "나무 옆 의자",
           ISBN : 0,
         }} />

@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const baseUrl = process.env.REACT_APP_API_URL;
-const token = localStorage.getItem("user")
+const user: any = localStorage.getItem("user");
+const token = JSON.parse(user);
 
 interface Meeting {
   bookId: number;
@@ -22,9 +23,9 @@ export async function createMeetingAPI(meeting: Meeting) {
       method: "POST",
       url: `${baseUrl}/meeting`,
       data: meeting,
-      headers:{
-        Authorization: token,
-      }
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data;
   } catch (e) {
@@ -52,9 +53,9 @@ export async function postMeetingCommentAPI(comment: Comment) {
       method: "POST",
       url: `${baseUrl}/meeting/comment`,
       data: comment,
-      headers:{
-        Authorization: token,
-      }
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data;
   } catch (e) {
@@ -63,14 +64,14 @@ export async function postMeetingCommentAPI(comment: Comment) {
 }
 
 // 모임 댓글 조회하기
-export async function getMeetingCommentAPI(id: number) {
+export async function getMeetingCommentAPI(id: number, idx: number) {
   try {
     const { data } = await axios({
       method: "GET",
       url: `${baseUrl}/meeting/comment`,
-      params: { id: id },
+      params: { id, idx },
     });
-    return data;
+    return data.responseData;
   } catch (e) {
     console.log(e);
   }
@@ -82,18 +83,32 @@ export async function getMeetingJoinAPI() {
     const { data } = await axios({
       method: "GET",
       url: `${baseUrl}/meeting/join`,
-      headers:{
-        Authorization: token,
-      }
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
-    return data;
+    return data.responseData;
   } catch (e) {
     console.log(e);
   }
 }
 
 // 읽은 책 목록 조회
-
+export async function getIngBooksAPI() {
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: `${baseUrl}/book/list/false`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(data.responseData);
+    return data.responseData;
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 // 모임 참여
 export async function postMeetingJoinAPI(meetingid: number) {
@@ -101,9 +116,9 @@ export async function postMeetingJoinAPI(meetingid: number) {
     const { data } = await axios({
       method: "POST",
       url: `${baseUrl}/meeting/join/${meetingid}`,
-      headers:{
-        Authorization: token,
-      }
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data;
   } catch (e) {
@@ -111,3 +126,34 @@ export async function postMeetingJoinAPI(meetingid: number) {
   }
 }
 
+// 모임 목록 / 책 기준 조회
+export async function getBookMeetingAPI(bookid: number) {
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: `${baseUrl}/meeting`,
+      params: {
+        bookid,
+      },
+    });
+    return data.responseData;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+// 모임 댓글작성 권한 확인
+export async function getCommentAuthorityAPI(meetingid: number) {
+  try {
+    const { data } = await axios({
+      method: "GET",
+      url: `${baseUrl}/meeting/comment/authority/${meetingid}`,
+      headers:{
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return data.success;
+  } catch (e) {
+    console.log(e);
+  }
+}

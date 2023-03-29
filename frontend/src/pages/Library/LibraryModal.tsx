@@ -26,7 +26,7 @@ export default function LibraryModal({ modalOpen, closeModal, libCode }: Library
         const data = await getItemSrchAPI(ISBN, libCode)
 
         let tmp: LibInfo = {
-            bookName: data.bookname,
+            bookName: data.bookname.length > 15? data.bookname.slice(0,15)+'...': data.bookname,
             classNum: data.class_no,
             bookCode: data.callNumbers[0].callNumber['book_code'],
             locName: data.callNumbers[0].callNumber['shelf_loc_name'],

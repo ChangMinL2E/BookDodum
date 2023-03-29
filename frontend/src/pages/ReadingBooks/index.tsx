@@ -5,27 +5,36 @@ import styled from "styled-components";
 import MeetingList from "../../Components/Contents/MeetingList";
 import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 import { PencilIcon } from "@heroicons/react/24/outline";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import NavBack from "../../Components/Contents/NavBack";
 
 export default function Mybook() {
   const navigate = useNavigate();
-  const writeText = () => {
-    navigate("/write");
-  };
+  const location = useLocation();
+  const image = location?.state?.image;
+  const title = location?.state?.title;
+  const bookId = location?.state?.id;
 
   const [disable, setDisable] = useState<boolean>(false);
   const handleChnage = () => setDisable(true);
 
   return (
     <Container>
-      <BookBanner />
+      <NavBack text={title} link="/mypage" name="mypage" />
+      <BookBanner imageUrl={image} />
       <UserList />
       <MeetingList />
       <Writng>
         <WriteIcon>
           <PencilIcon />
         </WriteIcon>
-        <WritingText onClick={writeText}>독후감 확인하기 </WritingText>
+        <WritingText
+          onClick={() => {
+            navigate(`/write/${bookId}`);
+          }}
+        >
+          독후감 확인하기
+        </WritingText>
       </Writng>
       <Recommend>
         <RecommendText> 이 책을 읽은 다른사람이 선택한 책</RecommendText>
@@ -42,6 +51,7 @@ export default function Mybook() {
 }
 
 const Container = styled.div`
+width: 100%;
   display: flex;
   flex-direction: column;
 `;

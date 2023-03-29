@@ -28,6 +28,7 @@ public class MeetingService {
     private final BookRepository bookRepository;
     private final CommentRepository commentRepository;
     private final CommentScrollQdslRepositoryImpl commentScrollQdslRepositoryImpl;
+    private final UserBookRepository userBookRepository;
 
 
     public boolean createMeeting(MeetingRequestDto meetingRequestDto, User user) {
@@ -37,24 +38,25 @@ public class MeetingService {
             Book book = bookRepository.findById(meetingRequestDto.getBookId()).orElseThrow();
 
             // 지금 미팅을 만드려는 유저의 미팅을 찾는다.
-            UserMeeting userMeeting = userMeetingRepository.findByUser_Id(user.getId());
+            List<UserMeeting> userMeetingList = userMeetingRepository.findAllByUser_Id(user.getId());
 
             // 미팅이 존재한다면..
-            if (userMeeting != null) {
-                Meeting meet = meetingRepository.findById(userMeeting.getMeeting().getId()).orElseThrow();
+            if (userMeetingList != null) {
 
-                // 그 미팅의 주제가 되는 책(Book)을 찾는다.
-                Book meetBook = meet.getBook();
+                for (UserMeeting userMeeting : userMeetingList) {
+                    Meeting meet = meetingRepository.findById(userMeeting.getMeeting().getId()).orElseThrow();
 
-                System.out.println(book.getId() + ", " + meetBook.getId());
+                    // 그 미팅의 주제가 되는 책(Book)을 찾는다.
+                    Book meetBook = meet.getBook();
 
-                // 해당 모임의 책과 지금 만드려는 모임의 책이 같다면 return false
-                if (book.getId() == meetBook.getId()) {
-                    return false;
+                    // 해당 모임의 책과 지금 만드려는 모임의 책이 같다면 return false
+                    if (book.getId() == meetBook.getId()) {
+                        return false;
+                    }
                 }
             }
 
-            // 미팅 생성
+            // validation 후에 미팅 생성
             Meeting meeting = meetingRepository.save(Meeting.builder()
                     .title(meetingRequestDto.getTitle())
                     .content(meetingRequestDto.getContent())
@@ -86,6 +88,7 @@ public class MeetingService {
             Long commentCnt = (long) commentRepository.findAllByMeeting_Id(meeting.getId()).size();
 
             dtoList.add(MeetingListResponseDto.builder()
+                    .meetingId(meeting.getId())
                     .title(meeting.getTitle())
                     .content(meeting.getContent())
                     .userName(user.getName())
@@ -109,6 +112,7 @@ public class MeetingService {
             Long commentCnt = (long) commentRepository.findAllByMeeting_Id(meeting.getId()).size();
 
             dtoList.add(MeetingListResponseDto.builder()
+                    .meetingId(meeting.getId())
                     .title(meeting.getTitle())
                     .content(meeting.getContent())
                     .userName(user.getName())
@@ -123,11 +127,9 @@ public class MeetingService {
 
 
 
-    public boolean createComment(CommentRequestDto commentRequestDto) {
-        User user = userRepository.findById(1L).orElseThrow();
-
+    public boolean createComment(CommentRequestDto commentRequestDto, User user) {
         Meeting meeting = meetingRepository.findById(commentRequestDto.getMeetingId()).orElseThrow();
-
+        // 권한이 있는 사람만 댓글 달도록 제한.
         try {
             commentRepository.save(Comment.builder()
                     .meeting(meeting)
@@ -148,10 +150,36 @@ public class MeetingService {
         System.out.println(commentList.size());
         List<CommentListResponseDto> dtoList = new ArrayList<>();
 
+        // 모임의 장 이라면, leader_content 를 가져온다. 그렇지 않으면 null 을 가져온다.
+        // 모임의 장을 찾으려면 meetingId를 통해 찾는다.
+
+        UserMeeting userMeeting = userMeetingRepository.findByMeeting_Id(meetingId);
+        Meeting meeting = meetingRepository.findById(userMeeting.getMeeting().getId()).orElseThrow();
+
+        Long leader_id = userMeeting.getUser().getId();
+
         for (Comment comment : commentList) {
-            dtoList.add(CommentListResponseDto.builder()
-                    .content(comment.getContent())
-                    .build());
+            Long user_id = comment.getUser().getId();
+
+            System.out.println(user_id + ", " + leader_id);
+
+            // 해당 모임 장의 아이디와 Comment를 작성한 유저의 id가 같다면 모임의 장이다.
+            if (user_id == leader_id) {
+                dtoList.add(CommentListResponseDto.builder()
+                        .commentId(comment.getId())
+                        .userName(comment.getUser().getUsername())
+                        .userId(user_id)
+                        .leader_content(meeting.getContent())
+                        .content(comment.getContent())
+                        .build());
+            } else {
+                dtoList.add(CommentListResponseDto.builder()
+                        .commentId(comment.getId())
+                        .userName(comment.getUser().getUsername())
+                        .userId(user_id)
+                        .content(comment.getContent())
+                        .build());
+            }
         }
 
         return dtoList;
@@ -178,6 +206,20 @@ public class MeetingService {
             e.printStackTrace();
 
             return false;
+        }
+    }
+
+    public boolean authorityCheck(Long meetingId, Long userId) {
+        // 해당 모임의 도서를 확인한다.
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow();
+        Long bookId = meeting.getBook().getId();
+
+        // 댓글을 작성하려는 유저가 해당 도서를 등록했는지 확인한다.
+        if (userBookRepository.findByBook_IdAndUser_Id(bookId, userId) == null) {
+            // 해당 유저가 도서를 읽지 않았면..
+            return false;
+        } else {
+            return true;
         }
     }
 }

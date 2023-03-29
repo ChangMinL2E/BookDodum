@@ -1,7 +1,7 @@
 export interface Book {
     imageUrl: string;
     title: string;
-    categories: string[];
+    category: string[];
     publisher: string;
     ISBN:number
 }

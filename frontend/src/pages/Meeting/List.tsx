@@ -1,17 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ListCard from "./ListCard";
-import sample from "../../Assets/Images/sample.png";
-import profile from "../../Assets/Images/oneline.png";
 import Button from "./Button";
+import { getMeetingJoinAPI } from "../../apis/meeting";
+
+interface BookMeeting {
+  commentCnt: number;
+  content: string;
+  imageUrl: string;
+  title: string;
+  userName: string;
+  meetingId: number;
+}
 
 export default function List() {
-  let title: string = "구의 증명을 읽고난 후,";
-  let writer: string = "얌얌이";
-  let context: string =
-    "사랑, 집착 무엇으로도 해석할 수 없는 그들을 온전히 이해할 순 없지만 어쩌면 우리도 인간관계에서 그렇게 지내고 있는지도 모르겠다. 작은 관계에서 그것에 온전히 또 ...";
-  let chatCnt: number = 3;
-  let id: number = 1;
+  const [bookMeetings, setBookMeetings] = useState<BookMeeting[]>([]);
+
+  const getMeetingJoin = async () => {
+    const data = await getMeetingJoinAPI();
+    let list: BookMeeting[] = [];
+    data.forEach((item: BookMeeting) => {
+      list.push({
+        commentCnt: item.commentCnt,
+        content: item.content,
+        imageUrl: item.imageUrl,
+        title: item.title,
+        userName: item.userName,
+        meetingId: item.meetingId
+      });
+    });
+    setBookMeetings(list);
+  };
+
+  useEffect(() => {
+    getMeetingJoin();
+  }, []);
 
   return (
     <ListBack>
@@ -19,33 +42,11 @@ export default function List() {
         <ListText>모임</ListText>
         <Button />
       </TopDiv>
-      <ListCard
-        title={title}
-        writer={writer}
-        context={context}
-        chatCnt={chatCnt}
-        bookImg={sample}
-        profileImg={profile}
-        id={id}
-      />
-      <ListCard
-        title={title}
-        writer={writer}
-        context={context}
-        chatCnt={chatCnt}
-        bookImg={sample}
-        profileImg={profile}
-        id={2}
-      />
-      <ListCard
-        title={title}
-        writer={writer}
-        context={context}
-        chatCnt={chatCnt}
-        bookImg={sample}
-        profileImg={profile}
-        id={3}
-      />
+      <>
+        {bookMeetings.map((bookMeeting: BookMeeting, idx) => (
+          <ListCard key={idx} {...bookMeeting}/>
+        ))}
+      </>
     </ListBack>
   );
 }
