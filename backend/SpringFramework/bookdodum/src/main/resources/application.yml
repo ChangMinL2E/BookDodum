@@ -2,7 +2,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   datasource:
-    url: jdbc:mysql://172.20.0.1:3306/sasatech?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://43.201.102.210:3306/sasatech?useSSL=false&serverTimezone=UTC&useLegacyDatetimeCode=false&allowPublicKeyRetrieval=true
     username: test
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
