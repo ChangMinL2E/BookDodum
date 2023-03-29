@@ -50,7 +50,11 @@ const Read: React.FC = () => {
             key={book.bookId}
             onClick={() =>
               navigate(`/reading/${book.bookId}`, {
-                state: { image: book.imageUrl, title: book.title, id: book.bookId },
+                state: {
+                  image: book.imageUrl,
+                  title: book.title,
+                  id: book.bookId,
+                },
               })
             }
           >

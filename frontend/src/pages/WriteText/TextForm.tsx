@@ -1,55 +1,116 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
-import { writeTextAPI } from "../../apis/writeText";
+import { writeTextAPI } from "../../apis/write";
 import { useParams } from "react-router-dom";
+import { getWriteAPI } from "../../apis/write";
+import Comment from "./Comment";
 
+// 독후감등록 타입 시정
 interface Comment {
   bookId: number;
+  content: string;
+}
+
+// 독후감 리스트 타입 지정
+interface CommentItem {
+  contentId: number;
   content: string;
 }
 
 export default function TextForm() {
   const bookId: number = Number(useParams().bookid);
   const [content, setContent] = useState<string>("");
+
+  //둑후감은 Comment라는 타입을 사용한다는 뜻,
   const comment: Comment = {
     bookId: bookId,
     content: content,
   };
 
   // bookId와 text를 한꺼번에 보내기
-
-  const handleTextChnage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setContent(event.target.value);
   };
 
-  const wirteText = async (comment: Comment) => {
-    const data = await writeTextAPI(comment);
-    console.log(data);
-    setContent("");
+  const [odd, setOdd] = useState<CommentItem[]>([]);
+  const [even, setEven] = useState<CommentItem[]>([]);
+
+  const writeText = async () => {
+    if (content !== "") {
+      await writeTextAPI(comment);
+      // 받은 데이터가 리스트일 때 foreach를 써서 넣어주기
+      setContent("");
+      alert("등록되었습니다. ");
+      getWrite();
+    } else {
+      alert("글을 입력해주세요");
+    }
   };
+
+  // 독후감 리스트 불러오는 aip 호출
+  const getWrite = async () => {
+    const data = await getWriteAPI();
+    let oddlist: CommentItem[] = [];
+    let evenlist: CommentItem[] = [];
+    console.log(data);
+
+    data.forEach((item: CommentItem) => {
+      console.log(item.contentId, "🎄");
+      if (item.contentId % 2 === 1) {
+        oddlist.push({
+          contentId: item.contentId,
+          content: item.content,
+        });
+      } else {
+        evenlist.push({
+          contentId: item.contentId,
+          content: item.content,
+        });
+      }
+    });
+    setOdd(oddlist);
+    setEven(evenlist);
+  };
+
+  useEffect(() => {
+    getWrite();
+  }, []);
 
   return (
     <>
       <Container>
         <Title>여러분의 생각을 남겨보세요.</Title>
-        <Form>
+        <InputBox>
           <Input
             type="text"
             value={content}
             // placeholder="여기에 글을 작성해주세요."
-            onChange={handleTextChnage}
-          ></Input>
-          <Button
-            onClick={() => {
-              wirteText(comment);
-            }}
-          >
+            onChange={handleTextChange}
+          />
+          <Button onClick={writeText}>
             <Icon>
               <PaperAirplaneIcon />
             </Icon>
           </Button>
-        </Form>
+        </InputBox>
+        <ContentContainer>
+          <FirstBox>
+            {odd?.map((content: CommentItem) => {
+              return (
+                <Comment key={content.contentId} content={content.content} />
+              );
+            })}
+          </FirstBox>
+
+          <SecondBox>
+            {even?.map((content: CommentItem) => {
+              return (
+                <Comment key={content.contentId} content={content.content} />
+              );
+            })}
+          </SecondBox>
+        </ContentContainer>
       </Container>
     </>
   );
@@ -61,7 +122,7 @@ const Container = styled.div`
   margin: auto;
 `;
 
-const Form = styled.form`
+const InputBox = styled.div`
   display: flex;
   align-items: center;
   padding-right: 8px;
@@ -94,4 +155,18 @@ const Icon = styled.div`
   border: #5c5649;
   height: 20px;
   width: 20px;
+`;
+
+const ContentContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`;
+
+const FirstBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const SecondBox = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
