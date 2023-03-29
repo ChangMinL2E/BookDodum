@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
-import styled, { ThemeProps } from "styled-components";
-import sample from "../../Assets/Images/sample.png";
-import BookCover from "../../Components/Contents/BookCover";
+import styled from "styled-components";
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from "react-router-dom";
+import useSelectorTyped from "../../Store";
+// Components
+import BookCover from "./BookCover";
+// Types
+import { BookInfo } from "../../Store/Types";
+// APIs
 import { getReadingBooksAPI } from "../../apis/reading";
 import { getRegionCodeAPI } from "../../apis/region";
-import useSelectorTyped from "../../Store";
-
-interface ReadingBook {
-  bookId: number;
-  category: string[];
-  imageUrl: string;
-  publisher: string;
-  title: string
-}
 
 interface Props {
   theme: string;
@@ -24,11 +19,7 @@ interface Props {
 export default function ReadingBooks(theme : Props) {
   const nickname = useSelectorTyped((state) => state.user.name);
   const navigate = useNavigate();
-  const [books, setBooks] = useState<ReadingBook[]>([]);
-
-  const handleClickReading = () => {
-    navigate('/reading')
-  }
+  const [books, setBooks] = useState<BookInfo[]>([]);
 
   useEffect(() => {
     // 읽고 있는 책 목록 조회
@@ -38,7 +29,7 @@ export default function ReadingBooks(theme : Props) {
   const getReadingBooks = async () => {
     const data = await getReadingBooksAPI()
 
-    let tmp: ReadingBook[] = []
+    let tmp: BookInfo[] = []
     data.forEach((book: any) => {
       tmp.push({
         bookId: book.bookId,
@@ -46,9 +37,9 @@ export default function ReadingBooks(theme : Props) {
         imageUrl: book.imageUrl,
         publisher: book.publisher,
         title: book.title,
+        isbn: 0
       })
     })
-
     setBooks(tmp)
   }
 
@@ -60,7 +51,7 @@ export default function ReadingBooks(theme : Props) {
         <>{
           books?.map((book) => {
             return (  
-              <div onClick={handleClickReading} key={book.bookId}>
+              <div onClick={() => navigate(`/reading/${book.bookId}`, {state : {image : book.imageUrl, title:book.title, bookId:book.bookId}})} key={book.bookId}>
                 <BookCover imageUrl={book.imageUrl} size={120} />
               </div>
             )

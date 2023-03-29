@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import sample from "../../Assets/Images/sample.png";
 import BookCover from './BookCover';
 import { Book } from '../../Store/Types'
 import DetailModal from './DetailModal';
@@ -28,8 +27,8 @@ export default function BookCard({ book }: Props) {
 
   return (
     <Container>
-      <DetailModal ISBN={9791185701752} closeModal={closeModal} modalOpen={modalOpen} />
-      <BookCover imageUrl={sample} size={130} />
+      <DetailModal ISBN={book?.isbn} closeModal={closeModal} modalOpen={modalOpen} />
+      <BookCover imageUrl={book?.imageUrl} size={130} />
       <Contents onClick={openModal}>
         <BookTitle >{book?.title}</BookTitle>
         <Categories>
@@ -42,7 +41,6 @@ export default function BookCard({ book }: Props) {
               })
             }
           </>
-
         </Categories>
         <Company>{book?.publisher}</Company>
       </Contents>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import useSelectorTyped from "../../Store";
 import styled from "styled-components";
 import logo from "../../Assets/Images/logo-black.png";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
-import { useLocation, useNavigate } from "react-router-dom";
-import useSelectorTyped from "../../Store";
 import { persistor } from "../../index";
 
 // 타입 선언
@@ -17,17 +17,16 @@ export default function SideBar({ sideMenu, hideSideMenu }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const nickname = useSelectorTyped((state) => state.user.name);
-
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const updateScrollPosition = () => {
-    setScrollPosition(window.scrollY || document.documentElement.scrollTop);
-  };
   const token = window.localStorage.getItem('user')
 
   const logout = () => {
-    localStorage.removeItem("user");
-    alert("로그아웃 되었습니다.");
-    persistor.purge();
+    let really = window.confirm('정말 로그아웃 하시겠어요?');
+    if(really) {
+      localStorage.removeItem("user");
+      window.alert("로그아웃 되었습니다.");
+      persistor.purge();
+      navigate('/intro')
+    }
   };
 
   useEffect(() => {
