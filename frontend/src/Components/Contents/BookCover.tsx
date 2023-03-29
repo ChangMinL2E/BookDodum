@@ -8,7 +8,6 @@ interface Props {
   name?: string;
 }
 
-
 export default function BookCover({ imageUrl, size, name }: Props) {
   return (
     <Container>

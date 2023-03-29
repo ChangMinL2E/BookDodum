@@ -88,6 +88,7 @@ const Writng = styled.div`
   color: #5c5649;
   margin: 5%;
 `;
+
 const WriteIcon = styled.div`
   width: 15px;
   height: 15px;

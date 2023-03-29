@@ -1,23 +1,67 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+// Components
 import Nav from '../../Components/Common/Nav';
 import Book from '../../Components/Contents/Book'
-import sample from '../../Assets/Images/sample.png'
+// Types
+import { BookInfo } from '../../Store/Types';
+// APIs
+import { getUserRecommendAPI } from '../../apis/recommend';
+
 
 export default function RecommendList() {
+
+  const [books, setBooks] = useState<BookInfo[]>([])
+  const type = 1
+
+  useEffect(() => {
+    if (type === 1) {
+      getUserRecommend()
+    }
+  }, [])
+
+  const getUserRecommend = async () => {
+    const data = await getUserRecommendAPI(3);
+
+    let tmp: BookInfo[] = []
+    data.forEach((book: BookInfo) => {
+      tmp.push({
+        title: book.title,
+        imageUrl: book.imageUrl,
+        publisher: book.publisher,
+        category: book.category,
+        bookId: book.bookId,
+        isbn : book.isbn,
+      })
+    })
+    console.log(tmp)
+    setBooks(tmp)
+  }
+
   return (
     <>
       <Nav />
       <Contents>
-        <Title>"김유나 님이 관심있는 분야의 도서"</Title>
+        { type === 1 ? 
+        <Title>"{}을 읽은 사람이 선택한 도서"</Title>
+        : <Title>"김유나 님이 관심있는 분야의 도서"</Title>
+      }
         <BooksWrap>
-          <Book book={{
-            imageUrl: sample,
-            title: "불편한 편의점",
-            categories: [],
-            publisher: "나무 옆 의자",
-            ISBN: 0,
-          }} />
+          <>
+            {
+              books.map((book) => {
+                return (
+                  <Book key={book.bookId} book={{
+                    imageUrl: book.imageUrl,
+                    title: book.title,
+                    category: book.category,
+                    publisher: book.publisher,
+                    isbn: 0,
+                  }} />
+                  )
+              })
+            }
+          </>
         </BooksWrap>
       </Contents>
     </>

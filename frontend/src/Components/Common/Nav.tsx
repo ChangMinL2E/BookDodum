@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../Assets/Images/logo-black.png";
 import SideBar from "./SideBar";
 
 
-const Nav: React.FC = () => {
+export default function Nav() {
+  const navigate = useNavigate();
   const [sideMenu, setSideMenu] = useState<boolean>(false);
 
   const showSideMenu = (): void => {
@@ -33,8 +35,7 @@ const Nav: React.FC = () => {
             <line x1="19" y1="42.5" x2="44" y2="42.5" stroke="#5C5649" />
           </svg>
         </Hamburgur>
-        {/* <Logo></Logo> */}
-        <Image src={logo} />
+        <Image src={logo} onClick={() => {navigate('/')}}/>
         <div>
           <svg
             width="64"
@@ -51,8 +52,6 @@ const Nav: React.FC = () => {
     </Container>
   );
 };
-
-export default Nav;
 
 // Styled Components
 const Container = styled.div`

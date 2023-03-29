@@ -28,7 +28,7 @@ export default function Banner() {
     >
       <SwiperSlide>
         <Slide1>
-          <Link1 onClick={() => navigate('/list')}>
+          <Link1>
             <Text>내 취향 분석 도서 보러가기</Text>
             <ArrowRightCircleIcon width="20px" color="white" />
           </Link1>

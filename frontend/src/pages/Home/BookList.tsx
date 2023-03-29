@@ -1,30 +1,76 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import sample from "../../Assets/Images/sample.png";
-import Book from "../../Components/Contents/Book";
 import useSelectorTyped from "../../Store";
+// Components
+import Book from "../../Components/Contents/Book";
+// Types
+import {BookInfo} from '../../Store/Types'
+// APIs
+import { getUserRecommendAPI } from "../../apis/recommend";
 
+interface Props {
+  type : string;
+  bookId : number;
+}
 
 // 컴포넌트 정의
-export default function BookList() {
+export default function BookList({type, bookId} : Props) {
   const nickname = useSelectorTyped((state) => state.user.name);
-  // const [books , setBooks] = useState<Book[]>([])
+  const [books, setBooks] = useState<BookInfo[]>([])
 
   useEffect(() => {
-   
-  })
+    if (type === 'user') {
+      getUserRecommend()
+    } else if(type=== 'contents') {
+      getContentsRecommend()
+    }
+  }, [])
+
+  // 협업 필터링 기반
+  const getUserRecommend = async () => {
+    const data = await getUserRecommendAPI(bookId);
+    
+    let tmp: BookInfo[] = []
+    data.forEach((book: BookInfo) => {
+      tmp.push({
+        title: book.title,
+        imageUrl: book.imageUrl,
+        publisher: book.publisher,
+        category: book.category,
+        bookId: book.bookId,
+        isbn: book.isbn,
+      })
+    })
+    setBooks(tmp)
+  }
+
+  // 컨텐츠 기반 
+  const getContentsRecommend = async () => {
+
+  }
 
   return (
     <Container>
-      <Title>{nickname}님의 취향 가득 추천 도서</Title>
+      {
+        type === 'user' ? <Title>{nickname}님의 취향 가득 추천 도서</Title> : <Title>{nickname}님의 취향 가득 추천 도서</Title>
+      }
       <List>
-        <Book book={{
-          imageUrl: sample,
-          title: "불편한 편의점",
-          categories: [],
-          publisher: "나무 옆 의자",
-          ISBN : 0,
-        }} />
+        <>
+          {
+            books.map((book) => {
+              console.log(book)
+              return (
+                <Book key={book.bookId} book={{
+                  imageUrl: book.imageUrl,
+                  title: book.title,
+                  category: book.category,
+                  publisher: book.publisher,
+                  isbn: book.isbn,
+                }} />
+              )
+            })
+          }
+        </>
       </List>
     </Container>
   );
