@@ -58,13 +58,16 @@ public class ReviewService {
     }
 
     public List<ReviewListResponseDto> listReview(Long bookId, Long userId) {
-        List<Review> list = reviewRepository.findAllByBook_IdAndUser_Id(bookId, userId);
+        // Review 리스트를 가져와서, 해당 bookId에 일치하는 것만 List에 담아 return
+        List<Review> list = reviewRepository.findAllByUser_Id(userId);
         List<ReviewListResponseDto> dtoList = new ArrayList<>();
 
         for (Review review : list) {
-            dtoList.add(ReviewListResponseDto.builder()
-                    .content(review.getContent())
-                    .build());
+            if (review.getUserBook().getBook().getId() == bookId) {
+                dtoList.add(ReviewListResponseDto.builder()
+                        .content(review.getContent())
+                        .build());
+            }
         }
 
         return dtoList;
