@@ -1,12 +1,18 @@
 import React from "react";
 import styled from "styled-components";
-import { PaperClipIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import { deleteCommentAPI } from "../../apis/write";
 
 interface CommentProps {
   content: string;
 }
 
-export default function Comment({ content }: CommentProps) {
+
+
+export default function Comment({ content}: CommentProps) {
+  const deleteComment  = async () => {
+    const data = await deleteCommentAPI()
+  }
   return (
     <>
       <CommentBox
@@ -16,9 +22,9 @@ export default function Comment({ content }: CommentProps) {
         }}
       >
         {content}
-        {/* <Icon>
-          <PaperClipIcon width={20} />
-        </Icon> */}
+        <Icon onClick={deleteComment}>
+          <XMarkIcon width={10} />
+        </Icon>
       </CommentBox>
     </>
   );
@@ -35,8 +41,8 @@ const CommentBox = styled.div`
   border-radius: 0.5rem;
 `;
 
-// const Icon = styled.div`
-//   position: absolute;
-//   top: -10px;
-//   left: 80px;
-// `;
+const Icon = styled.div`
+  position: absolute;
+  top:0px;
+  right: 10px;
+`;

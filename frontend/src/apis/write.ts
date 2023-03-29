@@ -7,7 +7,10 @@ const token = JSON.parse(user)
 interface Comment {
   bookId: number;
   content:string;
-}
+  reviewId: number;
+};
+
+
 
 export async function writeTextAPI(comment: Comment) {
   try {
@@ -28,18 +31,38 @@ export async function writeTextAPI(comment: Comment) {
 
 
 // 독후감 리스트 불러오기
-export async function getWriteAPI() {
+export async function getWriteAPI(bookId:number) {
     try {
       const { data } = await axios({
         method: "GET",
-        url: `${baseUrl}/book/review`,
+        url: `${baseUrl}/book/review/${bookId}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(data)
       return data.responseData
     } catch (e) {
-      console.log(e);
+      console.log(e,'🧨🧨🧨');
     }
   }
   
+// 독후감 삭제하기
+export async function deleteCommentAPI() {
+  try {
+    const {data} = await axios ({
+      method:'DELETE',
+      url:`${baseUrl}/book/review/}`,
+      headers: {
+        Authorization:`Bearer ${token}`,
+      },
+
+    })
+    console.log(data)
+    return data
+
+
+  }catch{
+
+  }
+}

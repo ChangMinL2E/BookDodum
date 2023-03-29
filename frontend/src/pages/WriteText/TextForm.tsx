@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { writeTextAPI } from "../../apis/write";
 import { useParams } from "react-router-dom";
-import { getWriteAPI } from "../../apis/write";
+import { getWriteAPI,deleteCommentAPI } from "../../apis/write";
 import Comment from "./Comment";
 
 // 독후감등록 타입 시정
@@ -14,7 +14,7 @@ interface Comment {
 
 // 독후감 리스트 타입 지정
 interface CommentItem {
-  contentId: number;
+  reviewId: number;
   content: string;
 }
 
@@ -50,21 +50,22 @@ export default function TextForm() {
 
   // 독후감 리스트 불러오는 aip 호출
   const getWrite = async () => {
-    const data = await getWriteAPI();
+    const data = await getWriteAPI(bookId);
+    console.log(data)
     let oddlist: CommentItem[] = [];
     let evenlist: CommentItem[] = [];
     console.log(data);
 
     data.forEach((item: CommentItem) => {
-      console.log(item.contentId, "🎄");
-      if (item.contentId % 2 === 1) {
+      console.log(item.reviewId, "🎄");
+      if (item.reviewId % 2 === 1) {
         oddlist.push({
-          contentId: item.contentId,
+          reviewId: item.reviewId,
           content: item.content,
         });
       } else {
         evenlist.push({
-          contentId: item.contentId,
+          reviewId: item.reviewId,
           content: item.content,
         });
       }
@@ -98,7 +99,7 @@ export default function TextForm() {
           <FirstBox>
             {odd?.map((content: CommentItem) => {
               return (
-                <Comment key={content.contentId} content={content.content} />
+                <Comment key={content.reviewId} content={content.content} />
               );
             })}
           </FirstBox>
@@ -106,7 +107,7 @@ export default function TextForm() {
           <SecondBox>
             {even?.map((content: CommentItem) => {
               return (
-                <Comment key={content.contentId} content={content.content} />
+                <Comment key={content.reviewId} content={content.content} />
               );
             })}
           </SecondBox>
