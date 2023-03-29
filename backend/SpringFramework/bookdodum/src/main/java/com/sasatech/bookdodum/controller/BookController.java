@@ -39,11 +39,29 @@ public class BookController {
         return new ResponseEntity(new ApiResponseDto(true, "listBook Success", bookService.listBook(user.getId(), fin)), HttpStatus.OK);
     }
 
-    @GetMapping("/")
+
+    @GetMapping("/list")
+    @Operation(summary = "내 독서 전체 목록 조회")
+    public ResponseEntity<?> listAllBook(@Parameter(hidden = true)
+                                         @AuthenticationPrincipal User user) {
+        return new ResponseEntity(new ApiResponseDto(true, "listAllBook Success", bookService.listAllBook(user.getId())), HttpStatus.OK);
+    }
+
+    @GetMapping("/list/recommend/{bookid}")
+    @Operation(summary = "나와 같은 책을 읽는 사람이 읽는 다른 책 추천")
+    public ResponseEntity<?> listRecommendBook(@PathVariable("bookid") Long id,
+                                               @Parameter(hidden = true)
+                                               @AuthenticationPrincipal User user) {
+        return new ResponseEntity(new ApiResponseDto(true, "listRecommendBook Success", bookService.listRecommendBook(id, user.getId())), HttpStatus.OK);
+    }
+
+
+
     @Operation(summary = "내 도서 상세조회")
     public ResponseEntity<?> detailBook(@RequestParam("bookid") Long bookId,
                                         @Parameter(hidden = true)
                                         @AuthenticationPrincipal User user) {
+
         return new ResponseEntity(new ApiResponseDto(true, "detailBook Success", bookService.detailBook(bookId, user.getId())), HttpStatus.OK);
     }
 
@@ -121,6 +139,7 @@ public class BookController {
     }
 
 
+
     // ====================================== feature/review ===========================================
 
     @PostMapping("/review")
@@ -137,7 +156,7 @@ public class BookController {
     }
 
     @PostMapping("/papago")
-    @Operation(summary = "독후감 목록 조회")
+    @Operation(summary = "파파고 번역")
     public String getEnglish(@RequestBody PapagoRequestDto papagoRequestDto) throws IOException {
         String Eng = TranslationService.getEnglish(papagoRequestDto.getKorean());
 

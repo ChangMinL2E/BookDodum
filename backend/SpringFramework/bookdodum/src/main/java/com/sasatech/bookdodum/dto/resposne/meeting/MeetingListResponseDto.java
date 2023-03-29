@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MeetingListResponseDto {
-    private Long id;
+    private Long meetingId;
     private String title;
     private String content;
     private String userName;
