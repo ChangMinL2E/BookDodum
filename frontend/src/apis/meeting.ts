@@ -64,12 +64,12 @@ export async function postMeetingCommentAPI(comment: Comment) {
 }
 
 // 모임 댓글 조회하기
-export async function getMeetingCommentAPI(id: number) {
+export async function getMeetingCommentAPI(id: number, idx: number) {
   try {
     const { data } = await axios({
       method: "GET",
       url: `${baseUrl}/meeting/comment`,
-      params: { id },
+      params: { id, idx },
     });
     return data.responseData;
   } catch (e) {
@@ -141,3 +141,5 @@ export async function getBookMeetingAPI(bookid: number) {
     console.log(e);
   }
 }
+
+// 

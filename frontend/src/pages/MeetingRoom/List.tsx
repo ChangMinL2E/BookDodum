@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { InView, useInView } from "react-intersection-observer";
 import { useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
 import {
@@ -26,6 +27,9 @@ interface Comment {
 export default function List() {
   const id: number = Number(useParams().meetid);
 
+  const [idx, setIdx] = useState<number>(0);
+  const [ref, inView] = useInView();
+
   const [comments, setComments] = useState<Info[]>([]);
   const location = useLocation();
   const title = location?.state?.title;
@@ -44,12 +48,19 @@ export default function List() {
   };
 
   useEffect(() => {
-    getMeetingComment(id);
-  }, []);
+    getMeetingComment();
+  }, [idx]);
+
+  // 무한 스크롤
+  useEffect(() => {
+    if (InView) {
+      setIdx(comments[comments.length-1]?.commentId);
+    }
+  }, [inView]);
 
   // 모임 댓글 axios 불러오기
-  const getMeetingComment = async (id: number) => {
-    const data = await getMeetingCommentAPI(id);
+  const getMeetingComment = async () => {
+    const data = await getMeetingCommentAPI(id, idx);
     let list: Info[] = [];
 
     data.forEach((item: Info) => {
@@ -61,17 +72,15 @@ export default function List() {
         content: item.content,
       });
     });
-
-    setComments(list);
+    setComments([...comments, ...list]);
   };
 
   // 댓글 작성하는 axios
   const postMeetingComment = async () => {
     await postMeetingCommentAPI(comment);
-    postMeetingJoin();
     alert("댓글이 등록되었습니다.");
     setText("");
-    getMeetingComment(id); // 등록한 후 axios 다시 호출
+    getMeetingComment(); // 등록한 후 axios 다시 호출
   };
 
   // enter로 댓글 등록하기
@@ -105,6 +114,7 @@ export default function List() {
         {comments.map((info: Info) => (
           <ListCard {...info} key={info.commentId} />
         ))}
+        <Ref ref={ref} />
       </Wrapper>
 
       {/* 댓글 입력 */}
@@ -179,4 +189,9 @@ const Input = styled.input`
   ::-webkit-input-placeholder {
     color: #c9c9c9;
   }
+`;
+
+const Ref = styled.div`
+  width: 100%;
+  height: 60px;
 `;
