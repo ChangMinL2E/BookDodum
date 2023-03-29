@@ -1,46 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MeetingCover from "../../Components/Contents/MeetingCover";
 import styled from "styled-components";
-import sample from "../../Assets/Images/sample.png";
 import Nav from "../../Components/Common/Nav";
-import { useNavigate } from "react-router-dom";
 import List from "./List";
+import { getMeetingJoinAPI } from "../../apis/meeting";
 
 interface BookMeeting {
-  id: number;
-  writer: string;
-  imageUrl: string;
+  meetingId: number;
   title: string;
-  author: string;
-  participant: number;
+  content: string;
+  userName: string;
+  commentCnt: number;
+  imageUrl: string;
 }
 
 export default function Meeting() {
-  // const [bookGroups, setBookGroups] = useState<BookGroup[]>([])
-  let title: string = "불편한 편의점";
-  let author: string = "김호연";
-  let participant: number = 3;
-  let id: number = 1;
+  const [bookMeetings, setBookMeetings] = useState<BookMeeting[]>([]);
+
+  const getMeetingJoin = async () => {
+    const data = await getMeetingJoinAPI();
+    let list: BookMeeting[] = [];
+    data.forEach((item: BookMeeting) => {
+      list.push({
+        commentCnt: item.commentCnt,
+        content: item.content,
+        imageUrl: item.imageUrl,
+        title: item.title,
+        userName: item.userName,
+        meetingId: item.meetingId,
+      });
+    });
+    setBookMeetings(list);
+  };
+
+  useEffect(() => {
+    getMeetingJoin();
+  }, []);
 
   return (
     <Container>
       <Nav />
-        <Text>참여중인 독서 모임</Text>
+      <Text>참여중인 독서 모임</Text>
       <BookMeetingCards>
-        <MeetingCover
-          imageUrl={sample}
-          title={title}
-          author={author}
-          participant={participant}
-          id={id}
-        />
-        <MeetingCover
-          imageUrl={sample}
-          title={title}
-          author={author}
-          participant={participant}
-          id={2}
-        />
+        {bookMeetings.map((bookMeeting: BookMeeting) => (
+          <MeetingCover key={bookMeeting.meetingId} {...bookMeeting} />
+        ))}
       </BookMeetingCards>
       <List />
     </Container>

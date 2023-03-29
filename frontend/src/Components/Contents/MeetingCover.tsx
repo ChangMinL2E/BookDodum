@@ -3,27 +3,36 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 interface Props {
-  imageUrl?: string;
+  meetingId?: number;
   title?: string;
-  author?: string;
-  participant?: number;
-  id?: number;
+  content?: string;
+  userName?: string;
+  commentCnt?: number;
+  imageUrl?: string;
 }
 
-export default function MeetingCover(group: Props) {
+export default function MeetingCover(props: Props) {
   const navigate = useNavigate();
-  const bookRoom = () => {
-    navigate(`/bookgroup/${group.id}`);
-  };
-
+  
   return (
-    <GroupImage imageUrl={group.imageUrl} onClick={()=>{bookRoom()}}>
+    <GroupImage
+      imageUrl={props.imageUrl}
+      onClick={() => {
+        navigate(`/bookmeeting/${props.meetingId}`, {
+          state: {
+            title: props.title,
+            userName: props.userName,
+            content: props.content,
+          },
+        });
+      }}
+    >
       <WhiteDiv>
-        <Title>{group.title}</Title>
-      <Bottom>
-        <Author>{group.author}</Author>
-        <Participant>{group.participant}명 참여중</Participant>
-      </Bottom>
+        <Title>{props.title}</Title>
+        <Bottom>
+          <Author>{props.userName}</Author>
+          <Participant>{props.commentCnt}개의 댓글</Participant>
+        </Bottom>
       </WhiteDiv>
     </GroupImage>
   );
@@ -59,7 +68,7 @@ const Bottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
 const Author = styled.div`
   font-size: 0.9rem;
