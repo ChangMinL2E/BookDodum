@@ -1,4 +1,4 @@
-import React , {useState}from "react";
+import React, { useState } from "react";
 import mypagebanner from "../../Assets/Images/mypagebanner.png";
 import styled from "styled-components";
 import useSelectorTyped from "../../Store";
@@ -6,7 +6,7 @@ import SideBar from "../../Components/Common/SideBar";
 
 export default function MypageBanner() {
   const nickname = useSelectorTyped((state) => state.user.name);
-  
+
   const [sideMenu, setSideMenu] = useState<boolean>(false);
 
   const showSideMenu = (): void => {
@@ -42,15 +42,15 @@ export default function MypageBanner() {
 }
 
 const Burgur = styled.div`
-  position: fixed;
-  top : 0;
-  left: 0;
+  /* position: fixed; */
+  /* top: 0;
+  left: 0; */
 `;
 const BannerImage = styled.div`
   background-blend-mode: multiply;
   background-color: rgba(0, 0, 0, 0.3);
-  width: 100vw;
-  height: 30vh;
+  width: 100%;
+  height: 30%;
   background-image: url(${mypagebanner});
   background-size: cover;
 `;

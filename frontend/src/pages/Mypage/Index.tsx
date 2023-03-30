@@ -2,14 +2,15 @@ import React from "react";
 import Read from "./Read";
 import MypageBanner from "./MypageBanner";
 import styled from "styled-components";
-import ReadingBooks from "../Home/ReadingBooks";
-
+import Reading from "./Reading";
+import useSelectorTyped from "../../Store";
 
 export default function Mypage() {
   return (
     <Container>
       <MypageBanner />
-      <ReadingBooks theme={"dark"}/>
+      <Reading />
+
       <Read />
     </Container>
   );

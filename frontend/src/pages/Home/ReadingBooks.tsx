@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { getReadingBooksAPI } from "../../apis/reading";
 import { getRegionCodeAPI } from "../../apis/region";
 import useSelectorTyped from "../../Store";
+import finalPropsSelectorFactory from "react-redux/es/connect/selectorFactory";
 
 interface ReadingBook {
   bookId: number;
@@ -84,7 +85,6 @@ const Title = styled.div<Props>`
     font-weight: 600;
     color: ${(props: Props) => props.theme === 'dark' ? '#F9F9F7' : '#5c5649'};
     width: 90%;
-    margin: 5% auto;
   `;
 
 const List = styled.div`
