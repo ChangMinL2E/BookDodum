@@ -10,9 +10,9 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
-jar {
-	enabled = false
-}
+//jar {
+//	enabled = false
+//}
 
 group = 'com.sasatech'
 version = '0.0.1-SNAPSHOT'
@@ -23,6 +23,10 @@ configurations {
 		extendsFrom annotationProcessor
 	}
 }
+
+//bootJar{
+//	mainClassName = 'com.sasatech.bookdodum.ProjectApplication' // main class 이름으로 변경해주세요.
+//}
 
 repositories {
 	mavenCentral()
