@@ -26,7 +26,7 @@ CMD ["java", "-jar", "app.jar"]
 
 FROM nginx:stable-alpine as production-stage
 
-COPY --from=build-stage /var/jenkins/workspace/S08P22C104/backend/SpringFramework/bookdodum/deploy_conf /etc/nginx/conf.d/default.conf
+COPY --from=build-stage /var/jenkins_home/workspace/S08P22C104/backend/SpringFramework/bookdodum/deploy_conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
