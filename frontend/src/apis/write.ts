@@ -19,7 +19,6 @@ export async function writeTextAPI(comment: Comment) {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(data);
     return data;
   } catch (e) {
     console.log(e);
@@ -48,7 +47,7 @@ export async function deleteCommentAPI(rerviewId: number) {
   try {
     const { data } = await axios({
       method: "DELETE",
-      url: `${baseUrl}/book/review/${rerviewId}}`,
+      url: `${baseUrl}/book/review/${rerviewId}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

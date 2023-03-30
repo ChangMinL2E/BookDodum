@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { deleteCommentAPI } from "../../apis/write";
@@ -6,14 +6,19 @@ import { deleteCommentAPI } from "../../apis/write";
 interface CommentProps {
   content: string;
   reviewId: number;
+  getWrite : () => void;
 }
 
-
-
-export default function Comment({ content,reviewId}: CommentProps) {
+export default function Comment({ content ,reviewId, getWrite}: CommentProps) {
   const deleteComment  = async () => {
-    const data = await deleteCommentAPI(reviewId)
+     await deleteCommentAPI(reviewId);
+     getWrite()
   }
+
+  const handleClickDelete = () => {
+    deleteComment()
+  }
+  
   return (
     <>
       <CommentBox
@@ -23,7 +28,7 @@ export default function Comment({ content,reviewId}: CommentProps) {
         }}
       >
         {content}
-        <Icon onClick={deleteComment}>
+        <Icon onClick={handleClickDelete}>
           <XMarkIcon width={10} />
         </Icon>
       </CommentBox>

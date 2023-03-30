@@ -3,14 +3,13 @@ import styled from "styled-components";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 import { writeTextAPI } from "../../apis/write";
 import { useParams } from "react-router-dom";
-import { getWriteAPI,deleteCommentAPI } from "../../apis/write";
+import { getWriteAPI, deleteCommentAPI } from "../../apis/write";
 import Comment from "./Comment";
 
 // 독후감등록 타입 시정
 interface Comment {
   bookId: number;
   content: string;
-
 }
 
 // 독후감 리스트 타입 지정
@@ -22,6 +21,7 @@ interface CommentItem {
 export default function TextForm() {
   const bookId: number = Number(useParams().bookid);
   const [content, setContent] = useState<string>("");
+  const [comments, setComments] = useState<CommentItem[]>([]);
 
   //둑후감은 Comment라는 타입을 사용한다는 뜻,
   const comment: Comment = {
@@ -33,9 +33,6 @@ export default function TextForm() {
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setContent(event.target.value);
   };
-
-  const [odd, setOdd] = useState<CommentItem[]>([]);
-  const [even, setEven] = useState<CommentItem[]>([]);
 
   const writeText = async () => {
     if (content !== "") {
@@ -49,30 +46,20 @@ export default function TextForm() {
     }
   };
 
-  // 독후감 리스트 불러오는 aip 호출
+  // 독후감 리스트 불러오는 api 호출
   const getWrite = async () => {
     const data = await getWriteAPI(bookId);
-    console.log(data)
-    let oddlist: CommentItem[] = [];
-    let evenlist: CommentItem[] = [];
     console.log(data);
 
+    let tmp: CommentItem[] = [];
     data.forEach((item: CommentItem) => {
-      console.log(item.reviewId, "🎄");
-      if (item.reviewId % 2 === 1) {
-        oddlist.push({
-          reviewId: item.reviewId,
-          content: item.content,
-        });
-      } else {
-        evenlist.push({
-          reviewId: item.reviewId,
-          content: item.content,
-        });
-      }
+      tmp.push({
+        reviewId: item.reviewId,
+        content: item.content,
+      });
     });
-    setOdd(oddlist);
-    setEven(evenlist);
+
+    setComments(tmp);
   };
 
   useEffect(() => {
@@ -98,18 +85,21 @@ export default function TextForm() {
         </InputBox>
         <ContentContainer>
           <FirstBox>
-            {odd?.map((content: CommentItem) => {
-              return (
-                <Comment key={content.reviewId} reviewId = {content.reviewId} content={content.content} />
-              );
+            {comments?.map((content: CommentItem, idx) => {
+              if(idx%2 === 0){
+                return (
+                  <Comment key={content.reviewId} reviewId = {content.reviewId} content={content.content} getWrite={getWrite}/>
+                  );
+                }
             })}
           </FirstBox>
-
           <SecondBox>
-            {even?.map((content: CommentItem) => {
+            {comments?.map((content: CommentItem, idx) => {
+             if(idx%2 === 1){
               return (
-                <Comment key={content.reviewId} reviewId = {content.reviewId} content={content.content} />
-              );
+                <Comment key={content.reviewId} reviewId = {content.reviewId} content={content.content} getWrite={getWrite}/>
+                );
+              }
             })}
           </SecondBox>
         </ContentContainer>
