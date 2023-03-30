@@ -26,7 +26,7 @@
 
 
 # 사용할 base 이미지를 정의합니다.
-FROM openjdk:11.0.11-jdk-slim-buster
+FROM openjdk:11.0.11
 
 # 작업 디렉토리를 설정합니다.
 WORKDIR /app
