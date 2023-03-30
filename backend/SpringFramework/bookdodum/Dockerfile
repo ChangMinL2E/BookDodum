@@ -24,10 +24,10 @@ COPY build/libs/bookdodum-0.0.1-SNAPSHOT.jar app.jar
 # 컨테이너 실행 시 실행할 명령어를 정의합니다.
 CMD ["java", "-jar", "app.jar"]
 
-FROM nginx:stable-alpine as production-stage
-
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
-
-CMD ["nginx", "-g","daemon off;"]
+#FROM nginx:stable-alpine as production-stage
+#
+#COPY nginx.conf /etc/nginx/conf.d/default.conf
+#
+#EXPOSE 80
+#
+#CMD ["nginx", "-g","daemon off;"]
