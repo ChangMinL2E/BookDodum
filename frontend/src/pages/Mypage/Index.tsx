@@ -3,14 +3,12 @@ import Read from "./Read";
 import MypageBanner from "./MypageBanner";
 import styled from "styled-components";
 import Reading from "./Reading";
-import useSelectorTyped from "../../Store";
 
 export default function Mypage() {
   return (
     <Container>
       <MypageBanner />
       <Reading />
-
       <Read />
     </Container>
   );

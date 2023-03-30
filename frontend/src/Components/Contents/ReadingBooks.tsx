@@ -1,35 +1,25 @@
 import React, { useEffect, useState } from "react";
-import styled, { ThemeProps } from "styled-components";
-import sample from "../../Assets/Images/sample.png";
-import BookCover from "../../Components/Contents/BookCover";
+import styled from "styled-components";
 import { PlusIcon } from '@heroicons/react/24/outline'
 import { useNavigate } from "react-router-dom";
+import useSelectorTyped from "../../Store";
+// Components
+import BookCover from "./BookCover";
+// Types
+import { BookInfo } from "../../Store/Types";
+// APIs
 import { getReadingBooksAPI } from "../../apis/reading";
 import { getRegionCodeAPI } from "../../apis/region";
-import useSelectorTyped from "../../Store";
-import finalPropsSelectorFactory from "react-redux/es/connect/selectorFactory";
-
-interface ReadingBook {
-  bookId: number;
-  category: string[];
-  imageUrl: string;
-  publisher: string;
-  title: string
-}
 
 interface Props {
   theme: string;
 }
 
 // 컴포넌트 정의
-export default function ReadingBooks(theme : Props) {
-  const nickname = useSelectorTyped((state) => state.user.name);
+export default function ReadingBooks({ theme }: Props) {
   const navigate = useNavigate();
-  const [books, setBooks] = useState<ReadingBook[]>([]);
-
-  const handleClickReading = () => {
-    navigate('/reading')
-  }
+  const nickname = useSelectorTyped((state) => state.user.name);
+  const [books, setBooks] = useState<BookInfo[]>([]);
 
   useEffect(() => {
     // 읽고 있는 책 목록 조회
@@ -39,7 +29,7 @@ export default function ReadingBooks(theme : Props) {
   const getReadingBooks = async () => {
     const data = await getReadingBooksAPI()
 
-    let tmp: ReadingBook[] = []
+    let tmp: BookInfo[] = []
     data.forEach((book: any) => {
       tmp.push({
         bookId: book.bookId,
@@ -47,9 +37,9 @@ export default function ReadingBooks(theme : Props) {
         imageUrl: book.imageUrl,
         publisher: book.publisher,
         title: book.title,
+        isbn: 0
       })
     })
-
     setBooks(tmp)
   }
 
@@ -57,18 +47,17 @@ export default function ReadingBooks(theme : Props) {
     <Container>
       <Title theme={theme}>{nickname}님이 읽고 있는 책</Title>
       <List>
-        <AddBtn theme={theme} onClick={() => navigate('/isbn')}><PlusIcon width="40px" strokeWidth="0.7px" /></AddBtn>
-        <>{
+        <AddBtn theme={theme} onClick={() => navigate('/isbn')}><PlusIcon width="40px" strokeWidth="0.7px" color={theme === 'dark' ? '#F9F9F7' : '#5c5649'} /></AddBtn>
+        {
           books?.map((book) => {
-            return (  
-              <div onClick={handleClickReading} key={book.bookId}>
+            return (
+              <div onClick={() => navigate(`/reading/${book.bookId}`, { state: { image: book.imageUrl, title: book.title, bookId: book.bookId } })} key={book.bookId}>
                 <BookCover imageUrl={book.imageUrl} size={120} />
               </div>
             )
           })
         }
-        </>
-      </List> 
+      </List>
     </Container>
   );
 }
@@ -82,7 +71,7 @@ const Container = styled.div`
   `
 const Title = styled.div<Props>`
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 5400;
     color: ${(props: Props) => props.theme === 'dark' ? '#F9F9F7' : '#5c5649'};
     width: 90%;
   `;

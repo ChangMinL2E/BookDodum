@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
-import profile from "../../Assets/Images/userprofile.png";
+import profile from "../../Assets/Images/profile.png";
 
 interface Props {
   commentCnt?: number;

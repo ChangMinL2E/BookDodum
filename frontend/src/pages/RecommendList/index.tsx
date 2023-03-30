@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+// Components
 import Nav from '../../Components/Common/Nav';
 import Book from '../../Components/Contents/Book'
-import sample from '../../Assets/Images/sample.png'
-import { useLocation } from 'react-router-dom';
+// Types
+import { BookInfo } from '../../Store/Types';
+// APIs
 import { getUserRecommendAPI } from '../../apis/recommend';
-
-
-interface BookInfo {
-  bookId: number;
-  imageUrl: string;
-  publisher: string;
-  title: string;
-  category: string[];
-}
 
 
 export default function RecommendList() {
@@ -38,6 +31,7 @@ export default function RecommendList() {
         publisher: book.publisher,
         category: book.category,
         bookId: book.bookId,
+        isbn : book.isbn,
       })
     })
     console.log(tmp)
@@ -62,7 +56,7 @@ export default function RecommendList() {
                     title: book.title,
                     category: book.category,
                     publisher: book.publisher,
-                    ISBN: 0,
+                    isbn: 0,
                   }} />
                   )
               })

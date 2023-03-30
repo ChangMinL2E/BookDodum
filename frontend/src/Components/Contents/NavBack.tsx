@@ -39,13 +39,13 @@ export default function NavBack({ text, link, name }: Props) {
           strokeWidth="2"
         />
       </svg>
-      <Text>{text}</Text>
+      <Text>{text.length > 15 ? text.slice(0, 15)+'...' : text}</Text>
     </Container>
   );
 }
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 64px;
   display: flex;
   align-items: center;

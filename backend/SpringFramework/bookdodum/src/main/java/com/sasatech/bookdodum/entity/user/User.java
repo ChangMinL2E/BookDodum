@@ -2,8 +2,10 @@ package com.sasatech.bookdodum.entity.user;
 
 import com.sasatech.bookdodum.dto.user.Gender;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,6 +36,8 @@ public class                           User implements UserDetails {
     @Column(nullable = false)
     private String name;
 
+    @ColumnDefault("true")
+    private boolean survey;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() { //계정이 가지고 있는 권한 목록 리턴
