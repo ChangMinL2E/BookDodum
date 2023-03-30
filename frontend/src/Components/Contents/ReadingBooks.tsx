@@ -16,9 +16,9 @@ interface Props {
 }
 
 // 컴포넌트 정의
-export default function ReadingBooks(theme : Props) {
-  const nickname = useSelectorTyped((state) => state.user.name);
+export default function ReadingBooks({ theme }: Props) {
   const navigate = useNavigate();
+  const nickname = useSelectorTyped((state) => state.user.name);
   const [books, setBooks] = useState<BookInfo[]>([]);
 
   useEffect(() => {
@@ -47,18 +47,17 @@ export default function ReadingBooks(theme : Props) {
     <Container>
       <Title theme={theme}>{nickname}님이 읽고 있는 책</Title>
       <List>
-        <AddBtn theme={theme} onClick={() => navigate('/isbn')}><PlusIcon width="40px" strokeWidth="0.7px" /></AddBtn>
-        <>{
+        <AddBtn theme={theme} onClick={() => navigate('/isbn')}><PlusIcon width="40px" strokeWidth="0.7px" color={theme === 'dark' ? '#F9F9F7' : '#5c5649'} /></AddBtn>
+        {
           books?.map((book) => {
-            return (  
-              <div onClick={() => navigate(`/reading/${book.bookId}`, {state : {image : book.imageUrl, title:book.title, bookId:book.bookId}})} key={book.bookId}>
+            return (
+              <div onClick={() => navigate(`/reading/${book.bookId}`, { state: { image: book.imageUrl, title: book.title, bookId: book.bookId } })} key={book.bookId}>
                 <BookCover imageUrl={book.imageUrl} size={120} />
               </div>
             )
           })
         }
-        </>
-      </List> 
+      </List>
     </Container>
   );
 }
@@ -72,7 +71,7 @@ const Container = styled.div`
   `
 const Title = styled.div<Props>`
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 5400;
     color: ${(props: Props) => props.theme === 'dark' ? '#F9F9F7' : '#5c5649'};
     width: 90%;
     margin: 5% auto;
