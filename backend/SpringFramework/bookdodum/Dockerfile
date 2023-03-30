@@ -59,8 +59,6 @@ FROM openjdk:11.0.11-jdk-slim-buster
 # 작업 디렉토리를 설정합니다.
 WORKDIR /var/jenkins_home/workspace/S08P22C104/backend/SpringFramework/bookdodum
 
-RUN ls -a
-
 # Gradle 빌드 스크립트 파일을 복사합니다.
 COPY build.gradle .
 COPY gradlew .
@@ -72,8 +70,6 @@ RUN chmod +x ./gradlew
 
 # 애플리케이션을 빌드합니다.
 RUN ./gradlew clean build
-
-RUN ./gradlew build
 
 # 빌드된 jar 파일을 복사합니다.
 COPY build/libs/bookdodum-0.0.1-SNAPSHOT.jar app.jar
