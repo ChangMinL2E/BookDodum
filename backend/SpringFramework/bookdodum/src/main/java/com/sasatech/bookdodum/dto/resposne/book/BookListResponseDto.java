@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class BookListResponseDto {
     private Long bookId;
+    private String isbn;
     private String imageUrl;
     private String title;
     private String publisher;

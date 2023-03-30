@@ -164,12 +164,13 @@ public class BookController {
     }
 
 
-    @GetMapping("/review")
+    @GetMapping("/review/{bookid}")
     @Operation(summary = "독후감 목록 조회")
     private ResponseEntity<?> listReview(
+            @PathVariable("bookid") Long bookId,
             @Parameter(hidden = true)
             @AuthenticationPrincipal User user) {
-        return new ResponseEntity(new ApiResponseDto(true, "listReview Success", reviewService.listReview(user.getId())), HttpStatus.OK);
+        return new ResponseEntity(new ApiResponseDto(true, "listReview Success", reviewService.listReview(bookId, user.getId())), HttpStatus.OK);
     }
 
 

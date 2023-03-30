@@ -8,4 +8,9 @@ class Book(models.Model):
   image_url = models.CharField(max_length=255)
   isbn = models.TextField()
   category = models.TextField()
+  content = models.TextField()
 
+class Matrix(models.Model):
+  data = models.TextField()
+
+  

@@ -17,8 +17,8 @@ export default function LibraryModal({ modalOpen, closeModal, libCode }: Library
     const [exist, setExist] = useState<Boolean>(false)
 
     useEffect(() => {
-        // getItemSrch()
-        // getBookExist()
+        getItemSrch()
+        getBookExist()
     }, [])
 
     // 도서관별 장서/대출 데이터 조회

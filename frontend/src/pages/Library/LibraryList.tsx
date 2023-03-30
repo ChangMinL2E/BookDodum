@@ -1,21 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
-import { LibraryType } from '../../Store/Types';
-import { getLibraryAPI } from '../../apis/library';
+import styled from 'styled-components';
+// Components
 import LibraryModal from './LibraryModal';
+// Types
+import { LibraryType } from '../../Store/Types';
+// APIs
+import { getLibraryAPI } from '../../apis/library';
+import { getRegionCodeAPI } from '../../apis/region';
 
 export default function LibraryList() {
     const ISBN = useParams().ISBN
-    const [selectedLib, setSelectedLib] = useState<number>(0) 
-
+    const [selectedLib, setSelectedLib] = useState<number>(0)
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     const [libs, setLibs] = useState<LibraryType[]>([])
-    const regionCode = 24
+    const [position, setPosition] = useState<[number, number]>([-1, -1]);
+    const [regionCode, setRegionCode] = useState<any>(-1);
 
     useEffect(() => {
-        getLibrary()
+        // 현재 좌표 구하기
+        navigator.geolocation.getCurrentPosition((position) => {
+            setPosition([position.coords.longitude, position.coords.latitude])
+        })
     }, [])
+
+    // 좌표로 지역코드 받아오기
+    useEffect(() => {
+        if (position[0] !== -1) {
+            getRegionCode()
+        }
+    }, [position])
+
+    const getRegionCode = async () => {
+        const data = await getRegionCodeAPI(position[0], position[1])
+        setRegionCode(data?.regionCode)
+    }
+
+    useEffect(() => {
+        if (regionCode !== -1) {
+            getLibrary()
+        }
+    }, [regionCode])
 
     // 도서 소장 도서관 조회
     const getLibrary = async () => {
@@ -36,11 +61,10 @@ export default function LibraryList() {
             })
         })
         setLibs(tmp)
-        console.log(tmp)
     }
 
     // 모달 열고 닫기
-    const openModal = (libCode:number) => {
+    const openModal = (libCode: number) => {
         setModalOpen(true)
         setSelectedLib(libCode)
     }
@@ -65,7 +89,6 @@ export default function LibraryList() {
             {modalOpen &&
                 <LibraryModal modalOpen={modalOpen} closeModal={closeModal} libCode={selectedLib} />
             }
-
         </Container>
     );
 }
@@ -89,8 +112,8 @@ const ItemName = styled.div`
 `
 
 const ItemDist = styled.div`
-font-weight: 400;
-font-size: 13px;
-color: #c2bfbb;
+    font-weight: 400;
+    font-size: 13px;
+    color: #c2bfbb;
 `
 
