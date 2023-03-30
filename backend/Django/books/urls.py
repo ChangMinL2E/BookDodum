@@ -12,7 +12,8 @@ urlpatterns = [
     path('test_load/',views.test_load),
     path('test_matrix/',views.test_matrix),
     path('delete_matrix/',views.delete_matrix),
-    path('recommend_books/',views.recommend_books)
+    path('recommend_books/',views.recommend_books),
+    path('axios_test/',views.axios_test)
     
 ]
 

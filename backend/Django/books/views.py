@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.db.models import QuerySet
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -10,10 +12,36 @@ import json, Levenshtein
 import numpy as np
 import nltk
 import time
+# nltk.download('punkt')
 
 from .models import Book, Matrix
 from .serializers import BookListSerializer
 
+tokens = ["IT", "SF", "가계부", "가상화폐", "개발", "건강/취미", "건축", "게임", "경제경영", "고객", "고등학교참고서", "고사성어", "고전", "공포", "과학/수학/생태", "관계", "관광", "광고", "교양", "교육", "금융", "기계", "기술공학", "기업", "기획", "낚시", "네트워크", "다이어트", "달력/기타", "대학교재/전문서적", "데이터베이스", "돈", "동양사", "두뇌", "등산", "로맨스", "리더십", "마음", "마케팅", "만화", "머니", "면역", "무역", "문화", "물리", "미스터리", "방송", "배낭", "범죄", "법", "보안", "보험", "복지", "부,", "부동산", "비즈니스", "사랑", "사진", "생물", "성공", "세계사", "세무", "세일즈", "소설/시/희곡", "속담", "수필", "수험서/자격증", "스릴러", "스포츠", "슬픔", "승리", "시간", "신문", "액션", "어린이", "에세이", "여행", "역사", "역학", "연극", "영어", "영유아", "영화", "예술/대중문화", "외교", "외국어", "요리/살림", "운동", "운송", "운전", "원예", "웹", "유아", "유통", "육아", "의류", "의학", "이론", "인간관계", "인문", "인문학", "인적성", "인테리어,", "임신", "자격증", "자기계발", "자연", "자존감", "잡지", "재미", "재테크", "전기", "전자", "전집/중고전집", "정보", "정책", "정치", "종교", "종교/역학", "좋은부모", "주식", "중학교참고서", "직무능력", "창업", "철학", "청소년", "청소년_추천도서", "체육", "초등학교참고서", "추리", "추천도서", "출산", "취업", "컴퓨터/모바일", "퀴즈", "테마", "투자", "트레이닝", "트렌드", "판타지", "패션", "퍼즐", "펀드", "프레젠테이션", "프로그래밍", "한국관련도서", "한국사", "해킹", "행복", "행정", "협상", "화술", "화학", "회계", "힐링"]
+survey_dic = {
+    '여성' : ['자기계발','로맨스','소설/시/희곡'],
+    '남성' : ['소설/시/희곡','경제경영','스포츠','역사'],
+    '힐링' : ['힐링'],
+    '자기계발' : ['자기계발'],
+    '재미' : ['게임','만화','추리','판타지'],
+    '스펙' : ['수험서/자격증'],
+    '자존감' : ['자기계발'],
+    '행복' : ['행복'],
+    '사랑' : ['소설/시/희곡'],
+    '심심' : ['게임','만화','추리'],
+    '우울' : ['소설/시/희곡', '수필'],
+    '답답' : ['소설/시/희곡', '수필'],
+    '이별' : ['소설/시/희곡', '수필'],
+    '불안' : ['힐링'],
+    '스트레스' : ['공포','스릴러'],
+    '경제':['경제경영','금융'],
+    'SF':['SF'],
+    '수필/에세이' : ['수필', '소설/시/희곡'],
+    '운동': ['건강/취미','다이어트','운동'],
+    '인테리어':['인테리어'],
+    '일상':['여행'],
+    '범죄/추리':['범죄','추리']
+}
 # 책 조회
 @api_view(['GET'])
 def books_list(request):
@@ -30,52 +58,12 @@ def books_list_popular(request):
         serializer = BookListSerializer(books, many=True)
     return Response(serializer.data)
 
-# 유사도 행렬 만들기
-# def make_sim_matrix(data_file):
-#     sim_matrix = np.zeros((len(data_file),len(data_file)),dtype=object)
 
-#     for i in range(len(data_file)):
-#         for j in range(len(data_file)):
-#             similarity_lst = []
-#             for key in data_file[0].keys():
-#                 if not key == 'id':
-#                     similarity = Levenshtein.distance(data_file[i][key],data_file[j][key])
-#                     similarity_lst.append(similarity)
-#             similarity_score = sum(similarity_lst)/len(similarity_lst)
-
-#             sim_matrix[i][j] = (j,similarity_score)
-#     return sim_matrix
-
-
-# 추천하기
-# def recommend(isbn_num,data_file,sim_matrix):
-#   # isbn으로 책 인덱스 찾기
-#   book_idx = -1
-#   for i in range(len(data_file)):
-#       if data_file[i]['isbn'] == str(isbn_num):
-#           book_idx = i
-#           break
-
-#   if book_idx == -1:
-#       result = False
-#   else:
-#     required_lst = sim_matrix[book_idx]
-#     low_num_lst = sorted(required_lst, key=lambda x:x[1])[1:6]
-    
-#     result = []
-#     for seq in low_num_lst:
-#         result.append(data_file[seq[0]])
-
-#   return result
-
-# 
 def count_words_in_book(book, words):
     # 제목, 내용, 카테고리를 모두 합친 텍스트를 만듭니다.
-    # book = book['fields']
-    # print(book)
     text = f"{book['title']} {book['content']} {book['category']}"
     
-    # 텍스트를 토큰화합니다.
+    # 토큰화
     tokens = nltk.word_tokenize(text)
     
     # Counter를 이용해 토큰의 빈도수를 측정합니다.
@@ -108,13 +96,6 @@ def convert(o):
 def create_matrix(request):
     if request.method == 'GET':
         books = list(Book.objects.values())
-        
-        tokens = [
-        '경제','경영','건강/취미','고전','과학','만화','달력','대학교재/전문서적','사회과학','소설/시/희곡',
-        '수험서/자격증','어린어','에세이','여행','역사','예술/대중문화','요리/살림','외국어','유아',
-        '인문학','자기계발','장르소설','잡지','전집/중고전집','종교/역학','좋은부모','청소년','컴퓨터/모바일',
-        '초등학교','중학교','고등학교'
-        ]
 
         books_matrix = []
         for book in books:
@@ -124,7 +105,6 @@ def create_matrix(request):
                 print(len(books_matrix))
         # print(books_matrix)
         # books_matrix = list(map(lambda x: convert(x), books_matrix))
-        
 
         matrix = Matrix(
             data = books_matrix
@@ -143,14 +123,16 @@ def test_load(request):
     print(f"총 실행 시간: {elapsed_time:.2f}초")
     return HttpResponse('view 함수 완료.')
 
-@api_view(['GET'])
+@api_view(['GET','POST'])
 def recommend_books(request):
+    # start_time = time.time()
+
     matrix = list(Matrix.objects.values())
     matrix = matrix[0]['data']
     matrix = np.array(eval(matrix))
     books = Book.objects.values()
     # print(matrix)
-    user_matrix = matrix[0]
+    user_matrix = matrix[5]
     # print(user_matrix)
     
     C = np.dot(matrix, user_matrix)
@@ -164,32 +146,15 @@ def recommend_books(request):
     # print(lst)
     json_data = json.dumps(lst)
     # return HttpResponse('test success')
+    # end_time = time.time()
+    # elapsed_time = end_time - start_time
+    # print(f"총 실행 시간: {elapsed_time:.2f}초")
     return HttpResponse(json_data, content_type='application/json')
-
-# @api_view(['GET'])
-# def books_list_similar(request, isbn_code):
-#     if request.method == 'GET':
-#         test_books = list(Book.objects.values())
-        
-#         # 유사도 행렬
-#         sim_matrix = make_sim_matrix(test_books)
-        
-#         # 추천 도서 목록
-#         recommend_lst = recommend(isbn_code,test_books,sim_matrix)
-#         if recommend_lst:
-#             json_data = json.dumps(recommend_lst)
-
-#             return HttpResponse(json_data, content_type='application/json')
-#         # db에 없는책이면
-#         else:
-#             return HttpResponse('db에 존재하는 책을 입력해주세요.')
-#    # return Response(serializer.data)
-
-
 
 def create_book_from_json(request):
     with open('./data/merged_data.json', 'r', encoding='utf-8-sig') as file:
         data_file = json.load(file) 
+        # data_file = data_file[:100]
         for dic in data_file:
             book = Book(
                 title=dic['title'],
@@ -210,7 +175,7 @@ def test_matrix(request):
     matrix = list(Matrix.objects.values())
     print(type(matrix[0]['data']))
     with open('matrix2.json','w',encoding='utf-8-sig') as file:
-        json.dump(matrix[0], file)
+        json.dump(matrix[0]['data'], file)
         
         # matrix = Matrix(
         #     data = data_file
@@ -220,8 +185,58 @@ def test_matrix(request):
         
     return HttpResponse("행렬 읽어짐.")
 
+@api_view(['DELETE'])
 def delete_matrix(request):
     matrix = Matrix.objects.all()
     matrix.delete()
 
     return HttpResponse('행렬 삭제.')
+
+@method_decorator(csrf_exempt, name='dispatch')
+def axios_test(request):
+    # if request.method == 'POST':
+    # print(request.POST)
+    user_matrix = [0]*len(tokens)
+    books = Book.objects.values()
+    # 초기설문
+    survey = request.POST.get('survey')
+    # array = json.loads(array_data)
+    array = list(eval(survey))
+
+    for arr in array:
+        try:
+            for dic_key in survey_dic[arr]:
+                user_matrix[tokens.index(dic_key)] += 0.2
+        except:
+            pass
+
+    # 읽은 책들
+    read_books = request.POST.get('read_books')
+    matrix = list(Matrix.objects.values())
+    matrix = matrix[0]['data']
+    matrix = np.array(eval(matrix))
+    if read_books:
+        
+        user_matrix = np.array(user_matrix)
+        read_books = list(eval(read_books))
+        for isbn_code in read_books:
+            book = list(Book.objects.filter(isbn=isbn_code))
+            user_matrix += matrix[book[0].id-1]
+
+    user_matrix = list(user_matrix)
+    user_matrix = list(map(lambda x: x/sum(user_matrix),user_matrix))
+    user_matrix = np.array(user_matrix)
+
+
+    C = np.dot(matrix, user_matrix)
+    C = list(enumerate(C))
+    C = sorted(C,key=lambda x: x[1], reverse=True)[:20]
+
+    lst = []
+    for tu in C:
+        lst.append(books[tu[0]])
+
+    # print(lst)
+    json_data = json.dumps(lst)
+
+    return HttpResponse(json_data, content_type='application/json')
