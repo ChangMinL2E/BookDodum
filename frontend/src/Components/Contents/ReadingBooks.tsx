@@ -74,7 +74,6 @@ const Title = styled.div<Props>`
     font-weight: 5400;
     color: ${(props: Props) => props.theme === 'dark' ? '#F9F9F7' : '#5c5649'};
     width: 90%;
-    margin: 5% auto;
   `;
 
 const List = styled.div`

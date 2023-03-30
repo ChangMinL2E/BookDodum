@@ -51,8 +51,8 @@ const Burgur = styled.div`
 const BannerImage = styled.div`
   background-blend-mode: multiply;
   background-color: rgba(0, 0, 0, 0.3);
-  width: 100vw;
-  height: 30vh;
+  width: 100%;
+  height: 30%;
   background-image: url(${mypagebanner});
   background-size: cover;
 `;
