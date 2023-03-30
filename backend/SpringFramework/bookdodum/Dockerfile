@@ -17,10 +17,10 @@ RUN chmod +x ./gradlew
 RUN ./gradlew build
 
 # 빌드된 jar 파일을 복사합니다.
-#COPY build/libs/bookdodum-0.0.1-SNAPSHOT.jar app.jar
+COPY build/libs/bookdodum-0.0.1-SNAPSHOT.jar app.jar
 
 # 컨테이너 실행 시 실행할 명령어를 정의합니다.
-CMD ["java", "-jar", "build/libs/bookdodum-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "app.jar"]
 
 #FROM nginx:stable-alpine as production-stage
 #
