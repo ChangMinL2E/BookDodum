@@ -16,7 +16,7 @@ export default function BestKeyword() {
 
   useEffect(() => {
     // 이달의 키워드 요청
-    if(inView) getBestKeyword()
+    // if(inView) getBestKeyword()
   }, [inView])
 
   const options: any = {
@@ -62,7 +62,7 @@ export default function BestKeyword() {
           <br />
           TOP 70
         </Title>
-        <Desc>월별 대출 급상승 도서의<br /> 책 소개, 서평 등에서 추출된 베스트 키워드!</Desc>
+        <Desc className={inView ? 'title' : ''}>월별 대출 급상승 도서의<br /> 책 소개, 서평 등에서 추출된 베스트 키워드!</Desc>
         <WordCloud>
           <ReactWordcloud words={keywords} options={options} />
         </WordCloud>
@@ -115,6 +115,20 @@ const Desc = styled.div`
   font-weight: 500;
   color: #5c5c5c;
   text-align: center;
+  &.title {
+    animation: fadeIn 2.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity:3;
+      transform: none;
+    }   
+  }
 `;
 
 const WordCloud = styled.div`

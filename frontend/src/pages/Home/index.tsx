@@ -36,7 +36,7 @@ export default function Home() {
       <ReadingBooks theme={'light'} />
       <BookList type={'contents'} bookId={-1} title={""} />
       {
-        reading.map((book) => {
+        reading?.map((book) => {
           return (
             <BookList key={book.bookId} type={'user'} bookId={book.bookId} title={book.title} />
           )

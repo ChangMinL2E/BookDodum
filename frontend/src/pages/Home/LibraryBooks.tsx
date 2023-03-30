@@ -43,7 +43,7 @@ export default function LibraryBooks() {
   // 지역코드로 도서관 인기도서 받기
   useEffect(() => {
     if (regionCode !== -1 && inView) {
-      getLibraryBooks(regionCode)
+      // getLibraryBooks(regionCode)
     }
   }, [regionCode, inView])
 
@@ -89,7 +89,7 @@ export default function LibraryBooks() {
           <br />
           인기 대출 도서
         </Title>
-        <Desc>{regionName} 지역의 인기 도서를 만나보세요!</Desc>
+        <Desc className={inView ? 'title' : ''}>{regionName} 지역의 인기 도서를 만나보세요!</Desc>
         <SwiperWrap>
           <Swiper
             effect={"coverflow"}
@@ -163,11 +163,25 @@ const Title = styled.div`
 `;
 
 const Desc = styled.div`
-  margin-top: 7%;
+  margin-top: 5%;
   font-size: 13px;
   font-weight: 500;
   color: #5c5c5c;
   text-align: center;
+  &.title {
+    animation: fadeIn 2.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity:3;
+      transform: none;
+    }   
+  }
 `;
 
 const SwiperWrap = styled.div`
