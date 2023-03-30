@@ -72,6 +72,45 @@ export default function Step({ step }: Prop) {
     { image: stress, text: "스트레스" },
   ];
 
+  const fields: string[] = [
+    "경제경영",
+    "자기계발",
+    "소설/시/희곡",
+    "사회과학",
+    "어린이",
+    "예술/대중문화",
+    "인문학",
+    "만화",
+    "에세이",
+    "외국어",
+    "역사",
+    "좋은부모",
+    "청소년",
+    "추천도서",
+    "수험서/자격증",
+    "컴퓨터/모바일",
+    "과학",
+    "건강/취미",
+    "고전",
+    "유아",
+    "요리/살림",
+    "대학교재/전문서적",
+    "여행",
+    "종교/역학",
+    "잡지",
+    "청소년_추천도서",
+    "초등학교참고서",
+    "고등학교참고서",
+    "중학교참고서",
+    "달력/기타",
+    "과학 접기",
+    "과학/수학/생태",
+    "기술공학",
+    "한국관련도서",
+    "전집/중고전집"
+  ]
+  
+  
   return (
     <Container>
       {stepN === 1 ? (
@@ -126,7 +165,11 @@ export default function Step({ step }: Prop) {
         </EmotionDiv>
       ) : null}
 
-      {stepN === 4 ? <div></div> : null}
+      {stepN === 4 ? <div>
+        {fields.map((field: string) => (
+          <div>{field}</div>
+        ))}
+      </div> : null}
 
       {stepN === 5 ? (
         <InputDiv>
