@@ -13,10 +13,11 @@ import { getRegionCodeAPI } from "../../apis/region";
 
 interface Props {
   theme: string;
+  type: string;
 }
 
 // 컴포넌트 정의
-export default function ReadingBooks({ theme }: Props) {
+export default function ReadingBooks({ theme, type }: Props) {
   const navigate = useNavigate();
   const nickname = useSelectorTyped((state) => state.user.name);
   const [books, setBooks] = useState<BookInfo[]>([]);
@@ -45,9 +46,13 @@ export default function ReadingBooks({ theme }: Props) {
 
   return (
     <Container>
-      <Title theme={theme}>{nickname}님이 읽고 있는 책</Title>
+      <Title theme={theme} type={''}>{nickname}님이 읽고 있는 책</Title>
       <List>
-        <AddBtn theme={theme} onClick={() => navigate('/isbn')}><PlusIcon width="40px" strokeWidth="0.7px" color={theme === 'dark' ? '#F9F9F7' : '#5c5649'} /></AddBtn>
+        {type !== 'mypage' &&
+          <AddBtn theme={theme} type={''} onClick={() => navigate('/isbn')}>
+            <PlusIcon width="40px" strokeWidth="0.7px" color={theme === 'dark' ? '#F9F9F7' : '#5c5649'} />
+          </AddBtn>
+        }
         {
           books?.map((book) => {
             return (
@@ -71,9 +76,10 @@ const Container = styled.div`
   `
 const Title = styled.div<Props>`
     font-size: 16px;
-    font-weight: 5400;
+    font-weight: bold;
     color: ${(props: Props) => props.theme === 'dark' ? '#F9F9F7' : '#5c5649'};
     width: 90%;
+    margin: 0 auto 4% auto;
   `;
 
 const List = styled.div`

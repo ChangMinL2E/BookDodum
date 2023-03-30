@@ -33,7 +33,7 @@ export default function Home() {
     <div style={{ background: "white" }}>
       <Nav />
       <Banner />
-      <ReadingBooks theme={'light'} />
+      <ReadingBooks theme={'light'} type={""}/>
       <BookList type={'contents'} bookId={-1} title={""} />
       {
         reading?.map((book) => {
