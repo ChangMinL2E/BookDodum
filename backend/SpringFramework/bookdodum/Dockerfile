@@ -57,7 +57,7 @@
 FROM openjdk:11.0.11-jdk-slim-buster
 
 # 작업 디렉토리를 설정합니다.
-WORKDIR /app
+WORKDIR /var/jenkins_home/workspace/S08P22C104/backend/SpringFramework/bookdodum
 
 RUN ls -a
 
