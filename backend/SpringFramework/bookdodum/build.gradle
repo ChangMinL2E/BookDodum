@@ -12,6 +12,8 @@ plugins {
 
 bootJar {
 	mainClassName = 'com.sasatech.bookdodum.ProjectApplication'
+jar {
+	enabled = false
 }
 
 group = 'com.sasatech'
@@ -22,6 +24,10 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+}
+
+bootJar{
+	mainClassName = 'com.sasatech.bookdodum.ProjectApplication' // main class 이름으로 변경해주세요.
 }
 
 repositories {
@@ -47,6 +53,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 	implementation 'mysql:mysql-connector-java'
+	runtimeOnly 'com.h2database:h2'
 
 	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.5.10'
 
