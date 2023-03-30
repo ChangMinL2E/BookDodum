@@ -24,9 +24,9 @@ configurations {
 	}
 }
 
-bootJar{
-	mainClass = 'com.sasatech.bookdodum.ProjectApplication' // main class 이름으로 변경해주세요.
-}
+//bootJar{
+//	mainClass = 'com.sasatech.bookdodum.ProjectApplication' // main class 이름으로 변경해주세요.
+//}
 
 repositories {
 	mavenCentral()
