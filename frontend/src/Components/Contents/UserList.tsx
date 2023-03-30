@@ -1,6 +1,6 @@
 import React from 'react';
 import UserProfile from './UserProfile';
-import picture from '../../Assets/Images/userprofile.png'
+import profile from '../../Assets/Images/profile.png'
 import styled from 'styled-components';
 
 
@@ -9,9 +9,9 @@ export default function UserList() {
         <Container>
         <UserText>현재 이 책을 읽고 있는 사람  · 14명 </UserText>
         <List>
-          <UserProfile imageUrl={picture} username={'혜씌'}/>
-          <UserProfile imageUrl={picture} username={'유나크'}/>
-          <UserProfile imageUrl={picture} username={'독서왕'}/>
+          <UserProfile imageUrl={profile} username={'혜씌'}/>
+          <UserProfile imageUrl={profile} username={'유나크'}/>
+          <UserProfile imageUrl={profile} username={'독서왕'}/>
         </List>
         </Container>
     );

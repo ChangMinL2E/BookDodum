@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import profile from "../../Assets/Images/oilpainting.png";
+import profile from '../../Assets/Images/profile.png';
 
 interface Props {
   commentId: number;

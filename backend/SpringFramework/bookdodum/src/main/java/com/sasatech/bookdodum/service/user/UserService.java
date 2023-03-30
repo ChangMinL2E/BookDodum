@@ -83,6 +83,7 @@ public class UserService {
         User user = userRepository.save(User.builder()
                 .userid(userId)
                 .password(passwordEncoder.encode(password))
+                .survey(false)
                 .name(name)
                 .build());
 

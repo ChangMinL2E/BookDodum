@@ -2,14 +2,13 @@ import React from "react";
 import Read from "./Read";
 import MypageBanner from "./MypageBanner";
 import styled from "styled-components";
-import ReadingBooks from "../Home/ReadingBooks";
-
+import ReadingBooks from "../../Components/Contents/ReadingBooks";
 
 export default function Mypage() {
   return (
     <Container>
       <MypageBanner />
-      <ReadingBooks theme={"dark"}/>
+      <ReadingBooks theme={'dark'} type={'mypage'}/>
       <Read />
     </Container>
   );
@@ -17,5 +16,4 @@ export default function Mypage() {
 
 const Container = styled.div`
   background-color: #5c5649;
-  height: 100vh;
 `;
