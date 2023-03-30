@@ -14,7 +14,7 @@ COPY gradle gradle
 RUN chmod +x ./gradlew
 
 # 애플리케이션을 빌드합니다.
-RUN ./gradlew build
+RUN ./gradlew clean build
 
 #ang#test
 
