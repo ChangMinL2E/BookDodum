@@ -24,9 +24,9 @@ configurations {
 	}
 }
 
-//bootJar {
-//	mainClassName = 'com.sasatech.bookdodum.ProjectApplication'
-//}
+bootJar {
+	mainClassName = 'com.sasatech.bookdodum.ProjectApplication'
+}
 
 repositories {
 	mavenCentral()
