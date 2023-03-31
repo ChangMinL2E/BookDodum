@@ -12,7 +12,7 @@ export async function getTextAPI(korean:string) {
         });
         const test = data.substr(20)
         const json = JSON.parse(test)
-        // console.log(json.message.result.translatedText)
+        console.log(json.message.result.translatedText)
         return json.message.result.translatedText;
     }catch(e) {
         console.log(e)

@@ -174,6 +174,7 @@ public class BookService {
 
                 recommendBookList.add(BookListResponseDto.builder()
                         .bookId(book.getId())
+                        .isbn(book.getIsbn())
                         .imageUrl(book.getImageUrl())
                         .title(book.getTitle())
                         .publisher(book.getPublisher())

@@ -76,3 +76,10 @@
 
 - Levenshtein Distance
   : 도서 별로 dictionary 형태로 되어있는데, 각 id(pk) 제외하고, 책의 원소들끼리 유사도들의 평균으로 비교해서 가장 비슷한 책들을 추천해주는 알고리즘
+
+---
+
+- Data Crawling  
+  : 교보문고 200,000,000개 좀 넘는 데이터 url for문으로 조건넣고 돌려서 수집하고 있습니다.
+
+  python multi-thread 사용 예정

@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { LibraryBook } from '../../Store/Types'
 import { useInView } from "react-intersection-observer";
 import useSelectorTyped from "../../Store";
-// import Components
-
+// Components
+import BookCover from "../../Components/Contents/BookCover";
+import DetailModal from "../../Components/Contents/DetailModal";
+// Types
+import { LibraryBook } from '../../Store/Types'
+// APIs
+import { getLibraryBooksAPI, getRegionCodeAPI } from "../../apis/region";
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import { EffectCoverflow } from "swiper";
-import BookCover from "../../Components/Contents/BookCover";
-import { getLibraryBooksAPI, getRegionCodeAPI } from "../../apis/region";
-import DetailModal from "../../Components/Contents/DetailModal";
 
 
 // Component
@@ -41,10 +42,10 @@ export default function LibraryBooks() {
 
   // 지역코드로 도서관 인기도서 받기
   useEffect(() => {
-    if (regionCode !== -1) {
+    if (regionCode !== -1 && inView) {
       // getLibraryBooks(regionCode)
     }
-  }, [regionCode])
+  }, [regionCode, inView])
 
   const getRegionCode = async () => {
     const data = await getRegionCodeAPI(position[0], position[1])
@@ -73,6 +74,7 @@ export default function LibraryBooks() {
   const openModal = (ISBN: number): void => {
     setModalOpen(!modalOpen)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+    setIsbn(ISBN)
   }
 
   const closeModal = (): void => {
@@ -87,7 +89,7 @@ export default function LibraryBooks() {
           <br />
           인기 대출 도서
         </Title>
-        <Desc>{regionName} 지역의 인기 도서를 만나보세요!</Desc>
+        <Desc className={inView ? 'title' : ''}>{regionName} 지역의 인기 도서를 만나보세요!</Desc>
         <SwiperWrap>
           <Swiper
             effect={"coverflow"}
@@ -128,7 +130,6 @@ export default function LibraryBooks() {
   );
 };
 
-
 // Styled Components
 const Container = styled.div`
   width : 100%;
@@ -162,11 +163,25 @@ const Title = styled.div`
 `;
 
 const Desc = styled.div`
-  margin-top: 7%;
+  margin-top: 5%;
   font-size: 13px;
   font-weight: 500;
   color: #5c5c5c;
   text-align: center;
+  &.title {
+    animation: fadeIn 2.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity:3;
+      transform: none;
+    }   
+  }
 `;
 
 const SwiperWrap = styled.div`
@@ -177,6 +192,7 @@ const BookTitle = styled.div`
   font-size: 15px;
   margin-top: 5%;
   white-space: pre-line;
+  text-align: center;
 `
 const Ranking = styled.div`
   border: 2px solid #edc200;

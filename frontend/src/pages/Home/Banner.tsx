@@ -1,14 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import banner1 from "../../Assets/Images/banner1.png";
 import banner2 from "../../Assets/Images/banner2.png";
 import banner3 from "../../Assets/Images/banner3.png";
 import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
-
+// Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper";
-import { useNavigate } from "react-router-dom";
 
 
 export default function Banner() {

@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { InView, useInView } from "react-intersection-observer";
 import { useLocation, useParams } from "react-router-dom";
+import profile from "../../Assets/Images/profile.png";
 import styled from "styled-components";
+// Components
+import NavBack from "../../Components/Contents/NavBack";
+import ListCard from "./ListCard";
+// APIs
 import {
   getMeetingCommentAPI,
   postMeetingCommentAPI,
   postMeetingJoinAPI,
   getCommentAuthorityAPI,
 } from "../../apis/meeting";
-import NavBack from "../../Components/Contents/NavBack";
-import ListCard from "./ListCard";
-import profile from "../../Assets/Images/oilpainting.png";
 
 interface Info {
   commentId: number;

@@ -1,35 +1,35 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import sample from "../../Assets/Images/sample.png";
-import Book from "../../Components/Contents/Book";
 import useSelectorTyped from "../../Store";
+// Components
+import Book from "../../Components/Contents/Book";
+// Types
+import { BookInfo } from '../../Store/Types'
+// APIs
 import { getUserRecommendAPI } from "../../apis/recommend";
 
-interface BookInfo {
+interface Props {
+  type: string;
   bookId: number;
-  imageUrl: string;
-  publisher: string;
   title: string;
-  category: string[];
 }
 
-
 // 컴포넌트 정의
-export default function BookList() {
+export default function BookList({ type, bookId, title }: Props) {
   const nickname = useSelectorTyped((state) => state.user.name);
-  const [books , setBooks] = useState<BookInfo[]>([])
-
-
-  const type = 1
+  const [books, setBooks] = useState<BookInfo[]>([])
 
   useEffect(() => {
-    if (type === 1) {
+    if (type === 'user') {
       getUserRecommend()
+    } else if (type === 'contents') {
+      getContentsRecommend()
     }
   }, [])
 
+  // 협업 필터링 기반
   const getUserRecommend = async () => {
-    const data = await getUserRecommendAPI(3);
+    const data = await getUserRecommendAPI(bookId);
 
     let tmp: BookInfo[] = []
     data.forEach((book: BookInfo) => {
@@ -39,22 +39,38 @@ export default function BookList() {
         publisher: book.publisher,
         category: book.category,
         bookId: book.bookId,
+        isbn: book.isbn,
       })
     })
-    console.log(tmp)
     setBooks(tmp)
   }
+
+  // 컨텐츠 기반 
+  const getContentsRecommend = async () => {
+
+  }
+
   return (
     <Container>
-      <Title>{nickname}님의 취향 가득 추천 도서</Title>
+      {
+        type === 'user' ? <Title>{title.length > 8 ? title.slice(0, 8) + '...' : title}을 읽은 사용자들이 선택한 도서 </Title> : <Title>{nickname}님의 취향 가득 추천 도서</Title>
+      }
       <List>
-        <Book book={{
-          imageUrl: sample,
-          title: "불편한 편의점",
-          category: [],
-          publisher: "나무 옆 의자",
-          ISBN : 0,
-        }} />
+        <>
+          {
+            books.map((book) => {
+              return (
+                <Book key={book.bookId} book={{
+                  imageUrl: book.imageUrl,
+                  title: book.title,
+                  category: book.category,
+                  publisher: book.publisher,
+                  isbn: book.isbn,
+                }} />
+              )
+            })
+          }
+        </>
       </List>
     </Container>
   );

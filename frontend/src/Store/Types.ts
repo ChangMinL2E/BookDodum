@@ -3,8 +3,18 @@ export interface Book {
     title: string;
     category: string[];
     publisher: string;
-    ISBN:number
+    isbn:number
 }
+
+// bookId 있는 버전
+export interface BookInfo {
+    bookId: number;
+    imageUrl: string;
+    publisher: string;
+    title: string;
+    category: string[];
+    isbn : number;
+  }
 
 // 도서관 정보
 export interface LibraryType {
@@ -34,3 +44,6 @@ export interface LibraryBook  {
     ranking: string;
     title: string;
   }
+
+
+

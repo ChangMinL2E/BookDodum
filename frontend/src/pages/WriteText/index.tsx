@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import NavBack from "../../Components/Contents/NavBack";
-import CommentList from "./CommentList";
+// import CommentList from "./CommentList";
 import TextForm from "./TextForm";
 
 export default function WriteText() {
@@ -9,7 +9,7 @@ export default function WriteText() {
     <Container>
       <NavBack text={"독후감 쓰기"} link={"-1"} />
       <TextForm/>
-      <CommentList />
+      {/* <CommentList /> */}
     </Container>
   );
 }

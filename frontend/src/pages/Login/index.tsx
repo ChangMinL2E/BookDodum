@@ -60,6 +60,8 @@ export default function Login() {
         >
           들어가기
         </Button>
+        <SignUp onClick={() => {navigate('/signup')}}>회원가입</SignUp>
+
       </Div>
     </Container>
   );
@@ -104,11 +106,20 @@ const Button = styled.button`
   color: white;
   border: 1px solid #fffefc;
   border-radius: 40px;
+  font-size: 0.9rem;
   padding: 5%;
   width: 200px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 6% auto;
+  margin: 6% auto 4% auto;
 `;
+
+const SignUp = styled.div`
+    color: #F7F3EB;
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    text-decoration: underline;
+`
