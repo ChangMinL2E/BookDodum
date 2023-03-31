@@ -220,8 +220,8 @@ def register_data(request):
     survey = dict_data.get('survey')
     # read_books = request.POST.get('read_books')
     read_books = dict_data.get('read_books')
+
     if survey:
-        survey = list(eval(survey))
         impressive_book = survey.pop(-1)
         token = nltk.word_tokenize(impressive_book)
         
