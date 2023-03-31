@@ -15,12 +15,12 @@ export async function changeImageAPI(result) {
       },
       data: JSON.stringify({
         prompt: result,
-        n: 1,
+        n: 3,
         size: "1024x1024",
       }),
     });
-    console.log(data)
-    return data.data[0].url;
+    return data.data;
+   
   } catch (e) {
     console.log(e,'❤❤');
   }
