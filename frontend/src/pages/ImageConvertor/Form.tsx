@@ -2,23 +2,26 @@ import React, { useEffect, useState } from "react";
 import oilpainting from "../../Assets/Images/oilpainting.png";
 import oneline from "../../Assets/Images/oneline.png";
 import styled from "styled-components";
-import { getTextAPI } from "../../apis/translate";
-import { changeImageAPI } from "../../apis/changeImage";
-import ImageAI from "../../Components/Contents/ImageAI";
-
 
 type option = {
   name: string;
   image: string;
 };
 
-const Form: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<string>(""); // 그림 옵션 선택
-  const [korean, setKorean] = useState<string>(""); // 번역할 문장
-  const [sentence, setSentence] = useState<string>(""); // 번역된 문장
-  const [result, setResult] = useState<string>(""); // 번역 + 화풍
-  const [image, setImage] = useState(); // 변환된 이미지 url
+interface Props {
+  handleSubmit : () => void;
+  korean : string
+  setKorean : Function;
+  setSelectedOption : Function;
+  selectedOption : string;
+}
 
+export default function Form({handleSubmit, korean, setKorean, setSelectedOption, selectedOption} : Props) {
+ 
+const handleInput =  (e: React.ChangeEvent<HTMLInputElement>) => {
+  setKorean(e.target.value)
+  console.log(e.target.value)
+}
   const options: option[] = [
     {
       name: "oilpainting",
@@ -30,32 +33,6 @@ const Form: React.FC = () => {
     },
   ];
 
-  // 변환하기 버튼 눌렀을 때 번역 문장 받기
-  const handleSubmit = async () => {
-    const data = await getTextAPI(korean);
-    setSentence(data);
-  };
-
-  // 번역 문장 + 화풍 합치기
-  useEffect(() => {
-    if (sentence !== "")
-      setResult(result.concat(sentence, " ", selectedOption));
-      console.log('❤')
-  }, [sentence]);
-
-  useEffect(() => {
-    if (result !== "") changeImage(result);
-    console.log("🧡")
-  }, [result]);
-
-
-  // dall-e-2에 문장 axios
-  const changeImage = async (result: string) => {
-    const imageUrl = await changeImageAPI(result);
-    setImage(imageUrl);
-  };
-
-
   return (
     <Container>
       <Title>여러분의 생각을 그림으로 남겨드립니다.</Title>
@@ -65,11 +42,11 @@ const Form: React.FC = () => {
           value={korean}
           placeholder="책을 읽고 소감을 작성해 보세요.&#13;&#10;
         예시) 들판에 핀 안개 꽃"
-          onChange={(e) => setKorean(e.target.value)}
+          onInput={handleInput}
         />
       </form>
       <Wrapper>
-        {options.map((option, idx) => ( 
+        {options.map((option, idx) => (
           <Option key={idx}>
             <img src={option.image} width="80px" height="80px" />
             <OptionValue>
@@ -88,14 +65,10 @@ const Form: React.FC = () => {
         <Button type="submit" onClick={handleSubmit}>
           변환하기
         </Button>
-     
       </ButtonContainer>
-      <SelectImageContainer>
-      </SelectImageContainer>
-      <ImageAI imageUrl="image" size="280" />
     </Container>
   );
-};
+}
 
 const Container = styled.div`
   width: 90%;
@@ -146,8 +119,3 @@ const Button = styled.button`
   width: 80px;
   color: #5c5649;
 `;
-
-const SelectImageContainer = styled.div`
-
-`
-export default Form;

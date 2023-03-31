@@ -31,7 +31,7 @@ function App() {
         <Route path="/list" element={<RecommendList />} />
         <Route path="/library/:ISBN" element={<Library />} />
         <Route path="/isbn" element={<Isbn />} />
-        <Route path="/image" element={<ImageConvertor />} />
+        <Route path="/image/:bookid" element={<ImageConvertor />} />
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/reading/:bookid" element={<ReadingBooks />} />
         <Route path="/bookmeeting" element={<Meeting />} />

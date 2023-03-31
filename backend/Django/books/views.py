@@ -160,7 +160,10 @@ def recommend_books(request, user_id):
     # 초기설문
     # survey = request.POST.get('survey')
     array = list(eval(survey))
-    
+    impressive_book = array[-1]
+    array = array[:-1]
+    print(impressive_book)
+    print(array)
 
     for arr in array:
         try:
@@ -188,8 +191,8 @@ def recommend_books(request, user_id):
 
     user_matrix = list(user_matrix)
     # 에러 방지
-    # if sum(user_matrix) == 0:
-    #     user_matrix = np.array([0.00001]*len(user_matrix))
+    if sum(user_matrix) == 0:
+        user_matrix = np.array([0.00001]*len(user_matrix))
     user_matrix = list(map(lambda x: x/sum(user_matrix),user_matrix))
     user_matrix = np.array(user_matrix)
     
@@ -208,12 +211,29 @@ def recommend_books(request, user_id):
 
 @method_decorator(csrf_exempt, name='dispatch')
 def register_data(request):
-    user_id = request.POST.get('name')
-    survey = request.POST.get('survey')
-    read_books = request.POST.get('read_books')
+    body_unicode = request.body.decode('utf-8')
+    dict_data = json.loads(body_unicode)
+
+    # user_id = request.POST.get('name')
+    user_id = dict_data.get('name')
+    # survey = request.POST.get('survey')
+    survey = dict_data.get('survey')
+    # read_books = request.POST.get('read_books')
+    read_books = dict_data.get('read_books')
+    if survey:
+        survey = list(eval(survey))
+        impressive_book = survey.pop(-1)
+        token = nltk.word_tokenize(impressive_book)
+        
+        # Counter를 이용해 토큰의 빈도수를 측정합니다.
+        counter = Counter(token)
+        for key in counter.keys():
+            for _ in range(counter[key]):
+                survey.append(key)
     
     # 존재 여부
     test_data = list(ID.objects.filter(name=user_id))
+    
 
     # 없는 데이터 등록이라면,
     if len(test_data) == 0:
