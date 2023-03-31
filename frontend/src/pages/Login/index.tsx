@@ -39,20 +39,17 @@ export default function Login() {
     <Container>
       <Div>
         <Logo src={logo} />
-
         <Text>아이디</Text>
         <Input
           placeholder="아이디를 입력하세요"
           onChange={(e) => setUserid(e.target.value)}
         />
-
         <Text>비밀번호</Text>
         <Input
           type="password"
           placeholder="비밀번호를 입력하세요"
           onChange={(e) => setPassword(e.target.value)}
         />
-
         <Button
           onClick={() => {
             loginUser(userInfo);
@@ -61,7 +58,6 @@ export default function Login() {
           들어가기
         </Button>
         <SignUp onClick={() => {navigate('/signup')}}>회원가입</SignUp>
-
       </Div>
     </Container>
   );
@@ -69,7 +65,7 @@ export default function Login() {
 
 const Container = styled.div`
   background-color: #5c5649;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   position: relative;
 `;

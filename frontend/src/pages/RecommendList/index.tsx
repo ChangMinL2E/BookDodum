@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useSelectorTyped from '../../Store';
 // Components
 import Nav from '../../Components/Common/Nav';
 import Book from '../../Components/Contents/Book'
@@ -10,6 +11,7 @@ import { getUserRecommendAPI } from '../../apis/recommend';
 
 
 export default function RecommendList() {
+  const nickname = useSelectorTyped((state) => state.user.name);
 
   const [books, setBooks] = useState<BookInfo[]>([])
   const type = 1
@@ -34,7 +36,6 @@ export default function RecommendList() {
         isbn : book.isbn,
       })
     })
-    console.log(tmp)
     setBooks(tmp)
   }
 
@@ -44,7 +45,7 @@ export default function RecommendList() {
       <Contents>
         { type === 1 ? 
         <Title>"{}을 읽은 사람이 선택한 도서"</Title>
-        : <Title>"김유나 님이 관심있는 분야의 도서"</Title>
+        : <Title>"{nickname} 님이 관심있는 분야의 도서"</Title>
       }
         <BooksWrap>
           <>
