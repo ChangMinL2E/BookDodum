@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import useSelectorTyped from '../../Store';
 import sample from '../../Assets/Images/sample.png'
@@ -12,9 +12,22 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper";
 
+interface ImageProps {
+    imageUrl: string;
+}
+
+export interface Book {
+    imageUrl: string;
+    title: string;
+    category: string[];
+    publisher: string;
+    author: string;
+}
+
 export default function Recommend() {
     const nickname = useSelectorTyped((state) => state.user.name)
     const userId = useSelectorTyped((state) => state.user.userid)
+    const [books, setBooks] = useState<Book[]>([])
 
     useEffect(() => {
         getConentsRecommend()
@@ -22,6 +35,21 @@ export default function Recommend() {
 
     const getConentsRecommend = async () => {
         const data = await getContentsRecommendAPI(userId);
+
+        let tmp: Book[] = [];
+        data.forEach((book: any) => {
+            let test = book.category.replaceAll("'", "\"")
+            let category = JSON.parse(test)
+            tmp.push(({
+                title: book.title,
+                category: category,
+                imageUrl: book.image_url,
+                publisher: book.publisher,
+                author: book.author,
+            }))
+        })
+
+        setBooks(tmp)
 
     }
 
@@ -35,76 +63,44 @@ export default function Recommend() {
                         direction={"vertical"}
                         pagination={{
                             clickable: true,
-                          }}
+                        }}
                         modules={[Pagination]}
                         className="mySwiper"
                     >
-                        <SwiperSlide>
-                            <BookInfo>
-                                <Book>
-                                    <Top></Top>
-                                    <Side></Side>
-                                    <Front></Front>
-                                </Book>
-                                <Info>
-                                    <BookTitle>불편한 편의점</BookTitle>
-                                    <Categories>
-                                        <Category>국내도서</Category>
-                                        <Category>소설/시/희곡</Category>
-                                    </Categories>
-                                    <InfoBottom>
-                                        <Author>글: 김유나</Author>
-                                        <Publisher>출판사: 나무옆의자</Publisher>
-                                    </InfoBottom>
-                                </Info>
-                            </BookInfo>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <BookInfo>
-                                <Book>
-                                    <Top></Top>
-                                    <Side></Side>
-                                    <Front></Front>
-                                </Book>
-                                <Info>
-                                    <BookTitle>불편한 편의점</BookTitle>
-                                    <Categories>
-                                        <Category>국내도서</Category>
-                                        <Category>소설/시/희곡</Category>
-                                    </Categories>
-                                    <InfoBottom>
-                                        <Author>글: 김유나</Author>
-                                        <Publisher>출판사: 나무옆의자</Publisher>
-                                    </InfoBottom>
-                                </Info>
-                            </BookInfo>
-                        </SwiperSlide> <SwiperSlide>
-                            <BookInfo>
-                                <Book>
-                                    <Top></Top>
-                                    <Side></Side>
-                                    <Front></Front>
-                                </Book>
-                                <Info>
-                                    <BookTitle>불편한 편의점</BookTitle>
-                                    <Categories>
-                                        <Category>국내도서</Category>
-                                        <Category>소설/시/희곡</Category>
-                                    </Categories>
-                                    <InfoBottom>
-                                        <Author>글: 김유나</Author>
-                                        <Publisher>출판사: 나무옆의자</Publisher>
-                                    </InfoBottom>
-                                </Info>
-                            </BookInfo>
-                        </SwiperSlide>
+                        <>
+                            {
+                                books?.map((book) => {
+                                    return (
+                                        <SwiperSlide key={book.title}>
+                                            <BookInfo>
+                                                <BookShape>
+                                                    <Top></Top>
+                                                    <Side></Side>
+                                                    <Front imageUrl={book.imageUrl}></Front>
+                                                </BookShape>
+                                                <Info>
+                                                    <BookTitle>{book.title.length > 10 ? book.title.slice(0, 10) + '...' : book.title}</BookTitle>
+                                                    <Categories>
+                                                        <>
+                                                            {
+                                                                book?.category.map((item, idx) => <Category key={idx}>{item}</Category>)
+                                                            }
+                                                        </>
+                                                    </Categories>
+                                                    <InfoBottom>
+                                                        <Author>글: {book.author}</Author>
+                                                        <Publisher>출판사: {book.publisher}</Publisher>
+                                                    </InfoBottom>
+                                                </Info>
+                                            </BookInfo>
+                                        </SwiperSlide>
+                                    )
+                                })
+                            }
+                        </>
+
                     </Swiper>
                 </SwiperWrap>
-                {/* <svg width="24" height="53" viewBox="0 0 24 53" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19.5 34.25L12 41.75L4.5 34.25M19.5 40.25L12 47.75L4.5 40.25" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M4.5 12.75L12 5.25L19.5 12.75M4.5 18.75L12 11.25L19.5 18.75" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                </svg> */}
-
             </Contents>
         </Container>
     );
@@ -161,7 +157,7 @@ const BookInfo = styled.div`
     align-items: center;
 `
 
-const Book = styled.div`
+const BookShape = styled.div`
    margin: 6% 0 0 0;
    transform-style: preserve-3d;
    transform: rotateX(20deg) rotateY(20deg);
@@ -186,11 +182,11 @@ const Side = styled.div`
     background-size: cover;
     transform: rotateY(90deg) translateZ(346px) translateX(500px) translateY(-205px);
 `
-const Front = styled.div`
+const Front = styled.div<ImageProps>`
     width : 180px;
     height : 270px;
     background-size: cover;
-    background-image: url(${sample});
+    background-image:  url(${(props: ImageProps) => props.imageUrl});
 `
 
 const Info = styled.div`

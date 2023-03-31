@@ -29,10 +29,9 @@ export async function getContentsRecommendAPI(userId: string) {
   try {
     const data = await axios({
       method: "GET",
-      url: `${DATA_API_URL}/books/recommend_books/${userId}`,
+      url: `http://127.0.0.1:8000/books/recommend_books/${userId}`,
     });
-    console.log(data);
-    return data;
+    return data.data.slice(0, 10);
   } catch (e) {
     console.log(e);
   }
