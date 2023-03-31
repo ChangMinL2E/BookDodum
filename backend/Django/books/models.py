@@ -13,4 +13,7 @@ class Book(models.Model):
 class Matrix(models.Model):
   data = models.TextField()
 
-  
+class ID(models.Model):
+  name = models.TextField()
+  survey = models.TextField()
+  read_books = models.TextField()

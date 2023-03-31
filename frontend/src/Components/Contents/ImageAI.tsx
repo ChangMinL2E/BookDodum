@@ -1,32 +1,48 @@
-import React from 'react';
-import styled from 'styled-components';
-// import ImageAI from ''
-
+import React from "react";
+import styled from "styled-components";
 
 // types.ts
-interface ImageProps {
-    imageUrl : string;
-    size: string;
-    name?: string;
+interface Props {
+  imageUrl: string;
+  size: string;
+  name?: string;
 }
 
-// inage: strig, size: stim
-export default function ImageAI({imageUrl, size,name} : ImageProps) {
-    return (
-        <Image className={name} imageUrl={imageUrl} size={size}/>            
-    );
+
+// handlechange 이벤트 
+export default function ImageAI({ imageUrl, size, name}: Props) {
+
+  console.log(imageUrl,'🎈🎈')
+  return (
+    <>
+      <Container>
+        <Image className={name} imageUrl={imageUrl} size={size}  />
+      </Container>
+      
+    </>
+  );
 }
 
-const Image = styled.div<ImageProps>`
-    width: ${(props: ImageProps) => props.size};
-    height: ${(props: ImageProps) => props.size};
-    background-image: url(${(props:ImageProps) => props.imageUrl});
-    background-size: contain;
-    &.img {
-        z-index: 1;
-        position:relative;
-        top: 110px;
-        left: 60px;
-    }
+const Container = styled.div`
+  display: flex;
 `;
+
+const Image = styled.div<Props>`
+  width: ${(props: Props) => props.size};
+  height: ${(props: Props) => props.size};
+  background-image: url(${(props: Props) => `${props.imageUrl}`});
+  background-size: contain;
+  background-repeat: none;
+  cursor: pointer;
+  &.img {
+    z-index: 1;
+    position: relative;
+    top: 110px;
+    left: 60px;
+  }
+  &.select{
+    border: 5px solid black;
+  }
+`;
+
 
