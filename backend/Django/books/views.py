@@ -14,7 +14,7 @@ import nltk
 import time
 # nltk.download('punkt')
 
-from .models import Book, Matrix
+from .models import Book, Matrix, ID
 from .serializers import BookListSerializer
 
 tokens = ["IT", "SF", "가계부", "가상화폐", "개발", "건강/취미", "건축", "게임", "경제경영", "고객", "고등학교참고서", "고사성어", "고전", "공포", "과학/수학/생태", "관계", "관광", "광고", "교양", "교육", "국내도서", "금융", "기계", "기술공학", "기업", "기획", "낚시", "네트워크", "다이어트", "달력/기타", "대학교재/전문서적", "데이터베이스", "돈", "동양사", "두뇌", "등산", "로맨스", "리더십", "마음", "마케팅", "만화", "머니", "면역", "무역", "문화", "물리", "미스터리", "방송", "배낭", "범죄", "법", "보안", "보험", "복지", "부,", "부동산", "비즈니스", "사랑", "사진", "사회과학", "생물", "성공", "세계사", "세무", "세일즈", "소설/시/희곡", "속담", "수필", "수험서/자격증", "스릴러", "스포츠", "슬픔", "승리", "시간", "신문", "액션", "어린이", "에세이", "여행", "역사", "역학", "연극", "영어", "영화", "예술/대중문화", "외교", "외국어", "요리/살림", "운동", "운송", "운전", "원예", "웹", "유아", "유통", "육아", "의류", "의학", "이론", "인간관계", "인문", "인문학", "인적성", "인테리어,", "임신", "자격증", "자기계발", "자연", "자존감", "잡지", "재미", "재테크", "전기", "전자", "전집/중고전집", "정보", "정책", "정치", "종교/역학", "좋은부모", "주식", "중학교참고서", "직무능력", "창업", "철학", "청소년", "체육", "초등학교참고서", "추리", "추천도서", "출산", "취업", "컴퓨터/모바일", "퀴즈", "테마", "투자", "트레이닝", "트렌드", "판타지", "패션", "퍼즐", "펀드", "프레젠테이션", "프로그래밍", "한국관련도서", "한국사", "해킹", "행복", "행정", "협상", "화술", "화학", "회계", "힐링"]
@@ -146,15 +146,21 @@ def delete_matrix(request):
 
     return HttpResponse('행렬 삭제.')
 
-@method_decorator(csrf_exempt, name='dispatch')
-def recommend_books(request):
-    start_time = time.time()
+def recommend_books(request, user_id):
+    user_data = list(ID.objects.filter(name=user_id))
+    if len(user_data) == 0:
+        return HttpResponse('존재하지 않은 유저입니다.')
+    
+    survey = user_data[-1].survey
+    read_books = user_data[-1].read_books
+
     user_matrix = [0]*len(tokens)
     books = Book.objects.values()
 
     # 초기설문
-    survey = request.POST.get('survey')
+    # survey = request.POST.get('survey')
     array = list(eval(survey))
+    
 
     for arr in array:
         try:
@@ -167,13 +173,13 @@ def recommend_books(request):
                 pass
     
     # 읽은 책들
-    read_books = request.POST.get('read_books')
+    # read_books = request.POST.get('read_books')
     matrix = list(Matrix.objects.values())
     matrix = matrix[0]['data']
     matrix = np.array(json.loads(matrix))
     
-
-    if read_books:
+    print(read_books)
+    if not read_books == '':
         user_matrix = np.array(user_matrix)
         read_books = list(eval(read_books))
         for isbn_code in read_books:
@@ -199,3 +205,56 @@ def recommend_books(request):
     json_data = json.dumps(lst)
 
     return HttpResponse(json_data, content_type='application/json')
+
+@method_decorator(csrf_exempt, name='dispatch')
+def register_data(request):
+    user_id = request.POST.get('name')
+    survey = request.POST.get('survey')
+    read_books = request.POST.get('read_books')
+    
+    # 존재 여부
+    test_data = list(ID.objects.filter(name=user_id))
+
+    # 없는 데이터 등록이라면,
+    if len(test_data) == 0:
+        # 등록한 책 없는 경우,
+        if not read_books:
+            data = ID(
+                name = user_id,
+                survey = survey,
+                # isbn_books = isbn_books
+            )
+
+        # 읽은 책 등록한 경우,
+        else:
+            data = ID(
+                name = user_id,
+                survey = survey,
+                read_books = read_books
+            )
+        data.save()
+        return HttpResponse('등록 완료.')
+    # 이미 존재한다면,
+    else:
+        if not survey:
+            survey = test_data[-1].survey
+        
+        if not read_books:
+            data = ID(
+                name = user_id,
+                survey = survey,
+                # isbn_books = isbn_books
+            )
+
+        # 읽은 책 등록한 경우,
+
+        else:
+            data = ID(
+                name = user_id,
+                survey = survey,
+                read_books = read_books
+            )
+
+        data.save()
+        
+        return HttpResponse('데이터 추가 저장')
