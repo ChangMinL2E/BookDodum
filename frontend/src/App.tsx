@@ -19,10 +19,12 @@ import Questions from "./pages/Questions";
 import Survey from "./pages/Survey";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup/Index";
+import ScrollTop from "./Components/Common/ScrollTop";
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/intro" element={<Intro />} />
