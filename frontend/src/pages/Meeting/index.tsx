@@ -42,7 +42,7 @@ export default function Meeting() {
       <Nav />
       <Text>참여중인 독서 모임</Text>
       <BookMeetingCards>
-        {bookMeetings.map((bookMeeting: BookMeeting) => (
+        {bookMeetings?.map((bookMeeting: BookMeeting) => (
           <MeetingCover key={bookMeeting.meetingId} {...bookMeeting} />
         ))}
       </BookMeetingCards>

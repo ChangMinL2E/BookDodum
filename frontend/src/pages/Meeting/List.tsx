@@ -43,7 +43,7 @@ export default function List() {
         <Button />
       </TopDiv>
       <>
-        {bookMeetings.map((bookMeeting: BookMeeting, idx) => (
+        {bookMeetings?.map((bookMeeting: BookMeeting, idx) => (
           <ListCard key={idx} {...bookMeeting}/>
         ))}
       </>

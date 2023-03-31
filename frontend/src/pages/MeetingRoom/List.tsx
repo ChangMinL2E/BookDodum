@@ -132,7 +132,7 @@ export default function List() {
 
         {/* 모임 댓글 */}
         <Wrapper>
-          {comments.map((info: Info) => (
+          {comments?.map((info: Info) => (
             <ListCard {...info} key={info.commentId} />
           ))}
           <Ref ref={ref} style={{ height: authority ? "61px" : "0px" }} />
