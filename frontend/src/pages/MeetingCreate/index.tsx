@@ -37,6 +37,8 @@ export default function MeetingCreate() {
     { authority: false, read: "아니요" },
   ];
 
+  const navigate = useNavigate();
+
   const meeting: Meeting = {
     bookId: bookId,
     title: title,
@@ -64,8 +66,16 @@ export default function MeetingCreate() {
 
   // 모임 만드는 api
   const makeMeeting = async (meeting: Meeting) => {
-    await createMeetingAPI(meeting);
-    goMeeting();
+    if (meeting.bookId == 0) {
+      alert("도서를 선택해주세요!");
+    } else if (meeting.title == "") {
+      alert("모임 이름을 입력해주세요.");
+    } else if (meeting.content) {
+      alert("모임 설명을 입력해주세요.");
+    } else {
+      await createMeetingAPI(meeting);
+      navigate(`/bookmeeting`);
+    }
   };
 
   // 예, 아니오 변경
@@ -76,11 +86,6 @@ export default function MeetingCreate() {
     } else {
       setAuthority(false);
     }
-  };
-
-  const navigate = useNavigate();
-  const goMeeting = () => {
-    navigate(`/bookmeeting`);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
