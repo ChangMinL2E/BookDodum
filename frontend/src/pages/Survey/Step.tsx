@@ -4,6 +4,7 @@ import GenderCard from "./GenderCard";
 import ReasonCard from "./ReasonCard";
 import EmotionCard from "./EmotionCard";
 import FieldCard from "./FieldCard";
+import useSelectorTyped from "../../Store";
 
 // step1
 import woman from "../../Assets/Images/woman.png";
@@ -26,6 +27,7 @@ import frustrated from "../../Assets/Images/frustrated.png";
 import farewell from "../../Assets/Images/farewell.png";
 import unrest from "../../Assets/Images/unrest.png";
 import stress from "../../Assets/Images/stress.png";
+import { postRegisterAPI } from "../../apis/survey";
 
 interface Prop {
   step: Number;
@@ -34,6 +36,11 @@ interface Prop {
 interface Item {
   image: string;
   text: string;
+}
+
+interface Survey {
+  name: string;
+  survey: string[];
 }
 
 export default function Step({ step }: Prop) {
@@ -99,12 +106,23 @@ export default function Step({ step }: Prop) {
   const [book, setBook] = useState<string>("");
   const [result, setResult] = useState<string[]>([]);
 
+  const name = useSelectorTyped((state) => state.user.userid);
+
+  const survey: Survey = {
+    name: name,
+    survey: result,
+  };
+
   useEffect(() => {
     sessionStorage.setItem("list", JSON.stringify(surveyList));
   }, [surveyList]);
 
   const saveSession = (value: string) => {
     setSurveyList([...surveyList, value]);
+  };
+
+  const postRegister = async () => {
+    await postRegisterAPI(survey);
   };
 
   const handleSubmitBook = () => {
@@ -118,6 +136,12 @@ export default function Step({ step }: Prop) {
       setBook("");
     }
   };
+
+  useEffect(() => {
+    if (result.length > 0) {
+      postRegister();
+    }
+  }, [result]);
 
   return (
     <Container>
