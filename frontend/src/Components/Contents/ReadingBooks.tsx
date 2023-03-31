@@ -73,6 +73,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     margin: 5% auto 10% auto;
+    min-height: 200px;
   `
 const Title = styled.div<Props>`
     font-size: 16px;
