@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import GenderCard from "./GenderCard";
+import ReasonCard from "./ReasonCard";
+import EmotionCard from "./EmotionCard";
+import FieldCard from "./FieldCard";
 
 // step1
 import woman from "../../Assets/Images/woman.png";
@@ -24,7 +28,7 @@ import unrest from "../../Assets/Images/unrest.png";
 import stress from "../../Assets/Images/stress.png";
 
 interface Prop {
-  step?: string;
+  step: Number;
 }
 
 interface Item {
@@ -33,24 +37,10 @@ interface Item {
 }
 
 export default function Step({ step }: Prop) {
-  const stepN = Number(step);
-  const sessionGet: any = sessionStorage.getItem("list");
-
-  // const surveyInfo = sessionGet
-  //   ? JSON.parse(sessionGet)
-  //   : sessionStorage.setItem("list", JSON.stringify([]));
-
-  const [surveyList, setSurveyList] = useState(JSON.parse(sessionGet) || '[]');
-
-  useEffect(() => {
-    sessionStorage.setItem("list", JSON.stringify(surveyList))
-  }, [surveyList])
-
-  const [book, setBook] = useState<string>("");
-
-  const saveSession = (value: string) => {
-    setSurveyList([...surveyList, value]);
-  };
+  const genders: Item[] = [
+    { image: woman, text: "여성" },
+    { image: man, text: "남성" },
+  ];
 
   const reasons: Item[] = [
     { image: healing, text: "힐링" },
@@ -74,7 +64,6 @@ export default function Step({ step }: Prop) {
 
   const fields: string[] = [
     "경제경영",
-    "자기계발",
     "소설/시/희곡",
     "사회과학",
     "어린이",
@@ -94,93 +83,116 @@ export default function Step({ step }: Prop) {
     "고전",
     "유아",
     "요리/살림",
-    "대학교재/전문서적",
     "여행",
     "종교/역학",
     "잡지",
-    "청소년_추천도서",
-    "초등학교참고서",
-    "고등학교참고서",
-    "중학교참고서",
     "달력/기타",
-    "과학 접기",
     "과학/수학/생태",
     "기술공학",
-    "한국관련도서",
-    "전집/중고전집"
-  ]
-  
-  
+    "국내도서",
+    "전집/중고전집",
+  ];
+
+  const sessionGet: any = sessionStorage.getItem("list");
+
+  const [surveyList, setSurveyList] = useState(JSON.parse(sessionGet) || "");
+  const [book, setBook] = useState<string>("");
+  const [result, setResult] = useState<string[]>([]);
+
+  useEffect(() => {
+    sessionStorage.setItem("list", JSON.stringify(surveyList));
+  }, [surveyList]);
+
+  const saveSession = (value: string) => {
+    setSurveyList([...surveyList, value]);
+  };
+
+  const handleSubmitBook = () => {
+    if (book.trim().length > 0) {
+      let tmp = JSON.parse(sessionGet);
+      sessionStorage.removeItem("list");
+      tmp.push(book);
+      setResult(tmp);
+    } else {
+      alert("제목을 입력해주세요.");
+      setBook("");
+    }
+  };
+
   return (
     <Container>
-      {stepN === 1 ? (
+      {step === 1 && (
         <GenderDiv>
-          <GenderItem
-            onClick={() => {
-              saveSession("여성");
-            }}
-          >
-            <Gender src={woman} />
-            <Text style={{ fontSize: "1.2rem" }}>여성</Text>
-          </GenderItem>
-          <GenderItem
-            onClick={() => {
-              saveSession("남성");
-            }}
-          >
-            <Gender src={man} />
-            <Text style={{ fontSize: "1.2rem" }}>남성</Text>
-          </GenderItem>
+          {genders.map((gender: Item) => (
+            <div
+              key={gender.text}
+              onClick={() => {
+                saveSession(gender.text);
+              }}
+            >
+              <GenderCard {...gender} />
+            </div>
+          ))}
         </GenderDiv>
-      ) : null}
+      )}
 
-      {stepN === 2 ? (
+      {step === 2 && (
         <ReasonDiv>
           {reasons.map((reason: Item) => (
-            <ReasonItem
+            <div
               key={reason.text}
               onClick={() => {
                 saveSession(reason.text);
               }}
             >
-              <Reason src={reason.image} />
-              <Text>{reason.text}</Text>
-            </ReasonItem>
+              <ReasonCard {...reason} />
+            </div>
           ))}
         </ReasonDiv>
-      ) : null}
+      )}
 
-      {stepN === 3 ? (
+      {step === 3 && (
         <EmotionDiv>
           {emotions.map((emotion, idx) => (
-            <Emotion
-              key={idx}
+            <div
+              key={emotion.text}
               onClick={() => {
                 saveSession(emotion.text);
               }}
             >
-              <EmotionImg src={emotion.image} />
-            </Emotion>
+              <EmotionCard {...emotion} />
+            </div>
           ))}
         </EmotionDiv>
-      ) : null}
+      )}
 
-      {stepN === 4 ? <div>
-        {fields.map((field: string) => (
-          <div>{field}</div>
-        ))}
-      </div> : null}
+      {step === 4 && (
+        <FieldDiv>
+          {fields.map((field: string, idx) => (
+            <div
+              key={idx}
+              onClick={() => {
+                saveSession(field);
+              }}
+            >
+              <FieldCard field={field} />
+            </div>
+          ))}
+        </FieldDiv>
+      )}
 
-      {stepN === 5 ? (
+      {step === 5 && (
         <InputDiv>
           <Input
+            value={book}
             onChange={(e) => {
               setBook(e.target.value);
             }}
             placeholder="책 제목을 입력해주세요."
           />
+          <Button onClick={handleSubmitBook}>북,돋움 시작하기</Button>
         </InputDiv>
-      ) : null}
+      )}
     </Container>
   );
 }
@@ -199,41 +211,10 @@ const GenderDiv = styled.div`
   margin-top: 15%;
 `;
 
-const GenderItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const Gender = styled.img`
-  width: 130px;
-  height: 130px;
-  margin: 10%;
-`;
-
 const ReasonDiv = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   width: 100%;
-`;
-
-const Reason = styled.img`
-  width: 100px;
-  height: 100px;
-  margin: 10%;
-`;
-
-const Text = styled.div`
-  font-size: 0.95rem;
-  font-family: "Gowun Batang", serif;
-  text-align: center;
-  font-weight: 600;
-`;
-
-const ReasonItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 `;
 
 const EmotionDiv = styled.div`
@@ -242,29 +223,44 @@ const EmotionDiv = styled.div`
   width: 100%;
 `;
 
-const Emotion = styled.div`
-  /* background-color: #F2F2F2;
-    border-radius: 55px;
-    margin: 3%; */
-`;
-
-const EmotionImg = styled.img`
-  height: 40px;
-  margin: 8%;
+const FieldDiv = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
 `;
 
 const InputDiv = styled.div`
   position: relative;
-  height: 300px;
+  width: 100%;
+  height: 350px;
 `;
 
 const Input = styled.input`
   border: none;
-  border-bottom: 2px solid #5c5649;
-  font-size: 1.1rem;
+  border-bottom: 1.5px solid #5c5649;
+  font-size: 1.05rem;
 
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
+  font-family: "Gowun Batang", serif;
+  width: 80%;
+  font-weight: 600;
+`;
+
+const Button = styled.button`
+  position: absolute;
+  width: 100%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  bottom: 0;
+  background-color: #f7f3eb;
+  border: none;
+  padding: 4%;
+  font-size: 1.05rem;
+  font-family: "Gowun Batang", serif;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 `;
