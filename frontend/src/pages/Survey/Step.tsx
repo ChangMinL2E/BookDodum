@@ -28,6 +28,7 @@ import farewell from "../../Assets/Images/farewell.png";
 import unrest from "../../Assets/Images/unrest.png";
 import stress from "../../Assets/Images/stress.png";
 import { postRegisterAPI } from "../../apis/survey";
+import { useNavigate } from "react-router";
 
 interface Prop {
   step: Number;
@@ -101,6 +102,7 @@ export default function Step({ step }: Prop) {
   ];
 
   const sessionGet: any = sessionStorage.getItem("list");
+  const navigate = useNavigate();
 
   const [surveyList, setSurveyList] = useState(JSON.parse(sessionGet) || "");
   const [book, setBook] = useState<string>("");
@@ -140,6 +142,7 @@ export default function Step({ step }: Prop) {
   useEffect(() => {
     if (result.length > 0) {
       postRegister();
+      navigate("/");
     }
   }, [result]);
 

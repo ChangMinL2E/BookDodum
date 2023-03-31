@@ -14,7 +14,6 @@ export async function postRegisterAPI(survey: Survey) {
       url: `${API_URL}/books/register_data/`,
       data: survey,
     });
-    console.log(data);
     return data;
   } catch (e) {
     console.log(e);
