@@ -235,6 +235,7 @@ const Input = styled.input`
   height: 40px;
   width: 250px;
   border: 3px solid transparent;
+  padding-left: 3%;
 `;
 
 const Button = styled.button`
@@ -260,7 +261,7 @@ const DoubleN = styled.button`
   z-index: 5;
   position: fixed;
   top: 21.5%;
-  right: 3%;
+  right: 0;
 `;
 
 const DoubleI = styled.button`
@@ -272,5 +273,5 @@ const DoubleI = styled.button`
   z-index: 5;
   position: fixed;
   top: 39%;
-  right: 3%;
+  right: 0;
 `;
