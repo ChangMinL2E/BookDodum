@@ -5,15 +5,11 @@ from . import views
 app_name = 'books'
 urlpatterns = [
     path('booklist/', views.books_list),
-    path('popular/',views.books_list_popular),
-    # path('similar/<str:isbn_code>/',views.books_list_similar),
     path('create_books/', views.create_book_from_json),
     path('create_matrix/',views.create_matrix),
-    path('test_load/',views.test_load),
-    path('test_matrix/',views.test_matrix),
     path('delete_matrix/',views.delete_matrix),
-    path('recommend_books/',views.recommend_books),
-    path('axios_test/',views.axios_test)
-    
+    path('test_matrix/',views.test_matrix),
+    path('register_data/',views.register_data),
+    path('recommend_books/<str:user_id>/',views.recommend_books),
 ]
 
