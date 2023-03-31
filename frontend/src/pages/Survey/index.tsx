@@ -5,19 +5,18 @@ import logo from "../../Assets/Images/logo-white.png";
 import Step from "./Step";
 
 export default function Survey() {
-  const navigate = useNavigate();
-  const step = useParams().step;
+  const step = Number(useParams().step);
   const [question, setQuestion] = useState<string>("");
 
   useEffect(() => {
-    if (Number(step) === 1) {
+    if (step === 1) {
       setQuestion("당신의\n 성별을 알려주세요!");
-    } else if (Number(step) === 2) {
+    } else if (step === 2) {
       setQuestion("당신이 책을 읽는 이유는\n 무엇인가요?");
-    } else if (Number(step) === 3) {
-      setQuestion("요즘 어떠세요?");
-    } else if (Number(step) === 4) {
-      setQuestion("어떤 분야에 관심이 있으신가요?");
+    } else if (step === 3) {
+      setQuestion("요즘 기분은 어떠세요?");
+    } else if (step === 4) {
+      setQuestion("어떤 분야에\n 가장 관심이 있으신가요?");
     } else {
       setQuestion("가장 감명깊게 읽은 책을\n 알려주세요.");
     }
@@ -36,12 +35,6 @@ export default function Survey() {
       </BarContainer>
       <Contents>
         <Step step={step} />
-        <button onClick={() => navigate(`/survey/${Number(step) - 1}`)}>
-          이전
-        </button>
-        <button onClick={() => navigate(`/survey/${Number(step) + 1}`)}>
-          다음
-        </button>
       </Contents>
     </Container>
   );
@@ -193,8 +186,8 @@ const ProgressBar = styled.div`
 const Contents = styled.div`
   background-color: white;
   width: 100%;
-  height: 100%;
+  min-height: 63%;
   position: absolute;
-  top: 18rem;
+  top: 37%;
   border-radius: 40px 40px 0 0;
 `;
