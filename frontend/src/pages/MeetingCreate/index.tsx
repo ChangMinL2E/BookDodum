@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import NavBack from "../../Components/Contents/NavBack";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { createMeetingAPI, getIngBooksAPI } from "../../apis/meeting";
+import { createMeetingAPI, getBooksAPI } from "../../apis/meeting";
 
 interface Meeting {
   bookId: number;
@@ -52,7 +52,7 @@ export default function MeetingCreate() {
 
   // 읽고있는 책, 읽은 책 불러오는 api
   const getIngBooks = async () => {
-    const data = await getIngBooksAPI();
+    const data = await getBooksAPI();
     let list: BookInfo[] = [];
 
     data.forEach((item: Book) => {
@@ -99,7 +99,7 @@ export default function MeetingCreate() {
       <Text>도서 선택하기</Text>
       <Book onChange={handleChange}>
         <option value="0">--- 도서를 선택해 주세요 ---</option>
-        {bookInfo.map(({ bookId, title }: BookInfo) => (
+        {bookInfo?.map(({ bookId, title }: BookInfo) => (
           <option value={bookId} key={bookId}>
             {title}
           </option>
