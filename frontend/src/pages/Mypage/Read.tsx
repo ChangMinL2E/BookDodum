@@ -28,6 +28,7 @@ export default function Read() {
 
   const getRead = async () => {
     const data = await getReadBooksAPI();
+    console.log(data)
     let list: Book[] = [];
     data.forEach((item: Book) => {
       list.push({
@@ -61,7 +62,7 @@ export default function Read() {
             }
           >
             <BookCover name={"bookImg"} size={120} imageUrl={book.imageUrl} />
-            <ImageAI name={"img"} imageUrl={Select} size={"90px"} />
+            <ImageAI name={"img"} imageUrl={book.convertedImageUrl} size={"90px"} />
           </BookItem>
         ))}
       </BooksWrap>
