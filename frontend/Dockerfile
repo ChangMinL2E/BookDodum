@@ -5,7 +5,7 @@ FROM node:16.18.0 as build-stage
 # RUN addgroup -S webcam && adduser -S webcam -G webcam
 # RUN chmod 777 /dev/video0
 # USER webcam
-
+#
 # # 필요한 라이브러리 및 패키지 설치
 # RUN apk add --no-cache v4l-utils
 
