@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import ImageAI from "../../Components/Contents/ImageAI";
+import { saveImageAPI } from "../../apis/saveImage";
+
 
 interface Props {
   imageUrls: string[];
@@ -15,6 +17,10 @@ export default function Images({ imageUrls }: Props) {
     setSelectedIdx(idx);
     console.log(selectedIdx);
   };
+
+  const submitImage = async() => {
+    await saveImageAPI(bookid)
+  }
 
   return (
     <Container>
@@ -33,7 +39,7 @@ export default function Images({ imageUrls }: Props) {
         </Selected>
       </Contents>
       <ButtonContainer>
-        <Button type="submit">확인</Button>
+        <Button type="submit" onClick={() => submitImage}>확인</Button>
       </ButtonContainer>
     </Container>
   );

@@ -16,7 +16,8 @@ export default function Mybook() {
   const bookId = location?.state?.id;
 
   const [disable, setDisable] = useState<boolean>(false);
-  const handleChnage = () => setDisable(true);
+  const handleChange = () => setDisable(true);
+  navigate(`/image/${bookId}`,{state: {bookid: bookId}})
 
   return (
     <Container>
@@ -42,8 +43,8 @@ export default function Mybook() {
           <ArrowRightCircleIcon />
         </Icon>
       </Recommend>
-
-      <Button disabled={disable} onClick={handleChnage}>
+AC
+      <Button disabled={disable} onClick={() => handleChange}>
         다 읽었어요!
       </Button>
     </Container>
