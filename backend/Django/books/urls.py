@@ -11,5 +11,7 @@ urlpatterns = [
     path('test_matrix/',views.test_matrix),
     path('register_data/',views.register_data),
     path('recommend_books/<str:user_id>/',views.recommend_books),
+    path('update_matrix/',views.update_matrix),
+    path('add_book/',views.add_book)
 ]
 
