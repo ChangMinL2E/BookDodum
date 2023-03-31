@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 // types.ts
 interface Props {
-  imageUrl: string;
+  imageUrl: string|undefined;
   size: string;
   name?: string;
 }
@@ -12,7 +12,7 @@ interface Props {
 // handlechange 이벤트 
 export default function ImageAI({ imageUrl, size, name}: Props) {
 
-  console.log(imageUrl,'🎈🎈')
+  // console.log(imageUrl,'🎈🎈')
   return (
     <>
       <Container>
@@ -37,12 +37,12 @@ const Image = styled.div<Props>`
   &.img {
     z-index: 1;
     position: relative;
-    top: 110px;
+    top: 100px;
     left: 60px;
   }
   &.select{
     border: 5px solid black;
   }
-`;
+`; 
 
 
