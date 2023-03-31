@@ -11,12 +11,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper";
+import { useNavigate } from 'react-router-dom';
 
 interface ImageProps {
     imageUrl: string;
 }
 
-export interface Book {
+export interface Book{
     imageUrl: string;
     title: string;
     category: string[];
@@ -25,6 +26,7 @@ export interface Book {
 }
 
 export default function Recommend() {
+    const navigate = useNavigate();
     const nickname = useSelectorTyped((state) => state.user.name)
     const userId = useSelectorTyped((state) => state.user.userid)
     const [books, setBooks] = useState<Book[]>([])
@@ -57,7 +59,7 @@ export default function Recommend() {
         <Container>
             <Title>{nickname}님을 위한<br></br>추천도서</Title>
             <Tags>#취향분석 #맞춤추천</Tags>
-            <Contents>
+            <Contents onClick={() => navigate('/list', { state: { books: books, type: 1 } })}>
                 <SwiperWrap>
                     <Swiper style={{ height: '100%' }}
                         direction={"vertical"}
