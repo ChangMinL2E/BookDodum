@@ -1,9 +1,9 @@
 # build stage
 FROM node:16.18.0 as build-stage
 
-# 웹캠에 접근할 수 있는 권한 설정
-RUN chmod 777 /dev/video0
-USER webcam
+# # 웹캠에 접근할 수 있는 권한 설정
+# RUN chmod 777 /dev/video0
+# USER webcam
 
 # 필요한 라이브러리 및 패키지 설치
 RUN apk add --no-cache v4l-utils
