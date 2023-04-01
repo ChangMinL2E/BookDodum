@@ -5,6 +5,8 @@ import { CameraIcon } from "@heroicons/react/24/outline";
 import Check from "./Check";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getBookInfoAPI, postBookIdAPI, putBookIdAPI } from "../../apis/isbn";
+import { postRegisterAPI } from "../../apis/survey";
+import useSelectorTyped from "../../Store";
 
 const videoConstraints = {
   width: 360,
@@ -12,6 +14,11 @@ const videoConstraints = {
   facingMode: "environment",
   // facingMode: "user",
 };
+
+interface BookInfo {
+  name: string;
+  info: string[];
+}
 
 export const Isbn = () => {
   const navigate = useNavigate();
@@ -21,9 +28,14 @@ export const Isbn = () => {
   const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [bookId, setBookId] = useState<number>(0);
-  const [check, setCheck] = useState<string>("");
+  const isbnlist: string[] = [];
 
   const type = location?.state?.type;
+
+  const bookinfo: BookInfo = {
+    name: useSelectorTyped((state) => state.user.userid),
+    info: isbnlist,
+  };
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
@@ -37,6 +49,7 @@ export const Isbn = () => {
     if (data) {
       setTitle(data.title);
       setBookId(data.id);
+      isbnlist.push(data.isbn);
     } else {
       alert("다시 촬영해 주세요.");
     }
@@ -50,10 +63,22 @@ export const Isbn = () => {
 
   const bookCheck = async () => {
     const data = await postBookIdAPI(bookId);
-    console.log(typeof data)
-    // setCheck(data);
+    if (data) {
+      postRegister();
+      alert("등록되었습니다.");
+      navigate("/");
+    } else {
+      alert("이미 읽은 책입니다.");
+      setTitle("");
+    }
   };
 
+  // 읽은 책 등록 - django 서버
+  const postRegister = async () => {
+    await postRegisterAPI(bookinfo);
+  };
+
+  // 다 읽었을 때
   const bookFinish = async () => {
     await putBookIdAPI(bookId);
   };
@@ -62,6 +87,7 @@ export const Isbn = () => {
     setTitle("");
   };
 
+  // 읽을 때 / 읽었을 때 다른 axios 보내기
   const clickYesBtn = () => {
     if (type) {
       bookCheck();
@@ -70,16 +96,6 @@ export const Isbn = () => {
       navigate(`/image/${bookId}`);
     }
   };
-
-  useEffect(() => {
-    if (check) {
-      alert("등록되었습니다.");
-      navigate("/");
-    } else {
-      alert("중복된 책입니다.");
-      setTitle("");
-    }
-  }, [check]);
 
   return (
     <div>
