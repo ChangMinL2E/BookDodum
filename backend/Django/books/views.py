@@ -160,10 +160,6 @@ def recommend_books(request, user_id):
     # 초기설문
     # survey = request.POST.get('survey')
     array = list(eval(survey))
-    impressive_book = array[-1]
-    array = array[:-1]
-    print(impressive_book)
-    print(array)
 
     for arr in array:
         try:
@@ -176,15 +172,15 @@ def recommend_books(request, user_id):
                 pass
     
     # 읽은 책들
-    # read_books = request.POST.get('read_books')
     matrix = list(Matrix.objects.values())
     matrix = matrix[0]['data']
     matrix = np.array(json.loads(matrix))
-    
-    print(read_books)
+    user_books = []
+
     if not read_books == '':
         user_matrix = np.array(user_matrix)
         read_books = list(eval(read_books))
+        user_books = read_books[:]
         for isbn_code in read_books:
             book = list(Book.objects.filter(isbn=isbn_code))
             user_matrix += matrix[book[0].id-1]*5
@@ -200,11 +196,15 @@ def recommend_books(request, user_id):
     C = list(enumerate(C))
     C = sorted(C,key=lambda x: x[1], reverse=True)[:20]
 
+    for book_idx in range(len(user_books)):
+        data = Book.objects.get(isbn=user_books[book_idx])
+        user_books[book_idx] = data.id
+
     lst = []
     for tu in C:
-        lst.append(books[tu[0]])
+        if not int(tu[0]) in user_books:
+            lst.append(books[tu[0]])
 
-    # print(lst)
     json_data = json.dumps(lst)
 
     return HttpResponse(json_data, content_type='application/json')
@@ -220,7 +220,7 @@ def register_data(request):
     survey = dict_data.get('survey')
     # read_books = request.POST.get('read_books')
     read_books = dict_data.get('read_books')
-
+    survey = list(eval(survey))
     if survey:
         impressive_book = survey.pop(-1)
         token = nltk.word_tokenize(impressive_book)
@@ -278,3 +278,31 @@ def register_data(request):
         data.save()
         
         return HttpResponse('데이터 추가 저장')
+
+def update_matrix(request):
+    matrix = list(Matrix.objects.values())
+    matrix = matrix[0].get('data')
+    # 현재 배열 불러옴.
+    lst = list(json.loads(matrix))
+    
+    # print(matrix[0].get('data'))
+
+    json_data = json.dumps(lst)
+
+    return HttpResponse(json_data, content_type='application/json')
+    # return HttpResponse('matrix 불러옴')
+
+@method_decorator(csrf_exempt, name='dispatch')
+def add_book(request):
+    body_unicode = request.body.decode('utf-8')
+    dict_data = json.loads(body_unicode)
+
+    user_id = dict_data.get('name')
+    isbn = dict_data.get('isbn')
+    print(isbn)
+
+    user_books = list(ID.objects.filter(name=user_id))
+    print(user_books[-1])
+    print(user_books[-1].get('read_books'))
+
+    return HttpResponse("일단 코드 돌아감.")
