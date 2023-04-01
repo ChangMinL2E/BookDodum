@@ -2,7 +2,6 @@
 FROM node:16.18.0 as build-stage
 
 # 웹캠에 접근할 수 있는 권한 설정
-RUN addgroup webcam && adduser webcam -G webcam
 RUN chmod 777 /dev/video0
 USER webcam
 
