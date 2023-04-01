@@ -203,6 +203,7 @@ public class BookService {
                     .title(myBook.getTitle())
                     .publisher(myBook.getPublisher())
                     .category(categories)
+                    .convertedImageUrl(userBook.getConvertedImageUrl())
                     .build());
         }
 
@@ -340,9 +341,15 @@ public class BookService {
     public boolean convertBook(BookConvertRequestDto bookConvertRequestDto, Long userId) {
         // userBook 에 convertedImageUrl 를 update
         try {
+
+            System.out.println(bookConvertRequestDto.getConvertedImageUrl());
+            System.out.println(bookConvertRequestDto.getBookId());
+
             UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookConvertRequestDto.getBookId(), userId);
 
             String path = bookConvertRequestDto.getConvertedImageUrl();
+
+            System.out.println(userBook.getId());
 
             userBookRepository.save(UserBook.builder()
                     .id(userBook.getId())

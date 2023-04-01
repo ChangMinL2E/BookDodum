@@ -1,19 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ImageAI from "../../Components/Contents/ImageAI";
+import { saveImageAPI } from "../../apis/saveImage";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { postBookIdAPI } from "../../apis/isbn";
 
 interface Props {
   imageUrls: string[];
   bookid?: number;
 }
 
+// axios 요청할 데이터 타입
+interface ImageProps {
+  bookId: number;
+  convertedImageUrl: string;
+}
+
 export default function Images({ imageUrls }: Props) {
+  const bookId = useParams().bookid;
+
   // 선택할 인덱스
   const [selectedIdx, setSelectedIdx] = useState<number>(0);
+  const [selectedImage, setSelectedImage] = useState<string>("");
   //클릭 시 인덱스 업데이트
   const handleChange = (idx: number) => {
     setSelectedIdx(idx);
-    console.log(selectedIdx);
+  };
+
+  useEffect(() => {
+    setSelectedImage(imageUrls[selectedIdx]);
+  }, [selectedIdx]);
+
+  const Image: ImageProps = {
+    bookId: Number(bookId),
+    convertedImageUrl: selectedImage,
+  };
+
+  const submitImage = async () => {
+    await saveImageAPI(Image);
   };
 
   return (
@@ -22,8 +46,13 @@ export default function Images({ imageUrls }: Props) {
         <Minis>
           {/* for문 돌려 */}
           {imageUrls?.map((image, idx) => (
-            <div style={{margin: "5% 1%"}}  onClick={() => handleChange(idx)}>
-              <ImageAI key={idx} imageUrl={image} size="60px" name = {selectedIdx === idx ? 'select' :'' } />
+            <div style={{ margin: "5% 1%" }} onClick={() => handleChange(idx)}>
+              <ImageAI
+                key={idx}
+                imageUrl={image}
+                size="60px"
+                name={selectedIdx === idx ? "select" : ""}
+              />
             </div>
           ))}
         </Minis>
@@ -33,7 +62,13 @@ export default function Images({ imageUrls }: Props) {
         </Selected>
       </Contents>
       <ButtonContainer>
-        <Button type="submit">확인</Button>
+        <Button
+          onClick={() => {
+            submitImage();
+          }}
+        >
+          확인
+        </Button>
       </ButtonContainer>
     </Container>
   );
@@ -44,7 +79,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 90%;
-  height : auto;
+  height: auto;
   margin: 7% auto;
 `;
 
@@ -55,7 +90,6 @@ const Contents = styled.div`
 `;
 
 const Minis = styled.div`
-
   display: flex;
   flex-direction: column-reverse;
 `;
@@ -64,7 +98,7 @@ const Selected = styled.div`
   /* border: 2px solid blue; */
   display: flex;
   justify-content: center;
-  width : 100%;
+  width: 100%;
 `;
 
 const ButtonContainer = styled.div`
