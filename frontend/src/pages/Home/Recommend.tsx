@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import useSelectorTyped from '../../Store';
-import sample from '../../Assets/Images/sample.png'
 import bookside from '../../Assets/Images/bookside.png';
 import booktop from '../../Assets/Images/booktop.png';
 import { getContentsRecommendAPI } from '../../apis/recommend';
@@ -37,9 +36,10 @@ export default function Recommend() {
 
     const getConentsRecommend = async () => {
         const data = await getContentsRecommendAPI(userId);
+        console.log(data)
 
         let tmp: Book[] = [];
-        data.forEach((book: any) => {
+        data?.forEach((book: any) => {
             let test = book.category.replaceAll("'", "\"")
             let category = JSON.parse(test)
             tmp.push(({
@@ -50,9 +50,7 @@ export default function Recommend() {
                 author: book.author,
             }))
         })
-
         setBooks(tmp)
-
     }
 
     return (
