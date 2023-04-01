@@ -54,7 +54,7 @@ export default function ReadingBooks({ theme, type }: Props) {
       </Title>
       <List>
         {type !== "mypage" && (
-          <AddBtn theme={theme} type={""} onClick={() => navigate("/isbn")}>
+          <AddBtn theme={theme} type={""} onClick={() => navigate("/isbn", { state: { type: true } })}>
             <PlusIcon
               width="40px"
               strokeWidth="0.7px"

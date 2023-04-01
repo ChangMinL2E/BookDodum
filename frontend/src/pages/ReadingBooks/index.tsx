@@ -17,10 +17,8 @@ export default function Mybook() {
 
   const [disable, setDisable] = useState<boolean>(false);
   const handleChange = () => {
-    setDisable(true);
+    navigate("/isbn", { state: { type: false } });
   };
-
-  // navigate(`/image/${bookId}`, { state: { bookid: bookId } });
 
   return (
     <Container>
