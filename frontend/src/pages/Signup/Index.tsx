@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import logo from "../../Assets/Images/logo-white.png";
-import { signupUserAPI, checkNameAPI, checkUseridAPI } from "../../apis/auth";
+import {
+  signupUserAPI,
+  checkNameAPI,
+  checkUseridAPI,
+  loginUserAPI,
+} from "../../apis/auth";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { userAction } from "../../Store/userSlice";
 
 interface SignupInfo {
   userid: string;
@@ -28,6 +35,7 @@ export default function Signup() {
   const [passwordCheck, setPasswordCheck] = useState<boolean>(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   let userInfo: SignupInfo = {
     userid: userid,
@@ -52,7 +60,7 @@ export default function Signup() {
     } else {
       setUseridCheck(false);
     }
-    console.log(useridCheck)
+    console.log(useridCheck);
   }, [userid]);
 
   // 비밀번호 유효성 검사
@@ -62,15 +70,21 @@ export default function Signup() {
     if (regex.test(password)) {
       setPasswordCheck(true);
     } else {
-      setPasswordCheck(false)
+      setPasswordCheck(false);
     }
   }, [password]);
 
   // 회원 가입
   const signupUser = async (userInfo: SignupInfo) => {
     const data = await signupUserAPI(userInfo);
+    // 바로 survey로 보내기
     if (data.success) {
-      navigate("/");
+      const userdata = await loginUserAPI({ userid, password });
+      localStorage.setItem("user", JSON.stringify(userdata.token));
+      dispatch(
+        userAction.loginAction({ userid: userdata.userid, name: userdata.name })
+      );
+      navigate("/survey/1");
     }
   };
 
