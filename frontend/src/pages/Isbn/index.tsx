@@ -32,7 +32,7 @@ export const Isbn = () => {
     if (imageSrc) {
       setUrl(imageSrc);
     }
-    console.log(webcamRef + "!!!!");
+    console.log(webcamRef);
     console.log('😊' + "!!!")
   }, [webcamRef]);
 
