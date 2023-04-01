@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 interface Props {
-  title: string,
-  clickNoBtn: () => void,
-  clickYesBtn: () => void,
-};
+  title: string;
+  clickNoBtn: () => void;
+  clickYesBtn: () => void;
+}
 
-export default function Check(bookData: Props) {
-  let title = bookData.title;
-  
+export default function Check(prop: Props) {
+  let title = prop.title;
+
   return (
     <Background>
       <BookCheck>
         <Title>'{title}'이 맞습니까?</Title>
-        <Nobtn onClick={bookData.clickNoBtn}>아니에요</Nobtn>
-        <Yesbtn onClick={bookData.clickYesBtn}>맞아요</Yesbtn>
+        <Nobtn onClick={prop.clickNoBtn}>아니에요</Nobtn>
+        <Yesbtn onClick={prop.clickYesBtn}>맞아요</Yesbtn>
       </BookCheck>
     </Background>
   );

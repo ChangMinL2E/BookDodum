@@ -6,19 +6,19 @@ import { deleteCommentAPI } from "../../apis/write";
 interface CommentProps {
   content: string;
   reviewId: number;
-  getWrite : () => void;
+  getWrite: () => void;
 }
 
-export default function Comment({ content ,reviewId, getWrite}: CommentProps) {
-  const deleteComment  = async () => {
-     await deleteCommentAPI(reviewId);
-     getWrite()
-  }
+export default function Comment({ content, reviewId, getWrite }: CommentProps) {
+  const deleteComment = async () => {
+    await deleteCommentAPI(reviewId);
+    getWrite();
+  };
 
   const handleClickDelete = () => {
-    deleteComment()
-  }
-  
+    deleteComment();
+  };
+
   return (
     <>
       <CommentBox
@@ -49,6 +49,6 @@ const CommentBox = styled.div`
 
 const Icon = styled.div`
   position: absolute;
-  top:0px;
+  top: 0px;
   right: 10px;
 `;

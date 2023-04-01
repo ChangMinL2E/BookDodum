@@ -2,59 +2,45 @@ import React, { useEffect, useState } from "react";
 import oilpainting from "../../Assets/Images/oilpainting.png";
 import oneline from "../../Assets/Images/oneline.png";
 import styled from "styled-components";
-import { getTextAPI } from "../../apis/translate";
-import { changeImageAPI } from "../../apis/changeImage";
-import ImageAI from "../../Components/Contents/ImageAI";
-
 
 type option = {
   name: string;
+  value: string;
   image: string;
 };
 
-const Form: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<string>(""); // 그림 옵션 선택
-  const [korean, setKorean] = useState<string>(""); // 번역할 문장
-  const [sentence, setSentence] = useState<string>(""); // 번역된 문장
-  const [result, setResult] = useState<string>(""); // 번역 + 화풍
-  const [image, setImage] = useState(); // 변환된 이미지 url
+interface Props {
+  handleSubmit: () => void;
+  korean: string;
+  setKorean: Function;
+  setSelectedOption: Function;
+  selectedOption: string;
+}
+
+export default function Form({
+  handleSubmit,
+  korean,
+  setKorean,
+  setSelectedOption,
+  selectedOption,
+}: Props) {
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKorean(e.target.value);
+  };
 
   const options: option[] = [
     {
-      name: "oilpainting",
+      name: "oil-painting",
+      value: "oilpainting",
       image: oilpainting,
     },
     {
-      name: "oneline drawing",
+      name: "oneline-drawing",
+      value: "oneline drawing",
       image: oneline,
     },
   ];
-
-  // 변환하기 버튼 눌렀을 때 번역 문장 받기
-  const handleSubmit = async () => {
-    const data = await getTextAPI(korean);
-    setSentence(data);
-  };
-
-  // 번역 문장 + 화풍 합치기
-  useEffect(() => {
-    if (sentence !== "")
-      setResult(result.concat(sentence, " ", selectedOption));
-      console.log('❤')
-  }, [sentence]);
-
-  useEffect(() => {
-    if (result !== "") changeImage(result);
-    console.log("🧡")
-  }, [result]);
-
-
-  // dall-e-2에 문장 axios
-  const changeImage = async (result: string) => {
-    const imageUrl = await changeImageAPI(result);
-    setImage(imageUrl);
-  };
-
 
   return (
     <Container>
@@ -63,20 +49,21 @@ const Form: React.FC = () => {
         <Input
           type="text"
           value={korean}
-          placeholder="책을 읽고 소감을 작성해 보세요.&#13;&#10;
-        예시) 들판에 핀 안개 꽃"
-          onChange={(e) => setKorean(e.target.value)}
+          placeholder="책을 읽고 소감을 작성해 보세요."
+          onInput={handleInput}
         />
       </form>
       <Wrapper>
-        {options.map((option, idx) => ( 
+        {options.map((option, idx) => (
           <Option key={idx}>
-            <img src={option.image} width="80px" height="80px" />
+            <Image>
+              <img src={option.image} width="80px" height="80px" />
+            </Image>
             <OptionValue>
               <input
                 type="radio"
-                value={option.name}
-                checked={selectedOption === option.name}
+                value={option.value}
+                checked={selectedOption === option.value}
                 onChange={(e) => setSelectedOption(e.target.value)}
               />
               <OptionName>{option.name}</OptionName>
@@ -88,18 +75,14 @@ const Form: React.FC = () => {
         <Button type="submit" onClick={handleSubmit}>
           변환하기
         </Button>
-     
       </ButtonContainer>
-      <SelectImageContainer>
-      </SelectImageContainer>
-      <ImageAI imageUrl="image" size="280" />
     </Container>
   );
-};
+}
 
 const Container = styled.div`
   width: 90%;
-  margin: auto;
+  margin: 10% auto;
 `;
 
 const Title = styled.div`
@@ -107,10 +90,19 @@ const Title = styled.div`
   font-weight: bold;
   margin-top: 0.3rem;
 `;
+
 const Input = styled.input`
   width: 100%;
   height: 10vh;
-  margin-top: 0.4rem;
+  padding-left: 5% 5% 5% 5%;
+  margin-top: 1.2rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    color: #c9c9c9;
+  }
 `;
 
 const Wrapper = styled.div`
@@ -123,6 +115,10 @@ const Wrapper = styled.div`
 const Option = styled.label`
   display: flex;
   flex-direction: column;
+`;
+
+const Image = styled.div`
+  margin: auto;
 `;
 
 const OptionValue = styled.div`
@@ -146,8 +142,3 @@ const Button = styled.button`
   width: 80px;
   color: #5c5649;
 `;
-
-const SelectImageContainer = styled.div`
-
-`
-export default Form;

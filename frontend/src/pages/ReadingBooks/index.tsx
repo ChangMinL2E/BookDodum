@@ -16,7 +16,9 @@ export default function Mybook() {
   const bookId = location?.state?.id;
 
   const [disable, setDisable] = useState<boolean>(false);
-  const handleChnage = () => setDisable(true);
+  const handleChange = () => {
+    navigate("/isbn", { state: { type: false } });
+  };
 
   return (
     <Container>
@@ -24,7 +26,7 @@ export default function Mybook() {
       <BookBanner imageUrl={image} />
       <UserList />
       <MeetingList />
-      <Writng>
+      <Writing>
         <WriteIcon>
           <PencilIcon />
         </WriteIcon>
@@ -35,23 +37,23 @@ export default function Mybook() {
         >
           독후감 확인하기
         </WritingText>
-      </Writng>
+      </Writing>
       <Recommend>
-        <RecommendText> 이 책을 읽은 다른사람이 선택한 책</RecommendText>
+        <RecommendText>이 책을 읽은 다른사람이 선택한 책</RecommendText>
         <Icon>
           <ArrowRightCircleIcon />
         </Icon>
       </Recommend>
-
-      <Button disabled={disable} onClick={handleChnage}>
+      <Button disabled={disable} onClick={handleChange}>
         다 읽었어요!
       </Button>
     </Container>
   );
 }
 
+// styled component
 const Container = styled.div`
-width: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 `;
@@ -60,6 +62,7 @@ const RecommendText = styled.div`
   margin: 10% 3% 10% 5%;
   color: #4a6eec;
 `;
+
 const Recommend = styled.div`
   display: flex;
   flex-direction: row;
@@ -70,12 +73,13 @@ const Icon = styled.div`
   color: #4a6eec;
   margin-top: 10%;
 `;
+
 const Button = styled.button`
   width: 300px;
   height: 50px;
   color: #5c5649;
   background-color: #dbd4c3;
-  margin: auto;
+  margin: 0 auto 5% auto;
   border-color: transparent;
 
   &:disabled {
@@ -83,7 +87,7 @@ const Button = styled.button`
   }
 `;
 
-const Writng = styled.div`
+const Writing = styled.div`
   display: flex;
   color: #5c5649;
   margin: 5%;
@@ -93,6 +97,7 @@ const WriteIcon = styled.div`
   width: 15px;
   height: 15px;
 `;
+
 const WritingText = styled.div`
   color: #5c5649;
 `;
