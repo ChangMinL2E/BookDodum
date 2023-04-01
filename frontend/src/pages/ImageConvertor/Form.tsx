@@ -48,7 +48,9 @@ const handleInput =  (e: React.ChangeEvent<HTMLInputElement>) => {
       <Wrapper>
         {options.map((option, idx) => (
           <Option key={idx}>
+            <Image>
             <img src={option.image} width="80px" height="80px" />
+            </Image>
             <OptionValue>
               <input
                 type="radio"
@@ -72,7 +74,7 @@ const handleInput =  (e: React.ChangeEvent<HTMLInputElement>) => {
 
 const Container = styled.div`
   width: 90%;
-  margin: auto;
+  margin: 10% auto;
 `;
 
 const Title = styled.div`
@@ -83,10 +85,11 @@ const Title = styled.div`
 const Input = styled.input`
   width: 100%;
   height: 10vh;
-  margin-top: 0.4rem;
+  margin-top: 1.2rem;
 `;
 
 const Wrapper = styled.div`
+/* border: 2px solid blue; */
   display: flex;
   width: 100%;
   justify-content: space-around;
@@ -97,6 +100,14 @@ const Option = styled.label`
   display: flex;
   flex-direction: column;
 `;
+
+const Image = styled.div`
+  /* border: 2px solid red; */
+  margin:auto;
+
+
+  
+`
 
 const OptionValue = styled.div`
   display: flex;
