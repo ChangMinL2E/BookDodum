@@ -31,7 +31,7 @@ export const Isbn = () => {
       setUrl(imageSrc);
     }
     console.log(webcamRef + "!!!!");
-    console.log('😊')
+    console.log('😊' + "!!!")
   }, [webcamRef]);
 
   const getBookInfo = async (url: string) => {
