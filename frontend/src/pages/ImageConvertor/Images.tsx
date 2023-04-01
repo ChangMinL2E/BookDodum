@@ -37,9 +37,7 @@ export default function Images({ imageUrls }: Props) {
   };
 
   const submitImage = async () => {
-    console.log(Image, '🎈')
-    const data = await saveImageAPI(Image);
-    console.log(data, "🎄🎄🎄");
+    await saveImageAPI(Image);
   };
 
   return (
