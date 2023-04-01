@@ -7,6 +7,7 @@ import BookBanner from "../../Components/Contents/BookBanner";
 import UserList from "../../Components/Contents/UserList";
 import MeetingList from "../../Components/Contents/MeetingList";
 import NavBack from "../../Components/Contents/NavBack";
+import ImageAI from "../../Components/Contents/ImageAI";
 
 export default function Mybook() {
   const navigate = useNavigate();
@@ -14,9 +15,11 @@ export default function Mybook() {
   const image = location?.state?.image;
   const title = location?.state?.title;
   const bookId = location?.state?.id;
+  const converted = location?.state?.converted
 
   const [disable, setDisable] = useState<boolean>(false);
   const handleChange = () => {
+    setDisable(true);
     navigate("/isbn", { state: { type: false } });
   };
 
@@ -44,9 +47,14 @@ export default function Mybook() {
           <ArrowRightCircleIcon />
         </Icon>
       </Recommend>
-      <Button disabled={disable} onClick={handleChange}>
+      {!converted && !disable && <Button disabled={disable} onClick={handleChange}>
         다 읽었어요!
-      </Button>
+      </Button> }
+      <ImgeContainer>
+      {(converted || disable) && <ImageAI imageUrl={converted} size= "200px"/> }
+      </ImgeContainer>
+      
+      
     </Container>
   );
 }
@@ -59,7 +67,7 @@ const Container = styled.div`
 `;
 
 const RecommendText = styled.div`
-  margin: 10% 3% 10% 5%;
+  margin: 7% 3% 5% 5%;
   color: #4a6eec;
 `;
 
@@ -71,7 +79,7 @@ const Recommend = styled.div`
 const Icon = styled.div`
   width: 25px;
   color: #4a6eec;
-  margin-top: 10%;
+  margin-top: 7%;
 `;
 
 const Button = styled.button`
@@ -90,7 +98,7 @@ const Button = styled.button`
 const Writing = styled.div`
   display: flex;
   color: #5c5649;
-  margin: 5%;
+  margin: 3%;
 `;
 
 const WriteIcon = styled.div`
@@ -101,3 +109,10 @@ const WriteIcon = styled.div`
 const WritingText = styled.div`
   color: #5c5649;
 `;
+
+const ImgeContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8%;
+
+`
