@@ -17,7 +17,7 @@ interface ImageProps {
     imageUrl: string;
 }
 
-export interface Book{
+interface Book{
     imageUrl: string;
     title: string;
     category: string[];

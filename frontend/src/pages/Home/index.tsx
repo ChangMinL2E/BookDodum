@@ -21,7 +21,7 @@ export default function Home() {
   const [reading, setReading] = useState<BookInfo[]>([]);
 
   useEffect(() => {
-    if (!token) navigate('/intro')
+    // if (!token) navigate('/intro')
     getReadingBooks()
   }, [])
 
