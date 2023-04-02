@@ -240,10 +240,14 @@ public class BookService {
             Result result = new MultiFormatReader().decode(bitmap, hints);
 
 
-            System.out.println(result.getText());
-
             // ISBN 기반으로 책 정보 찾기
             Book book = bookRepository.findByIsbn(result.getText());
+
+            // ISBN 기반으로 책 정보를 찾을 수 없다면
+            if (book == null) {
+                // 공공 네이버 API 를 통해 책을 찾아서 return
+            }
+            
 
             return BookResponseDto.builder()
                     .id(book.getId())
@@ -390,7 +394,6 @@ public class BookService {
                 .content(infoBook.getContent())
                 .category(infoBook.getCategory())
                 .build();
-
 
     }
 }
