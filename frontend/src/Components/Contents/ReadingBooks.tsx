@@ -33,7 +33,8 @@ export default function ReadingBooks({ theme, type }: Props) {
   const getReadingBooks = async () => {
     const data = await getReadingBooksAPI();
 
-    let tmp: BookInfo[] = [];
+    let tmp : BookInfo[] = [];
+    if(data.length === 0) return;
     data.forEach((book: any) => {
       tmp.push({
         bookId: book.bookId,
