@@ -64,23 +64,23 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-`;
+`
 
 const RecommendText = styled.div`
   margin: 7% 3% 5% 5%;
   color: #4a6eec;
-`;
+`
 
 const Recommend = styled.div`
   display: flex;
   flex-direction: row;
-`;
+`
 
 const Icon = styled.div`
   width: 25px;
   color: #4a6eec;
   margin-top: 7%;
-`;
+`
 
 const Button = styled.button`
   width: 300px;
@@ -89,26 +89,27 @@ const Button = styled.button`
   background-color: #dbd4c3;
   margin: 0 auto 5% auto;
   border-color: transparent;
-
   &:disabled {
     opacity: 0.5;
   }
-`;
+`
+
+
 
 const Writing = styled.div`
   display: flex;
   color: #5c5649;
   margin: 3%;
-`;
+`
 
 const WriteIcon = styled.div`
   width: 15px;
   height: 15px;
-`;
+`
 
 const WritingText = styled.div`
   color: #5c5649;
-`;
+`
 
 const ImgeContainer = styled.div`
   display: flex;
