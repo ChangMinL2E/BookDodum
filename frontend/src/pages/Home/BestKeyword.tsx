@@ -16,7 +16,7 @@ export default function BestKeyword() {
 
   useEffect(() => {
     // 이달의 키워드 요청
-    // if(inView) getBestKeyword()
+    if(inView) getBestKeyword()
   }, [inView])
 
   const options: any = {
