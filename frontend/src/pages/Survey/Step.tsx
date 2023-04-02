@@ -42,7 +42,7 @@ interface Item {
 
 interface Survey {
   name: string;
-  survey: string[];
+  info: string[];
 }
 
 export default function Step({ step }: Prop) {
@@ -115,7 +115,7 @@ export default function Step({ step }: Prop) {
 
   const survey: Survey = {
     name: name,
-    survey: result,
+    info: result,
   };
 
   useEffect(() => {
