@@ -94,16 +94,15 @@ export async function getMeetingJoinAPI() {
 }
 
 // 읽은 책 목록 조회
-export async function getIngBooksAPI() {
+export async function getBooksAPI() {
   try {
     const { data } = await axios({
       method: "GET",
-      url: `${baseUrl}/book/list/false`,
+      url: `${baseUrl}/book/list`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(data.responseData);
     return data.responseData;
   } catch (e) {
     console.log(e);

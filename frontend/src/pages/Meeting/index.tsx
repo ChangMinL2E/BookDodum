@@ -4,30 +4,22 @@ import styled from "styled-components";
 import Nav from "../../Components/Common/Nav";
 import List from "./List";
 import { getMeetingJoinAPI } from "../../apis/meeting";
-
-interface BookMeeting {
-  meetingId: number;
-  title: string;
-  content: string;
-  userName: string;
-  commentCnt: number;
-  imageUrl: string;
-}
+import { MeetingInfo } from "../../Store/Types";
 
 export default function Meeting() {
-  const [bookMeetings, setBookMeetings] = useState<BookMeeting[]>([]);
+  const [bookMeetings, setBookMeetings] = useState<MeetingInfo[]>([]);
 
   const getMeetingJoin = async () => {
     const data = await getMeetingJoinAPI();
-    let list: BookMeeting[] = [];
-    data.forEach((item: BookMeeting) => {
+    let list: MeetingInfo[] = [];
+    data?.forEach((item: MeetingInfo) => {
       list.push({
-        commentCnt: item.commentCnt,
-        content: item.content,
-        imageUrl: item.imageUrl,
-        title: item.title,
-        userName: item.userName,
         meetingId: item.meetingId,
+        title: item.title,
+        content: item.content,
+        userName: item.userName,
+        imageUrl: item.imageUrl,
+        commentCnt: item.commentCnt,
       });
     });
     setBookMeetings(list);
@@ -42,7 +34,7 @@ export default function Meeting() {
       <Nav />
       <Text>참여중인 독서 모임</Text>
       <BookMeetingCards>
-        {bookMeetings.map((bookMeeting: BookMeeting) => (
+        {bookMeetings?.map((bookMeeting: MeetingInfo) => (
           <MeetingCover key={bookMeeting.meetingId} {...bookMeeting} />
         ))}
       </BookMeetingCards>

@@ -110,7 +110,7 @@ const Modal = styled.div`
     top: 15%;
     left: 50%;
     transform: translate(-50%, 0%);
-    z-index: 3;
+    z-index: 5;
 `
 
 const ModalTop = styled.div`

@@ -9,10 +9,6 @@ interface Props {
   book: Book
 }
 
-interface ImageProps {
-  imageUrl: string;
-}
-
 export default function BookCard({ book }: Props) {
   const [modalOpen, setModalOpen] = useState<boolean>(false)
 
@@ -30,7 +26,7 @@ export default function BookCard({ book }: Props) {
       <DetailModal ISBN={book?.isbn} closeModal={closeModal} modalOpen={modalOpen} />
       <BookCover imageUrl={book?.imageUrl} size={130} />
       <Contents onClick={openModal}>
-        <BookTitle >{book?.title}</BookTitle>
+        <BookTitle >{book?.title.length > 8? book?.title.slice(0 ,8)+"..." : book.title}</BookTitle>
         <Categories>
           <>
             {
