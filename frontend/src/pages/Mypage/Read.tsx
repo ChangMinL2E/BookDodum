@@ -57,6 +57,7 @@ export default function Read() {
                   image: book.imageUrl,
                   title: book.title,
                   id: book.bookId,
+                  converted: book.convertedImageUrl
                 },
               })
             }
