@@ -1,62 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import useSelectorTyped from '../../Store';
 // Components
 import Nav from '../../Components/Common/Nav';
 import Book from '../../Components/Contents/Book'
 // Types
-import { BookInfo } from '../../Store/Types';
-// APIs
-import { getUserRecommendAPI } from '../../apis/recommend';
+import { useLocation } from 'react-router';
 
 
 export default function RecommendList() {
-
-  const [books, setBooks] = useState<BookInfo[]>([])
-  const type = 1
-
-  useEffect(() => {
-    if (type === 1) {
-      getUserRecommend()
-    }
-  }, [])
-
-  const getUserRecommend = async () => {
-    const data = await getUserRecommendAPI(3);
-
-    let tmp: BookInfo[] = []
-    data.forEach((book: BookInfo) => {
-      tmp.push({
-        title: book.title,
-        imageUrl: book.imageUrl,
-        publisher: book.publisher,
-        category: book.category,
-        bookId: book.bookId,
-        isbn : book.isbn,
-      })
-    })
-    console.log(tmp)
-    setBooks(tmp)
-  }
+  const location = useLocation()
+  const books = location.state.books
+  const type = location.state.type
+  const nickname = useSelectorTyped((state) => state.user.name);
 
   return (
     <>
       <Nav />
       <Contents>
         { type === 1 ? 
-        <Title>"{}을 읽은 사람이 선택한 도서"</Title>
-        : <Title>"김유나 님이 관심있는 분야의 도서"</Title>
+        <Title>"{nickname}님을 위한 북돋움의 추천 도서"</Title>
+        : <Title>"{}을 읽은 사람이 선택한 도서"</Title>
       }
         <BooksWrap>
           <>
             {
-              books.map((book) => {
+              books.map((book: any) => {
                 return (
-                  <Book key={book.bookId} book={{
+                  <Book key={book.id} book={{
                     imageUrl: book.imageUrl,
                     title: book.title,
                     category: book.category,
                     publisher: book.publisher,
-                    isbn: 0,
+                    isbn: book.isbn,
                   }} />
                   )
               })
