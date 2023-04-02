@@ -17,7 +17,6 @@ export async function getUserRecommendAPI(bookId: number) {
         Authorization: `Bearer ${token}`,
       },
     });
-
     return data.data.responseData;
   } catch (e) {
     console.log(e);

@@ -22,6 +22,7 @@ interface Book{
     category: string[];
     publisher: string;
     author: string;
+    isbn : string;
 }
 
 export default function Recommend() {
@@ -48,6 +49,7 @@ export default function Recommend() {
                 imageUrl: book.image_url,
                 publisher: book.publisher,
                 author: book.author,
+                isbn: book.isbn,
             }))
         })
         setBooks(tmp)

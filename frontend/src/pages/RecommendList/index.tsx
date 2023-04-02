@@ -32,7 +32,7 @@ export default function RecommendList() {
                     title: book.title,
                     category: book.category,
                     publisher: book.publisher,
-                    isbn: 0,
+                    isbn: book.isbn,
                   }} />
                   )
               })
