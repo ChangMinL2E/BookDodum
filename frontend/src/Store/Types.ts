@@ -38,11 +38,21 @@ export interface LibInfo {
 }
 
 // 지역 도서관 추천 도서
-export interface LibraryBook {
-  imageUrl: string;
-  ISBN: number;
-  ranking: string;
-  title: string;
+export interface LibraryBook  {
+    imageUrl: string;
+    ISBN: number;
+    ranking: string;
+    title: string;
+  }
+
+// 독서 모임 정보
+export interface MeetingInfo {
+    meetingId: number;
+    title: string;
+    content: string;
+    userName: string;
+    commentCnt: number;
+    imageUrl: string;
 }
 
 export interface User {

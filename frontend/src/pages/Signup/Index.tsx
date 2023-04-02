@@ -218,7 +218,7 @@ export default function Signup() {
 
 const Container = styled.div`
   background-color: #5c5649;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   position: relative;
 `;
