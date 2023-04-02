@@ -110,7 +110,7 @@ export default function Recommend() {
 
 const Container = styled.div`
     width : 100%;
-    height: 600px;
+    height: 700px;
     background-color: #E3E3CF;
     display: flex;
     flex-direction: column;
@@ -135,7 +135,7 @@ const Tags = styled.div`
 
 const Contents = styled.div`
     width : 90%;
-    height: 69%;
+    height: 68%;
     margin : 5% 0 5% 0;
     border-radius: 200px 200px 0 0;
     background-color: white;
@@ -196,12 +196,12 @@ const Info = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin : 2% 0 0 0;
+    margin : 4% 0 0 0;
 `
 
 const BookTitle = styled.div`
     font-size: 19px;
-    margin : 4% 0 3% 0;
+    margin : 7% 0 4% 0;
     font-family: 'Nanum Gothic Coding', monospace;
     font-weight: bold;
     color : #65625E;
@@ -230,6 +230,7 @@ const InfoBottom = styled.div`
     color: #6c6c6c;
     width: 100%;
     justify-content: center;
+    /* margin : 3% 0; */
     > div {
         margin : 3% 2%;
     }
