@@ -17,3 +17,7 @@ body {
   display: none;
 }
 
+.swiper-pagination-bullet-active {
+  background-color: #5c5649 !important;
+}
+

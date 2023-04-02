@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { ArrowRightCircleIcon, PencilIcon } from "@heroicons/react/24/outline";
 // Components
 import BookBanner from "../../Components/Contents/BookBanner";
@@ -13,7 +13,7 @@ export default function Mybook() {
   const location = useLocation();
   const image = location?.state?.image;
   const title = location?.state?.title;
-  const bookId = location?.state?.id;
+  const bookId = useParams().bookid
 
   const [disable, setDisable] = useState<boolean>(false);
   const handleChange = () => {
@@ -24,7 +24,7 @@ export default function Mybook() {
     <Container>
       <NavBack text={title} link="/mypage" name="mypage" />
       <BookBanner imageUrl={image} />
-      <UserList />
+      <UserList bookId={Number(bookId)}/>
       <MeetingList />
       <Writing>
         <WriteIcon>

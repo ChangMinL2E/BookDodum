@@ -1,19 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import profile from '../../Assets/Images/profile.png'
 // UserProfile 타입
+import { User } from "../../Store/Types";
 
-interface UserProps {
-  imageUrl: string;
-  username: string;
-}
-
-export default function UserProfile({ imageUrl, username }: UserProps) {
+export default function UserProfile({ nickname }: User) {
   return (
       <UserWrapper>
         <ImageBox>
-          <UserImage imageUrl={imageUrl} username={username} />
+          <UserImage/>
         </ImageBox>
-        <UserName> {username}</UserName>
+        <UserName>{nickname}</UserName>
       </UserWrapper>
   );
 }
@@ -21,33 +18,25 @@ export default function UserProfile({ imageUrl, username }: UserProps) {
 const UserWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  margin:3% ;
+  align-items: center;
+  margin: 3% 2%;
 `;
 
 const ImageBox = styled.div`
   width: 35px;
   height: 35px;
-  border-radius: 70%;
+  border-radius: 35px;
 `;
 
-const UserImage = styled.div<UserProps>`
+const UserImage = styled.div`
   width: 100%;
   height: 100%;
-  border-radius: 70%;
+  border-radius: 35px;
   background-size: cover;
-  background-image: url(${(props: UserProps) => `${props.imageUrl}`});
+  background-image: url(${profile});
 `;
+
 const UserName = styled.div`
   font-size: 10px;
   margin: auto;
-`;
-
-
-const List = styled.div`
-  display: flex;
-  overflow-x: scroll;
-   &::-webkit-scrollbar {
-      display: none;
-    }
-
 `;
