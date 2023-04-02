@@ -55,6 +55,7 @@ const BannerImage = styled.div`
   height: 30vh;
   background-image: url(${mypagebanner});
   background-size: cover;
+  position: relative;
 `;
 
 const UserNameText = styled.div`
