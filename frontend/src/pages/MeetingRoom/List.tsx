@@ -93,7 +93,11 @@ export default function List() {
   // enter로 댓글 등록하기
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      postMeetingComment();
+      if (text.trim() !== "") {
+        postMeetingComment();
+      } else {
+        alert("댓글을 입력해주세요.");
+      }
     }
   };
 
@@ -128,10 +132,10 @@ export default function List() {
 
         {/* 모임 댓글 */}
         <Wrapper>
-          {comments.map((info: Info) => (
+          {comments?.map((info: Info) => (
             <ListCard {...info} key={info.commentId} />
           ))}
-          <Ref ref={ref} style={{ height: authority ? "60px" : "0px" }} />
+          <Ref ref={ref} style={{ height: authority ? "61px" : "0px" }} />
         </Wrapper>
       </Comment>
 
@@ -220,5 +224,4 @@ const Input = styled.input`
 
 const Ref = styled.div`
   width: 100%;
-  height: 60px;
 `;

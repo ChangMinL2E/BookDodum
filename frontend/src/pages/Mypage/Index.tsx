@@ -16,4 +16,6 @@ export default function Mypage() {
 
 const Container = styled.div`
   background-color: #5c5649;
+  width: 100vw;
+  height: 100vh;
 `;
