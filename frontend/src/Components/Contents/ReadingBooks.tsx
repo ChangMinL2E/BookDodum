@@ -87,20 +87,12 @@ export default function ReadingBooks({ theme, type }: Props) {
 
 // Styled Components
 const Container = styled.div`
-<<<<<<< HEAD
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin: 5% auto 10% auto;
-`;
-=======
     width: 100%;
     display: flex;
     flex-direction: column;
     margin: 5% auto 10% auto;
     min-height: 200px;
   `
->>>>>>> 0a353bf940de9ad4f0161754d9a924170913dd15
 const Title = styled.div<Props>`
   font-size: 16px;
   font-weight: bold;
