@@ -43,7 +43,7 @@ export default function LibraryBooks() {
   // 지역코드로 도서관 인기도서 받기
   useEffect(() => {
     if (regionCode !== -1 && inView) {
-      // getLibraryBooks(regionCode)
+      getLibraryBooks(regionCode)
     }
   }, [regionCode, inView])
 
