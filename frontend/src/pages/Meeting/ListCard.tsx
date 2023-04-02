@@ -3,17 +3,9 @@ import styled from "styled-components";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import profile from "../../Assets/Images/profile.png";
+import { MeetingInfo } from "../../Store/Types";
 
-interface Props {
-  commentCnt?: number;
-  content?: string;
-  imageUrl?: string;
-  title?: string;
-  userName?: string;
-  meetingId?: number;
-}
-
-export default function ListCard(props: Props) {
+export default function ListCard(props: MeetingInfo) {
   const navigate = useNavigate();
   
   return (

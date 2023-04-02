@@ -4,25 +4,16 @@ import MeetingCover from "../../Components/Contents/MeetingCover";
 import styled from "styled-components";
 import { UsersIcon } from "@heroicons/react/24/outline";
 import { getBookMeetingAPI } from "../../apis/meeting";
-
-interface Info {
-  meetingId: number;
-  title: string;
-  content: string;
-  userName: string;
-  commentCnt: number;
-  imageUrl: string;
-}
+import { MeetingInfo } from "../../Store/Types";
 
 export default function MeetingList() {
-  // const bookid: number = Number(useParams().meetid);
-  const bookid: number = 1;
-  const [bookMeetings, setBookMeetings] = useState<Info[]>([]);
+  const bookid: number = Number(useParams().meetid);
+  const [bookMeetings, setBookMeetings] = useState<MeetingInfo[]>([]);
 
   const getBookMeeting = async () => {
     const data = await getBookMeetingAPI(bookid);
-    let list: Info[] = [];
-    data.forEach((item: Info) => {
+    let list: MeetingInfo[] = [];
+    data?.forEach((item: MeetingInfo) => {
       list.push({
         meetingId: item.meetingId,
         title: item.title,
@@ -46,7 +37,7 @@ export default function MeetingList() {
       </MeetingText>
       <List>
         <>
-          {bookMeetings.map((bookMeeting) => (
+          {bookMeetings?.map((bookMeeting) => (
             <MeetingCover key={bookMeeting.meetingId} {...bookMeeting} />
           ))}
         </>
