@@ -23,11 +23,10 @@ interface Book {
 
 export default function Banner() {
   const navigate = useNavigate();
-  const token = window.localStorage.getItem("user");
   const userId = useSelectorTyped((state) => state.user.userid);
 
-  const handleClickRecommend = () => {
-    const books = getContentsRecommend();
+  const handleClickRecommend = async () => {
+    const books = await getContentsRecommend();
     navigate("/list", { state: { books: books, type: 1 } });
   };
 
@@ -45,6 +44,7 @@ export default function Banner() {
         author: book.author,
       });
     });
+
     return tmp;
   };
 
@@ -75,16 +75,11 @@ export default function Banner() {
           </Link2>
         </Slide2>
       </SwiperSlide>
-      {!token && (
         <SwiperSlide>
           <Slide3>
-            <Link3>
-              <Text onClick={() => navigate("/signup")}>지금 시작하기</Text>
-              <ArrowRightCircleIcon width="20px" color="white" />
-            </Link3>
+            
           </Slide3>
         </SwiperSlide>
-      )}
     </Swiper>
   );
 }
@@ -133,7 +128,7 @@ const Link2 = styled.div`
 const Slide3 = styled.div`
   width: 100%;
   height: 80vh;
-  background: url(${banner3});
+  /* background: url(${banner3}); */
   background-size: cover;
   background-position: center;
 `;
