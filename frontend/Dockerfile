@@ -15,5 +15,5 @@ COPY --from=build-stage /app/deploy_conf/nginx.conf /etc/nginx/conf.d/default.co
 
 
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["sh", "-c", "nginx -g 'daemon off;"]
 #test
