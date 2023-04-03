@@ -27,7 +27,7 @@ import frustrated from "../../Assets/Images/frustrated.png";
 import farewell from "../../Assets/Images/farewell.png";
 import unrest from "../../Assets/Images/unrest.png";
 import stress from "../../Assets/Images/stress.png";
-import { postRegisterAPI } from "../../apis/survey";
+import { postRegisterSurveyAPI } from "../../apis/survey";
 import { useNavigate } from "react-router";
 import Loading from "../../Components/Common/Loading";
 
@@ -42,7 +42,7 @@ interface Item {
 
 interface Survey {
   name: string;
-  info: string[];
+  survey: string[];
 }
 
 export default function Step({ step }: Prop) {
@@ -115,7 +115,7 @@ export default function Step({ step }: Prop) {
 
   const survey: Survey = {
     name: name,
-    info: result,
+    survey: result,
   };
 
   useEffect(() => {
@@ -128,7 +128,8 @@ export default function Step({ step }: Prop) {
 
   const postRegister = async () => {
     // setLoading(true);
-    await postRegisterAPI(survey);
+    const data = await postRegisterSurveyAPI(survey);
+    console.log(data)
     // setLoading(false);
   };
 

@@ -102,7 +102,7 @@ export default function List() {
   };
 
   const getCommentAuthority = async () => {
-    const data = await getCommentAuthorityAPI(4);
+    const data = await getCommentAuthorityAPI(id);
     setAuthority(data);
   };
 
