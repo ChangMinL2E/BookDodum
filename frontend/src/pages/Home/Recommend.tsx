@@ -37,7 +37,6 @@ export default function Recommend() {
 
     const getConentsRecommend = async () => {
         const data = await getContentsRecommendAPI(userId);
-        console.log(data)
 
         let tmp: Book[] = [];
         data?.forEach((book: any) => {
