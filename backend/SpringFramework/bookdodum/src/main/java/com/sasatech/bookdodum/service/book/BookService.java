@@ -255,9 +255,11 @@ public class BookService {
             // ISBN 기반으로 책 정보 찾기
             book = bookRepository.findByIsbn(isbn);
 
+            ObjectMapper mapper;
+            RestTemplate restTemplate;
 
             if (book == null) {
-                RestTemplate restTemplate = new RestTemplate();
+                restTemplate = new RestTemplate();
                 HttpHeaders headersNaver = new HttpHeaders();
                 headersNaver.add("X-Naver-Client-Id", "iNmjOGNhSotP8VhR1gxo");
                 headersNaver.add("X-Naver-Client-Secret", "wruKOyBChg");
@@ -270,7 +272,7 @@ public class BookService {
                 String body = response.getBody();
                 System.out.println(body);
 
-                ObjectMapper mapper = new ObjectMapper();
+                mapper = new ObjectMapper();
                 JsonNode root = mapper.readTree(response.getBody());
 
 
@@ -307,21 +309,54 @@ public class BookService {
                                 .build())
                         .build();
 
-                ObjectMapper objectMapper = new ObjectMapper();
-                String jsonString = objectMapper.writeValueAsString(build);
+                mapper = new ObjectMapper();
+
+                String jsonString = mapper.writeValueAsString(build);
 
 
                 // =================================================================================================== //
 
                 // 요청 헤더 설정
+                // 지금 현재 유저의 jwt 토큰을 가져와서 붙이자!
                 HttpHeaders headersDjango = new HttpHeaders();
                 headersDjango.setContentType(MediaType.APPLICATION_JSON);
+                headersDjango.set("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjgwNTA4NDEwLCJleHAiOjE2ODExMTMyMTB9.UrmJoBLoAT03RIrM4eHofwQB34CUmFcJqC0MPC-prcE");
 
                 // 요청 엔티티 설정
                 HttpEntity<String> requestEntity = new HttpEntity<>(jsonString, headersDjango);
 
                 // 요청 보내기
-                String addBookPath = "http://43.201.102.210:8000/books/add_book";
+                String addBookPath = "http://43.201.102.210:8000/books/add_book/";
+                ResponseEntity<String> responseEntity = restTemplate.postForEntity(addBookPath, requestEntity, String.class);
+
+                // 응답 받은 데이터 출력
+                String responseBody = responseEntity.getBody();
+                System.out.println(responseBody);
+            } else {
+                restTemplate = new RestTemplate();
+
+                // 이미 있는 책인 경우.. userName 과 isbn 만 추출해서 보낸다.
+                NewBookDetailResponseDto build = NewBookDetailResponseDto.builder()
+                        .name(user.getName())
+                        .isbn(isbn)
+                        .build();
+
+                mapper = new ObjectMapper();
+
+                String jsonString = mapper.writeValueAsString(build);
+
+                // 요청 헤더 설정
+                // 지금 현재 유저의 jwt 토큰을 가져와서 붙이자!
+                HttpHeaders headersDjango = new HttpHeaders();
+                headersDjango.setContentType(MediaType.APPLICATION_JSON);
+                headersDjango.set("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjgwNTA4NDEwLCJleHAiOjE2ODExMTMyMTB9.UrmJoBLoAT03RIrM4eHofwQB34CUmFcJqC0MPC-prcE");
+
+
+                // 요청 엔티티 설정
+                HttpEntity<String> requestEntity = new HttpEntity<>(jsonString, headersDjango);
+
+                // 요청 보내기
+                String addBookPath = "http://43.201.102.210:8000/books/add_book/";
                 ResponseEntity<String> responseEntity = restTemplate.postForEntity(addBookPath, requestEntity, String.class);
 
                 // 응답 받은 데이터 출력
