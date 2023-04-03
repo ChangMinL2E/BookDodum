@@ -18,7 +18,8 @@ export default function MeetingList() {
         meetingId: item.meetingId,
         title: item.title,
         content: item.content,
-        userName: item.userName,
+        leaderUserName: item.leaderUserName,
+        leaderUserId: item.leaderUserId,
         commentCnt: item.commentCnt,
         imageUrl: item.imageUrl,
       });
