@@ -41,7 +41,7 @@ const Image = styled.div<Props>`
     left: 60px;
   }
   &.select{
-    border: 5px solid black;
+    border: 3px solid #5c5649;;
   }
 `; 
 
