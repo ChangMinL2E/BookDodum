@@ -13,14 +13,7 @@ import {
   postMeetingJoinAPI,
   getCommentAuthorityAPI,
 } from "../../apis/meeting";
-
-interface Info {
-  commentId: number;
-  userId: number;
-  userName: string;
-  leader_content: string | null;
-  content: string;
-}
+import { CommentInfo } from '../../Store/Types'
 
 interface Comment {
   meetingId: number;
@@ -33,7 +26,7 @@ export default function List() {
   const [idx, setIdx] = useState<number>(0);
   const [ref, inView] = useInView();
 
-  const [comments, setComments] = useState<Info[]>([]);
+  const [comments, setComments] = useState<CommentInfo[]>([]);
   const location = useLocation();
   const title = location?.state?.title;
 
@@ -53,23 +46,25 @@ export default function List() {
     content: text,
   };
 
-  useEffect(() => {
-    getMeetingComment();
-  }, [idx]);
+  // useEffect(() => {
+  //   getMeetingComment(idx);
+  // }, [idx]);
 
   // 무한 스크롤
   useEffect(() => {
     if (InView) {
+      console.log('😀')
+      getMeetingComment(comments[comments.length - 1]?.commentId)
       setIdx(comments[comments.length - 1]?.commentId);
     }
   }, [inView]);
 
   // 모임 댓글 axios 불러오기
-  const getMeetingComment = async () => {
+  const getMeetingComment = async (idx: number) => {
     const data = await getMeetingCommentAPI(id, idx);
-    let list: Info[] = [];
+    let list: CommentInfo[] = [];
 
-    data.forEach((item: Info) => {
+    data.forEach((item: CommentInfo) => {
       list.push({
         commentId: item.commentId,
         userId: item.userId,
@@ -87,7 +82,7 @@ export default function List() {
     alert("댓글이 등록되었습니다.");
     setText("");
     postMeetingJoin();
-    getMeetingComment(); // 등록한 후 axios 다시 호출
+    getMeetingComment(idx); // 등록한 후 axios 다시 호출
   };
 
   // enter로 댓글 등록하기
@@ -132,7 +127,7 @@ export default function List() {
 
         {/* 모임 댓글 */}
         <Wrapper>
-          {comments?.map((info: Info) => (
+          {comments?.map((info: CommentInfo) => (
             <ListCard {...info} key={info.commentId} />
           ))}
           <Ref ref={ref} style={{ height: authority ? "61px" : "0px" }} />

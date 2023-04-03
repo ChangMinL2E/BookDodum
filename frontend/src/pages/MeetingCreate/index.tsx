@@ -3,21 +3,13 @@ import NavBack from "../../Components/Contents/NavBack";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { createMeetingAPI, getBooksAPI } from "../../apis/meeting";
+import { UserBook } from "../../Store/Types";
 
 interface Meeting {
   bookId: number;
   title: string;
   content: string;
   authority: boolean;
-}
-
-interface Book {
-  bookId: number;
-  imageUrl: string;
-  title: string;
-  publisher: string;
-  category: string[];
-  convertedImageUrl: string | null;
 }
 
 interface BookInfo {
@@ -40,10 +32,10 @@ export default function MeetingCreate() {
   const navigate = useNavigate();
 
   const meeting: Meeting = {
-    bookId: bookId,
-    title: title,
-    content: content,
-    authority: authority,
+    bookId,
+    title,
+    content,
+    authority,
   };
 
   useEffect(() => {
@@ -55,7 +47,7 @@ export default function MeetingCreate() {
     const data = await getBooksAPI();
     let list: BookInfo[] = [];
 
-    data.forEach((item: Book) => {
+    data.forEach((item: UserBook) => {
       list.push({
         bookId: item.bookId,
         title: item.title,

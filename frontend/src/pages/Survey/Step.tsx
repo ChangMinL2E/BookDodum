@@ -102,7 +102,7 @@ export default function Step({ step }: Prop) {
     "전집/중고전집",
   ];
 
-  // const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(true);
 
   const sessionGet: any = sessionStorage.getItem("list");
   const navigate = useNavigate();
