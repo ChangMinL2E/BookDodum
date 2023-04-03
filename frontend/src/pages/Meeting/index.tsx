@@ -17,7 +17,8 @@ export default function Meeting() {
         meetingId: item.meetingId,
         title: item.title,
         content: item.content,
-        userName: item.userName,
+        leaderUserName: item.leaderUserName,
+        leaderUserId: item.leaderUserId,
         imageUrl: item.imageUrl,
         commentCnt: item.commentCnt,
       });

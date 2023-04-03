@@ -1,4 +1,3 @@
-import { text } from "body-parser";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -18,7 +17,7 @@ export default function MeetingCover(props: MeetingInfo) {
         navigate(`/bookmeeting/${props.meetingId}`, {
           state: {
             title: props.title, 
-            userName: props.userName,
+            leaderUserName: props.leaderUserName,
             content: props.content,
           },
         });
@@ -31,7 +30,7 @@ export default function MeetingCover(props: MeetingInfo) {
             : props.title}
         </Title>
         <Bottom>
-          <Author>{props.userName}</Author>
+          <Author>{props.leaderUserName}</Author>
           <Participant>{props.commentCnt}개의 댓글</Participant>
         </Bottom>
       </WhiteDiv>
