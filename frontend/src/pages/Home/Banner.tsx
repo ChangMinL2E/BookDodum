@@ -4,6 +4,7 @@ import styled from "styled-components";
 import banner1 from "../../Assets/Images/banner1.png";
 import banner2 from "../../Assets/Images/banner2.png";
 import banner3 from "../../Assets/Images/banner3.png";
+import banner4 from "../../Assets/Images/banner4.png";
 import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 import useSelectorTyped from "../../Store";
 // APIs
@@ -60,6 +61,9 @@ export default function Banner() {
       loop={true}
     >
       <SwiperSlide>
+          <Slide3/>            
+        </SwiperSlide>
+      <SwiperSlide>
         <Slide1>
           <Link1 onClick={() => handleClickRecommend()}>
             <Text>내 취향 분석 도서 보러가기</Text>
@@ -75,10 +79,9 @@ export default function Banner() {
           </Link2>
         </Slide2>
       </SwiperSlide>
+      
         <SwiperSlide>
-          <Slide3>
-            
-          </Slide3>
+          <Slide4/>            
         </SwiperSlide>
     </Swiper>
   );
@@ -133,12 +136,14 @@ const Slide3 = styled.div`
   background-position: center;
 `;
 
-const Link3 = styled.div`
-  display: flex;
-  align-items: center;
-  position: absolute;
-  bottom: 13%;
-  width: 90%;
-  justify-content: flex-start;
-  margin-left: 9%;
+
+const Slide4 = styled.div`
+  width: 100%;
+  height: 80vh;
+  background: url(${banner4});
+  background-size: cover;
+  background-position: center;
 `;
+
+
+

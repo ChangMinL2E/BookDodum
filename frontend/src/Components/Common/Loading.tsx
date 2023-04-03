@@ -1,23 +1,29 @@
 import styled from "styled-components";
 import Spinner from '../../Assets/Images/spinner.gif'
+import useSelectorTyped from "../../Store";
 
 export default function Loading() {
+  const nickname = useSelectorTyped((state) => state.user.name)
+
   return (
     <Background>
-      <LoadingText>잠시만 기다려 주세요.</LoadingText>
-      <img src={Spinner} width="20%" />
+      <LoadingText>{nickname}님을 위한 책을 찾고 있어요!
+      <br/>잠시만 기다려 주세요 😊</LoadingText>
+      <LoadingText>
+        <img src={Spinner} width="50%" />
+      </LoadingText>
     </Background>
   );
 }
 
 const Background = styled.div`
   position: absolute;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   top: 0;
   left: 0;
-  background: #ffffffb7;
-  z-index: 999;
+  background: #F9F9F7;
+  z-index: 11;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,4 +32,6 @@ const Background = styled.div`
 
 const LoadingText = styled.div`
   text-align: center;
+  font-size: 20px;
+  opacity: 1;
 `;

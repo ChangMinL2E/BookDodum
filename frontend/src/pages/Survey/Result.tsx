@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import useSelectorTyped from "../../Store";
 import bookside from "../../Assets/Images/bookside.png";
 import booktop from "../../Assets/Images/booktop.png";
+import { ArrowRightIcon } from "@heroicons/react/24/outline";
+// APIs
 import { getContentsRecommendAPI } from "../../apis/recommend";
 
 // swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
-import { Pagination } from "swiper";
 import { Autoplay } from "swiper";
+import { Pagination } from "swiper";
+import Loading from "../../Components/Common/Loading";
 import { useNavigate } from "react-router-dom";
 
 interface ImageProps {
@@ -26,15 +29,20 @@ interface Book {
   isbn: string;
 }
 
-export default function Recommend() {
+export default function Result() {
   const navigate = useNavigate();
   const nickname = useSelectorTyped((state) => state.user.name);
   const userId = useSelectorTyped((state) => state.user.userid);
   const [books, setBooks] = useState<Book[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     getConentsRecommend();
   }, []);
+
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 4000);
 
   const getConentsRecommend = async () => {
     const data = await getContentsRecommendAPI(userId);
@@ -57,76 +65,85 @@ export default function Recommend() {
 
   return (
     <Container>
-      <Title>
-        {nickname}님을 위한<br></br>추천도서
-      </Title>
-      <Tags>#취향분석 #맞춤추천</Tags>
-      <Contents
-        onClick={() => navigate("/list", { state: { books: books, type: 1 } })}
-      >
-        <SwiperWrap>
-          <Swiper
-            style={{ height: "100%" }}
-            direction={"vertical"}
-            pagination={{
-              clickable: true,
-            }}
-            spaceBetween={50}
-            slidesPerView={1}
-            autoplay={{
-              delay: 5000,
-              disableOnInteraction: false,
-            }}
-            loop={true}
-            modules={[Pagination, Autoplay]}
-            className="mySwiper"
-          >
-            <>
-              {books?.map((book) => {
-                return (
-                  <SwiperSlide key={book.title}>
-                    <BookInfo>
-                      <BookShape>
-                        <Top></Top>
-                        <Side></Side>
-                        <Front imageUrl={book.imageUrl}></Front>
-                      </BookShape>
-                      <Info>
-                        <BookTitle>
-                          {book.title.length > 10
-                            ? book.title.slice(0, 10) + "..."
-                            : book.title}
-                        </BookTitle>
-                        <Categories>
-                          <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <Title>
+            {nickname}님을 위한 <br />
+            추천도서
+          </Title>
+          <Tags>#취향분석 #맞춤추천</Tags>
+          <Contents>
+            <SwiperWrap>
+              <Swiper
+                style={{ height: "100%" }}
+                modules={[Pagination, Autoplay]}
+                direction={"vertical"}
+                pagination={{
+                  clickable: true,
+                }}
+                spaceBetween={50}
+                slidesPerView={1}
+                autoplay={{
+                  delay: 5000,
+                  disableOnInteraction: false,
+                }}
+                loop={true}
+                className="mySwiper"
+              >
+                {books?.map((book) => {
+                  return (
+                    <SwiperSlide key={book.title}>
+                      <BookInfo>
+                        <BookShape>
+                          <Top></Top>
+                          <Side></Side>
+                          <Front imageUrl={book.imageUrl}></Front>
+                        </BookShape>
+                        <Info>
+                          <BookTitle>
+                            {book.title.length > 15
+                              ? book.title.slice(0, 15) + "..."
+                              : book.title}
+                          </BookTitle>
+                          <Categories>
                             {book?.category.map((item, idx) => (
                               <Category key={idx}>{item}</Category>
                             ))}
-                          </>
-                        </Categories>
-                        <InfoBottom>
-                          <Author>글: {book.author}</Author>
-                          <Publisher>출판사: {book.publisher}</Publisher>
-                        </InfoBottom>
-                      </Info>
-                    </BookInfo>
-                  </SwiperSlide>
-                );
-              })}
-            </>
-          </Swiper>
-        </SwiperWrap>
-      </Contents>
+                          </Categories>
+                          <InfoBottom>
+                            <Author>글: {book.author}</Author>
+                            <Publisher>출판사: {book.publisher}</Publisher>
+                          </InfoBottom>
+                        </Info>
+                      </BookInfo>
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
+            </SwiperWrap>
+          </Contents>
+          <Btn onClick={() => navigate("/")}>
+            <div>북돋움 시작하기</div>
+            <ArrowRightIcon width="20px" style={{ marginLeft: "2%" }} />
+          </Btn>
+        </>
+      )}
     </Container>
   );
 }
 
 const Container = styled.div`
+  position: fixed;
+  z-index: 5;
   width: 100%;
-  height: 700px;
+  height: 100vh;
   background-color: #e3e3cf;
+  max-width: 35rem;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -135,21 +152,22 @@ const Title = styled.div`
   font-weight: 800;
   font-size: 25px;
   text-align: center;
-  margin: 10% auto 4% auto;
+  margin: 5% auto 5% auto;
 `;
 
 const Tags = styled.div`
   font-family: "Nanum Gothic Coding", monospace;
-  font-weight: 500;
-  font-size: 15px;
-  margin-bottom: 3%;
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 2%;
   font-style: italic;
+  color: #787878;
 `;
 
 const Contents = styled.div`
   width: 90%;
-  height: 68%;
-  margin: 5% 0 5% 0;
+  height: 60%;
+  margin: 10% 0 5% 0;
   border-radius: 200px 200px 0 0;
   background-color: white;
   display: flex;
@@ -160,7 +178,7 @@ const Contents = styled.div`
 const SwiperWrap = styled.div`
   margin: auto;
   width: 100%;
-  height: 100%;
+  height: 95%;
 `;
 
 const BookInfo = styled.div`
@@ -170,7 +188,6 @@ const BookInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 `;
 
 const BookShape = styled.div`
@@ -211,12 +228,12 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 4% 0 0 0;
+  margin: 2% 0 0 0;
 `;
 
 const BookTitle = styled.div`
   font-size: 19px;
-  margin: 7% 0 4% 0;
+  margin: 5% 0 4% 0;
   font-family: "Nanum Gothic Coding", monospace;
   font-weight: bold;
   color: #65625e;
@@ -245,10 +262,36 @@ const InfoBottom = styled.div`
   color: #6c6c6c;
   width: 100%;
   justify-content: center;
-  /* margin : 3% 0; */
   > div {
     margin: 3% 2%;
   }
 `;
 const Author = styled.div``;
 const Publisher = styled.div``;
+
+const Btn = styled.div`
+  margin: 3% 0 0 0;
+  width: 80%;
+  padding: 4%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-name: ${keyframes`
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-7px);
+      }
+    `};
+  > div {
+    font-size: 1.1rem;
+    font-family: "Gowun Batang", serif;
+    font-weight: 600;
+  }
+`;
