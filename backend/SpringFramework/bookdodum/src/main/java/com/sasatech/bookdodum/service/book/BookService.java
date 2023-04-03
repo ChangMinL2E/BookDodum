@@ -219,6 +219,8 @@ public class BookService {
         String isbn = null;
 
         try {
+
+            System.out.println(path);
             // base64 데이터 추출
             String base64Data = path.split(",")[1];
             base64Data = base64Data.replaceAll(" ", "+");

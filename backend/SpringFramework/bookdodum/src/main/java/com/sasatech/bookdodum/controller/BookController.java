@@ -69,7 +69,9 @@ public class BookController {
     @Operation(summary = "ISBN 조회")
     public ResponseEntity<?> readIsbn(@RequestParam("path") String path,
                                       @AuthenticationPrincipal User user) {
+        System.out.println("===========");
         System.out.println(path);
+        System.out.println("===========");
         return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", bookService.readIsbn(path, user)), HttpStatus.OK);
     }
 
