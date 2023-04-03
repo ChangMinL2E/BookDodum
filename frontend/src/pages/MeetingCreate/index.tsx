@@ -66,11 +66,11 @@ export default function MeetingCreate() {
 
   // 모임 만드는 api
   const makeMeeting = async (meeting: Meeting) => {
-    if (meeting.bookId == 0) {
+    if (meeting.bookId === 0) {
       alert("도서를 선택해주세요!");
-    } else if (meeting.title == "") {
+    } else if (meeting.title === "") {
       alert("모임 이름을 입력해주세요.");
-    } else if (meeting.content) {
+    } else if (meeting.content === "") {
       alert("모임 설명을 입력해주세요.");
     } else {
       await createMeetingAPI(meeting);
@@ -186,14 +186,6 @@ const Title = styled.textarea`
 
 const Say = styled(Title)`
   height: 10vh;
-`;
-
-const Radio = styled.input`
-  appearance: none;
-  border: max(2px, 0.1em) solid #5c5649;
-  border-radius: 50%;
-  width: 1.25em;
-  height: 1.25em;
 `;
 
 const Button = styled.button`
