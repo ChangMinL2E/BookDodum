@@ -2,17 +2,35 @@ import axios from "axios";
 
 const API_URL = process.env.REACT_APP_DATA_API_URL;
 
-interface Info {
+interface Survey {
   name: string;
-  info: string[];
+  survey: string[];
 }
 
-export async function postRegisterAPI(info: Info) {
+interface Book {
+  name: string;
+  read_books: string[];
+}
+
+export async function postRegisterSurveyAPI(survey: Survey) {
   try {
     const data = await axios({
       method: "POST",
       url: `${API_URL}/books/register_data/`,
-      data: info,
+      data: survey,
+    });
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function postRegisterBookAPI(book: Book) {
+  try {
+    const data = await axios({
+      method: "POST",
+      url: `${API_URL}/books/register_data/`,
+      data: book,
     });
     return data;
   } catch (e) {

@@ -7,7 +7,7 @@ import { getBookMeetingAPI } from "../../apis/meeting";
 import { MeetingInfo } from "../../Store/Types";
 
 export default function MeetingList() {
-  const bookid: number = Number(useParams().meetid);
+  const bookid: number = Number(useParams().bookid);
   const [bookMeetings, setBookMeetings] = useState<MeetingInfo[]>([]);
 
   const getBookMeeting = async () => {
