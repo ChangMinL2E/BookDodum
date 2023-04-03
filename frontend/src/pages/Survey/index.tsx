@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import logo from "../../Assets/Images/logo-white.png";
 import Step from "./Step";
+import Result from "./Result";
 
 export default function Survey() {
   const step = Number(useParams().step);
   const [question, setQuestion] = useState<string>("");
+  const [showResult , setShowResult] = useState<boolean>(true)
 
   useEffect(() => {
     if (step === 1) {
@@ -34,8 +36,9 @@ export default function Survey() {
         </ul>
       </BarContainer>
       <Contents>
-        <Step step={step} />
+        <Step step={step} setShowResult={setShowResult}/>
       </Contents>
+      {showResult && <Result/>}
     </Container>
   );
 }
@@ -93,7 +96,6 @@ const BarContainer = styled.div`
 `;
 
 const ProgressBar = styled.div`
-  /* width: 80%;  */
   position: absolute;
   border-radius: 10px;
   background: rgb(255, 255, 255);
