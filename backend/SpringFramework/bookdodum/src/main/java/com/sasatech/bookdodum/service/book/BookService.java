@@ -245,6 +245,8 @@ public class BookService {
             Map<DecodeHintType, Object> hints = new EnumMap<>(DecodeHintType.class);
             hints.put(DecodeHintType.PURE_BARCODE, true);
 
+            // abcd
+
             Result result = new MultiFormatReader().decode(bitmap, hints);
 
             isbn = result.getText();
