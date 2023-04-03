@@ -28,7 +28,7 @@ export async function postBookIdAPI(id: number) {
         Authorization: `Bearer ${token}`,
       },
     });
-    return data;
+    return data.success;
   } catch (e) {
     console.log(e);
   }

@@ -1,13 +1,14 @@
 package com.sasatech.bookdodum.service.book;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.zxing.*;
 
+import com.sasatech.bookdodum.dto.resposne.book.*;
+import org.springframework.http.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import com.sasatech.bookdodum.dto.request.book.BookConvertRequestDto;
-import com.sasatech.bookdodum.dto.resposne.book.BookDetailResponseDto;
-import com.sasatech.bookdodum.dto.resposne.book.BookListResponseDto;
-import com.sasatech.bookdodum.dto.resposne.book.BookResponseDto;
 import com.sasatech.bookdodum.dto.resposne.user.UserResponseDto;
 import com.sasatech.bookdodum.entity.book.Book;
 import com.sasatech.bookdodum.entity.book.Category;
@@ -17,12 +18,14 @@ import com.sasatech.bookdodum.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import javax.imageio.ImageIO;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
+
 
 @Service
 @Transactional(readOnly = false)
@@ -33,7 +36,6 @@ public class BookService {
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
     private final UserBookQdslRepositoryImpl userBookQdslRepositoryImpl;
-
 
 
     public boolean addBook(Long bookId, Long userId) {
@@ -211,7 +213,11 @@ public class BookService {
     }
 
 
-    public BookResponseDto readIsbn(String path) {
+    public BookResponseDto readIsbn(String path, User user) {
+
+        Book book = null;
+        String isbn = null;
+
         try {
             // base64 데이터 추출
             String base64Data = path.split(",")[1];
@@ -239,11 +245,87 @@ public class BookService {
 
             Result result = new MultiFormatReader().decode(bitmap, hints);
 
-
-            System.out.println(result.getText());
+            isbn = result.getText();
 
             // ISBN 기반으로 책 정보 찾기
-            Book book = bookRepository.findByIsbn(result.getText());
+            book = bookRepository.findByIsbn(isbn);
+
+
+            if (book == null) {
+                RestTemplate restTemplate = new RestTemplate();
+                HttpHeaders headersNaver = new HttpHeaders();
+                headersNaver.add("X-Naver-Client-Id", "iNmjOGNhSotP8VhR1gxo");
+                headersNaver.add("X-Naver-Client-Secret", "wruKOyBChg");
+
+                HttpEntity<String> entity = new HttpEntity<String>(headersNaver);
+                // 공공 네이버 API 를 통해 책을 찾아서 return
+                String url = "https://openapi.naver.com/v1/search/book.json?query=" + isbn;
+                ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+                String body = response.getBody();
+                System.out.println(body);
+
+                ObjectMapper mapper = new ObjectMapper();
+                JsonNode root = mapper.readTree(response.getBody());
+
+
+                String title = root.path("items").get(0).path("title").asText();
+                String image = root.path("items").get(0).path("image").asText();
+                String author = root.path("items").get(0).path("author").asText();
+                String publisher = root.path("items").get(0).path("publisher").asText();
+                String content = root.path("items").get(0).path("description").asText();
+                String siteUrl = root.path("items").get(0).path("link").asText();
+
+                book = bookRepository.save(Book.builder()
+                        .title(title)
+                        .author(author)
+                        .publisher(publisher)
+                        .imageUrl(image)
+                        .isbn(isbn)
+                        .siteUrl(siteUrl)
+                        .category(null)
+                        .content(content)
+                        .build());
+
+
+                NewBookDetailResponseDto build = NewBookDetailResponseDto.builder()
+                        .name(user.getName())
+                        .isbn(isbn)
+                        .data(BookDataResponseDto.builder()
+                                .title(title)
+                                .image_url(image)
+                                .author(author)
+                                .publisher(publisher)
+                                .isbn(isbn)
+                                .category(null)
+                                .content(content)
+                                .build())
+                        .build();
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                String jsonString = objectMapper.writeValueAsString(build);
+
+
+                // =================================================================================================== //
+
+                // Django 서버 add_book 에 요청
+                ResponseEntity<String> request = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+                // 요청 헤더 설정
+                HttpHeaders headersDjango = new HttpHeaders();
+                headersDjango.setContentType(MediaType.APPLICATION_JSON);
+
+                // 요청 엔티티 설정
+                HttpEntity<String> requestEntity = new HttpEntity<>(jsonString, headersDjango);
+
+                // 요청 보내기
+                String addBookPath = "http://43.201.102.210:8000/books/add_book";
+                ResponseEntity<String> responseEntity = restTemplate.postForEntity(addBookPath, requestEntity, String.class);
+
+                // 응답 받은 데이터 출력
+                String responseBody = responseEntity.getBody();
+                System.out.println(responseBody);
+            }
 
             return BookResponseDto.builder()
                     .id(book.getId())
@@ -259,6 +341,8 @@ public class BookService {
 
         } catch (Exception e) {
             e.printStackTrace();
+
+            // 책을 인식하지 못한경우..
 
             return null;
         }
@@ -390,7 +474,6 @@ public class BookService {
                 .content(infoBook.getContent())
                 .category(infoBook.getCategory())
                 .build();
-
 
     }
 }

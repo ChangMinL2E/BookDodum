@@ -12,6 +12,7 @@ import BestKeyword from "./BestKeyword";
 import { BookInfo } from '../../Store/Types';
 // APIs
 import { getReadingBooksAPI } from '../../apis/reading';
+import Recommend from './Recommend';
 
 export default function Home() {
   const token = window.localStorage.getItem('user')
@@ -33,8 +34,9 @@ export default function Home() {
     <div style={{ background: "white" }}>
       <Nav />
       <Banner />
+      <Recommend/>
       <ReadingBooks theme={'light'} type={""}/>
-      <BookList type={'contents'} bookId={-1} title={""} />
+      {/* <BookList type={'contents'} bookId={-1} title={""} /> */}
       {
         reading?.map((book) => {
           return (

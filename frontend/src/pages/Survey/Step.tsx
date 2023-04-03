@@ -27,8 +27,9 @@ import frustrated from "../../Assets/Images/frustrated.png";
 import farewell from "../../Assets/Images/farewell.png";
 import unrest from "../../Assets/Images/unrest.png";
 import stress from "../../Assets/Images/stress.png";
-import { postRegisterAPI } from "../../apis/survey";
+import { postRegisterSurveyAPI } from "../../apis/survey";
 import { useNavigate } from "react-router";
+import Loading from "../../Components/Common/Loading";
 
 interface Prop {
   step: Number;
@@ -101,6 +102,8 @@ export default function Step({ step }: Prop) {
     "전집/중고전집",
   ];
 
+  // const [loading, setLoading] = useState(true);
+
   const sessionGet: any = sessionStorage.getItem("list");
   const navigate = useNavigate();
 
@@ -124,7 +127,10 @@ export default function Step({ step }: Prop) {
   };
 
   const postRegister = async () => {
-    await postRegisterAPI(survey);
+    // setLoading(true);
+    const data = await postRegisterSurveyAPI(survey);
+    console.log(data)
+    // setLoading(false);
   };
 
   const handleSubmitBook = () => {
@@ -148,6 +154,7 @@ export default function Step({ step }: Prop) {
 
   return (
     <Container>
+      {/* {loading ? <Loading /> : null} */}
       {step === 1 && (
         <GenderDiv>
           {genders.map((gender: Item) => (

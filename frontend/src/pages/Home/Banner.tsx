@@ -5,15 +5,48 @@ import banner1 from "../../Assets/Images/banner1.png";
 import banner2 from "../../Assets/Images/banner2.png";
 import banner3 from "../../Assets/Images/banner3.png";
 import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
+import useSelectorTyped from "../../Store";
+// APIs
+import { getContentsRecommendAPI } from "../../apis/recommend";
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay } from "swiper";
 
+interface Book {
+  imageUrl: string;
+  title: string;
+  category: string[];
+  publisher: string;
+  author: string;
+}
 
 export default function Banner() {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState<boolean>(false)
+  const userId = useSelectorTyped((state) => state.user.userid);
+
+  const handleClickRecommend = async () => {
+    const books = await getContentsRecommend();
+    navigate("/list", { state: { books: books, type: 1 } });
+  };
+
+  const getContentsRecommend = async () => {
+    const data = await getContentsRecommendAPI(userId);
+    let tmp: Book[] = [];
+    data.forEach((book: any) => {
+      let test = book.category.replaceAll("'", '"');
+      let category = JSON.parse(test);
+      tmp.push({
+        title: book.title,
+        category: category,
+        imageUrl: book.image_url,
+        publisher: book.publisher,
+        author: book.author,
+      });
+    });
+
+    return tmp;
+  };
 
   return (
     <Swiper
@@ -28,7 +61,7 @@ export default function Banner() {
     >
       <SwiperSlide>
         <Slide1>
-          <Link1>
+          <Link1 onClick={() => handleClickRecommend()}>
             <Text>내 취향 분석 도서 보러가기</Text>
             <ArrowRightCircleIcon width="20px" color="white" />
           </Link1>
@@ -42,21 +75,14 @@ export default function Banner() {
           </Link2>
         </Slide2>
       </SwiperSlide>
-      {
-        !isLogin &&
         <SwiperSlide>
           <Slide3>
-            <Link3>
-              <Text onClick={() => navigate('/signup')}>지금 시작하기</Text>
-              <ArrowRightCircleIcon width="20px" color="white" />
-            </Link3>
+            
           </Slide3>
         </SwiperSlide>
-      }
     </Swiper>
   );
 }
-
 
 const Slide1 = styled.div`
   width: 100%;
@@ -82,7 +108,7 @@ const Text = styled.div`
 `;
 
 const Slide2 = styled.div`
- width: 100%;
+  width: 100%;
   height: 80vh;
   background: url(${banner2});
   background-size: cover;
@@ -100,9 +126,9 @@ const Link2 = styled.div`
 `;
 
 const Slide3 = styled.div`
- width: 100%;
+  width: 100%;
   height: 80vh;
-  background: url(${banner3});
+  /* background: url(${banner3}); */
   background-size: cover;
   background-position: center;
 `;
@@ -115,4 +141,4 @@ const Link3 = styled.div`
   width: 90%;
   justify-content: flex-start;
   margin-left: 9%;
-`
+`;
