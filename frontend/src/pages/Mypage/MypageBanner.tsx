@@ -36,7 +36,7 @@ export default function MypageBanner() {
           </svg>
         </Burgur>
         <UserNameText>{nickname}님의 책방</UserNameText>
-        <IntroText>{nickname}님의 취향이 가득 찬 방입니다.</IntroText>
+        <IntroText>{nickname}님의 취향이 가득 찬 책방입니다.</IntroText>
       </BannerImage>
     </>
   );
