@@ -39,6 +39,8 @@ const CommentBox = styled.div`
   padding: 0.5rem;
   overflow: auto;
   margin: 1rem 0.2rem 0rem;
+  min-width: 200px; 
+  max-width: 300px;
   position: relative;
   overflow: visible;
   border-radius: 0.5rem;
