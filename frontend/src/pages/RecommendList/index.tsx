@@ -7,7 +7,6 @@ import Book from '../../Components/Contents/Book'
 // Types
 import { useLocation } from 'react-router';
 
-
 export default function RecommendList() {
   const location = useLocation()
   const books = location.state.books
