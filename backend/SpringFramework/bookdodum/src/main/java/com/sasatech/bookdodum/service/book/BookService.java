@@ -222,7 +222,6 @@ public class BookService {
 
         try {
 
-            System.out.println(path);
             // base64 데이터 추출
             String base64Data = path.split(",")[1];
             base64Data = base64Data.replaceAll(" ", "+");
@@ -313,9 +312,6 @@ public class BookService {
 
 
                 // =================================================================================================== //
-
-                // Django 서버 add_book 에 요청
-                ResponseEntity<String> request = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
                 // 요청 헤더 설정
                 HttpHeaders headersDjango = new HttpHeaders();

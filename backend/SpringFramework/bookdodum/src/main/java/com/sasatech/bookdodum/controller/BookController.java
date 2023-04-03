@@ -68,9 +68,9 @@ public class BookController {
     @GetMapping("/isbn")
     @Operation(summary = "ISBN 조회")
     public ResponseEntity<?> readIsbn(@RequestParam("path") String path,
+                                      @Parameter(hidden = true)
                                       @AuthenticationPrincipal User user) {
         System.out.println("===========");
-        System.out.println(path);
         System.out.println("===========");
         return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", bookService.readIsbn(path, user)), HttpStatus.OK);
     }
