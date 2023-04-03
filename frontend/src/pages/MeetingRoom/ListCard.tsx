@@ -1,16 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import profile from '../../Assets/Images/profile.png';
+import profile from "../../Assets/Images/profile.png";
+import { CommentInfo } from "../../Store/Types";
 
-interface Props {
-  commentId: number;
-  userId: number;
-  userName: string;
-  leader_content: string | null;
-  content: string;
-}
-
-export default function ListCard(props: Props) {
+export default function ListCard(props: CommentInfo) {
   return (
     <Container
       style={{ backgroundColor: props.commentId % 2 ? "#f7f3eb" : "#F9F9F7" }}

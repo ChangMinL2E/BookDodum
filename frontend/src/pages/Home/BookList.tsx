@@ -51,7 +51,10 @@ export default function BookList({ type, bookId, title }: Props) {
   }
 
   return (
-    <Container>
+    <>
+    {
+      books.length === 0? null : 
+      <Container>
       {
         type === 'user' ? <Title>{title.length > 8 ? title.slice(0, 8) + '...' : title}을 읽은 사용자들이 선택한 도서 </Title> : <Title>{nickname}님의 취향 가득 추천 도서</Title>
       }
@@ -73,6 +76,8 @@ export default function BookList({ type, bookId, title }: Props) {
         </>
       </List>
     </Container>
+    }
+    </>
   );
 }
 

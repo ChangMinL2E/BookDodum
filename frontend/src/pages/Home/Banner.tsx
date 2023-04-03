@@ -24,11 +24,10 @@ interface Book {
 
 export default function Banner() {
   const navigate = useNavigate();
-  const token = window.localStorage.getItem("user");
   const userId = useSelectorTyped((state) => state.user.userid);
 
-  const handleClickRecommend = () => {
-    const books = getContentsRecommend();
+  const handleClickRecommend = async () => {
+    const books = await getContentsRecommend();
     navigate("/list", { state: { books: books, type: 1 } });
   };
 
@@ -46,6 +45,7 @@ export default function Banner() {
         author: book.author,
       });
     });
+
     return tmp;
   };
 
@@ -131,7 +131,7 @@ const Link2 = styled.div`
 const Slide3 = styled.div`
   width: 100%;
   height: 80vh;
-  background: url(${banner3});
+  /* background: url(${banner3}); */
   background-size: cover;
   background-position: center;
 `;

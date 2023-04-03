@@ -151,10 +151,8 @@ public class MeetingService {
         // 모임의 장 이라면, leader_content 를 가져온다. 그렇지 않으면 null 을 가져온다.
         // 모임의 장을 찾으려면 meetingId를 통해 찾는다.
 
-        UserMeeting userMeeting = userMeetingRepository.findByMeeting_Id(meetingId);
-        Meeting meeting = meetingRepository.findById(userMeeting.getMeeting().getId()).orElseThrow();
-
-        Long leader_id = userMeeting.getUser().getId();
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow();
+        Long leader_id = meeting.getLeaderUserId();
 
         for (Comment comment : commentList) {
             Long user_id = comment.getUser().getId();

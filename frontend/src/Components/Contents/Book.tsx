@@ -23,7 +23,7 @@ export default function BookCard({ book }: Props) {
 
   return (
     <Container>
-      <DetailModal ISBN={book?.isbn} closeModal={closeModal} modalOpen={modalOpen} />
+      {modalOpen && <DetailModal ISBN={book?.isbn} closeModal={closeModal} modalOpen={modalOpen} /> }
       <BookCover imageUrl={book?.imageUrl} size={130} />
       <Contents onClick={openModal}>
         <BookTitle >{book?.title.length > 8? book?.title.slice(0 ,8)+"..." : book.title}</BookTitle>
@@ -32,7 +32,7 @@ export default function BookCard({ book }: Props) {
             {
               book.category.map((text) => {
                 return (
-                  <Category>{text}</Category>
+                  <Category key={text} >{text}</Category>
                 )
               })
             }
