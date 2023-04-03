@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { XMarkIcon, UsersIcon } from '@heroicons/react/24/outline'
-import sample from '../../Assets/Images/sample.png';
 import { useNavigate } from 'react-router-dom';
 import { getBookDetailAPI } from '../../apis/detail';
 import { getReadWithAPI } from '../../apis/readwith';

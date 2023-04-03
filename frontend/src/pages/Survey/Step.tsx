@@ -7,26 +7,26 @@ import FieldCard from "./FieldCard";
 import useSelectorTyped from "../../Store";
 
 // step1
-import woman from "../../Assets/Images/woman.png";
-import man from "../../Assets/Images/man.png";
+import woman from "../../Assets/Images/survey/woman.png";
+import man from "../../Assets/Images/survey/man.png";
 
 // step2
-import healing from "../../Assets/Images/healing.png";
-import development from "../../Assets/Images/development.png";
-import funny from "../../Assets/Images/funny.png";
-import bestseller from "../../Assets/Images/bestseller.png";
-import spec from "../../Assets/Images/spec.png";
-import confidence from "../../Assets/Images/confidence.png";
+import healing from "../../Assets/Images/survey/healing.png";
+import development from "../../Assets/Images/survey/development.png";
+import funny from "../../Assets/Images/survey/funny.png";
+import bestseller from "../../Assets/Images/survey/bestseller.png";
+import spec from "../../Assets/Images/survey/spec.png";
+import confidence from "../../Assets/Images/survey/confidence.png";
 
 // step3
-import happy from "../../Assets/Images/happy.png";
-import love from "../../Assets/Images/love.png";
-import boring from "../../Assets/Images/boring.png";
-import sad from "../../Assets/Images/sad.png";
-import frustrated from "../../Assets/Images/frustrated.png";
-import farewell from "../../Assets/Images/farewell.png";
-import unrest from "../../Assets/Images/unrest.png";
-import stress from "../../Assets/Images/stress.png";
+import happy from "../../Assets/Images/survey/happy.png";
+import love from "../../Assets/Images/survey/love.png";
+import boring from "../../Assets/Images/survey/boring.png";
+import sad from "../../Assets/Images/survey/sad.png";
+import frustrated from "../../Assets/Images/survey/frustrated.png";
+import farewell from "../../Assets/Images/survey/farewell.png";
+import unrest from "../../Assets/Images/survey/unrest.png";
+import stress from "../../Assets/Images/survey/stress.png";
 import { postRegisterSurveyAPI } from "../../apis/survey";
 import { useNavigate } from "react-router";
 import Loading from "../../Components/Common/Loading";
