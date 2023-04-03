@@ -4,26 +4,49 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { ArrowRightCircleIcon, PencilIcon } from "@heroicons/react/24/outline";
 // Components
 import BookBanner from "../../Components/Contents/BookBanner";
-import UserList from "../../Components/Contents/UserList";
-import MeetingList from "../../Components/Contents/MeetingList";
+import UserList from "./UserList";
+import MeetingList from "./MeetingList";
 import NavBack from "../../Components/Contents/NavBack";
 import ImageAI from "../../Components/Contents/ImageAI";
+import { getUserRecommendAPI } from "../../apis/recommend";
+// Type
+import { BookInfo } from "../../Store/Types";
 
 export default function Mybook() {
   const navigate = useNavigate();
   const location = useLocation();
   const image = location?.state?.image;
   const title = location?.state?.title;
-  // const bookId = location?.state?.id;
   const converted = location?.state?.converted
   const bookId = useParams().bookid
-
-  const [disable, setDisable] = useState<boolean>(false);
   
   const handleChange = () => {
-    setDisable(true);
     navigate("/isbn", { state: { type: false } });
   };
+
+  const handleClickRecommend = () => {
+    getUserRecommend()
+  }
+
+  const getUserRecommend = async () => {
+    if(bookId !== undefined) {
+
+      const data = await getUserRecommendAPI(Number(bookId));
+      
+      let tmp: BookInfo[] = []
+    data.forEach((book: BookInfo) => {
+      tmp.push({
+        title: book.title,
+        imageUrl: book.imageUrl,
+        publisher: book.publisher,
+        category: book.category,
+        bookId: book.bookId,
+        isbn: book.isbn,
+      })
+    })
+    navigate('/list', {state : {books: tmp}})
+  }
+  }
 
   return (
     <Container>
@@ -44,19 +67,17 @@ export default function Mybook() {
         </WritingText>
       </Writing>
       <Recommend>
-        <RecommendText>이 책을 읽은 다른사람이 선택한 책</RecommendText>
+        <RecommendText onClick={handleClickRecommend}>이 책을 읽은 다른사람이 선택한 책</RecommendText>
         <Icon>
           <ArrowRightCircleIcon />
         </Icon>
       </Recommend>
-      {!converted && !disable && <Button disabled={disable} onClick={handleChange}>
+      {!converted &&  <Button onClick={handleChange}>
         다 읽었어요!
       </Button> }
       <ImgeContainer>
-      {(converted || disable) && <ImageAI imageUrl={converted} size= "200px"/> }
+      {converted  && <ImageAI imageUrl={converted} size= "200px"/> }
       </ImgeContainer>
-      
-      
     </Container>
   );
 }
@@ -91,22 +112,22 @@ const Button = styled.button`
   background-color: #dbd4c3;
   margin: 0 auto 5% auto;
   border-color: transparent;
-  &:disabled {
-    opacity: 0.5;
-  }
 `
 
-
-
 const Writing = styled.div`
+  width: 90%;
   display: flex;
+  align-items: center;
   color: #5c5649;
-  margin: 3%;
+  margin: auto;
 `
 
 const WriteIcon = styled.div`
-  width: 15px;
-  height: 15px;
+  width: 17px;
+  height: 17px;
+  display: flex;
+  justify-content: center;
+  margin : 0 1% 0 0;
 `
 
 const WritingText = styled.div`

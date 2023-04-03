@@ -12,7 +12,6 @@ interface Props {
 
 export default function UserList({ bookId }: Props) {
   const [users, setUsers] = useState<User[]>([])
-  console.log(bookId)
 
   const getReadWith = async () => {
     const data = await getReadWithAPI(bookId)
@@ -34,25 +33,38 @@ export default function UserList({ bookId }: Props) {
   return (
     <Container>
       <UserText>현재 이 책을 읽고 있는 사람  · {users?.length}명 </UserText>
-      <List>
-        <>
-          {
-            users?.map((user) => {
-              return (
-                <UserProfile key={user.nickname} nickname={user.nickname} />
-              )
-            })
-          }
-        </>
-      </List>
+      <Contents>
+        {
+          users.length === 0 ? <div style={{ fontSize: '13px' }}>아직 없어요😥</div> : <List><>
+            {
+              users?.map((user) => {
+                return (
+                  <UserProfile key={user.nickname} nickname={user.nickname} />
+                )
+              })
+            }
+          </>
+          </List>
+        }
+      </Contents>
+
     </Container>
   );
 }
 
 const Container = styled.div`
     width: 90%;
-    margin: 5% auto;
+    margin: 5% auto 2% auto;
 `
+
+const Contents = styled.div`
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80px;
+    margin : 1% 0;
+`
+
 const List = styled.div`
     width: 100%;
     display: flex;

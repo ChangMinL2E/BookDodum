@@ -27,7 +27,6 @@ interface BookDetail {
 
 export default function DetailModal({ ISBN, modalOpen, closeModal }: Props) {
     const navigate = useNavigate();
-    const [isSucceed, setSucceed] = useState<boolean>(false)
     const [bookDetail, setBookDetail] = useState<BookDetail>();
     const [readWith, setReadWith] = useState<number>(0)
 
@@ -38,12 +37,13 @@ export default function DetailModal({ ISBN, modalOpen, closeModal }: Props) {
 
     const getBookDetail = async () => {
         const data = await getBookDetailAPI(ISBN)
-        setSucceed(data?.success)
-        setBookDetail(data?.responseData)
-        getReadWith(data?.responseData.id)
+        if(data?.success) {
+            setBookDetail(data?.responseData)
+            getReadWith(data?.responseData.id)
+        }
     }
 
-    const getReadWith = async (bookId: number) => {
+    const getReadWith = async (bookId: number ) => {
         const data: any = await getReadWithAPI(bookId)
         setReadWith(data?.length)
     }
