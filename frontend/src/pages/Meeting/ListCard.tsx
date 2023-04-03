@@ -48,6 +48,8 @@ const Div = styled.div`
 
 const Container = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 2% 2% 0 2%;
 `;
 
@@ -65,6 +67,7 @@ const Title = styled.div`
 const Context = styled.div`
   font-size: 0.7rem;
   min-height: 60px;
+  // 수정?
   min-width: 210px;
 `;
 
