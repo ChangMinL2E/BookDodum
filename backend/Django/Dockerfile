@@ -6,9 +6,9 @@ RUN pip install gunicorn
 
 COPY requirements.txt ./
 
-# RUN pip install --upgrade pip 
+RUN pip install --upgrade pip 
 
-# RUN python -m venv venv  //
+RUN python -m venv venv  //
 
 RUN . venv/bin/activate
 
