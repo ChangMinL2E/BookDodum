@@ -6,9 +6,19 @@ RUN pip install gunicorn
 
 COPY requirements.txt ./
 
-RUN pip install --upgrade pip
+# RUN pip install --upgrade pip 
 
-RUN pip install -r requirements.txt
+# RUN python -m venv venv  //
+
+RUN . venv/bin/activate
+
+# RUN pip install -r requirements.txt //
+
+RUN python manage.py migrate
+
+# RUN python manage.py loaddata books.json //
+
+# RUN python manage.py runserver 
 
 COPY . .
 
