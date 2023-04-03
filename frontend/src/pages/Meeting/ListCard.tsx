@@ -7,14 +7,14 @@ import { MeetingInfo } from "../../Store/Types";
 
 export default function ListCard(props: MeetingInfo) {
   const navigate = useNavigate();
-  
+
   return (
     <Div
       onClick={() => {
         navigate(`/bookmeeting/${props.meetingId}`, {
           state: {
             title: props.title,
-            userName: props.userName,
+            leaderUserName: props.leaderUserName,
             content: props.content,
           },
         });
@@ -22,12 +22,16 @@ export default function ListCard(props: MeetingInfo) {
     >
       <Container>
         <Text>
-          <Title>{props.title}</Title>
+          <Title>
+            {props.title.length > 15
+              ? props.title?.slice(0, 15) + "..."
+              : props.title}
+          </Title>
           <Context>{props.content}</Context>
           <BottomDiv>
             <WriterDiv>
               <ProfileImg src={profile} />
-              <Writer>{props.userName}</Writer>
+              <Writer>{props.leaderUserName}</Writer>
             </WriterDiv>
             <ChatCnt>
               <ChatBubbleBottomCenterTextIcon width="15px" />

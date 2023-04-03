@@ -16,6 +16,26 @@ export interface BookInfo {
   isbn: number;
 }
 
+export interface BookDetail {
+  bookId: number;
+  title: string;
+  author: string;
+  publisher: string;
+  imageUrl: string;
+  content: string;
+  category: string[];
+}
+
+// user의 book
+export interface UserBook {
+  bookId: number;
+  imageUrl: string;
+  title: string;
+  publisher: string;
+  category: string[];
+  convertedImageUrl?: string;
+}
+
 // 도서관 정보
 export interface LibraryType {
   libCode: number;
@@ -50,9 +70,19 @@ export interface MeetingInfo {
     meetingId: number;
     title: string;
     content: string;
-    userName: string;
+    leaderUserName: string;
+    leaderUserId: number;
     commentCnt: number;
     imageUrl: string;
+}
+
+// 독서 모임 댓글 정보
+export interface CommentInfo {
+  commentId: number;
+  userId: number;
+  userName: string;
+  leader_content: string | null;
+  content: string;
 }
 
 export interface User {

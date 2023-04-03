@@ -17,7 +17,8 @@ export default function List() {
         content: item.content,
         imageUrl: item.imageUrl,
         title: item.title,
-        userName: item.userName,
+        leaderUserName: item.leaderUserName,
+        leaderUserId: item.leaderUserId,
         meetingId: item.meetingId
       });
     });

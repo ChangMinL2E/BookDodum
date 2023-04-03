@@ -7,7 +7,6 @@ import Book from '../../Components/Contents/Book'
 // Types
 import { useLocation } from 'react-router';
 
-
 export default function RecommendList() {
   const location = useLocation()
   const books = location.state.books
@@ -27,7 +26,7 @@ export default function RecommendList() {
             {
               books.map((book: any) => {
                 return (
-                  <Book key={book.id} book={{
+                  <Book key={book.title} book={{
                     imageUrl: book.imageUrl,
                     title: book.title,
                     category: book.category,
