@@ -25,7 +25,7 @@ export default function BookCover({ imageUrl, size, name }: Props) {
 }
 
 const Container = styled.div`
-    margin: 0 3% 0 3%;
+    width : 100%;
 `
 const BookImage = styled.div<Props>`
   width: ${(props: Props) => `${props.size}px`};

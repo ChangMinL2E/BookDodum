@@ -76,6 +76,7 @@ export default function ReadingBooks({ theme, type }: Props) {
                 })
               }
               key={book.bookId}
+              style={{margin : '0 5% 0 0'}}
             >
               <BookCover imageUrl={book.imageUrl} size={120} />
             </div>
