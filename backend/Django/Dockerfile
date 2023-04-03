@@ -18,7 +18,7 @@ COPY . .
 
 RUN python manage.py migrate
 
-# RUN python manage.py loaddata books.json //
+RUN python manage.py loaddata books.json 
 
 # RUN python manage.py runserver 
 
