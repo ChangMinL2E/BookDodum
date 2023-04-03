@@ -34,13 +34,13 @@ export default function MeetingList() {
   return (
     <Container>
       <MeetingText>
-        <UsersIcon width={22} style={{margin:'0 1% 0 0'}}/>
-        <div>
-          진행 중인 독서모임{" "}
-        </div>
+        <UsersIcon width={22} style={{ margin: "0 1% 0 0" }} />
+        <div>진행 중인 독서모임 </div>
       </MeetingText>
       <Contents>
-        {bookMeetings.length === 0 ? <div style={{ fontSize: '13px' }}>아직 없어요😥</div> :
+        {bookMeetings.length === 0 ? (
+          <div style={{ fontSize: "13px" }}>아직 없어요😥</div>
+        ) : (
           <List>
             <>
               {bookMeetings?.map((bookMeeting) => (
@@ -48,27 +48,27 @@ export default function MeetingList() {
               ))}
             </>
           </List>
-        }
+        )}
       </Contents>
     </Container>
   );
 }
 
 const Container = styled.div`
-width : 90%;
-margin: auto;
+  width: 90%;
+  margin: auto;
   display: flex;
   flex-direction: column;
 `;
 
 const Contents = styled.div`
-   display: flex;
-   width : 100%;
-    justify-content: center;
-    align-items: center;
-    min-height: 100px;
-    margin : 1% 0;
-`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  min-height: 100px;
+  margin: 1% 0;
+`;
 
 const MeetingText = styled.div`
   width: 100%;

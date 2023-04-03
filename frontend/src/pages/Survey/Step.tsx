@@ -32,7 +32,7 @@ import { useNavigate } from "react-router";
 
 interface Prop {
   step: Number;
-  setShowResult : Function;
+  setShowResult: Function;
 }
 
 interface Item {
@@ -102,7 +102,6 @@ export default function Step({ step, setShowResult }: Prop) {
     "전집/중고전집",
   ];
 
-
   const sessionGet: any = sessionStorage.getItem("list");
   const [surveyList, setSurveyList] = useState(JSON.parse(sessionGet) || "");
   const [book, setBook] = useState<string>("");
@@ -133,7 +132,7 @@ export default function Step({ step, setShowResult }: Prop) {
       sessionStorage.removeItem("list");
       tmp.push(book);
       setResult(tmp);
-      setShowResult(true)
+      setShowResult(true);
     } else {
       alert("제목을 입력해주세요.");
       setBook("");
@@ -278,7 +277,7 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
-&.bounce {
+  &.bounce {
     animation-duration: 1s;
     animation-name: ${keyframes`
       0%, 20%, 50%, 80%, 100% {
