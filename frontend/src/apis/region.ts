@@ -22,6 +22,7 @@ const regions: { [key: string]: number } = {
 };
 
 const KAKAO_REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
+const CORS_ANYWHERE_URL = "http://43.201.102.210:80" // CORS Anywhere 서버 URL
 const LIBRARY_API_URL = process.env.REACT_APP_LIBRARY_API_URL;
 const LIBRARY_API_KEY = process.env.REACT_APP_LIBRARY_API_KEY;
 
@@ -52,7 +53,7 @@ export async function getLibraryBooksAPI(REGION_CODE: number) {
   try {
     const data = await axios({
       method: "GET",
-      url: `${LIBRARY_API_URL}/loanItemSrchByLib?authKey=${LIBRARY_API_KEY}&region=${REGION_CODE}&format=json`,
+      url: `${CORS_ANYWHERE_URL}/${LIBRARY_API_URL}/loanItemSrchByLib?authKey=${LIBRARY_API_KEY}&region=${REGION_CODE}&format=json`,
     });
 
     for (let book of data.data.response.docs) {
