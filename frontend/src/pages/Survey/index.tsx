@@ -8,7 +8,7 @@ import Result from "./Result";
 export default function Survey() {
   const step = Number(useParams().step);
   const [question, setQuestion] = useState<string>("");
-  const [showResult , setShowResult] = useState<boolean>(true)
+  const [showResult , setShowResult] = useState<boolean>(false)
 
   useEffect(() => {
     if (step === 1) {
@@ -38,7 +38,7 @@ export default function Survey() {
       <Contents>
         <Step step={step} setShowResult={setShowResult}/>
       </Contents>
-      {showResult && <Result/>}
+      {showResult && <Result />}
     </Container>
   );
 }
