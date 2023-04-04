@@ -1,32 +1,77 @@
-## 사사테크 프로젝트
-
 # 북,돋움
 
-![로고](logo.png)
+![로고](logo-dark.png)
 
-#### "종이책을 즐겨읽는 사용자를 위한 빅데이터 기반 도서 추천 및 독서 모임 서비스"
+> **<i>"종이책을 즐겨읽는 사용자를 위한 빅데이터 기반 도서 추천 및 독서 모임 서비스"</i>** > <b style="color:#555555">개발 기간 : 2023.03.06 ~ 2023.04.07</b>
 
-<b><i>독서의 시작은 책을 고르는데서 부터</i></b>
+<br/>
+<br/>
 
-<br>
+## Stacks
 
-## 💡 Description
+---
 
-#### 기간 : 2023.03.06 ~ (6주)
+#### **Environment**
 
-#### 기획 배경
+<div style='display:flex;margin-bottom:20px'>
+<img style="margin:0 5px 0 0" src="https://img.shields.io/badge/VScode-007ACC?style=for-the-badge&logo=visualstudio&logoColor=white">
+<img style="margin:0 5px 0 0" src="https://img.shields.io/badge/intelliJ-000000?style=for-the-badge&logo=intellijidea&logoColor=white">
+<img style="margin:0 5px 0 0" src="https://img.shields.io/badge/GIT-F05032?style=for-the-badge&logo=git&logoColor=white">
+<img  style="margin:0 5px 0 0"src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white">
+</div>
+
+
+#### **CI/CD**
+<div style='display:flex;margin-bottom:20px'>
+<img style="margin:0 5px 0 0" src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white">
+<img style="margin:0 5px 0 0" src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
+<img style="margin:0 5px 0 0" src="https://img.shields.io/badge/EC2-ff9900?style=for-the-badge&logo=amazonec2&logoColor=white">
+<img style="margin:0 5px 0 0" src="https://img.shields.io/badge/NGINX-009639?style=for-the-badge&logo=nginx&logoColor=white">
+<img style="margin:0 5px 0 0" src="https://img.shields.io/badge/docker-2496ed?style=for-the-badge&logo=docker&logoColor=white">
+
+</div>
+
+#### **Development**
+<div style='display:flex;margin-bottom:20px'>
+<img style="margin:0 5px 0 0" src="https://img.shields.io/badge/java-007396?style=for-the-badge&logoColor=white">
+<img style="margin:0 5px 0 0" src="https://img.shields.io/badge/typeScript-3178c6?style=for-the-badge&logo=typescript&logoColor=white">
+<img style="margin:0 5px 0 0" src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">
+<img  style="margin:0 5px 0 0"src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+<img  style="margin:0 5px 0 0"src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white">
+<img  style="margin:0 5px 0 0"src="https://img.shields.io/badge/django-092E20?style=for-the-badge&logo=django&logoColor=white">
+</div>
+
+#### **Comunication**
+<div style='display:flex;margin-bottom:20px'>
+<img style="margin:0 5px 0 0" src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=jirasoftware&logoColor=white">
+<img style="margin:0 5px 0 0" src="https://img.shields.io/badge/NOTION-000000?style=for-the-badge&logo=notion&logoColor=white">
+<img  style="margin:0 5px 0 0"src="https://img.shields.io/badge/DISCORD-5865F2?style=for-the-badge&logo=discord&logoColor=white">
+</div>
+
+<br/>
+<br/>
+
+## 프로젝트 소개
+
+---
+
+> **기획 배경**
 
 - 기획 배경 1
-- 기획 배경 2
+- 기획 배경 2  
+  <br/>
 
-#### 기대 효과
+> **기대 효과**
 
 - 기대 효과 1
 - 기대 효과 2
 
-<br>
+<br/>
+<br/>
 
-## 🔎 기능 소개
+## 주요 기능 📦
+
+---
 
 > <b>추천하기</b>
 
@@ -59,27 +104,24 @@
 3. 도서관 추천
    => 책을 대여할 수 있는 도서관 추천
 
-## 23.03.06 전문가 미팅
+<br/>
+<br/>
 
-5. 가장 가까운 도서관의 인기 대출 도서 목록 추천
-   => 사용자 위치 기반 정보 활용
-   => 책을 대여할 수 있는 도서관 목록 조회 API 활용
-
----
-
-- MVP 추천  
-  : CF,CBF 및 카테고리 생성 후 각 카테고리별 가중치 생성, 내적(행렬곱)으로 추천
-
-- MVP 데이터 크롤링
-
-  - 알라딘으로 베스트셀러 1~500위 스크래핑, 크롤링
-
-- Levenshtein Distance
-  : 도서 별로 dictionary 형태로 되어있는데, 각 id(pk) 제외하고, 책의 원소들끼리 유사도들의 평균으로 비교해서 가장 비슷한 책들을 추천해주는 알고리즘
+## 아키텍처 설계도
 
 ---
 
-- Data Crawling  
-  : 교보문고 200,000,000개 좀 넘는 데이터 url for문으로 조건넣고 돌려서 수집하고 있습니다.
+![와이어프레임](wireframe.png)
 
-  python multi-thread 사용 예정
+<br/>
+<br/>
+
+## 와이어 프레임
+
+---
+
+![와이어프레임](wireframe.png)
+
+## 팀 소개
+
+---
