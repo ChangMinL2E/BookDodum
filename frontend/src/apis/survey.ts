@@ -7,12 +7,30 @@ interface Survey {
   survey: string[];
 }
 
-export async function postRegisterAPI(survey: Survey) {
+interface Book {
+  name: string;
+  read_books: string[];
+}
+
+export async function postRegisterSurveyAPI(survey: Survey) {
   try {
     const data = await axios({
       method: "POST",
       url: `${API_URL}/books/register_data/`,
       data: survey,
+    });
+    return data;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function postRegisterBookAPI(book: Book) {
+  try {
+    const data = await axios({
+      method: "POST",
+      url: `${API_URL}/books/register_data/`,
+      data: book,
     });
     return data;
   } catch (e) {

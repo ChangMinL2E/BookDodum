@@ -3,29 +3,22 @@ import styled from "styled-components";
 import ListCard from "./ListCard";
 import Button from "./Button";
 import { getMeetingJoinAPI } from "../../apis/meeting";
-
-interface BookMeeting {
-  commentCnt: number;
-  content: string;
-  imageUrl: string;
-  title: string;
-  userName: string;
-  meetingId: number;
-}
+import { MeetingInfo } from "../../Store/Types";
 
 export default function List() {
-  const [bookMeetings, setBookMeetings] = useState<BookMeeting[]>([]);
+  const [bookMeetings, setBookMeetings] = useState<MeetingInfo[]>([]);
 
   const getMeetingJoin = async () => {
     const data = await getMeetingJoinAPI();
-    let list: BookMeeting[] = [];
-    data.forEach((item: BookMeeting) => {
+    let list: MeetingInfo[] = [];
+    data.forEach((item: MeetingInfo) => {
       list.push({
         commentCnt: item.commentCnt,
         content: item.content,
         imageUrl: item.imageUrl,
         title: item.title,
-        userName: item.userName,
+        leaderUserName: item.leaderUserName,
+        leaderUserId: item.leaderUserId,
         meetingId: item.meetingId
       });
     });
@@ -43,7 +36,7 @@ export default function List() {
         <Button />
       </TopDiv>
       <>
-        {bookMeetings.map((bookMeeting: BookMeeting, idx) => (
+        {bookMeetings?.map((bookMeeting: MeetingInfo, idx) => (
           <ListCard key={idx} {...bookMeeting}/>
         ))}
       </>

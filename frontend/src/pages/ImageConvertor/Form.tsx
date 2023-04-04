@@ -44,12 +44,12 @@ export default function Form({
 
   return (
     <Container>
-      <Title>여러분의 생각을 그림으로 남겨드립니다.</Title>
+      <Title>기억나는 장면이나 문구를 그림으로 남겨드립니다.</Title>
       <form>
         <Input
           type="text"
           value={korean}
-          placeholder="책을 읽고 소감을 작성해 보세요."
+          placeholder="여기에 글을 작성해 주세요."
           onInput={handleInput}
         />
       </form>

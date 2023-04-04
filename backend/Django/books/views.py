@@ -12,7 +12,7 @@ import json, Levenshtein
 import numpy as np
 import nltk
 import time
-# nltk.download('punkt')
+nltk.download('punkt')
 
 from .models import Book, Matrix, ID
 from .serializers import BookListSerializer
@@ -24,12 +24,12 @@ survey_dic = {
     '힐링' : ['힐링'],
     '사회과학':['사회과학'],
     '자기계발' : ['자기계발'],
-    '재미' : ['게임','만화','추리','판타지'],
+    '재미' : ['재미'],
     '스펙' : ['수험서/자격증'],
     '자존감' : ['자기계발'],
     '행복' : ['행복'],
     '사랑' : ['소설/시/희곡'],
-    '심심' : ['게임','만화','추리'],
+    '심심' : ['재미'],
     '우울' : ['소설/시/희곡', '수필'],
     '답답' : ['소설/시/희곡', '수필'],
     '이별' : ['소설/시/희곡', '수필'],
@@ -127,9 +127,10 @@ def test_matrix(request):
     # with open('./data/array.json','r',encoding='utf-8-sig') as file:
     #     data_file = json.load(file)
     matrix = list(Matrix.objects.values())
-    print(type(matrix[0]['data']))
-    with open('matrix2.json','w',encoding='utf-8-sig') as file:
-        json.dump(matrix[0]['data'], file)
+    print(len(tokens))
+    print(type(matrix[-1]['data']))
+    # with open('matrix2.json','w',encoding='utf-8-sig') as file:
+    #     json.dump(matrix[-1]['data'], file)
         
         # matrix = Matrix(
         #     data = data_file
@@ -160,34 +161,36 @@ def recommend_books(request, user_id):
     # 초기설문
     # survey = request.POST.get('survey')
     array = list(eval(survey))
-    impressive_book = array[-1]
-    array = array[:-1]
-    print(impressive_book)
-    print(array)
 
     for arr in array:
         try:
             for dic_key in survey_dic[arr]:
-                user_matrix[tokens.index(dic_key)] += 0.2
+                if arr == array[3]:
+                    user_matrix[tokens.index(dic_key)] += 0.2
+                else:
+                    user_matrix[tokens.index(dic_key)] += 0.05
         except:
             if arr in tokens:
-                user_matrix[tokens.index(arr)] += 0.2
+                if arr == array[3]:
+                    user_matrix[tokens.index(arr)] += 0.2
+                else:
+                    user_matrix[tokens.index(arr)] += 0.05
             else:
                 pass
     
     # 읽은 책들
-    # read_books = request.POST.get('read_books')
     matrix = list(Matrix.objects.values())
-    matrix = matrix[0]['data']
+    matrix = matrix[-1]['data']
     matrix = np.array(json.loads(matrix))
-    
-    print(read_books)
+    user_books = []
+
     if not read_books == '':
         user_matrix = np.array(user_matrix)
         read_books = list(eval(read_books))
+        user_books = read_books[:]
         for isbn_code in read_books:
             book = list(Book.objects.filter(isbn=isbn_code))
-            user_matrix += matrix[book[0].id-1]*5
+            user_matrix += matrix[book[0].id-1]*10
 
     user_matrix = list(user_matrix)
     # 에러 방지
@@ -200,11 +203,15 @@ def recommend_books(request, user_id):
     C = list(enumerate(C))
     C = sorted(C,key=lambda x: x[1], reverse=True)[:20]
 
+    for book_idx in range(len(user_books)):
+        data = Book.objects.get(isbn=user_books[book_idx])
+        user_books[book_idx] = data.id
+
     lst = []
     for tu in C:
-        lst.append(books[tu[0]])
+        if not int(tu[0]) in user_books:
+            lst.append(books[tu[0]])
 
-    # print(lst)
     json_data = json.dumps(lst)
 
     return HttpResponse(json_data, content_type='application/json')
@@ -220,7 +227,6 @@ def register_data(request):
     survey = dict_data.get('survey')
     # read_books = request.POST.get('read_books')
     read_books = dict_data.get('read_books')
-
     if survey:
         impressive_book = survey.pop(-1)
         token = nltk.word_tokenize(impressive_book)
@@ -278,3 +284,100 @@ def register_data(request):
         data.save()
         
         return HttpResponse('데이터 추가 저장')
+
+def update_matrix(isbn):
+    matrix = list(Matrix.objects.values())
+    matrix = matrix[-1].get('data')
+    # 현재 배열 불러옴.
+    lst = list(json.loads(matrix))
+
+    new_data = list(Book.objects.filter(isbn=isbn))[-1]
+
+    text = f"{new_data.title} {new_data.category} {new_data.content}"
+    result = np.array([0]*len(tokens))
+    token = nltk.word_tokenize(text)
+    counter = Counter(token)
+
+    
+    # words 리스트에 포함된 단어들의 빈도수를 딕셔너리에 저장합니다.
+    for i, word in enumerate(tokens):
+        count = 0
+        for key in counter.keys():
+            if word in key:
+                count += counter[key]
+        result[i] = count
+    if sum(result) != 0:
+        result = list(map(lambda x: x/sum(result), result))
+    lst.append(list(result))
+    
+    new_matrix = Matrix(
+        data = lst
+    )
+    new_matrix.save()    
+
+    # json_data = json.dumps(lst)
+    # return HttpResponse(json_data, content_type='application/json')
+    return HttpResponse('matrix 불러옴')
+
+@method_decorator(csrf_exempt, name='dispatch')
+def add_book(request):
+    body_unicode = request.body.decode('utf-8')
+    dict_data = json.loads(body_unicode)
+
+    user_id = dict_data.get('name')
+    isbn = dict_data.get('isbn')
+    data = dict_data.get('data')
+    # update_matrix(isbn)
+    # 새로운 책 등록
+    if data:
+        book = list(Book.objects.filter(title=data.get('title')))
+        if len(book) == 0:
+            new_book = Book(
+                title=data['title'],
+                author=data['author'],
+                publisher=data['publisher'],
+                image_url=data['image_url'],
+                isbn=data['isbn'],
+                category=['국내도서'],
+                content = data['content']
+            )
+            new_book.save()
+            print("새로운 책 등록")
+            # matrix 수정도 이루어져야 한다.
+            update_matrix(isbn)
+        else:
+            print("이미 db에 존재하는 책입니다.")
+
+    else:
+        print("이미 db에 존재하는 책입니다.")
+
+
+
+    # 읽은 책 등록
+    user = list(ID.objects.filter(name=user_id))
+
+    user_books = user[-1].read_books
+    # 읽은 책이 없는 경우,
+    if user_books == '':
+            data = ID(
+            name = user_id,
+            survey = user[-1].survey,
+            read_books = [isbn]
+            )
+            data.save()
+    # 책을 등록한 적이 있는 경우,
+    else:
+        user_books = list(eval(user_books))
+        if not isbn in user_books:
+            user_books.append(isbn)
+            data = ID(
+                name = user_id,
+                survey = user[-1].survey,
+                read_books = user_books
+                )
+            data.save()
+        else:
+            return HttpResponse("이미 등록한 책입니다.")
+
+    return HttpResponse("책 등록 성공!")
+
