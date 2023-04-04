@@ -155,10 +155,11 @@ b# 북돋움
 ## 팀원 소개
 
 
-|<img src='yuna.png' width='150px'>| <img src='yuna.png' width='150px'> | <img src='yuna.png' width='150px'>|
-|:---:|:---:|:---:|
 | [FE 최지우👑](https://github.com/choizlor) |[FE 김유나](https://yunae.tistory.com/)| [FE 나혜승](https://github.com/HyeseungNA) |
-|<img src='yuna.png' width='150px'>|<img src='yuna.png' width='150px'>|<img src='yuna.png' width='150px'>|
+|:---:||:---:||:---:|
+|<img src='yuna.png' width='150px'>| <img src='yuna.png' width='150px'> | <img src='yuna.png' width='150px'>|
 | [BE 최종욱](https://whitedevelper.tistory.com/) | [BE 이원석](https://github.com/wonseokLee97) | [AI 이창민](https://changmiin2.tistory.com/) |
+|:---:||:---:||:---:|
+|<img src='yuna.png' width='150px'>|<img src='yuna.png' width='150px'>|<img src='yuna.png' width='150px'>|
 
 
