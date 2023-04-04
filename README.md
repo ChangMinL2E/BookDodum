@@ -155,7 +155,10 @@ b# 북돋움
 ## 팀원 소개
 
 
-| ![]() | ![유나](yuna.png){: width="100px" height="100px"} ||
-| FE 최지우👑 | FE 김유나 | FE 나혜승 |
-|![]()|||
+| <img src='yuna.png' width='150px'> | <img src='yuna.png' width='150px'> | <img src='yuna.png' width='150px'>|
+| FE 최지우👑 | [FE 김유나](https://yunae.tistory.com) | FE 나혜승 |
+|---|---|---|
+|<img src='yuna.png' width='150px'>|<img src='yuna.png' width='150px'>|<img src='yuna.png' width='150px'>|
 | BE 최종욱 | BE 이원석 | AI 이창민 |
+|---|---|---|
+
