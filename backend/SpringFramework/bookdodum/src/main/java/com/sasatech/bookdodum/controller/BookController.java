@@ -69,10 +69,11 @@ public class BookController {
     @Operation(summary = "ISBN 조회")
     public ResponseEntity<?> readIsbn(@RequestParam("path") String path,
                                       @Parameter(hidden = true)
-                                      @AuthenticationPrincipal User user) {
-        System.out.println("===========");
-        System.out.println("===========");
-        return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", bookService.readIsbn(path, user)), HttpStatus.OK);
+                                      @AuthenticationPrincipal User user,
+                                      @Parameter(hidden = true)
+                                      @RequestHeader("Authorization") String authorizationHeader) {
+        String jwtToken = authorizationHeader.substring(7);
+        return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", bookService.readIsbn(path, user, jwtToken)), HttpStatus.OK);
     }
 
 

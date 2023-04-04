@@ -213,10 +213,9 @@ public class BookService {
     }
 
 
-    public BookResponseDto readIsbn(String path, User user) {
+    public BookResponseDto readIsbn(String path, User user, String jwtToken) {
 
-        // asdfasdf
-        System.out.println("test!");
+        System.out.println(jwtToken);
         Book book = null;
         String isbn = null;
 
@@ -233,8 +232,6 @@ public class BookService {
             FileOutputStream outputStream = new FileOutputStream("isbn.png");
             outputStream.write(decodedBytes);
             outputStream.close();
-
-//            FileUtils.writeByteArrayToFile(new File("isbn.png"), decodedBytes, true);
 
 
             BufferedImage bf = ImageIO.read(new FileInputStream("isbn.png"));
@@ -320,7 +317,7 @@ public class BookService {
                 // 지금 현재 유저의 jwt 토큰을 가져와서 붙이자!
                 HttpHeaders headersDjango = new HttpHeaders();
                 headersDjango.setContentType(MediaType.APPLICATION_JSON);
-                headersDjango.set("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjgwNTA4NDEwLCJleHAiOjE2ODExMTMyMTB9.UrmJoBLoAT03RIrM4eHofwQB34CUmFcJqC0MPC-prcE");
+                headersDjango.set("Authorization", "Bearer " + jwtToken);
 
                 // 요청 엔티티 설정
                 HttpEntity<String> requestEntity = new HttpEntity<>(jsonString, headersDjango);
@@ -349,8 +346,7 @@ public class BookService {
                 // 지금 현재 유저의 jwt 토큰을 가져와서 붙이자!
                 HttpHeaders headersDjango = new HttpHeaders();
                 headersDjango.setContentType(MediaType.APPLICATION_JSON);
-                headersDjango.set("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjgwNTA4NDEwLCJleHAiOjE2ODExMTMyMTB9.UrmJoBLoAT03RIrM4eHofwQB34CUmFcJqC0MPC-prcE");
-
+                headersDjango.set("Authorization", "Bearer " + jwtToken);
 
                 // 요청 엔티티 설정
                 HttpEntity<String> requestEntity = new HttpEntity<>(jsonString, headersDjango);
