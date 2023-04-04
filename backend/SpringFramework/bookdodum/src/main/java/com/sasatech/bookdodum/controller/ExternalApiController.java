@@ -1,7 +1,6 @@
 package com.sasatech.bookdodum.controller;
 
 
-import com.sasatech.bookdodum.dto.request.api.GetLibraryResponseDto;
 import com.sasatech.bookdodum.service.api.ExternalApiService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
