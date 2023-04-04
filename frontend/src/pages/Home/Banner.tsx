@@ -79,7 +79,6 @@ export default function Banner() {
           </Link2>
         </Slide2>
       </SwiperSlide>
-      
         <SwiperSlide>
           <Slide4/>            
         </SwiperSlide>
@@ -131,7 +130,7 @@ const Link2 = styled.div`
 const Slide3 = styled.div`
   width: 100%;
   height: 80vh;
-  /* background: url(${banner3}); */
+  background: url(${banner3});
   background-size: cover;
   background-position: center;
 `;
