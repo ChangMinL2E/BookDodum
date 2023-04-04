@@ -60,7 +60,6 @@ export default function Signup() {
     } else {
       setUseridCheck(false);
     }
-    console.log(useridCheck);
   }, [userid]);
 
   // 비밀번호 유효성 검사

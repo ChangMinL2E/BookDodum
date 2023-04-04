@@ -20,7 +20,6 @@ export default function Read() {
 
   const getRead = async () => {
     const data = await getReadBooksAPI();
-    console.log(data)
     let list: UserBook[] = [];
     data.forEach((item: UserBook) => {
       list.push({

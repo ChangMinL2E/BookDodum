@@ -49,7 +49,6 @@ export default function List() {
   // 무한 스크롤
   useEffect(() => {
     if (InView) {
-      console.log('😀')
       getMeetingComment(comments[comments.length - 1]?.commentId)
       setIdx(comments[comments.length - 1]?.commentId);
     }
