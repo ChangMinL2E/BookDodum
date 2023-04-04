@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import useSelectorTyped from "../../Store";
 import styled from "styled-components";
 import logo from "../../Assets/Images/logo-black.png";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
-import { useLocation, useNavigate } from "react-router-dom";
-import useSelectorTyped from "../../Store";
 import { persistor } from "../../index";
 
 // 타입 선언
@@ -13,31 +13,32 @@ type Props = {
 };
 
 // 컴포넌트 정의
-const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
+export default function SideBar({ sideMenu, hideSideMenu }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const nickname = useSelectorTyped((state) => state.user.name);
-
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const updateScrollPosition = () => {
-    setScrollPosition(window.scrollY || document.documentElement.scrollTop);
-  };
-
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const token = window.localStorage.getItem('user')
 
   const logout = () => {
-    localStorage.removeItem("user");
-    alert("로그아웃 되었습니다.");
-    persistor.purge();
+    let really = window.confirm('정말 로그아웃 하시겠어요?');
+    if(really) {
+      localStorage.removeItem("user");
+      window.alert("로그아웃 되었습니다.");
+      persistor.purge();
+      navigate('/intro')
+    }
   };
 
+  useEffect(() => {
+  }, )
+
   return (
-    <>
+    <Container>
       <BackGround
         className={sideMenu ? "open" : ""}
         onClick={() => hideSideMenu()}
       />
-      <Container
+      <Bar
         className={sideMenu ? "open" : ""}
         onClick={() => hideSideMenu()}
       >
@@ -48,7 +49,7 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
               <img src={logo} width="70px" height="35px" />
             </LogoImg>
           </Logo>
-          {!isLogin ? (
+          {!token ? (
             <LoginBtn onClick={() => navigate("/login")}>
               <TextTop>북,돋움 해보기</TextTop>
               <TextBottom>로그인/회원가입</TextBottom>
@@ -78,7 +79,7 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
             >
               <MenuText>독서모임</MenuText>
             </Menu>
-            {isLogin && (
+            {token && (
               <Menu
                 className={location.pathname === "/mypage" ? "selected" : ""}
                 onClick={() => {
@@ -91,23 +92,23 @@ const SideBar: React.FC<Props> = ({ sideMenu, hideSideMenu }) => {
             )}
           </Menus>
         </Wrap>
-        <InfoMsg onClick={() => navigate("/intro")}>
-          북,돋움에 처음 오셨나요? 더 알아보기
-        </InfoMsg>
-      </Container>
-    </>
+      </Bar>
+    </Container>
   );
 };
 
-export default SideBar;
-
 // Styled Components
 const Container = styled.div`
+  position: relative;
+  background-color: #f7f3eb;
+
+` 
+const Bar = styled.div` 
+  position: fixed;
   z-index: 5;
   height: 100%;
-  left: -70%;
+  left: -250%;
   top: 0;
-  position: fixed;
   transition: 0.5s ease;
   &.open {
     left: 0;
@@ -121,6 +122,7 @@ const BackGround = styled.div`
   &.open {
     position: fixed;
     top: 0;
+    left: 0;
     z-index: 4;
     width: 100vw;
     height: 100%;
@@ -194,10 +196,3 @@ const TextBottom = styled.div`
   font-size: 12px;
 `;
 
-const InfoMsg = styled.div`
-  font-size: 12px;
-  position: absolute;
-  width: 90%;
-  margin-left: 7%;
-  bottom: 2.5%;
-`;

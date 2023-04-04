@@ -11,6 +11,7 @@ import com.sasatech.bookdodum.service.book.BookService;
 import com.sasatech.bookdodum.service.book.ReviewService;
 import com.sasatech.bookdodum.service.book.TranslationService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,14 +34,34 @@ public class BookController {
     @GetMapping("/list/{fin}")
     @Operation(summary = "내 독서중/완 목록조회")
     public ResponseEntity<?> listBook(@PathVariable("fin") boolean fin,
+                                      @Parameter(hidden = true)
                                       @AuthenticationPrincipal User user) {
         return new ResponseEntity(new ApiResponseDto(true, "listBook Success", bookService.listBook(user.getId(), fin)), HttpStatus.OK);
     }
 
-    @GetMapping("/")
+
+    @GetMapping("/list")
+    @Operation(summary = "내 독서 전체 목록 조회")
+    public ResponseEntity<?> listAllBook(@Parameter(hidden = true)
+                                         @AuthenticationPrincipal User user) {
+        return new ResponseEntity(new ApiResponseDto(true, "listAllBook Success", bookService.listAllBook(user.getId())), HttpStatus.OK);
+    }
+
+    @GetMapping("/list/recommend/{bookid}")
+    @Operation(summary = "나와 같은 책을 읽는 사람이 읽는 다른 책 추천")
+    public ResponseEntity<?> listRecommendBook(@PathVariable("bookid") Long id,
+                                               @Parameter(hidden = true)
+                                               @AuthenticationPrincipal User user) {
+        return new ResponseEntity(new ApiResponseDto(true, "listRecommendBook Success", bookService.listRecommendBook(id, user.getId())), HttpStatus.OK);
+    }
+
+
+
     @Operation(summary = "내 도서 상세조회")
     public ResponseEntity<?> detailBook(@RequestParam("bookid") Long bookId,
+                                        @Parameter(hidden = true)
                                         @AuthenticationPrincipal User user) {
+
         return new ResponseEntity(new ApiResponseDto(true, "detailBook Success", bookService.detailBook(bookId, user.getId())), HttpStatus.OK);
     }
 
@@ -53,6 +74,7 @@ public class BookController {
     @PostMapping("/{bookid}")
     @Operation(summary = "읽는 도서 등록")
     public ResponseEntity<?> addBook(@PathVariable("bookid") Long id,
+                                     @Parameter(hidden = true)
                                      @AuthenticationPrincipal User user) {
         if (bookService.addBook(id, user.getId())){
             return new ResponseEntity(new ApiResponseDto(true, "addBook Success", null), HttpStatus.OK);
@@ -65,6 +87,7 @@ public class BookController {
     @GetMapping("/readwith/{bookid}")
     @Operation(summary = "이 책을 읽고 있는 사람 목록 조회")
     public ResponseEntity<?> listReadWith(@PathVariable("bookid") Long bookId,
+                                          @Parameter(hidden = true)
                                           @AuthenticationPrincipal User user) {
         return new ResponseEntity(new ApiResponseDto(true, "listReadWith Success", bookService.listReadWith(bookId, user.getId())), HttpStatus.OK);
     }
@@ -73,6 +96,7 @@ public class BookController {
     @DeleteMapping("/{bookid}")
     @Operation(summary = "등록 도서 삭제")
     public ResponseEntity<?> deleteBook(@PathVariable("bookid") Long id,
+                                        @Parameter(hidden = true)
                                         @AuthenticationPrincipal User user) {
         bookService.deleteBook(id, user.getId());
         return new ResponseEntity(new ApiResponseDto(true, "deleteBook Success", null), HttpStatus.OK);
@@ -81,6 +105,7 @@ public class BookController {
     @PutMapping("/{bookid}")
     @Operation(summary = "다 읽은 도서 갱신")
     public ResponseEntity<?> finishBook(@PathVariable("bookid") Long id,
+                                        @Parameter(hidden = true)
                                         @AuthenticationPrincipal User user) {
         if (bookService.finishBook(id, user.getId())) {
             return new ResponseEntity(new ApiResponseDto(true, "finishBook Success", null), HttpStatus.OK);
@@ -93,6 +118,7 @@ public class BookController {
     @PutMapping("/conversion")
     @Operation(summary = "책 표지 변환 저장")
     public ResponseEntity<?> convertBook(@RequestBody BookConvertRequestDto bookConvertRequestDto,
+                                         @Parameter(hidden = true)
                                          @AuthenticationPrincipal User user) {
         if (bookService.convertBook(bookConvertRequestDto, user.getId())) {
             return new ResponseEntity(new ApiResponseDto(true, "convertBook Success", null), HttpStatus.OK);
@@ -103,8 +129,7 @@ public class BookController {
 
     @GetMapping("/search")
     @Operation(summary = "도서관 isbn 도서정보")
-    public ResponseEntity<?> searchBook(@RequestParam String isbn
-                                        ){
+    public ResponseEntity<?> searchBook(@RequestParam String isbn){
         if(bookService.searchBook(isbn)){
             return new ResponseEntity(new ApiResponseDto(true, "searchBook Success", bookService.infoBook(isbn)), HttpStatus.OK);
         }else{
@@ -114,11 +139,13 @@ public class BookController {
     }
 
 
+
     // ====================================== feature/review ===========================================
 
     @PostMapping("/review")
     @Operation(summary = "독후감 등록")
     public ResponseEntity<?> createReview(@RequestBody ReviewRequestDto reviewRequestDto,
+                                          @Parameter(hidden = true)
                                           @AuthenticationPrincipal User user) {
 
         if (reviewService.createReview(reviewRequestDto, user.getId())) {
@@ -129,6 +156,7 @@ public class BookController {
     }
 
     @PostMapping("/papago")
+    @Operation(summary = "파파고 번역")
     public String getEnglish(@RequestBody PapagoRequestDto papagoRequestDto) throws IOException {
         String Eng = TranslationService.getEnglish(papagoRequestDto.getKorean());
 
@@ -136,10 +164,13 @@ public class BookController {
     }
 
 
-    @GetMapping("/review")
+    @GetMapping("/review/{bookid}")
     @Operation(summary = "독후감 목록 조회")
-    private ResponseEntity<?> listReview(@AuthenticationPrincipal User user) {
-        return new ResponseEntity(new ApiResponseDto(true, "listReview Success", reviewService.listReview(user.getId())), HttpStatus.OK);
+    private ResponseEntity<?> listReview(
+            @PathVariable("bookid") Long bookId,
+            @Parameter(hidden = true)
+            @AuthenticationPrincipal User user) {
+        return new ResponseEntity(new ApiResponseDto(true, "listReview Success", reviewService.listReview(bookId, user.getId())), HttpStatus.OK);
     }
 
 

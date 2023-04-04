@@ -1,57 +1,54 @@
 /* global kakao */
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+// Components
 import Nav from "../../Components/Common/Nav";
-import DetailModal from "../../Components/Contents/DetailModal";
 import Banner from "./Banner";
 import BookList from "./BookList";
-import LibraryBooks from "./LibraryBooks"
-import sample from '../../Assets/Images/sample.png'
-import ReadingBooks from "./ReadingBooks";
+import LibraryBooks from "./LibraryBooks";
+import ReadingBooks from "../../Components/Contents/ReadingBooks";
 import BestKeyword from "./BestKeyword";
-import { getGeoLocationAPI } from "../../apis/geolocation";
-
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
-
-const { kakao } = window;
+// Types
+import { BookInfo } from "../../Store/Types";
+// APIs
+import { getReadingBooksAPI } from "../../apis/reading";
+import Recommend from "./Recommend";
 
 export default function Home() {
-  const [map, setMap] = useState(null)
+  const token = window.localStorage.getItem("user");
+  const navigate = useNavigate();
+
+  const [reading, setReading] = useState<BookInfo[]>([]);
 
   useEffect(() => {
-    getGeoLocationAPI()
-  }, [])
+    if (!token) navigate("/intro");
+    getReadingBooks();
+  }, []);
 
-  const getRegionCode = async (longitude: string, latitude: string) => {
-    // const data = await getRegionLibraryAPI()
-    // const data = await getRegionCodeAPI(longitude, latitude)
-    // console.log(data)
-  }
-
-  // useEffect(() => {
-  //   console.log('얍')
-  //   const container = document.getElementById('map')
-  //   const options = {
-  //     center: new kakao.maps.LatLng(curLocation[0], curLocation[1]),
-  //     level: 4
-  //   };
-  //   let map = new kakao.maps.Map(container, options)
-  // },[curLocation])
-
+  const getReadingBooks = async () => {
+    const data = await getReadingBooksAPI();
+    setReading(data);
+  };
 
   return (
-    <>
-      {/* <div id="map" style={{ width: "100%", height: "350px" }}></div> */}
+    <div style={{ background: "white" }}>
       <Nav />
       <Banner />
-      <ReadingBooks />
-      <BookList />
+      <Recommend />
+      <ReadingBooks theme={"light"} type={""} />
+      {/* <BookList type={'contents'} bookId={-1} title={""} /> */}
+      {reading?.map((book) => {
+        return (
+          <BookList
+            key={book.bookId}
+            type={"user"}
+            bookId={book.bookId}
+            title={book.title}
+          />
+        );
+      })}
       <LibraryBooks />
-      {/* <DetailModal bookId={1}/> */}
       <BestKeyword />
-    </>
+    </div>
   );
 }

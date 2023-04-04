@@ -22,8 +22,8 @@ public class CommentScrollQdslRepositoryImpl implements CommentScrollQdslReposit
         QComment comment = QComment.comment;
 
         return jpaQueryFactory.selectFrom(comment)
-                .where(comment.id.lt(idx), comment.meeting.id.eq(meetingId))
-                .orderBy(comment.id.desc())
+                .where(comment.id.gt(idx), comment.meeting.id.eq(meetingId))
+                .orderBy(comment.id.asc())
                 .limit(pageable.getPageSize())
                 .fetch()
                 ;

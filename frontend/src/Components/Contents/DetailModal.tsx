@@ -1,32 +1,61 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { XMarkIcon, UsersIcon } from '@heroicons/react/24/outline'
-import sample from '../../Assets/Images/sample.png';
 import { useNavigate } from 'react-router-dom';
+import { getBookDetailAPI } from '../../apis/detail';
+import { getReadWithAPI } from '../../apis/readwith';
 
 interface Props {
     ISBN: number;
     modalOpen: boolean;
     closeModal: () => void;
 }
+interface ImgProps {
+    imageUrl: any;
+}
 
-export default function DetailModal(props: Props) {
+interface BookDetail {
+    bookId: number;
+    title: string;
+    author: string;
+    publisher: string;
+    imageUrl: string;
+    content: string;
+    category: string[];
+}
+
+export default function DetailModal({ ISBN, modalOpen, closeModal }: Props) {
     const navigate = useNavigate();
-    const ISBN = 9791168473690
-    
+    const [bookDetail, setBookDetail] = useState<BookDetail>();
+    const [readWith, setReadWith] = useState<number>(0)
+
     useEffect(() => {
         // 도서 상세 조회 api
-    })
+        getBookDetail()
+    }, [])
+
+    const getBookDetail = async () => {
+        const data = await getBookDetailAPI(ISBN)
+        if(data?.success) {
+            setBookDetail(data?.responseData)
+            getReadWith(data?.responseData.id)
+        }
+    }
+
+    const getReadWith = async (bookId: number ) => {
+        const data: any = await getReadWithAPI(bookId)
+        setReadWith(data?.length)
+    }
 
     return (
-        <Container className={props.modalOpen ? 'open' : ''}>
+        <Container className={modalOpen ? 'open' : ''}>
             <Background />
             <Modal>
                 <ModalTop>
-                    <CloseBtn onClick={props.closeModal}>
+                    <CloseBtn onClick={closeModal}>
                         <XMarkIcon width="25px" strokeWidth="1.5px" color="white" />
                     </CloseBtn>
-                    <BookImage />
+                    <BookImage imageUrl={bookDetail?.imageUrl} />
                 </ModalTop>
                 <ModalBottom>
                     <Contents>
@@ -34,18 +63,18 @@ export default function DetailModal(props: Props) {
                             <div style={{ margin: '0 3% 0 0' }}>
                                 <UsersIcon width="25px" />
                             </div>
-                            <div >현재 이 책을 읽고 있는 사람  · 14명</div>
+                            <div >현재 이 책을 읽고 있는 사람  · {readWith}명</div>
                         </People>
                         <InfoTitle></InfoTitle>
                         <Title>제목</Title>
-                        <Content>불편한 편의점</Content>
+                        <Content>{bookDetail?.title}</Content>
                         <Title>저자</Title>
-                        <Content>김호연</Content>
+                        <Content>{bookDetail?.author}</Content>
                         <Title>출판사</Title>
-                        <Content>나무 옆 의자</Content>
+                        <Content>{bookDetail?.publisher}</Content>
                         <Title>소개</Title>
-                        <Content>새로 온 알바는 커다란 덩치와 부담스러운 행동이 누군가를 연상시키는 40대 사내. 그는 인간 알바몬이라도 되는 양 화려한 알바 경력을 자랑하지만 정작 편의점 일은 어수룩하기만 하다. 게다가 수다쟁이에 오지랖은 못 말릴 지경이어서 점장 선숙에게 핀잔을 뜯기 일쑤다. 그러거나 말거나 그는 황근배라는 이름 대신 홍금보라는 별명이 적힌 명찰을 가슴에 달고 마냥 느긋하게 손님들을 맞으며 편의점의 밤을 지켜 나간다.</Content>
-                        <Link onClick={() => navigate(`/library/${ISBN}`)}>도서관 정보 확인하기</Link>
+                        <Content>{bookDetail?.content}</Content>
+                        <Link onClick={() => navigate(`/library/${ISBN}`, { state: { title: bookDetail?.title } })}>도서관 정보 확인하기</Link>
                     </Contents>
                 </ModalBottom>
             </Modal>
@@ -53,12 +82,12 @@ export default function DetailModal(props: Props) {
     );
 }
 const Container = styled.div`
-/* width: 100vw;
-height: 100vh; */
-display: none;
-&.open {
-  display: block;
-  }
+    /* width: 100vw;
+    height: 100vh; */
+    display: none;
+    &.open {
+    display: block;
+    }
 `
 const Background = styled.div`
     position: fixed;
@@ -73,12 +102,14 @@ const Background = styled.div`
 
 const Modal = styled.div`
     width: 95%;
+    margin : auto;
+    max-width: 33rem;
     background-color: white;
     position: absolute;
     top: 15%;
     left: 50%;
     transform: translate(-50%, 0%);
-    z-index: 3;
+    z-index: 5;
 `
 
 const ModalTop = styled.div`
@@ -95,15 +126,16 @@ const CloseBtn = styled.div`
     top: 1%;
     right: 2%;
 `
-const BookImage = styled.div`
+const BookImage = styled.div<ImgProps>`
     width: 130px;
     height: 195px;
-    background-image: url(${sample});
+    background-image: url(${(props: ImgProps) => props.imageUrl});
     background-size: cover;
 `
 
 const ModalBottom = styled.div`
 `
+
 const Contents = styled.div`
     width: 85%;
     margin: 10% auto;

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import sample from "../../Assets/Images/sample.png";
 import BookCover from './BookCover';
 import { Book } from '../../Store/Types'
 import DetailModal from './DetailModal';
@@ -8,10 +7,6 @@ import DetailModal from './DetailModal';
 // 타입선언
 interface Props {
   book: Book
-}
-
-interface ImageProps {
-  imageUrl: string;
 }
 
 export default function BookCard({ book }: Props) {
@@ -28,14 +23,20 @@ export default function BookCard({ book }: Props) {
 
   return (
     <Container>
-      <DetailModal ISBN={0} closeModal={closeModal} modalOpen={modalOpen} />
-      <BookCover imageUrl={sample} size={130} />
+      {modalOpen && <DetailModal ISBN={book?.isbn} closeModal={closeModal} modalOpen={modalOpen} /> }
+      <BookCover imageUrl={book?.imageUrl} size={130} />
       <Contents onClick={openModal}>
-        <BookTitle >{book?.title}</BookTitle>
+        <BookTitle >{book?.title.length > 8? book?.title.slice(0 ,8)+"..." : book.title}</BookTitle>
         <Categories>
-          <Category>
-            국내도서</Category>
-          <Category>소설/시/희곡</Category>
+          <>
+            {
+              book.category.map((text) => {
+                return (
+                  <Category key={text} >{text}</Category>
+                )
+              })
+            }
+          </>
         </Categories>
         <Company>{book?.publisher}</Company>
       </Contents>

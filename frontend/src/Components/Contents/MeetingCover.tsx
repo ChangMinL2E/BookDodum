@@ -1,37 +1,46 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { MeetingInfo } from "../../Store/Types";
 
-interface Props {
-  imageUrl?: string;
-  title?: string;
-  author?: string;
-  participant?: number;
-  id?: number;
+interface ImageProps {
+  imageUrl: string;
 }
 
-export default function MeetingCover(group: Props) {
+export default function MeetingCover(props: MeetingInfo) {
   const navigate = useNavigate();
-  const bookRoom = () => {
-    navigate(`/bookgroup/${group.id}`);
-  };
 
   return (
-    <GroupImage imageUrl={group.imageUrl} onClick={()=>{bookRoom()}}>
+    <GroupImage
+      imageUrl={props.imageUrl}
+      onClick={() => {
+        navigate(`/bookmeeting/${props.meetingId}`, {
+          state: {
+            title: props.title, 
+            leaderUserName: props.leaderUserName,
+            content: props.content,
+          },
+        });
+      }}
+    >
       <WhiteDiv>
-        <Title>{group.title}</Title>
-      <Bottom>
-        <Author>{group.author}</Author>
-        <Participant>{group.participant}명 참여중</Participant>
-      </Bottom>
+        <Title>
+          {props.title.length > 10
+            ? props.title?.slice(0, 10) + "..."
+            : props.title}
+        </Title>
+        <Bottom>
+          <Author>{props.leaderUserName}</Author>
+          <Participant>{props.commentCnt}개의 댓글</Participant>
+        </Bottom>
       </WhiteDiv>
     </GroupImage>
   );
 }
 
 // styled component
-const GroupImage = styled.div<Props>`
-  background-image: url(${(props: Props) => props.imageUrl});
+const GroupImage = styled.div<ImageProps>`
+  background-image: url(${(props: ImageProps) => props.imageUrl});
   min-width: 200px;
   height: 150px;
   background-size: cover;
@@ -59,7 +68,7 @@ const Bottom = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
 const Author = styled.div`
   font-size: 0.9rem;

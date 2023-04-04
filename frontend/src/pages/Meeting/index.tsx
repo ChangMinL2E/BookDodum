@@ -1,46 +1,43 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MeetingCover from "../../Components/Contents/MeetingCover";
 import styled from "styled-components";
-import sample from "../../Assets/Images/sample.png";
 import Nav from "../../Components/Common/Nav";
-import { useNavigate } from "react-router-dom";
 import List from "./List";
-
-interface BookMeeting {
-  id: number;
-  writer: string;
-  imageUrl: string;
-  title: string;
-  author: string;
-  participant: number;
-}
+import { getMeetingJoinAPI } from "../../apis/meeting";
+import { MeetingInfo } from "../../Store/Types";
 
 export default function Meeting() {
-  // const [bookGroups, setBookGroups] = useState<BookGroup[]>([])
-  let title: string = "불편한 편의점";
-  let author: string = "김호연";
-  let participant: number = 3;
-  let id: number = 1;
+  const [bookMeetings, setBookMeetings] = useState<MeetingInfo[]>([]);
+
+  const getMeetingJoin = async () => {
+    const data = await getMeetingJoinAPI();
+    let list: MeetingInfo[] = [];
+    data?.forEach((item: MeetingInfo) => {
+      list.push({
+        meetingId: item.meetingId,
+        title: item.title,
+        content: item.content,
+        leaderUserName: item.leaderUserName,
+        leaderUserId: item.leaderUserId,
+        imageUrl: item.imageUrl,
+        commentCnt: item.commentCnt,
+      });
+    });
+    setBookMeetings(list);
+  };
+
+  useEffect(() => {
+    getMeetingJoin();
+  }, []);
 
   return (
     <Container>
       <Nav />
-        <Text>참여중인 독서 모임</Text>
+      <Text>참여중인 독서 모임</Text>
       <BookMeetingCards>
-        <MeetingCover
-          imageUrl={sample}
-          title={title}
-          author={author}
-          participant={participant}
-          id={id}
-        />
-        <MeetingCover
-          imageUrl={sample}
-          title={title}
-          author={author}
-          participant={participant}
-          id={2}
-        />
+        {bookMeetings?.map((bookMeeting: MeetingInfo) => (
+          <MeetingCover key={bookMeeting.meetingId} {...bookMeeting} />
+        ))}
       </BookMeetingCards>
       <List />
     </Container>
@@ -50,7 +47,7 @@ export default function Meeting() {
 // Styled Component
 const Container = styled.div`
   background-color: #f5eede;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 `;
 

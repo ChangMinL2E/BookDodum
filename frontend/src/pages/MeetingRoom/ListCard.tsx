@@ -1,32 +1,24 @@
 import React from "react";
 import styled from "styled-components";
-import profile from "../../Assets/Images/oilpainting.png";
+import profile from "../../Assets/Images/profile.png";
+import { CommentInfo } from "../../Store/Types";
 
-interface Props {
-  name: string;
-  owner: boolean;
-  text: string;
-  id: number;
-}
-
-export default function ListCard(props: Props) {
+export default function ListCard(props: CommentInfo) {
   return (
     <Container
-      style={{ backgroundColor: props.id % 2 ? "#f7f3eb" : "#F9F9F7" }}
+      style={{ backgroundColor: props.commentId % 2 ? "#f7f3eb" : "#F9F9F7" }}
     >
       <ProfileImg src={profile} />
       <TopDiv>
-        <Name>{props.name}</Name>
-        {props.owner ? <Owner>모임지기의 말</Owner> : null}
+        <Name>{props.userName}</Name>
       </TopDiv>
-      <Text>{props.text}</Text>
+      <Text>{props.content}</Text>
     </Container>
   );
 }
 
 // 짝수 홀수 다르게
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
 const ProfileImg = styled.img`
   border-radius: 100px;

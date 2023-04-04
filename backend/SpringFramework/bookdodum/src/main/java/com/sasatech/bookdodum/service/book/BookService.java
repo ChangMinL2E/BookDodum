@@ -59,8 +59,136 @@ public class BookService {
         List<BookListResponseDto> list = new ArrayList<>();
         List<UserBook> listUserBook = userBookQdslRepositoryImpl.findUserBook(userId, fin);
 
+        return getBookListResponseDtos(list, listUserBook);
+    }
+
+
+    public List<BookListResponseDto> listAllBook(Long userId) {
+        List<BookListResponseDto> list = new ArrayList<>();
+        List<UserBook> listUserBook = userBookRepository.findAllByUser_Id(userId);
+
+        return getBookListResponseDtos(list, listUserBook);
+    }
+
+
+    public List<BookListResponseDto> listRecommendBook(Long bookId, Long userId) {
+        // 1번 책을 읽은 모든 유저들을 가져온다.
+        List<UserBook> userBookListByBookId = userBookRepository.findAllByBook_Id(bookId);
+
+        // 내가 읽은 책 List 들을 가져온다.
+        List<UserBook> myBookList = userBookRepository.findAllByUser_Id(userId);
+
+        HashMap<Long, Long> bookCntMap = new HashMap<>();
+        List<Book> bookList = new ArrayList<>();
+
+        // 내가 가지고있는 책들은 제외한다.
+        for (UserBook userBook : myBookList) {
+            Book book = userBook.getBook();
+            bookList.add(book);
+        }
+
+
+
+        // 유저들 중에서 나와 가장 읽은책이 많이 겹치는 유저들을 우선순위로 정렬한다.
+        for (UserBook userBook : userBookListByBookId) {
+
+            // 나는 제외
+            if (userBook.getUser().getId() == userId) {
+                continue;
+            }
+
+            Long cnt = 0L;
+
+            // 해당 유저가 읽은 책 목록을 가져온다.
+            User user = userBook.getUser();
+            List<UserBook> userBookListByUserId = userBookRepository.findAllByUser_Id(user.getId());
+
+            // 내 책들을 기준으로 겹치는 다른 유저의 책 개수를 구하자.
+            for (UserBook myBook : myBookList) {
+                for (UserBook otherBook : userBookListByUserId) {
+                    if (myBook.getBook().getId() == otherBook.getBook().getId()) {
+                        cnt++;
+                    }
+                }
+            }
+
+            bookCntMap.put(user.getId(), cnt);
+        }
+
+
+        List<Long> keySet = new ArrayList<>(bookCntMap.keySet());
+
+        // Value 값으로 오름차순 정렬
+        keySet.sort(new Comparator<Long>() {
+            @Override
+            public int compare(Long o1, Long o2) {
+                return bookCntMap.get(o2).compareTo(bookCntMap.get(o1));
+            }
+        });
+
+        System.out.println(bookCntMap.size());
+
+        List<BookListResponseDto> recommendBookList = new ArrayList<>();
+        
+        for (Long key : keySet) {
+            System.out.println("KEY: " + key);
+            // 10권 이하의 책 개수만 추천을 받는다.
+            if (recommendBookList.size() == 10) {
+                break;
+            }
+
+            // 정렬된 유저 Id
+            Long userIdSorted = key;
+            List<UserBook> userBookList = userBookRepository.findAllByUser_Id(userIdSorted);
+
+            UserBook userBook = null;
+            Book book = null;
+
+            for (UserBook uB : userBookList) {
+                // 내 책과 이미 추천받은 책을 제외하고 추천받겠다.
+                if (bookList.contains(uB.getBook())) {
+                    continue;
+                }
+
+                // 한 권만 받으셈 ㅋㅋ
+                userBook = uB;
+                System.out.println(userBook.getBook().getId());
+                break;
+            }
+
+            if (userBook != null) {
+                book = userBook.getBook();
+            }
+
+            // 중복되는 책이 아닌 경우에만..
+            if (book != null && !bookList.contains(book)) {
+                System.out.println(book.getId() + " 추가!");
+                bookList.add(book);
+
+                List<Category> categoryList = categoryRepository.findAllByBook_Id(book.getId());
+                List<String> categories = new ArrayList<>();
+
+                for (Category category : categoryList) {
+                    categories.add(category.getKind());
+                }
+
+                recommendBookList.add(BookListResponseDto.builder()
+                        .bookId(book.getId())
+                        .isbn(book.getIsbn())
+                        .imageUrl(book.getImageUrl())
+                        .title(book.getTitle())
+                        .publisher(book.getPublisher())
+                        .category(categories)
+                        .convertedImageUrl(userBook.getConvertedImageUrl())
+                        .build());
+            }
+        }
+        return recommendBookList;
+    }
+
+    private List<BookListResponseDto> getBookListResponseDtos(List<BookListResponseDto> list, List<UserBook> listUserBook) {
         for (UserBook userBook : listUserBook) {
-            Long bookId = userBook.getId();
+            Long bookId = userBook.getBook().getId();
             Book myBook = bookRepository.findById(bookId).orElseThrow();
 
             List<Category> categoryList = categoryRepository.findAllByBook_Id(myBook.getId());
@@ -75,6 +203,7 @@ public class BookService {
                     .title(myBook.getTitle())
                     .publisher(myBook.getPublisher())
                     .category(categories)
+                    .convertedImageUrl(userBook.getConvertedImageUrl())
                     .build());
         }
 
@@ -212,9 +341,15 @@ public class BookService {
     public boolean convertBook(BookConvertRequestDto bookConvertRequestDto, Long userId) {
         // userBook 에 convertedImageUrl 를 update
         try {
+
+            System.out.println(bookConvertRequestDto.getConvertedImageUrl());
+            System.out.println(bookConvertRequestDto.getBookId());
+
             UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookConvertRequestDto.getBookId(), userId);
 
             String path = bookConvertRequestDto.getConvertedImageUrl();
+
+            System.out.println(userBook.getId());
 
             userBookRepository.save(UserBook.builder()
                     .id(userBook.getId())

@@ -4,7 +4,7 @@ import logo from "../../Assets/Images/logo-white.png";
 import { loginUserAPI } from "../../apis/auth";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { userAction } from '../../Store/userSlice'
+import { userAction } from "../../Store/userSlice";
 
 interface LoginInfo {
   userid: string;
@@ -31,35 +31,46 @@ export default function Login() {
     } else {
       navigate("/");
       localStorage.setItem("user", JSON.stringify(data.token));
-      dispatch(userAction.loginAction({userid: data.userid, name: data.name}))
+      dispatch(
+        userAction.loginAction({ userid: data.userid, name: data.name })
+      );
     }
   };
 
   return (
     <Container>
       <Div>
-        <Logo src={logo} />
+        <LoginForm>
+          <Logo src={logo} />
 
-        <Text>아이디</Text>
-        <Input
-          placeholder="아이디를 입력하세요"
-          onChange={(e) => setUserid(e.target.value)}
-        />
+          <Text>아이디</Text>
+          <Input
+            placeholder="아이디를 입력하세요"
+            onChange={(e) => setUserid(e.target.value)}
+          />
 
-        <Text>비밀번호</Text>
-        <Input
-          type="password"
-          placeholder="비밀번호를 입력하세요"
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <Text>비밀번호</Text>
+          <Input
+            type="password"
+            placeholder="비밀번호를 입력하세요"
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <Button
-          onClick={() => {
-            loginUser(userInfo);
-          }}
-        >
-          들어가기
-        </Button>
+          <Button
+            onClick={() => {
+              loginUser(userInfo);
+            }}
+          >
+            들어가기
+          </Button>
+          <SignUp
+            onClick={() => {
+              navigate("/signup");
+            }}
+          >
+            회원가입
+          </SignUp>
+        </LoginForm>
       </Div>
     </Container>
   );
@@ -67,7 +78,7 @@ export default function Login() {
 
 const Container = styled.div`
   background-color: #5c5649;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   position: relative;
 `;
@@ -86,6 +97,11 @@ const Div = styled.div`
   transform: translate(-50%, -50%);
 `;
 
+const LoginForm = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 const Text = styled.div`
   color: white;
   font-size: 0.8rem;
@@ -96,7 +112,8 @@ const Text = styled.div`
 const Input = styled.input`
   border-radius: 5px;
   height: 40px;
-  width: 250px;
+  width: 240px;
+  padding-left: 3%;
 `;
 
 const Button = styled.button`
@@ -104,11 +121,20 @@ const Button = styled.button`
   color: white;
   border: 1px solid #fffefc;
   border-radius: 40px;
+  font-size: 0.9rem;
   padding: 5%;
   width: 200px;
   height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 6% auto;
+  margin: 6% auto 4% auto;
+`;
+
+const SignUp = styled.div`
+  color: #f7f3eb;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  text-decoration: underline;
 `;

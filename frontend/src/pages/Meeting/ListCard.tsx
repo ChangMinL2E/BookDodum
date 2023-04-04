@@ -2,42 +2,44 @@ import React from "react";
 import styled from "styled-components";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
+import profile from "../../Assets/Images/profile.png";
+import { MeetingInfo } from "../../Store/Types";
 
-interface Props {
-  title?: string;
-  writer?: string;
-  context?: string;
-  chatCnt?: number;
-  bookImg: string;
-  profileImg?: string;
-  id?: number;
-}
-
-export default function ListCard(meeting: Props) {
+export default function ListCard(props: MeetingInfo) {
   const navigate = useNavigate();
 
-  const goMeeting = () => {
-    navigate(`/bookmeeting/${meeting.id}`);
-  };
-
   return (
-    <Div onClick={() => {goMeeting()}}>
+    <Div
+      onClick={() => {
+        navigate(`/bookmeeting/${props.meetingId}`, {
+          state: {
+            title: props.title,
+            leaderUserName: props.leaderUserName,
+            content: props.content,
+          },
+        });
+      }}
+    >
       <Container>
         <Text>
-          <Title>{meeting.title}</Title>
-          <Context>{meeting.context}</Context>
+          <Title>
+            {props.title.length > 15
+              ? props.title?.slice(0, 15) + "..."
+              : props.title}
+          </Title>
+          <Context>{props.content}</Context>
           <BottomDiv>
             <WriterDiv>
-              <ProfileImg src={meeting.profileImg} />
-              <Writer>{meeting.writer}</Writer>
+              <ProfileImg src={profile} />
+              <Writer>{props.leaderUserName}</Writer>
             </WriterDiv>
             <ChatCnt>
               <ChatBubbleBottomCenterTextIcon width="15px" />
-              {meeting.chatCnt}
+              {props.commentCnt}
             </ChatCnt>
           </BottomDiv>
         </Text>
-        <BookImg src={meeting.bookImg} />
+        <BookImg src={props.imageUrl} />
       </Container>
       <Line />
     </Div>
@@ -50,6 +52,8 @@ const Div = styled.div`
 
 const Container = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 2% 2% 0 2%;
 `;
 
@@ -66,6 +70,9 @@ const Title = styled.div`
 
 const Context = styled.div`
   font-size: 0.7rem;
+  min-height: 60px;
+  // 수정?
+  min-width: 210px;
 `;
 
 const BottomDiv = styled.div`
