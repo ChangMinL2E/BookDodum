@@ -82,7 +82,7 @@ _북돋움은 사용자의 행동을 기반으로 **개인 맞춤형 도서 추�
 </div>
 
 
-데이터베이스에 존재하는 책들을 미리 만들어놓은 벡터들과 자연어처리한 토큰들로 행렬로 만들고, 유저 활동을 벡터별 가중치를 만들어서 이를 이용한 추천을 진행하고 있습니다.
+데이터베이스에 존재하는 책마다 미리 만들어놓은 벡터들과 자연어처리한 토큰들로 고유한 행렬을 만들고, 유저 활동을 벡터별 가중치를 만들어서 이를 이용한 추천을 진행하고 있습니다.
 
 ```
 if sum(user_matrix) == 0:
@@ -98,6 +98,20 @@ if sum(user_matrix) == 0:
         data = Book.objects.get(isbn=user_books[book_idx])
         user_books[book_idx] = data.id
 ```
+
+<br/>
+
+> ### 독서 모임
+
+<div style="margin:10px 0 20px 0;display:flex">
+ <img style="margin: 0 10px 0 0" src='images/survey.gif' width="200px"/>
+ <img style="margin: 0 10px 0 0" src='images/result.gif' width="200px"/>
+</div>
+
+현재 읽고 있는 책을 중심으로 독서 모임을 생성하고, 생각을 나눌 수 있습니다. 비공개로 설정한 모임에는 책을 읽었거나, 읽고 있는 사용자만 글을 작성할 수 있습니다.
+
+<br/>
+
 
 <br/>
 <br/>
