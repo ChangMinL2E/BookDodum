@@ -261,13 +261,12 @@ public class BookService {
                 headersNaver.add("X-Naver-Client-Id", "iNmjOGNhSotP8VhR1gxo");
                 headersNaver.add("X-Naver-Client-Secret", "wruKOyBChg");
 
-                HttpEntity<String> entity = new HttpEntity<String>(headersNaver);
+                HttpEntity<String> entity = new HttpEntity<>(headersNaver);
                 // 공공 네이버 API 를 통해 책을 찾아서 return
                 String url = "https://openapi.naver.com/v1/search/book.json?query=" + isbn;
                 ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
                 String body = response.getBody();
-                System.out.println(body);
 
                 mapper = new ObjectMapper();
                 JsonNode root = mapper.readTree(response.getBody());
