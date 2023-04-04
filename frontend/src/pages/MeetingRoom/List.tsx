@@ -31,7 +31,7 @@ export default function List() {
   const title = location?.state?.title;
 
   // 모임지기의 말
-  const master = location?.state?.userName;
+  const master = location?.state?.leaderUserName;
   const masterContent = location?.state?.content;
 
   // 댓글 입력
@@ -45,10 +45,6 @@ export default function List() {
     meetingId: id,
     content: text,
   };
-
-  // useEffect(() => {
-  //   getMeetingComment(idx);
-  // }, [idx]);
 
   // 무한 스크롤
   useEffect(() => {
