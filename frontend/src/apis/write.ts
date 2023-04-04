@@ -35,10 +35,9 @@ export async function getWriteAPI(bookId: number) {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(data);
     return data.responseData;
   } catch (e) {
-    console.log(e, "🧨🧨🧨");
+    console.log(e);
   }
 }
 
@@ -52,7 +51,6 @@ export async function deleteCommentAPI(rerviewId: number) {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(data);
     return data;
   } catch (e) {
     console.log(e);

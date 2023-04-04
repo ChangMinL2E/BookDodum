@@ -59,7 +59,6 @@ export default function TextForm() {
   // 독후감 리스트 불러오는 api 호출
   const getWrite = async () => {
     const data = await getWriteAPI(bookId);
-    console.log(data);
 
     let tmp: CommentItem[] = [];
     data.forEach((item: CommentItem) => {
