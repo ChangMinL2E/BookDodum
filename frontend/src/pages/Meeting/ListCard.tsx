@@ -3,26 +3,18 @@ import styled from "styled-components";
 import { ChatBubbleBottomCenterTextIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";
 import profile from "../../Assets/Images/profile.png";
+import { MeetingInfo } from "../../Store/Types";
 
-interface Props {
-  commentCnt?: number;
-  content?: string;
-  imageUrl?: string;
-  title?: string;
-  userName?: string;
-  meetingId?: number;
-}
-
-export default function ListCard(props: Props) {
+export default function ListCard(props: MeetingInfo) {
   const navigate = useNavigate();
-  
+
   return (
     <Div
       onClick={() => {
         navigate(`/bookmeeting/${props.meetingId}`, {
           state: {
             title: props.title,
-            userName: props.userName,
+            leaderUserName: props.leaderUserName,
             content: props.content,
           },
         });
@@ -30,12 +22,16 @@ export default function ListCard(props: Props) {
     >
       <Container>
         <Text>
-          <Title>{props.title}</Title>
+          <Title>
+            {props.title.length > 15
+              ? props.title?.slice(0, 15) + "..."
+              : props.title}
+          </Title>
           <Context>{props.content}</Context>
           <BottomDiv>
             <WriterDiv>
               <ProfileImg src={profile} />
-              <Writer>{props.userName}</Writer>
+              <Writer>{props.leaderUserName}</Writer>
             </WriterDiv>
             <ChatCnt>
               <ChatBubbleBottomCenterTextIcon width="15px" />
@@ -56,6 +52,8 @@ const Div = styled.div`
 
 const Container = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin: 2% 2% 0 2%;
 `;
 
@@ -73,6 +71,7 @@ const Title = styled.div`
 const Context = styled.div`
   font-size: 0.7rem;
   min-height: 60px;
+  // 수정?
   min-width: 210px;
 `;
 

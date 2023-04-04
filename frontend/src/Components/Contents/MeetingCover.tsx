@@ -1,36 +1,36 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { MeetingInfo } from "../../Store/Types";
 
-interface Props {
-  meetingId?: number;
-  title?: string;
-  content?: string;
-  userName?: string;
-  commentCnt?: number;
-  imageUrl?: string;
+interface ImageProps {
+  imageUrl: string;
 }
 
-export default function MeetingCover(props: Props) {
+export default function MeetingCover(props: MeetingInfo) {
   const navigate = useNavigate();
-  
+
   return (
     <GroupImage
       imageUrl={props.imageUrl}
       onClick={() => {
         navigate(`/bookmeeting/${props.meetingId}`, {
           state: {
-            title: props.title,
-            userName: props.userName,
+            title: props.title, 
+            leaderUserName: props.leaderUserName,
             content: props.content,
           },
         });
       }}
     >
       <WhiteDiv>
-        <Title>{props.title}</Title>
+        <Title>
+          {props.title.length > 10
+            ? props.title?.slice(0, 10) + "..."
+            : props.title}
+        </Title>
         <Bottom>
-          <Author>{props.userName}</Author>
+          <Author>{props.leaderUserName}</Author>
           <Participant>{props.commentCnt}개의 댓글</Participant>
         </Bottom>
       </WhiteDiv>
@@ -39,8 +39,8 @@ export default function MeetingCover(props: Props) {
 }
 
 // styled component
-const GroupImage = styled.div<Props>`
-  background-image: url(${(props: Props) => props.imageUrl});
+const GroupImage = styled.div<ImageProps>`
+  background-image: url(${(props: ImageProps) => props.imageUrl});
   min-width: 200px;
   height: 150px;
   background-size: cover;

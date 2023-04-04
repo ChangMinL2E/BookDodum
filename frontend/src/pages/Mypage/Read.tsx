@@ -8,19 +8,11 @@ import BookCover from "../../Components/Contents/BookCover";
 import ImageAI from "../../Components/Contents/ImageAI";
 // APIs
 import { getReadBooksAPI } from "../../apis/read";
+import { UserBook } from "../../Store/Types";
 
 export default function Read() {
-  const [books, setBooks] = useState<Book[]>([]);
+  const [books, setBooks] = useState<UserBook[]>([]);
   const navigate = useNavigate();
-
-  interface Book {
-    bookId: number;
-    category: [];
-    convertedImageUrl?: string;
-    imageUrl: string;
-    publisher: string;
-    title: string;
-  }
 
   useEffect(() => {
     getRead();
@@ -29,8 +21,8 @@ export default function Read() {
   const getRead = async () => {
     const data = await getReadBooksAPI();
     console.log(data)
-    let list: Book[] = [];
-    data.forEach((item: Book) => {
+    let list: UserBook[] = [];
+    data.forEach((item: UserBook) => {
       list.push({
         bookId: item.bookId,
         category: item.category,
@@ -48,7 +40,7 @@ export default function Read() {
     <Container>
       <ReadText>{nickname}님이 다 읽은 책</ReadText>
       <BooksWrap>
-        {books?.map((book: Book) => (
+        {books?.map((book: UserBook) => (
           <BookItem
             key={book.bookId}
             onClick={() =>
@@ -57,6 +49,7 @@ export default function Read() {
                   image: book.imageUrl,
                   title: book.title,
                   id: book.bookId,
+                  converted: book.convertedImageUrl
                 },
               })
             }

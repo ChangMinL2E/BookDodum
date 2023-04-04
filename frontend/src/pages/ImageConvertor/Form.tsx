@@ -5,43 +5,51 @@ import styled from "styled-components";
 
 type option = {
   name: string;
+  value: string;
   image: string;
 };
 
 interface Props {
-  handleSubmit : () => void;
-  korean : string
-  setKorean : Function;
-  setSelectedOption : Function;
-  selectedOption : string;
+  handleSubmit: () => void;
+  korean: string;
+  setKorean: Function;
+  setSelectedOption: Function;
+  selectedOption: string;
 }
 
-export default function Form({handleSubmit, korean, setKorean, setSelectedOption, selectedOption} : Props) {
- 
-const handleInput =  (e: React.ChangeEvent<HTMLInputElement>) => {
-  setKorean(e.target.value)
-  console.log(e.target.value)
-}
+export default function Form({
+  handleSubmit,
+  korean,
+  setKorean,
+  setSelectedOption,
+  selectedOption,
+}: Props) {
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKorean(e.target.value);
+  };
+
   const options: option[] = [
     {
-      name: "oilpainting",
+      name: "oil-painting",
+      value: "oilpainting",
       image: oilpainting,
     },
     {
-      name: "oneline drawing",
+      name: "oneline-drawing",
+      value: "oneline drawing",
       image: oneline,
     },
   ];
 
   return (
     <Container>
-      <Title>여러분의 생각을 그림으로 남겨드립니다.</Title>
+      <Title>기억나는 장면이나 문구를 그림으로 남겨드립니다.</Title>
       <form>
         <Input
           type="text"
           value={korean}
-          placeholder="책을 읽고 소감을 작성해 보세요.&#13;&#10;
-        예시) 들판에 핀 안개 꽃"
+          placeholder="여기에 글을 작성해 주세요."
           onInput={handleInput}
         />
       </form>
@@ -49,13 +57,13 @@ const handleInput =  (e: React.ChangeEvent<HTMLInputElement>) => {
         {options.map((option, idx) => (
           <Option key={idx}>
             <Image>
-            <img src={option.image} width="80px" height="80px" />
+              <img src={option.image} width="80px" height="80px" />
             </Image>
             <OptionValue>
               <input
                 type="radio"
-                value={option.name}
-                checked={selectedOption === option.name}
+                value={option.value}
+                checked={selectedOption === option.value}
                 onChange={(e) => setSelectedOption(e.target.value)}
               />
               <OptionName>{option.name}</OptionName>
@@ -82,14 +90,22 @@ const Title = styled.div`
   font-weight: bold;
   margin-top: 0.3rem;
 `;
+
 const Input = styled.input`
   width: 100%;
   height: 10vh;
+  padding-left: 5% 5% 5% 5%;
   margin-top: 1.2rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 5px;
+
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    color: #c9c9c9;
+  }
 `;
 
 const Wrapper = styled.div`
-/* border: 2px solid blue; */
   display: flex;
   width: 100%;
   justify-content: space-around;
@@ -102,12 +118,8 @@ const Option = styled.label`
 `;
 
 const Image = styled.div`
-  /* border: 2px solid red; */
-  margin:auto;
-
-
-  
-`
+  margin: auto;
+`;
 
 const OptionValue = styled.div`
   display: flex;
