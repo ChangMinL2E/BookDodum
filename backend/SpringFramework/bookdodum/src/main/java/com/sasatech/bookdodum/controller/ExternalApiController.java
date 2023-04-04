@@ -41,8 +41,8 @@ public class ExternalApiController {
     // 이달의 키워드 조회
     @GetMapping("/bestkeyword")
     @Operation(summary = "이달의 키워드 조회")
-    public ResponseEntity<?> getBestKeywordAPI(@PathVariable("year") String year,
-                                               @PathVariable("month") String month){
+    public ResponseEntity<?> getBestKeywordAPI(@RequestParam("year") String year,
+                                               @RequestParam("month") String month){
         return externalApiService.getBestKeywordAPI(year, month);
     }
 
