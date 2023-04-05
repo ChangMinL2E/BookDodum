@@ -46,7 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     // http://43.201.102.210:8080/api/swagger-ui/index.html?docExpansion=none&operationsSorter=alpha&tagsSorter=alpha&url=/api/
 
-    @Override/  public void configure(WebSecurity web) throws Exception {
+    @Override
+    public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
                 "/v2/api-docs",
                 "/swagger-ui.html",
