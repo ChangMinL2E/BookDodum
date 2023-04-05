@@ -19,29 +19,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http.httpBasic().disable()
-
                 .csrf().disable()
-
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
                 .and()
                 .authorizeRequests()
-                // "/api/**", "/api/public/**"
-                    .antMatchers("/user/signin","/user/signup").permitAll()
-                    .antMatchers("/api/**").authenticated()
+                .antMatchers("/user/signin","/user/signup").permitAll()
+                .antMatchers("/api/**").authenticated()
                 .and()
-                    .exceptionHandling()
-                    .accessDeniedHandler(new CustomAcessDeniedHandler())
-                    .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-
+                .exceptionHandling()
+                .accessDeniedHandler(new CustomAcessDeniedHandler())
+                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
-                    .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),UsernamePasswordAuthenticationFilter.class);
-
-
-        //super.configure(http);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),UsernamePasswordAuthenticationFilter.class)
+                .antMatcher("/api/**").authorizeRequests(); // 추가
     }
 
     // http://43.201.102.210:8080/api/swagger-ui/index.html?docExpansion=none&operationsSorter=alpha&tagsSorter=alpha&url=/api/
