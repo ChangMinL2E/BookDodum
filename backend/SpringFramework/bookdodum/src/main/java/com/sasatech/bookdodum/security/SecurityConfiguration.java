@@ -29,7 +29,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/user/signin","/user/signup", "/api/**", "/api/public/**").permitAll()
+                // "/api/**", "/api/public/**"
+                .antMatchers("/user/signin","/user/signup").permitAll()
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAcessDeniedHandler())
                 .and()
@@ -45,7 +46,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     // http://43.201.102.210:8080/api/swagger-ui/index.html?docExpansion=none&operationsSorter=alpha&tagsSorter=alpha&url=/api/
 
     @Override/  public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs", "/swagger-ui/**","/index.html", "/webjars/**","/swagger/**", "sign-api/exception");
+        web.ignoring()
+                .antMatchers("/v2/api-docs", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**", "/swagger/**", "/sign-api/exception");
+//                .antMatchers("/v2/api-docs", "/swagger-ui/**", "/index.html", "/webjars/**", "/swagger/**", "sign-api/exception");
 //        super.configure(web);
     }
 }
