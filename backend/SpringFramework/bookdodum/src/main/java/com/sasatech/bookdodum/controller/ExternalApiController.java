@@ -14,28 +14,12 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ExternalApiController {
 
+    // 변경사항 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // 변경사항 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // 변경사항 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // 변경사항 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
     private final ExternalApiService externalApiService;
-
-    // getBestKeywordAPI
-    // http://data4library.kr/api/libSrchByBook?authKey=51a8da7baad88780d6babbd001a93462a79d0ba621c9b1cb06f620b0b5f766a4&month= + (year-month)
-
-    // getLibraryAPI
-    // http://data4library.kr/api/libSrchByBook?authKey=51a8da7baad88780d6babbd001a93462a79d0ba621c9b1cb06f620b0b5f766a4&month=&isbn${ISBN}&region=${REGION_CODE}&format=json
-
-    // getItemSrchAPI
-    // http://data4library.kr/api/libSrchByBook?authKey=51a8da7baad88780d6babbd001a93462a79d0ba621c9b1cb06f620b0b5f766a4&month&type=ALL&libCode=${LIB_CODE}&isbn13=${ISBN}&format=json
-
-    // getBookExistAPI
-    // http://data4library.kr/api/libSrchByBook?authKey=51a8da7baad88780d6babbd001a93462a79d0ba621c9b1cb06f620b0b5f766a4&month&libCode=${LIB_CODE}&isbn13=${ISBN}&format=json
-
-    // getRegionCodeAPI
-    // https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${longitude}&y=${latitude}&input_coord=WGS84`,
-    // headers: {
-    //     Authorization: `KakaoAK ${KAKAO_REST_API_KEY}`,
-    // },
-
-    // getLibraryBooksAPI
-    // http://data4library.kr/api/loanItemSrchByLib?authKey=51a8da7baad88780d6babbd001a93462a79d0ba621c9b1cb06f620b0b5f766a4&month&region=${REGION_CODE}&format=json
 
 
     // 이달의 키워드 조회
