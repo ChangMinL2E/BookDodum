@@ -6,6 +6,9 @@ WORKDIR /var/jenkins_home/workspace/S08P22C104/backend/SpringFramework/bookdodum
 
 # 실시간 jenkins 테스트
 
+# Dockerfile 내에서 무작위 파일 생성
+RUN echo $(date) > image_build_time.txt
+
 # Gradle 빌드 스크립트 파일을 복사합니다.
 COPY build.gradle .
 COPY gradlew .
