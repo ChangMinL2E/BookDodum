@@ -17,6 +17,31 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//
+//        http.httpBasic().disable()
+//
+//                .csrf().disable()
+//
+//                .sessionManagement()
+//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/user/signin","/user/signup").permitAll()
+//                .and()
+//                .exceptionHandling().accessDeniedHandler(new CustomAcessDeniedHandler())
+//                .and()
+//                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+//
+//                .and()
+//                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),UsernamePasswordAuthenticationFilter.class);
+//
+//
+//        //super.configure(http);
+//    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -30,6 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/user/signin","/user/signup").permitAll()
+                .antMatchers("/api/**").authenticated() // /api 요청에 대해 인증 필요
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAcessDeniedHandler())
                 .and()
