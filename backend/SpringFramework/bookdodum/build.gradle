@@ -10,8 +10,9 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
+
 bootJar {
-	mainClassName = 'com.sasatech.bookdodum.ProjectApplication' // mainClassName 설정 추가
+    mainClassName = 'com.sasatech.bookdodum.ProjectApplication'
 }
 
 group = 'com.sasatech'
