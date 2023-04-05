@@ -4,6 +4,7 @@ import styled from "styled-components";
 import banner1 from "../../Assets/Images/banner1.png";
 import banner2 from "../../Assets/Images/banner2.png";
 import banner3 from "../../Assets/Images/banner3.png";
+import banner4 from "../../Assets/Images/banner4.png";
 import { ArrowRightCircleIcon } from "@heroicons/react/24/outline";
 import useSelectorTyped from "../../Store";
 // APIs
@@ -23,11 +24,10 @@ interface Book {
 
 export default function Banner() {
   const navigate = useNavigate();
-  const token = window.localStorage.getItem("user");
   const userId = useSelectorTyped((state) => state.user.userid);
 
-  const handleClickRecommend = () => {
-    const books = getContentsRecommend();
+  const handleClickRecommend = async () => {
+    const books = await getContentsRecommend();
     navigate("/list", { state: { books: books, type: 1 } });
   };
 
@@ -45,6 +45,7 @@ export default function Banner() {
         author: book.author,
       });
     });
+
     return tmp;
   };
 
@@ -59,6 +60,9 @@ export default function Banner() {
       modules={[Autoplay]}
       loop={true}
     >
+      <SwiperSlide>
+          <Slide3/>            
+        </SwiperSlide>
       <SwiperSlide>
         <Slide1>
           <Link1 onClick={() => handleClickRecommend()}>
@@ -75,16 +79,9 @@ export default function Banner() {
           </Link2>
         </Slide2>
       </SwiperSlide>
-      {!token && (
         <SwiperSlide>
-          <Slide3>
-            <Link3>
-              <Text onClick={() => navigate("/signup")}>지금 시작하기</Text>
-              <ArrowRightCircleIcon width="20px" color="white" />
-            </Link3>
-          </Slide3>
+          <Slide4/>            
         </SwiperSlide>
-      )}
     </Swiper>
   );
 }
@@ -138,12 +135,14 @@ const Slide3 = styled.div`
   background-position: center;
 `;
 
-const Link3 = styled.div`
-  display: flex;
-  align-items: center;
-  position: absolute;
-  bottom: 13%;
-  width: 90%;
-  justify-content: flex-start;
-  margin-left: 9%;
+
+const Slide4 = styled.div`
+  width: 100%;
+  height: 80vh;
+  background: url(${banner4});
+  background-size: cover;
+  background-position: center;
 `;
+
+
+

@@ -3,21 +3,13 @@ import NavBack from "../../Components/Contents/NavBack";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { createMeetingAPI, getBooksAPI } from "../../apis/meeting";
+import { UserBook } from "../../Store/Types";
 
 interface Meeting {
   bookId: number;
   title: string;
   content: string;
   authority: boolean;
-}
-
-interface Book {
-  bookId: number;
-  imageUrl: string;
-  title: string;
-  publisher: string;
-  category: string[];
-  convertedImageUrl: string | null;
 }
 
 interface BookInfo {
@@ -40,10 +32,10 @@ export default function MeetingCreate() {
   const navigate = useNavigate();
 
   const meeting: Meeting = {
-    bookId: bookId,
-    title: title,
-    content: content,
-    authority: authority,
+    bookId,
+    title,
+    content,
+    authority,
   };
 
   useEffect(() => {
@@ -55,7 +47,7 @@ export default function MeetingCreate() {
     const data = await getBooksAPI();
     let list: BookInfo[] = [];
 
-    data.forEach((item: Book) => {
+    data.forEach((item: UserBook) => {
       list.push({
         bookId: item.bookId,
         title: item.title,
@@ -66,11 +58,11 @@ export default function MeetingCreate() {
 
   // 모임 만드는 api
   const makeMeeting = async (meeting: Meeting) => {
-    if (meeting.bookId == 0) {
+    if (meeting.bookId === 0) {
       alert("도서를 선택해주세요!");
-    } else if (meeting.title == "") {
+    } else if (meeting.title === "") {
       alert("모임 이름을 입력해주세요.");
-    } else if (meeting.content) {
+    } else if (meeting.content === "") {
       alert("모임 설명을 입력해주세요.");
     } else {
       await createMeetingAPI(meeting);
@@ -186,14 +178,6 @@ const Title = styled.textarea`
 
 const Say = styled(Title)`
   height: 10vh;
-`;
-
-const Radio = styled.input`
-  appearance: none;
-  border: max(2px, 0.1em) solid #5c5649;
-  border-radius: 50%;
-  width: 1.25em;
-  height: 1.25em;
 `;
 
 const Button = styled.button`

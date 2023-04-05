@@ -25,7 +25,11 @@ python manage.py runserver
 > method : GET  
 > &Rightarrow; 책 전체 목록 조회
 
-> url : http://127.0.0.1:8000/books/recommend_books/  
+> url : http://127.0.0.1:8000/books/recommend_books/:username/  
+> method : GET  
+> &Rightarrow; 사용자 활동에 따른 책 추천
+
+> url : http://127.0.0.1:8000/books/register_data/  
 > method : POST  
 > body : {
 > 'survey' : [초기 설문],
@@ -33,6 +37,32 @@ python manage.py runserver
 > }  
 > &Rightarrow; 사용자의 활동에 따른 추천 도서 20권  
 > &rightarrow; import nltk 에러 뜨는 경우, books/views.py 15번 줄 주석풀고 한번 돌리시면 됩니다.
+
+> url: http://127.0.0.1:8000/books/add_book/  
+> method : POST  
+> body : {
+> 'name' : "user_id",
+> 'isbn' : isbn
+> }  
+> &Rightarrow; 이미 database에 존재하는 책인 경우, user가 읽은 책 추가
+
+> url: http://127.0.0.1:8000/books/add_book/  
+> method : POST  
+> body : {
+> 'name' : "user_id",  
+> 'isbn' : isbn,  
+> "data":{
+> "title": title,
+> "image_url": image_url,
+> "author": author,
+> "publisher": publisher,
+> "isbn": isbn,
+> "category": "[국내도서]",
+> "content": content
+> }
+>
+> }  
+> &Rightarrow; database에 존재하지 않은 경우, user가 읽은 책 db 및 table에 추가
 
 ---
 

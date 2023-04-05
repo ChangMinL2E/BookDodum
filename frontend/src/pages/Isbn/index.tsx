@@ -5,7 +5,7 @@ import { CameraIcon } from "@heroicons/react/24/outline";
 import Check from "./Check";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getBookInfoAPI, postBookIdAPI, putBookIdAPI } from "../../apis/isbn";
-import { postRegisterAPI } from "../../apis/survey";
+import { postRegisterBookAPI } from "../../apis/survey";
 import useSelectorTyped from "../../Store";
 
 const videoConstraints = {
@@ -17,7 +17,7 @@ const videoConstraints = {
 
 interface BookInfo {
   name: string;
-  info: string[];
+  read_books: string[];
 }
 
 export const Isbn = () => {
@@ -34,15 +34,16 @@ export const Isbn = () => {
 
   const bookinfo: BookInfo = {
     name: useSelectorTyped((state) => state.user.userid),
-    info: isbnlist,
+    read_books: isbnlist,
   };
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
+    console.log(imageSrc);
+    
     if (imageSrc) {
       setUrl(imageSrc);
     }
-    console.log('😊')
   }, [webcamRef]);
 
   const getBookInfo = async (url: string) => {
@@ -76,7 +77,7 @@ export const Isbn = () => {
 
   // 읽은 책 등록 - django 서버
   const postRegister = async () => {
-    await postRegisterAPI(bookinfo);
+    await postRegisterBookAPI(bookinfo);
   };
 
   // 다 읽었을 때

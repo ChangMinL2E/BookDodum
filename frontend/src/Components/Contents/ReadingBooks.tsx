@@ -9,7 +9,7 @@ import BookCover from "./BookCover";
 import { BookInfo } from "../../Store/Types";
 // APIs
 import { getReadingBooksAPI } from "../../apis/reading";
-import { getRegionCodeAPI } from "../../apis/region";
+import { getRegionCodeAPI } from '../../apis/library'
 
 interface Props {
   theme: string;
@@ -76,6 +76,7 @@ export default function ReadingBooks({ theme, type }: Props) {
                 })
               }
               key={book.bookId}
+              style={{margin : '0 5% 0 0'}}
             >
               <BookCover imageUrl={book.imageUrl} size={120} />
             </div>

@@ -12,7 +12,7 @@ import json, Levenshtein
 import numpy as np
 import nltk
 import time
-# nltk.download('punkt')
+nltk.download('punkt')
 
 from .models import Book, Matrix, ID
 from .serializers import BookListSerializer
@@ -227,7 +227,6 @@ def register_data(request):
     survey = dict_data.get('survey')
     # read_books = request.POST.get('read_books')
     read_books = dict_data.get('read_books')
-    survey = list(eval(survey))
     if survey:
         impressive_book = survey.pop(-1)
         token = nltk.word_tokenize(impressive_book)

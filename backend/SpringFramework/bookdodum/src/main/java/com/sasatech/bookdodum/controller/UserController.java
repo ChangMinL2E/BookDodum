@@ -37,6 +37,7 @@ public class UserController {
     @PostMapping("/signin")
     @Operation(summary = "로그인")
     public SignInResultDto signIn(@RequestBody UserLoginRequestDto userLoginDto){
+        LOGGER.info("테스트!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         LOGGER.info("[signIn] 로그인을 시도하고 있습니다. id : {}, pw : ****", userLoginDto.getUserid());
         SignInResultDto signInResultDto = userService.signIn(userLoginDto.getUserid(), userLoginDto.getPassword());
 
