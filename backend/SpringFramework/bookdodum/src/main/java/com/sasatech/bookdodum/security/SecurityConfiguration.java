@@ -18,32 +18,32 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//
-//        http.requiresChannel().anyRequest().requiresSecure()
-//                .and()
-//                .httpBasic().disable()
-//
-//                .csrf().disable()
-//
-//                        .sessionManagement()
-//                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//
-//                                        .and()
-//                                                .authorizeRequests()
-//                                                        .antMatchers("/user/signin","/user/signup").permitAll()
-//                                                                .and()
-//                                                                        .exceptionHandling().accessDeniedHandler(new CustomAcessDeniedHandler())
-//                        .and()
-//                                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-//
-//                .and()
-//                        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),UsernamePasswordAuthenticationFilter.class);
-//
-//
-//        //super.configure(http);
-//    }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+
+        http.httpBasic().disable()
+
+                .csrf().disable()
+
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+                .and()
+                .authorizeRequests()
+                .antMatchers("/user/signin","/user/signup").permitAll()
+                .and()
+                .exceptionHandling().accessDeniedHandler(new CustomAcessDeniedHandler())
+                .and()
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+
+                .and()
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),UsernamePasswordAuthenticationFilter.class);
+
+
+        //super.configure(http);
+    }
+
+
 
     @Override
     public void configure(WebSecurity web) throws Exception {
