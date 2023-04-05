@@ -9,8 +9,8 @@ import { postRegisterBookAPI } from "../../apis/survey";
 import useSelectorTyped from "../../Store";
 
 const videoConstraints = {
-  width: 360,
-  height: 740,
+  width: 1280,
+  height: 720,
   facingMode: "environment",
   // facingMode: "user",
 };
@@ -59,7 +59,7 @@ export const Isbn = () => {
 
   useEffect(() => {
     if (url) {
-      getBookInfo(imgUrl);
+      getBookInfo(url);
     }
   }, [url]);
 
