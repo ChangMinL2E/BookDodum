@@ -228,7 +228,7 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 2% 0 0 0;
+  margin: 5% 0 0 0;
 `;
 
 const BookTitle = styled.div`

@@ -9,7 +9,7 @@ import BookCover from "./BookCover";
 import { BookInfo } from "../../Store/Types";
 // APIs
 import { getReadingBooksAPI } from "../../apis/reading";
-import { getRegionCodeAPI } from "../../apis/region";
+import { getRegionCodeAPI } from '../../apis/library'
 
 interface Props {
   theme: string;
