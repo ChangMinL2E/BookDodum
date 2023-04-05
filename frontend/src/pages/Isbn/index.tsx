@@ -39,6 +39,8 @@ export const Isbn = () => {
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
+    console.log(imageSrc);
+    
     if (imageSrc) {
       setUrl(imageSrc);
     }
