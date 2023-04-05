@@ -9,6 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
@@ -20,7 +21,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.httpBasic().disable()
+        http.requiresChannel().anyRequest().requiresSecure()
+                .and()
+                .httpBasic().disable()
 
                 .csrf().disable()
 
@@ -30,15 +33,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/user/signin","/user/signup").permitAll()
-//                .antMatchers("/api/**").authenticated()
                 .and()
-                .exceptionHandling()
-                .accessDeniedHandler(new CustomAcessDeniedHandler())
-                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .exceptionHandling().accessDeniedHandler(new CustomAcessDeniedHandler())
+                .and()
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
 
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),UsernamePasswordAuthenticationFilter.class)
-//                .antMatcher("/api/**").authorizeRequests(); // 추가
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),UsernamePasswordAuthenticationFilter.class);
 
 
         //super.configure(http);
