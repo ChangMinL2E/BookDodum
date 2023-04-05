@@ -4,11 +4,6 @@ FROM openjdk:11.0.11-jdk-slim-buster
 # 작업 디렉토리를 설정합니다.
 WORKDIR /var/jenkins_home/workspace/S08P22C104/backend/SpringFramework/bookdodum
 
-# 실시간 jenkins 테스트
-
-# Dockerfile 내에서 무작위 파일 생성
-RUN echo $(date) > image_build_time.txt
-
 # Gradle 빌드 스크립트 파일을 복사합니다.
 COPY build.gradle .
 COPY gradlew .
@@ -19,7 +14,7 @@ COPY gradle gradle
 RUN chmod +x ./gradlew
 #test
 # 애플리케이션을 빌드합니다.
-RUN ./gradlew build --stacktrace
+RUN ./gradlew clean build --stacktrace
 
 # 빌드된 jar 파일을 복사합니다.
 COPY build/libs/bookdodum-0.0.1-SNAPSHOT.jar app.jar
