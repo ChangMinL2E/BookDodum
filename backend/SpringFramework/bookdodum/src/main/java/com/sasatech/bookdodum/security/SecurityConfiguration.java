@@ -55,6 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/user/signin","/user/signup").permitAll()
+//                .antMatchers("/api/public/**").permitAll()
                 .antMatchers("/api/**").authenticated() // /api 요청에 대해 인증 필요
                 .and()
                 .exceptionHandling().accessDeniedHandler(new CustomAcessDeniedHandler())
