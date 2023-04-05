@@ -15,7 +15,7 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class ExternalApiService {
 
-    String LIBRARY_API_URL = "http://data4library.kr/api";
+    String LIBRARY_API_URL = "https://data4library.kr/api";
     String LIBRARY_API_KEY = "51a8da7baad88780d6babbd001a93462a79d0ba621c9b1cb06f620b0b5f766a4";
 
     RestTemplate restTemplate;
