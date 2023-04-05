@@ -1,6 +1,8 @@
 # build stage
 FROM node:16.18.0 as build-stage
 
+RUN mkdir -p /etc/letsencrypt/live/dodum.xyz/
+
 # # 웹캠에 접근할 수 있는 권한 설정
 # RUN chmod 777 /dev/video0
 # USER webcam
