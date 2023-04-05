@@ -11,7 +11,7 @@ plugins {
 }
 
 bootJar {
-	mainClassName = 'com.example.bookdodum.ProjectApplication' // mainClassName 설정 추가
+	mainClassName = 'com.sasatech.bookdodum.ProjectApplication' // mainClassName 설정 추가
 }
 
 group = 'com.sasatech'
