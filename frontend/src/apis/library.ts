@@ -1,6 +1,9 @@
 import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL;
+const user: any = localStorage.getItem("user");
+const token = JSON.parse(user);
+
 
 const regions: { [key: string]: number } = {
   서울: 11,
@@ -28,6 +31,9 @@ export async function getRegionCodeAPI(longitude: number, latitude: number) {
     const data = await axios({
       method: "GET",
       url: `${API_URL}/api/regioncode?longitude=${longitude}&latitude=${latitude}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     // 지역 이름 - string
@@ -47,6 +53,9 @@ export async function getLibraryAPI(ISBN: any, REGION_CODE: number) {
     const { data } = await axios({
       method: "GET",
       url: `${API_URL}/api/library?isbn=${ISBN}&regioncode=${REGION_CODE}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data.response.libs;
   } catch (e) {
@@ -61,6 +70,9 @@ export async function getItemSrchAPI(ISBN: any, LIB_CODE: number) {
     const { data } = await axios({
       method: "GET",
       url: `${API_URL}/api/itemsrch?isbn=${ISBN}&libcode=${LIB_CODE}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data.response.docs[0].doc;
   } catch (e) {
@@ -74,6 +86,9 @@ export async function getBookExistAPI(ISBN: any, LIB_CODE: number) {
     const { data } = await axios({
       method: "GET",
       url: `${API_URL}/api/bookexist?isbn=${ISBN}&libcode=${LIB_CODE}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data.response.result.loanAvailable;
   } catch (e) {
@@ -88,6 +103,9 @@ export async function getBestKeywordAPI(YEAR: string, MONTH: string) {
     const { data } = await axios({
       method: "GET",
       url: `${API_URL}/api/bestkeyword?year=${YEAR}&month=${MONTH}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data.response.keywords;
   } catch (e) {
@@ -104,6 +122,9 @@ export async function getLibraryBooksAPI(REGION_CODE: number) {
     const data = await axios({
       method: "GET",
       url: `${API_URL}/api/librarybooks?regioncode=${REGION_CODE}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     for (let book of data.data.response.docs) {
