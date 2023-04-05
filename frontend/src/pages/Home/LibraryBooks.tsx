@@ -8,7 +8,7 @@ import DetailModal from "../../Components/Contents/DetailModal";
 // Types
 import { LibraryBook } from "../../Store/Types";
 // APIs
-import { getLibraryBooksAPI, getRegionCodeAPI } from "../../apis/region";
+import { getLibraryBooksAPI, getRegionCodeAPI } from "../../apis/library";
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";

@@ -6,15 +6,15 @@ import { getBookExistAPI, getItemSrchAPI } from "../../apis/library";
 import { LibInfo } from "../../Store/Types";
 
 interface LibraryProps {
-  modalOpen: boolean;
+  title: string;
   closeModal: () => void;
   libCode: number;
 }
 
 export default function LibraryModal({
-  modalOpen,
   closeModal,
   libCode,
+  title,
 }: LibraryProps) {
   const ISBN = useParams().ISBN;
   const [libInfo, setLibInfo] = useState<LibInfo>();
@@ -31,12 +31,12 @@ export default function LibraryModal({
 
     let tmp: LibInfo = {
       bookName:
-        data.bookname.length > 15
-          ? data.bookname.slice(0, 15) + "..."
-          : data.bookname,
-      classNum: data.class_no,
-      bookCode: data.callNumbers[0].callNumber["book_code"],
-      locName: data.callNumbers[0].callNumber["shelf_loc_name"],
+        data?.bookname.length > 15
+          ? data?.bookname.slice(0, 15) + "..."
+          : data?.bookname,
+      classNum: data?.class_no,
+      bookCode: data?.callNumbers[0].callNumber["book_code"],
+      locName: data?.callNumbers[0].callNumber["shelf_loc_name"],
     };
     setLibInfo(tmp);
   };
@@ -59,7 +59,7 @@ export default function LibraryModal({
             <Possible>
               {exist ? <div>대출가능</div> : <div>대출중</div>}
             </Possible>
-            <Title>{libInfo?.bookName}</Title>
+            <Title>{title.length >15 ? title.slice(0, 15)+'...' : title}</Title>
           </TitleWrap>
           <Mini>청구기호</Mini>
           <Contents>

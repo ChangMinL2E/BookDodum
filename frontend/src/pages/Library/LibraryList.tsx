@@ -6,10 +6,13 @@ import LibraryModal from "./LibraryModal";
 // Types
 import { LibraryType } from "../../Store/Types";
 // APIs
-import { getLibraryAPI } from "../../apis/library";
-import { getRegionCodeAPI } from "../../apis/region";
+import { getLibraryAPI, getRegionCodeAPI } from "../../apis/library";
 
-export default function LibraryList() {
+interface Props {
+  title : string;
+}
+
+export default function LibraryList({title} : Props) {
   const ISBN = useParams().ISBN;
   const [selectedLib, setSelectedLib] = useState<number>(0);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -87,14 +90,14 @@ export default function LibraryList() {
               >
                 {lib.libName}
               </ItemName>
-              <ItemDist> · 거리 6.8km</ItemDist>
+              <ItemDist>{lib.tel}</ItemDist>
             </Item>
           );
         })}
       </>
       {modalOpen && (
         <LibraryModal
-          modalOpen={modalOpen}
+        title={title}
           closeModal={closeModal}
           libCode={selectedLib}
         />

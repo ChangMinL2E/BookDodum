@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ReactWordcloud from "react-wordcloud";
 import { useInView } from "react-intersection-observer";
 // APIs
-import { getBestKeywordAPI } from "../../apis/bestkeyword";
+import { getBestKeywordAPI } from "../../apis/library";
 
 interface KeyWord {
   text: string;
@@ -24,12 +24,12 @@ export default function BestKeyword() {
     enableTooltip: true,
     deterministic: false,
     fontFamily: "Inter",
-    fontSizes: [15, 70],
+    fontSizes: [15, 50],
     fontStyle: "normal",
     fontWeight: "normal",
     padding: 1,
     rotations: 3,
-    rotationAngles: [0, 90],
+    rotationAngles: [0, 70],
     scale: "sqrt",
     spiral: "archimedean",
     transitionDuration: 1000,
@@ -41,16 +41,16 @@ export default function BestKeyword() {
     const month = date.getMonth();
     const year = date.getFullYear();
 
-    let tmp: KeyWord[] = [];
     const data = await getBestKeywordAPI(
       String(year),
       String(month).padStart(2, "0")
-    );
-
+      );
+      
+    let tmp: KeyWord[] = [];
     data.forEach((item: any) => {
       tmp.push({
-        text: item.children[0].value.slice(0, -2),
-        value: Number(item.children[1].value.slice(0, -2)),
+        text: item.keyword.word,
+        value: item.keyword.weight,
       });
     });
 
@@ -63,7 +63,7 @@ export default function BestKeyword() {
         <Title ref={ref} className={inView ? "title" : ""}>
           지난 달의 베스트 키워드
           <br />
-          TOP 70
+          TOP 100
         </Title>
         <Desc className={inView ? "title" : ""}>
           월별 대출 급상승 도서의

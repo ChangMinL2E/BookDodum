@@ -13,7 +13,7 @@ export default function Library() {
   return (
     <>
       <NavBack text={text} link="-1" />
-      <LibraryList />
+      <LibraryList title={title}/>
     </>
   );
 }
