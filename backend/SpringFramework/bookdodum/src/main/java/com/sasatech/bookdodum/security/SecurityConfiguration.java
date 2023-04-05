@@ -42,9 +42,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //super.configure(http);
     }
 
-    @Override
+    @Override//http://localhost:8080/api/swagger-ui/index.html?docExpansion=none&operationsSorter=alpha&tagsSorter=alpha&url=/api/
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs", "/swagger-resources/**","/swagger-ui.html", "/webjars/**","/swagger/**", "sign-api/exception");
+        web.ignoring().antMatchers("/v2/api-docs", "/swagger-ui/**","/index.html", "/webjars/**","/swagger/**", "sign-api/exception");
 //        super.configure(web);
     }
 }
