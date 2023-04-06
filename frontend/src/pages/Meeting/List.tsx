@@ -21,7 +21,7 @@ export default function List() {
   const getBookMeeting = async (bookid: number) => {
     const data = await getBookMeetingAPI(bookid);
     let list: MeetingInfo[] = [];
-    data.forEach((item: MeetingInfo) => {
+    data?.forEach((item: MeetingInfo) => {
       list.push({
         commentCnt: item.commentCnt,
         content: item.content,

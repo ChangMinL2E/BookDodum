@@ -17,7 +17,7 @@ export default function UserList({ bookId }: Props) {
     const data = await getReadWithAPI(bookId);
 
     let tmp: User[] = [];
-    data.forEach((user: any) => {
+    data?.forEach((user: any) => {
       tmp.push({
         nickname: user.name,
       });

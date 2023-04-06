@@ -59,7 +59,7 @@ export default function List() {
     const data = await getMeetingCommentAPI(id, idx);
     let list: CommentInfo[] = [];
 
-    data.forEach((item: CommentInfo) => {
+    data?.forEach((item: CommentInfo) => {
       list.push({
         commentId: item.commentId,
         userId: item.userId,
