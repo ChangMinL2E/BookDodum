@@ -79,10 +79,15 @@ public class ExternalApiService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
 
+
         // 현재 좌표를 기준으로 지역코드 불러오기
         String url = "https://dapi.kakao.com/v2/local/geo/coord2address.json?x=" + longitude + "&y=" + latitude + "&input_coord=WGS84";
 
+        System.out.println(url);
+
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+        System.out.println(response);
 
         return response;
     }
