@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ImageAI from "../../Components/Contents/ImageAI";
-import { useNavigate } from "react-router-dom";
 import { saveImageAPI } from "../../apis/saveImage";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { postBookIdAPI } from "../../apis/isbn";
