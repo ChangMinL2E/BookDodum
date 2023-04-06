@@ -115,13 +115,14 @@ public class ExternalApiService {
 
             String responseString = response2.getBody().toString(); // 응답 문자열 예시
             String parsed = "";
+
             // 정규 표현식을 사용하여 "광주"라는 문자열 추출
-            Pattern pattern = Pattern.compile("'\\s*(.*?)\\s*'");
+            Pattern pattern = Pattern.compile("region_1depth_name:\\s*'([^']*)'");
             Matcher matcher = pattern.matcher(responseString);
 
-
             if (matcher.find()) {
-                parsed = matcher.group(1);
+                String region1DepthName = matcher.group(1);
+                System.out.println(region1DepthName); // "광주" 출력
             }
 
             System.out.println("======");
