@@ -39,13 +39,14 @@ export async function getRegionCodeAPI(longitude: number, latitude: number) {
     console.log(data);
 
     // 지역 이름 - string
-    const region: string = data["region_1depth_name"];
+    // const region: string = data["region_1depth_name"];
 
     console.log(data);
-    console.log(region);
+    // console.log(region);
     
 
-    return { regionName: region, regionCode: regions[region] };
+    // return { regionName: region, regionCode: regions[region] };
+    return data;
   } catch (e) {
     console.log(e);
   }
