@@ -21,18 +21,33 @@ export const Isbn = () => {
   const [bookId, setBookId] = useState<number>(0);
   const [videoWidth, setVideoWidth] = useState<number>(window.innerWidth);
   const [videoHeight, setVideoHeight] = useState<number>(window.innerHeight);
-
-  useEffect(() => {
-    setVideoWidth(window.innerWidth);
-    setVideoHeight(window.innerHeight);
-  }, []);
-
-  const videoConstraints = {
+  const [videoConstraints, setVideoConstraints] = useState<any>({
     width: videoWidth,
     height: videoHeight,
     facingMode: "environment",
     // facingMode: "user",
+  });
+
+  const updateVideoConstraints = () => {
+    setVideoWidth(window.innerWidth);
+    setVideoHeight(window.innerHeight);
   };
+
+  useEffect(() => {
+    window.addEventListener('resize', updateVideoConstraints);
+
+    return () => {
+      window.removeEventListener('resize', updateVideoConstraints);
+    }
+  }, []);
+
+  useEffect(() => {
+    setVideoConstraints({
+      ...videoConstraints,
+      width: videoWidth,
+      height: videoHeight,
+    });
+  }, [videoWidth, videoHeight]);
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
