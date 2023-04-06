@@ -50,7 +50,7 @@ export default function LibraryList({title} : Props) {
     const data = await getLibraryAPI(ISBN, regionCode);
 
     let tmp: LibraryType[] = [];
-    data.forEach((lib: any) => {
+    data?.forEach((lib: any) => {
       tmp.push({
         libCode: Number(lib.lib.libCode),
         libName: lib.lib.libName,

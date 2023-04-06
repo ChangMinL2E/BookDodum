@@ -1,6 +1,9 @@
 import axios from "axios";
 
 const API_URL = process.env.REACT_APP_API_URL;
+const user: any = localStorage.getItem("user");
+const token = JSON.parse(user);
+
 
 const regions: { [key: string]: number } = {
   서울: 11,
@@ -25,13 +28,22 @@ const regions: { [key: string]: number } = {
 // 현재 좌표를 기준으로 지역코드 불러오기
 export async function getRegionCodeAPI(longitude: number, latitude: number) {
   try {
-    const data = await axios({
+    const { data } = await axios({
       method: "GET",
-      url: `${API_URL}/api/regioncode?longitude=${longitude}&latitude=${latitude}`,
+      url: `${API_URL}/external/regioncode?longitude=${longitude}&latitude=${latitude}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
+    console.log(data);
+
     // 지역 이름 - string
-    const region: string = data.data.documents[0].address["region_1depth_name"];
+    const region: string = data.documents[0].address["region_1depth_name"];
+
+    console.log(data);
+    console.log(region);
+    
 
     return { regionName: region, regionCode: regions[region] };
   } catch (e) {
@@ -46,7 +58,10 @@ export async function getLibraryAPI(ISBN: any, REGION_CODE: number) {
   try {
     const { data } = await axios({
       method: "GET",
-      url: `${API_URL}/api/library?isbn=${ISBN}&regioncode=${REGION_CODE}`,
+      url: `${API_URL}/external/library?isbn=${ISBN}&regioncode=${REGION_CODE}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data.response.libs;
   } catch (e) {
@@ -60,7 +75,10 @@ export async function getItemSrchAPI(ISBN: any, LIB_CODE: number) {
   try {
     const { data } = await axios({
       method: "GET",
-      url: `${API_URL}/api/itemsrch?isbn=${ISBN}&libcode=${LIB_CODE}`,
+      url: `${API_URL}/external/itemsrch?isbn=${ISBN}&libcode=${LIB_CODE}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data.response.docs[0].doc;
   } catch (e) {
@@ -73,7 +91,10 @@ export async function getBookExistAPI(ISBN: any, LIB_CODE: number) {
   try {
     const { data } = await axios({
       method: "GET",
-      url: `${API_URL}/api/bookexist?isbn=${ISBN}&libcode=${LIB_CODE}`,
+      url: `${API_URL}/external/bookexist?isbn=${ISBN}&libcode=${LIB_CODE}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data.response.result.loanAvailable;
   } catch (e) {
@@ -87,7 +108,10 @@ export async function getBestKeywordAPI(YEAR: string, MONTH: string) {
   try {
     const { data } = await axios({
       method: "GET",
-      url: `${API_URL}/api/bestkeyword?year=${YEAR}&month=${MONTH}`,
+      url: `${API_URL}/external/bestkeyword?year=${YEAR}&month=${MONTH}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data.response.keywords;
   } catch (e) {
@@ -103,7 +127,10 @@ export async function getLibraryBooksAPI(REGION_CODE: number) {
   try {
     const data = await axios({
       method: "GET",
-      url: `${API_URL}/api/librarybooks?regioncode=${REGION_CODE}`,
+      url: `${API_URL}/external/librarybooks?regioncode=${REGION_CODE}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     for (let book of data.data.response.docs) {

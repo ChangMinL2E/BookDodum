@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "External", description = "외부 API 관련")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/external")
 @RequiredArgsConstructor
 public class ExternalApiController {
 
@@ -61,6 +61,7 @@ public class ExternalApiController {
     @Operation(summary = "현재 좌표를 기준으로 지역코드 불러오기")
     public ResponseEntity<?> getRegionCodeAPI(@RequestParam("longitude") String longitude,
                                               @RequestParam("latitude") String latitude){
+        System.out.println(longitude + ", " +latitude);
         return externalApiService.getRegionCodeAPI(longitude, latitude);
     }
 

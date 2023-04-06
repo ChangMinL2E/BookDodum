@@ -61,7 +61,7 @@ export default function TextForm() {
     const data = await getWriteAPI(bookId);
 
     let tmp: CommentItem[] = [];
-    data.forEach((item: CommentItem) => {
+    data?.forEach((item: CommentItem) => {
       tmp.push({
         reviewId: item.reviewId,
         content: item.content,

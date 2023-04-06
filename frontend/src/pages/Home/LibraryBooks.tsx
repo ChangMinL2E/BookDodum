@@ -55,7 +55,7 @@ export default function LibraryBooks() {
   const getLibraryBooks = async (REGION_CODE: number) => {
     const data = await getLibraryBooksAPI(REGION_CODE);
     let tmp: LibraryBook[] = [];
-    data.forEach((book: any) => {
+    data?.forEach((book: any) => {
       tmp.push({
         imageUrl: book.bookImageURL,
         ISBN: book.isbn13,
@@ -161,12 +161,12 @@ const Title = styled.div`
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translate(50%, 30px);
     }
     to {
-      opacity: 3;
-      transform: none;
-    }
+      opacity:3;
+      transform: translate(50%, 0);
+    }   
   }
 `;
 

@@ -15,7 +15,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
-
+##
 server:
   max-http-header-size: 8000000
   port: 8081
@@ -58,6 +58,7 @@ app:
 
   cors:
     allowedOrigins: http://localhost:3000, http://localhost:8080, https://dodum.xyz
+
 
 springboot:
   jwt:

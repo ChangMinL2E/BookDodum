@@ -103,6 +103,7 @@ export async function getBooksAPI() {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log(data)
     return data.responseData;
   } catch (e) {
     console.log(e);

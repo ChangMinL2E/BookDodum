@@ -15,8 +15,8 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class ExternalApiService {
 
-    String LIBRARY_API_URL = "https://data4library.kr/api";
-    String LIBRARY_API_KEY = "51a8da7baad88780d6babbd001a93462a79d0ba621c9b1cb06f620b0b5f766a4";
+    String LIBRARY_API_URL = "http://data4library.kr/api";
+    String LIBRARY_API_KEY = "8d68d2128616bfdd1da6626c700be7582d734f42a805a55b497eea79cca5f424";
 
     RestTemplate restTemplate;
 
@@ -32,6 +32,10 @@ public class ExternalApiService {
         System.out.println(url);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+        System.out.println("======== getBestKeywordAPI ======");
+        System.out.println(response);
+        System.out.println("========  ======");
 
         return response;
     }
@@ -78,11 +82,16 @@ public class ExternalApiService {
         headers.add("Authorization", "KakaoAK 478bf2d6060b924f62f3dd80e053b26d");
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
+        ////
 
         // 현재 좌표를 기준으로 지역코드 불러오기
         String url = "https://dapi.kakao.com/v2/local/geo/coord2address.json?x=" + longitude + "&y=" + latitude + "&input_coord=WGS84";
 
+        System.out.println(url);
+
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
+        System.out.println(response);
 
         return response;
     }

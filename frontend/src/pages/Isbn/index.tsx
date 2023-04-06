@@ -8,13 +8,6 @@ import { getBookInfoAPI, postBookIdAPI, putBookIdAPI } from "../../apis/isbn";
 import { postRegisterBookAPI } from "../../apis/survey";
 import useSelectorTyped from "../../Store";
 
-const videoConstraints = {
-  width: 1280,
-  height: 720,
-  facingMode: "environment",
-  // facingMode: "user",
-};
-
 interface BookInfo {
   name: string;
   read_books: string[];
@@ -37,10 +30,38 @@ export const Isbn = () => {
     read_books: isbnlist,
   };
 
+  const [videoWidth, setVideoWidth] = useState<number>(window.innerWidth);
+  const [videoHeight, setVideoHeight] = useState<number>(window.innerHeight);
+  const [videoConstraints, setVideoConstraints] = useState<any>({
+    width: videoWidth,
+    height: videoHeight,
+    facingMode: "environment",
+    // facingMode: "user",
+  });
+
+  const updateVideoConstraints = () => {
+    setVideoWidth(window.innerWidth);
+    setVideoHeight(window.innerHeight);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', updateVideoConstraints);
+
+    return () => {
+      window.removeEventListener('resize', updateVideoConstraints);
+    }
+  }, []);
+
+  useEffect(() => {
+    setVideoConstraints({
+      ...videoConstraints,
+      width: videoWidth,
+      height: videoHeight,
+    });
+  }, [videoWidth, videoHeight]);
+
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
-    console.log(imageSrc);
-    
     if (imageSrc) {
       setUrl(imageSrc);
     }
@@ -53,7 +74,7 @@ export const Isbn = () => {
       setBookId(data.id);
       isbnlist.push(data.isbn);
     } else {
-      alert("다시 촬영해 주세요.");
+      alert('다시 촬영해 주세요.')
     }
   };
 
@@ -139,28 +160,30 @@ export const Isbn = () => {
 };
 
 // styled component
-const Cam = styled.div``;
+const Cam = styled.div`
+`;
 
 const Barcode = styled.div`
   z-index: 999;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  position: absolute;
+  bottom: 40%;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const BarcodeBox = styled.div`
-  height: 35%;
-  width: 95%;
-  top: 20%;
-  position: fixed;
+  height: 200px;
+  width: 320px;
   border: 4px solid black;
 `;
 
 const BarcodeText = styled.div`
   text-align: center;
-  top: 58%;
-  position: fixed;
   font-weight: bold;
+  margin-top: 16px;
 `;
 
 const Button = styled.div`
