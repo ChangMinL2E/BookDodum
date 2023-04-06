@@ -27,7 +27,7 @@ export async function createMeetingAPI(meeting: Meeting) {
         Authorization: `Bearer ${token}`,
       },
     });
-    return data;
+    return data.success;
   } catch (e) {
     console.log(e);
   }
