@@ -1,5 +1,6 @@
 package com.sasatech.bookdodum.service.api;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
@@ -92,8 +93,9 @@ public class ExternalApiService {
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
-        String region1DepthName = JsonParser.parseString(response.getBody())
-                .getAsJsonObject()
+        String responseBody = response.getBody();
+        JsonElement jsonElement = JsonParser.parseString(responseBody);
+        String region1DepthName = jsonElement.getAsJsonObject()
                 .getAsJsonArray("documents")
                 .get(0)
                 .getAsJsonObject()
