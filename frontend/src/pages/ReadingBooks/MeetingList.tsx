@@ -64,7 +64,6 @@ const Container = styled.div`
 const Contents = styled.div`
   display: flex;
   width: 100%;
-  justify-content: center;
   align-items: center;
   min-height: 100px;
   margin: 1% 0;

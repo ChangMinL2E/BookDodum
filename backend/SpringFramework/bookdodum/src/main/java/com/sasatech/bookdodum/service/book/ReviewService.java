@@ -32,6 +32,9 @@ public class ReviewService {
 
             UserBook userBook = userBookRepository.findByBook_IdAndUser_Id(bookId, userId);
 
+            System.out.println(userBook.getId());
+            System.out.println(userBook.getBook().getTitle());
+
             reviewRepository.save(Review.builder()
                     .content(reviewRequestDto.getContent())
                     .userBook(userBook)
