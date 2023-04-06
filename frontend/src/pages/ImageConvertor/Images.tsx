@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import ImageAI from "../../Components/Contents/ImageAI";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   imageUrls: string[];
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export default function Images({ imageUrls }: Props) {
+  const navigate = useNavigate();
   // 선택할 인덱스
   const [selectedIdx, setSelectedIdx] = useState<number>(0);
   //클릭 시 인덱스 업데이트
@@ -22,8 +24,13 @@ export default function Images({ imageUrls }: Props) {
         <Minis>
           {/* for문 돌려 */}
           {imageUrls?.map((image, idx) => (
-            <div style={{margin: "5% 1%"}}  onClick={() => handleChange(idx)}>
-              <ImageAI key={idx} imageUrl={image} size="60px" name = {selectedIdx === idx ? 'select' :'' } />
+            <div style={{ margin: "5% 1%" }} onClick={() => handleChange(idx)}>
+              <ImageAI
+                key={idx}
+                imageUrl={image}
+                size="60px"
+                name={selectedIdx === idx ? "select" : ""}
+              />
             </div>
           ))}
         </Minis>
@@ -33,7 +40,7 @@ export default function Images({ imageUrls }: Props) {
         </Selected>
       </Contents>
       <ButtonContainer>
-        <Button type="submit">확인</Button>
+        <Button type="submit" onClick={()=> {navigate('/mypage')}}>확인</Button>
       </ButtonContainer>
     </Container>
   );
@@ -44,7 +51,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 90%;
-  height : auto;
+  height: auto;
   margin: 7% auto;
 `;
 
@@ -55,7 +62,6 @@ const Contents = styled.div`
 `;
 
 const Minis = styled.div`
-
   display: flex;
   flex-direction: column-reverse;
 `;
@@ -64,7 +70,7 @@ const Selected = styled.div`
   /* border: 2px solid blue; */
   display: flex;
   justify-content: center;
-  width : 100%;
+  width: 100%;
 `;
 
 const ButtonContainer = styled.div`
