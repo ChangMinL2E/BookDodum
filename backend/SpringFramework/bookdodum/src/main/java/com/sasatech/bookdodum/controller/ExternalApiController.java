@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "External", description = "외부 API 관련")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/external")
 @RequiredArgsConstructor
 public class ExternalApiController {
 
