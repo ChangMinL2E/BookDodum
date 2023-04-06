@@ -34,6 +34,16 @@ export default function TextForm() {
     setContent(event.target.value);
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      if (content.trim() !== "") {
+        writeText();
+      } else {
+        alert("댓글을 입력해주세요.");
+      }
+    }
+  };
+
   const writeText = async () => {
     if (content !== "") {
       await writeTextAPI(comment);
@@ -49,7 +59,6 @@ export default function TextForm() {
   // 독후감 리스트 불러오는 api 호출
   const getWrite = async () => {
     const data = await getWriteAPI(bookId);
-    console.log(data);
 
     let tmp: CommentItem[] = [];
     data.forEach((item: CommentItem) => {
@@ -76,28 +85,35 @@ export default function TextForm() {
             value={content}
             // placeholder="여기에 글을 작성해주세요."
             onChange={handleTextChange}
+            onKeyPress={handleKeyPress}
           />
-          <Button onClick={writeText}>
-            <Icon>
-              <PaperAirplaneIcon />
-            </Icon>
-          </Button>
+       
         </InputBox>
         <ContentContainer>
           <FirstBox>
             {comments?.map((content: CommentItem, idx) => {
-              if(idx%2 === 0){
+              if (idx % 2 === 0) {
                 return (
-                  <Comment key={content.reviewId} reviewId = {content.reviewId} content={content.content} getWrite={getWrite}/>
-                  );
-                }
+                  <Comment
+                    key={content.reviewId}
+                    reviewId={content.reviewId}
+                    content={content.content}
+                    getWrite={getWrite}
+                  />
+                );
+              }
             })}
           </FirstBox>
           <SecondBox>
             {comments?.map((content: CommentItem, idx) => {
-             if(idx%2 === 1){
-              return (
-                <Comment key={content.reviewId} reviewId = {content.reviewId} content={content.content} getWrite={getWrite}/>
+              if (idx % 2 === 1) {
+                return (
+                  <Comment
+                    key={content.reviewId}
+                    reviewId={content.reviewId}
+                    content={content.content}
+                    getWrite={getWrite}
+                  />
                 );
               }
             })}
@@ -121,44 +137,47 @@ const InputBox = styled.div`
 `;
 
 const Title = styled.div`
-  color: #5c5649;
+  color: #3d3c3b;
   font-weight: bold;
-  margin-top: 0.3rem;
+  margin-top: 0.7rem;
 `;
 
 const Input = styled.input`
   background-color: transparent;
   outline: none;
-  border-top: none;
-  border-right: none;
-  border-left: none;
-  border-bottom: 1px solid #5c5649;
+  border: 1px solid #5c5649;
   width: 100%;
-  height: 2.3rem;
-  margin-top: 0.4rem;
+  height: 3rem;
+  margin-top: 0.8rem;
 `;
 
-const Button = styled.button`
-  border: none;
-  background-color: transparent;
-`;
+// const Button = styled.button`
+//   border: none;
+//   background-color: transparent;
+// `;
 
-const Icon = styled.div`
-  border: #5c5649;
-  height: 20px;
-  width: 20px;
-`;
+// const Icon = styled.div`
+//   border: #5c5649;
+//   height: 25px;
+//   width: 25px;
+// `;
 
 const ContentContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
+
+  
+
 `;
 
 const FirstBox = styled.div`
   display: flex;
   flex-direction: column;
+
+
 `;
 const SecondBox = styled.div`
   display: flex;
   flex-direction: column;
+
 `;

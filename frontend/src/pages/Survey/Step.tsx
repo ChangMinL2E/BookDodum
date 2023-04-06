@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import GenderCard from "./GenderCard";
 import ReasonCard from "./ReasonCard";
 import EmotionCard from "./EmotionCard";
@@ -7,31 +7,32 @@ import FieldCard from "./FieldCard";
 import useSelectorTyped from "../../Store";
 
 // step1
-import woman from "../../Assets/Images/woman.png";
-import man from "../../Assets/Images/man.png";
+import woman from "../../Assets/Images/survey/woman.png";
+import man from "../../Assets/Images/survey/man.png";
 
 // step2
-import healing from "../../Assets/Images/healing.png";
-import development from "../../Assets/Images/development.png";
-import funny from "../../Assets/Images/funny.png";
-import bestseller from "../../Assets/Images/bestseller.png";
-import spec from "../../Assets/Images/spec.png";
-import confidence from "../../Assets/Images/confidence.png";
+import healing from "../../Assets/Images/survey/healing.png";
+import development from "../../Assets/Images/survey/development.png";
+import funny from "../../Assets/Images/survey/funny.png";
+import bestseller from "../../Assets/Images/survey/bestseller.png";
+import spec from "../../Assets/Images/survey/spec.png";
+import confidence from "../../Assets/Images/survey/confidence.png";
 
 // step3
-import happy from "../../Assets/Images/happy.png";
-import love from "../../Assets/Images/love.png";
-import boring from "../../Assets/Images/boring.png";
-import sad from "../../Assets/Images/sad.png";
-import frustrated from "../../Assets/Images/frustrated.png";
-import farewell from "../../Assets/Images/farewell.png";
-import unrest from "../../Assets/Images/unrest.png";
-import stress from "../../Assets/Images/stress.png";
-import { postRegisterAPI } from "../../apis/survey";
+import happy from "../../Assets/Images/survey/happy.png";
+import love from "../../Assets/Images/survey/love.png";
+import boring from "../../Assets/Images/survey/boring.png";
+import sad from "../../Assets/Images/survey/sad.png";
+import frustrated from "../../Assets/Images/survey/frustrated.png";
+import farewell from "../../Assets/Images/survey/farewell.png";
+import unrest from "../../Assets/Images/survey/unrest.png";
+import stress from "../../Assets/Images/survey/stress.png";
+import { postRegisterSurveyAPI } from "../../apis/survey";
 import { useNavigate } from "react-router";
 
 interface Prop {
   step: Number;
+  setShowResult: Function;
 }
 
 interface Item {
@@ -41,10 +42,10 @@ interface Item {
 
 interface Survey {
   name: string;
-  info: string[];
+  survey: string[];
 }
 
-export default function Step({ step }: Prop) {
+export default function Step({ step, setShowResult }: Prop) {
   const genders: Item[] = [
     { image: woman, text: "여성" },
     { image: man, text: "남성" },
@@ -102,8 +103,6 @@ export default function Step({ step }: Prop) {
   ];
 
   const sessionGet: any = sessionStorage.getItem("list");
-  const navigate = useNavigate();
-
   const [surveyList, setSurveyList] = useState(JSON.parse(sessionGet) || "");
   const [book, setBook] = useState<string>("");
   const [result, setResult] = useState<string[]>([]);
@@ -112,7 +111,7 @@ export default function Step({ step }: Prop) {
 
   const survey: Survey = {
     name: name,
-    info: result,
+    survey: result,
   };
 
   useEffect(() => {
@@ -124,7 +123,7 @@ export default function Step({ step }: Prop) {
   };
 
   const postRegister = async () => {
-    await postRegisterAPI(survey);
+    await postRegisterSurveyAPI(survey);
   };
 
   const handleSubmitBook = () => {
@@ -133,6 +132,7 @@ export default function Step({ step }: Prop) {
       sessionStorage.removeItem("list");
       tmp.push(book);
       setResult(tmp);
+      setShowResult(true);
     } else {
       alert("제목을 입력해주세요.");
       setBook("");
@@ -142,12 +142,12 @@ export default function Step({ step }: Prop) {
   useEffect(() => {
     if (result.length > 0) {
       postRegister();
-      navigate("/");
     }
   }, [result]);
 
   return (
     <Container>
+      {/* {loading ? <Loading /> : null} */}
       {step === 1 && (
         <GenderDiv>
           {genders.map((gender: Item) => (
@@ -217,7 +217,7 @@ export default function Step({ step }: Prop) {
             }}
             placeholder="책 제목을 입력해주세요."
           />
-          <Button onClick={handleSubmitBook}>북,돋움 시작하기</Button>
+          <Button onClick={handleSubmitBook}>추천 받기</Button>
         </InputDiv>
       )}
     </Container>
@@ -277,6 +277,20 @@ const Input = styled.input`
 `;
 
 const Button = styled.button`
+  &.bounce {
+    animation-duration: 1s;
+    animation-name: ${keyframes`
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-30px);
+      }
+      60% {
+        transform: translateY(-20px);
+      }
+    `};
+  }
   position: absolute;
   width: 100%;
   left: 50%;

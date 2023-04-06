@@ -32,6 +32,10 @@ public class Meeting {
 
     private boolean authority;
 
+    private String leaderUserName;
+
+    private Long leaderUserId;
+
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;

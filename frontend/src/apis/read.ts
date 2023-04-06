@@ -14,7 +14,6 @@ export async function getReadBooksAPI() {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(data.responseData);
         return data.responseData;
       } catch (e) {
         console.log(e);

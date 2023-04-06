@@ -1,66 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import useSelectorTyped from "../../Store";
 // Components
-import Nav from '../../Components/Common/Nav';
-import Book from '../../Components/Contents/Book'
+import Nav from "../../Components/Common/Nav";
+import Book from "../../Components/Contents/Book";
 // Types
-import { BookInfo } from '../../Store/Types';
-// APIs
-import { getUserRecommendAPI } from '../../apis/recommend';
-
+import { useLocation } from "react-router";
 
 export default function RecommendList() {
-
-  const [books, setBooks] = useState<BookInfo[]>([])
-  const type = 1
-
-  useEffect(() => {
-    if (type === 1) {
-      getUserRecommend()
-    }
-  }, [])
-
-  const getUserRecommend = async () => {
-    const data = await getUserRecommendAPI(3);
-
-    let tmp: BookInfo[] = []
-    data.forEach((book: BookInfo) => {
-      tmp.push({
-        title: book.title,
-        imageUrl: book.imageUrl,
-        publisher: book.publisher,
-        category: book.category,
-        bookId: book.bookId,
-        isbn : book.isbn,
-      })
-    })
-    console.log(tmp)
-    setBooks(tmp)
-  }
+  const location = useLocation();
+  const books = location.state.books;
+  const type = location.state.type;
+  const nickname = useSelectorTyped((state) => state.user.name);
 
   return (
     <>
       <Nav />
       <Contents>
-        { type === 1 ? 
-        <Title>"{}을 읽은 사람이 선택한 도서"</Title>
-        : <Title>"김유나 님이 관심있는 분야의 도서"</Title>
-      }
+        {type === 1 ? (
+          <Title>"{nickname}님을 위한 북돋움의 추천 도서"</Title>
+        ) : (
+          <Title>"{}을 읽은 사람이 선택한 도서"</Title>
+        )}
         <BooksWrap>
           <>
-            {
-              books.map((book) => {
-                return (
-                  <Book key={book.bookId} book={{
+            {books.map((book: any) => {
+              return (
+                <Book
+                  key={book.title}
+                  book={{
                     imageUrl: book.imageUrl,
                     title: book.title,
                     category: book.category,
                     publisher: book.publisher,
-                    isbn: 0,
-                  }} />
-                  )
-              })
-            }
+                    isbn: book.isbn,
+                  }}
+                />
+              );
+            })}
           </>
         </BooksWrap>
       </Contents>
@@ -73,8 +50,8 @@ const Contents = styled.div`
   margin: auto;
   display: flex;
   flex-direction: column;
-  padding-top:5%                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ;
-`
+  padding-top: 5%;
+`;
 
 const Title = styled.div`
   font-weight: 600;
@@ -82,14 +59,13 @@ const Title = styled.div`
   color: #5c5649;
   text-align: center;
   margin: 2% 0 3% 0;
-`
+`;
 
 const BooksWrap = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   padding-top: 4%;
   width: 95%;
-  margin:auto;
+  margin: auto;
   justify-content: center;
-`
-
+`;
