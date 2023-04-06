@@ -32,7 +32,7 @@ export default function List() {
         meetingId: item.meetingId,
       });
     });
-    setBookMeetings([...bookMeetings, ...list]);
+    setBookMeetings(prevBookMeetings => [...prevBookMeetings, ...list]);
   };
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function List() {
 
   useEffect(() => {
     if (bookIds.length > 0) {
-      bookIds.map((bookid) => getBookMeeting(bookid));
+      bookIds?.map((bookid) => getBookMeeting(bookid));
     }
   }, [bookIds]);
 
