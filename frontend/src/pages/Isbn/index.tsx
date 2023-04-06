@@ -3,44 +3,25 @@ import Webcam from "react-webcam";
 import styled from "styled-components";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import Check from "./Check";
-import { useNavigate, useLocation } from "react-router-dom";
-import { getBookInfoAPI, postBookIdAPI, putBookIdAPI } from "../../apis/isbn";
-import { postRegisterBookAPI } from "../../apis/survey";
-import useSelectorTyped from "../../Store";
+import { useNavigate } from "react-router-dom";
+import { getBookInfoAPI, postBookIdAPI } from "../../apis/isbn";
 
 const videoConstraints = {
-  width: { min: 360 },
-  height: { min: 640 },
-  aspectRatio: 0.4864864865,
+  width: 360,
+  height: 740,
   facingMode: "environment",
+  // facingMode: "user",
 };
-
-interface BookInfo {
-  name: string;
-  read_books: string[];
-}
 
 export const Isbn = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-
   const webcamRef = useRef<Webcam>(null);
   const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [bookId, setBookId] = useState<number>(0);
-  const isbnlist: string[] = [];
-
-  const type = location?.state?.type;
-
-  const bookinfo: BookInfo = {
-    name: useSelectorTyped((state) => state.user.userid),
-    read_books: isbnlist,
-  };
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
-    console.log(imageSrc);
-    
     if (imageSrc) {
       setUrl(imageSrc);
     }
@@ -48,13 +29,8 @@ export const Isbn = () => {
 
   const getBookInfo = async (url: string) => {
     const data = await getBookInfoAPI(url);
-    if (data) {
-      setTitle(data.title);
-      setBookId(data.id);
-      isbnlist.push(data.isbn);
-    } else {
-      alert("다시 촬영해 주세요.");
-    }
+    setTitle(data.responseData.title);
+    setBookId(data.responseData.id);
   };
 
   useEffect(() => {
@@ -64,54 +40,29 @@ export const Isbn = () => {
   }, [url]);
 
   const bookCheck = async () => {
-    const data = await postBookIdAPI(bookId);
-    if (data) {
-      postRegister();
-      alert("등록되었습니다.");
-      navigate("/");
-    } else {
-      alert("이미 읽은 책입니다.");
-      setTitle("");
-    }
-  };
-
-  // 읽은 책 등록 - django 서버
-  const postRegister = async () => {
-    await postRegisterBookAPI(bookinfo);
-  };
-
-  // 다 읽었을 때
-  const bookFinish = async () => {
-    await putBookIdAPI(bookId);
+    await postBookIdAPI(bookId);
   };
 
   const clickNoBtn = () => {
     setTitle("");
   };
 
-  // 읽을 때 / 읽었을 때 다른 axios 보내기
   const clickYesBtn = () => {
-    if (type) {
-      bookCheck();
-    } else {
-      bookFinish();
-      navigate(`/image/${bookId}`);
-    }
+    bookCheck();
+    alert("등록되었습니다.");
+    navigate("/");
   };
 
   return (
-    <Container>
+    <div>
       {!title ? (
         <Cam>
-          <CamWrap>
-            <Webcam
-              audio={false}
-              ref={webcamRef}
-              screenshotFormat="image/png"
-              videoConstraints={videoConstraints}
-              imageSmoothing={true}
-            />
-          </CamWrap>
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/png"
+            videoConstraints={videoConstraints}
+          />
           <Barcode>
             <BarcodeBox />
             <BarcodeText>
@@ -137,56 +88,38 @@ export const Isbn = () => {
           clickYesBtn={clickYesBtn}
         />
       )}
-    </Container>
+      {/* <div>{url}</div> */}
+    </div>
   );
 };
 
 // styled component
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-`;
-
-const Cam = styled.div`
-  display: flex;
-  width: 100%;
-  height : 100vh;
-  flex-direction: column;
-  align-items : center;
-  justify-contents: center;
-`;
-
-const CamWrap = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-`;
+const Cam = styled.div``;
 
 const Barcode = styled.div`
-  position: fixed;
-  top: 30%;
-  left: 4%;
-  width: 90%;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const BarcodeBox = styled.div`
-  height: 35vh;
-  width: 100%;
+  height: 35%;
+  width: 95%;
+  top: 20%;
+  position: fixed;
   border: 4px solid black;
 `;
 
 const BarcodeText = styled.div`
-margin-top : 7%;
   text-align: center;
+  top: 58%;
+  position: fixed;
   font-weight: bold;
 `;
 
 const Button = styled.div`
-  z-index: 2;
+  z-index: 999;
   border-radius: 100px;
   height: 80px;
   width: 80px;
