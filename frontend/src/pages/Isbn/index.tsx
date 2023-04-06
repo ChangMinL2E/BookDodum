@@ -83,14 +83,14 @@ export const Isbn = () => {
             screenshotFormat="image/png"
             videoConstraints={videoConstraints}
           />
-          {/* <Barcode>
+          <Barcode>
             <BarcodeBox />
             <BarcodeText>
               도서 바코드를 사각형 안에 맞추고
               <br />
               사진을 찍어 책을 등록하세요!
             </BarcodeText>
-          </Barcode> */}
+          </Barcode>
           <Button onClick={capture}>
             <Camera>
               <CameraIcon
@@ -114,7 +114,10 @@ export const Isbn = () => {
 };
 
 // styled component
-const Cam = styled.div``;
+const Cam = styled.div`
+  width: 100vw;
+  height: 100vh;
+`;
 
 const Barcode = styled.div`
   z-index: 999;
