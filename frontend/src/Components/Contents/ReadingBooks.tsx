@@ -35,7 +35,7 @@ export default function ReadingBooks({ theme, type }: Props) {
 
     let tmp : BookInfo[] = [];
     if(data.length === 0) return;
-    data.forEach((book: any) => {
+    data?.forEach((book: any) => {
       tmp.push({
         bookId: book.bookId,
         category: book.category,

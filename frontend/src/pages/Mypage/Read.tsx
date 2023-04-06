@@ -21,7 +21,7 @@ export default function Read() {
   const getRead = async () => {
     const data = await getReadBooksAPI();
     let list: UserBook[] = [];
-    data.forEach((item: UserBook) => {
+    data?.forEach((item: UserBook) => {
       list.push({
         bookId: item.bookId,
         category: item.category,

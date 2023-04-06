@@ -34,7 +34,7 @@ export default function Banner() {
   const getContentsRecommend = async () => {
     const data = await getContentsRecommendAPI(userId);
     let tmp: Book[] = [];
-    data.forEach((book: any) => {
+    data?.forEach((book: any) => {
       let test = book.category.replaceAll("'", '"');
       let category = JSON.parse(test);
       tmp.push({
