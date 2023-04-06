@@ -18,6 +18,7 @@ interface ImageProps {
 
 export default function Images({ imageUrls }: Props) {
   const bookId = useParams().bookid;
+  const navigate = useNavigate();
 
   // 선택할 인덱스
   const [selectedIdx, setSelectedIdx] = useState<number>(0);
@@ -65,6 +66,7 @@ export default function Images({ imageUrls }: Props) {
         <Button
           onClick={() => {
             submitImage();
+            navigate(`reading/${bookId}`)
           }}
         >
           확인
