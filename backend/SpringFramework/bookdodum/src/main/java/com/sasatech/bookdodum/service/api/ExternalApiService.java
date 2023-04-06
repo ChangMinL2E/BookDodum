@@ -78,7 +78,7 @@ public class ExternalApiService {
         headers.add("Authorization", "KakaoAK 478bf2d6060b924f62f3dd80e053b26d");
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        //
+        ////
 
         // 현재 좌표를 기준으로 지역코드 불러오기
         String url = "https://dapi.kakao.com/v2/local/geo/coord2address.json?x=" + longitude + "&y=" + latitude + "&input_coord=WGS84";
