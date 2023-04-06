@@ -54,7 +54,7 @@ export default function LibraryBooks() {
   };
 
   const getLibraryBooks = async (REGION_CODE: number) => {
-    const data = await getLibraryBooksAPI(REGION_CODE);
+    const data = await getLibraryBooksAPI(24);
     let tmp: LibraryBook[] = [];
     data?.forEach((book: any) => {
       tmp.push({
