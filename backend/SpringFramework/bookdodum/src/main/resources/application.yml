@@ -15,7 +15,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
-
+##
 server:
   max-http-header-size: 8000000
   port: 8000
