@@ -41,12 +41,6 @@ export default function Form({
       image: oneline,
     },
   ];
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 5000);
-
   return (
     <Container>
       <Title>기억나는 장면이나 문구를 그림으로 남겨드립니다.</Title>

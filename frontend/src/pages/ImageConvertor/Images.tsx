@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ImageAI from "../../Components/Contents/ImageAI";
-import { useNavigate } from "react-router-dom";
 import { saveImageAPI } from "../../apis/saveImage";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { postBookIdAPI } from "../../apis/isbn";
+import ImageLoading from "../ImageConvertor/ImageLoading";
 
 interface Props {
   imageUrls: string[];
@@ -20,6 +20,7 @@ interface ImageProps {
 export default function Images({ imageUrls }: Props) {
   const navigate = useNavigate();
   const bookId = useParams().bookid;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // 선택할 인덱스
   const [selectedIdx, setSelectedIdx] = useState<number>(0);
@@ -39,26 +40,39 @@ export default function Images({ imageUrls }: Props) {
   };
 
   const submitImage = async () => {
+    setIsLoading(true);
     await saveImageAPI(Image);
     navigate("/mypage");
   };
 
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 5000);
+
   return (
     <Container>
       <Contents>
-        <Minis>
-          {/* for문 돌려 */}
-          {imageUrls?.map((image, idx) => (
-            <div style={{ margin: "5% 1%" }} onClick={() => handleChange(idx)}>
-              <ImageAI
-                key={idx}
-                imageUrl={image}
-                size="60px"
-                name={selectedIdx === idx ? "select" : ""}
-              />
-            </div>
-          ))}
-        </Minis>
+        {isLoading ? (
+          <ImageLoading />
+        ) : (
+          <Minis>
+            {/* for문 돌려 */}
+            {imageUrls?.map((image, idx) => (
+              <div
+                style={{ margin: "5% 1%" }}
+                onClick={() => handleChange(idx)}
+              >
+                <ImageAI
+                  key={idx}
+                  imageUrl={image}
+                  size="60px"
+                  name={selectedIdx === idx ? "select" : ""}
+                />
+              </div>
+            ))}
+          </Minis>
+        )}
+
         {/* 선택된 사진 업데이트 */}
         <Selected>
           <ImageAI imageUrl={imageUrls[selectedIdx]} size="250px" />
