@@ -36,7 +36,7 @@ export default function LibraryList({title} : Props) {
 
   const getRegionCode = async () => {
     const data = await getRegionCodeAPI(position[0], position[1]);
-    // setRegionCode(data?.regionCode);
+    setRegionCode(data?.regionCode);
   };
 
   useEffect(() => {
