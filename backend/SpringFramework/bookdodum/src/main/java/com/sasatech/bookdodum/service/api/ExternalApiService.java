@@ -80,7 +80,7 @@ public class ExternalApiService {
     public ResponseEntity getRegionCodeAPI(String longitude, String latitude) {
         restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "KakaoAK 478bf2d6060b924f62f3dd80e053b26d");
+        headers.add("Authorization", "KakaoAK a2fdc2709cf221f727ad494fbeae1392");
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         ////
