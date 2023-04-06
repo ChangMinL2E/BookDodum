@@ -7,7 +7,7 @@ WORKDIR /var/jenkins_home/workspace/S08P22C104/backend/SpringFramework/bookdodum
 # Gradle 빌드 스크립트 파일을 복사합니다.
 COPY build.gradle .
 COPY gradlew .
-
+#
 # Gradle 의존성을 복사합니다.
 COPY gradle gradle
 
