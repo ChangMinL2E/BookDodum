@@ -62,7 +62,7 @@ public class BookController {
         return new ResponseEntity(new ApiResponseDto(true, "detailBook Success", bookService.detailBook(bookId, user.getId())), HttpStatus.OK);
     }
 
-    @GetMapping("/isbn")
+    @PostMapping("/isbn")
     @Operation(summary = "ISBN 조회")
     public ResponseEntity<?> readIsbn(@RequestBody IsbnRequestDto isbnRequestDto,
                                       @Parameter(hidden = true)
