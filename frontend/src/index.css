@@ -1,0 +1,23 @@
+* {
+  /* font-family: 'Gowun Batang', serif; */
+  font-family: "Noto Sans KR", sans-serif;
+  scroll-behavior: smooth;
+  
+}
+
+body {
+  background-color: #F9F9F7;
+  padding: 0;
+  margin : auto;
+  max-width: 35rem;
+  /* margin : 0 auto; */
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #5c5649 !important;
+}
+
