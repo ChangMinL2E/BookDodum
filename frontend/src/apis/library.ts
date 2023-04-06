@@ -42,7 +42,7 @@ export async function getRegionCodeAPI(longitude: number, latitude: number) {
     // const region: string = data["region_1depth_name"];
     
 
-    return { regionName: data, regionCode: regions[data] };
+    // return { regionName: region, regionCode: regions[region] };
     return data;
   } catch (e) {
     console.log(e);
