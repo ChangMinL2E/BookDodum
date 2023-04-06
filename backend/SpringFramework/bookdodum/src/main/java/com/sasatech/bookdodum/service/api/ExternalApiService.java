@@ -115,8 +115,8 @@ public class ExternalApiService {
 
             String responseString = response2.getBody().toString(); // 응답 문자열 예시
             String parsed = "";
-            // 정규 표현식을 사용하여 작은 따옴표를 제거
-            Pattern pattern = Pattern.compile("'(.*?)'");
+            // 정규 표현식을 사용하여 "광주"라는 문자열 추출
+            Pattern pattern = Pattern.compile("'\\s*(.*?)\\s*'");
             Matcher matcher = pattern.matcher(responseString);
 
 
