@@ -2,39 +2,48 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ListCard from "./ListCard";
 import Button from "./Button";
-import { getMeetingJoinAPI } from "../../apis/meeting";
-
-interface BookMeeting {
-  commentCnt: number;
-  content: string;
-  imageUrl: string;
-  title: string;
-  userName: string;
-  meetingId: number;
-}
+import { getBooksAPI, getBookMeetingAPI } from "../../apis/meeting";
+import { MeetingInfo, UserBook } from "../../Store/Types";
 
 export default function List() {
-  const [bookMeetings, setBookMeetings] = useState<BookMeeting[]>([]);
+  const [bookMeetings, setBookMeetings] = useState<MeetingInfo[]>([]);
+  const [bookIds, setBookIds] = useState<number[]>([]);
 
-  const getMeetingJoin = async () => {
-    const data = await getMeetingJoinAPI();
-    let list: BookMeeting[] = [];
-    data.forEach((item: BookMeeting) => {
+  const getBooks = async () => {
+    const data = await getBooksAPI();
+    let list: number[] = [];
+    data?.forEach((item: UserBook) => {
+      list.push(item.bookId);
+    });
+    setBookIds(list);
+  };
+
+  const getBookMeeting = async (bookid: number) => {
+    const data = await getBookMeetingAPI(bookid);
+    let list: MeetingInfo[] = [];
+    data?.forEach((item: MeetingInfo) => {
       list.push({
         commentCnt: item.commentCnt,
         content: item.content,
         imageUrl: item.imageUrl,
         title: item.title,
-        userName: item.userName,
-        meetingId: item.meetingId
+        leaderUserName: item.leaderUserName,
+        leaderUserId: item.leaderUserId,
+        meetingId: item.meetingId,
       });
     });
-    setBookMeetings(list);
+    setBookMeetings([...bookMeetings, ...list]);
   };
 
   useEffect(() => {
-    getMeetingJoin();
+    getBooks();
   }, []);
+
+  useEffect(() => {
+    if (bookIds.length > 0) {
+      bookIds.map((bookid) => getBookMeeting(bookid));
+    }
+  }, [bookIds]);
 
   return (
     <ListBack>
@@ -43,8 +52,8 @@ export default function List() {
         <Button />
       </TopDiv>
       <>
-        {bookMeetings.map((bookMeeting: BookMeeting, idx) => (
-          <ListCard key={idx} {...bookMeeting}/>
+        {bookMeetings?.map((bookMeeting: MeetingInfo, idx) => (
+          <ListCard key={idx} {...bookMeeting} />
         ))}
       </>
     </ListBack>

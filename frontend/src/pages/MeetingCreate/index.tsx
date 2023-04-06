@@ -2,22 +2,14 @@ import React, { useState, useEffect } from "react";
 import NavBack from "../../Components/Contents/NavBack";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { createMeetingAPI, getIngBooksAPI } from "../../apis/meeting";
+import { createMeetingAPI, getBooksAPI } from "../../apis/meeting";
+import { UserBook } from "../../Store/Types";
 
 interface Meeting {
   bookId: number;
   title: string;
   content: string;
   authority: boolean;
-}
-
-interface Book {
-  bookId: number;
-  imageUrl: string;
-  title: string;
-  publisher: string;
-  category: string[];
-  convertedImageUrl: string | null;
 }
 
 interface BookInfo {
@@ -37,11 +29,13 @@ export default function MeetingCreate() {
     { authority: false, read: "아니요" },
   ];
 
+  const navigate = useNavigate();
+
   const meeting: Meeting = {
-    bookId: bookId,
-    title: title,
-    content: content,
-    authority: authority,
+    bookId,
+    title,
+    content,
+    authority,
   };
 
   useEffect(() => {
@@ -50,10 +44,10 @@ export default function MeetingCreate() {
 
   // 읽고있는 책, 읽은 책 불러오는 api
   const getIngBooks = async () => {
-    const data = await getIngBooksAPI();
+    const data = await getBooksAPI();
     let list: BookInfo[] = [];
 
-    data.forEach((item: Book) => {
+    data?.forEach((item: UserBook) => {
       list.push({
         bookId: item.bookId,
         title: item.title,
@@ -64,8 +58,16 @@ export default function MeetingCreate() {
 
   // 모임 만드는 api
   const makeMeeting = async (meeting: Meeting) => {
-    await createMeetingAPI(meeting);
-    goMeeting();
+    if (meeting.bookId === 0) {
+      alert("도서를 선택해주세요!");
+    } else if (meeting.title === "") {
+      alert("모임 이름을 입력해주세요.");
+    } else if (meeting.content === "") {
+      alert("모임 설명을 입력해주세요.");
+    } else {
+      await createMeetingAPI(meeting);
+      navigate(`/bookmeeting`);
+    }
   };
 
   // 예, 아니오 변경
@@ -78,11 +80,6 @@ export default function MeetingCreate() {
     }
   };
 
-  const navigate = useNavigate();
-  const goMeeting = () => {
-    navigate(`/bookmeeting`);
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setBookId(parseInt(value));
@@ -91,49 +88,51 @@ export default function MeetingCreate() {
   return (
     <Container>
       <NavBack text={"모임 만들기"} link={"/bookmeeting"} />
-      <Text>도서 선택하기</Text>
-      <Book onChange={handleChange}>
-        <option value="0">--- 도서를 선택해 주세요 ---</option>
-        {bookInfo.map(({ bookId, title }: BookInfo) => (
-          <option value={bookId} key={bookId}>
-            {title}
-          </option>
-        ))}
-      </Book>
+      <Create>
+        <Text>도서 선택하기</Text>
+        <Book onChange={handleChange}>
+          <option value="0">--- 도서를 선택해 주세요 ---</option>
+          {bookInfo?.map(({ bookId, title }: BookInfo) => (
+            <option value={bookId} key={bookId}>
+              {title}
+            </option>
+          ))}
+        </Book>
 
-      <Text>모임 만들기</Text>
-      <Title
-        placeholder="모임 제목을 입력해주세요"
-        onChange={(e) => setTitle(e.target.value)}
-      />
+        <Text>모임 만들기</Text>
+        <Title
+          placeholder="모임 제목을 입력해주세요"
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
-      <Text>모임지기의 말</Text>
-      <Say
-        placeholder="모임에 대한 설명을 입력해주세요."
-        onChange={(e) => setContent(e.target.value)}
-      />
+        <Text>모임지기의 말</Text>
+        <Say
+          placeholder="모임에 대한 설명을 입력해주세요."
+          onChange={(e) => setContent(e.target.value)}
+        />
 
-      <Text>읽은 사람만 참여할 수 있는 모임입니다.</Text>
-      <Wrapper>
-        {options.map((option, idx) => (
-          <OptionText key={idx}>
-            <input
-              type="radio"
-              value={option.read}
-              checked={read === option.read}
-              onChange={handleOptionChange}
-            />
-            {option.read}
-          </OptionText>
-        ))}
-      </Wrapper>
-      <Button
-        onClick={() => {
-          makeMeeting(meeting);
-        }}
-      >
-        모임 만들기
-      </Button>
+        <Text>읽은 사람만 참여할 수 있는 모임입니다.</Text>
+        <Wrapper>
+          {options.map((option, idx) => (
+            <OptionText key={idx}>
+              <input
+                type="radio"
+                value={option.read}
+                checked={read === option.read}
+                onChange={handleOptionChange}
+              />
+              {option.read}
+            </OptionText>
+          ))}
+        </Wrapper>
+        <Button
+          onClick={() => {
+            makeMeeting(meeting);
+          }}
+        >
+          모임 만들기
+        </Button>
+      </Create>
     </Container>
   );
 }
@@ -143,6 +142,10 @@ const Container = styled.div`
   background-color: #f9f9f7;
   width: 100vw;
   height: 100vh;
+`;
+
+const Create = styled.div`
+  margin: 3%;
 `;
 
 const Book = styled.select`
@@ -174,15 +177,7 @@ const Title = styled.textarea`
 `;
 
 const Say = styled(Title)`
-  height: 20%;
-`;
-
-const Radio = styled.input`
-  appearance: none;
-  border: max(2px, 0.1em) solid #5c5649;
-  border-radius: 50%;
-  width: 1.25em;
-  height: 1.25em;
+  height: 10vh;
 `;
 
 const Button = styled.button`
@@ -197,6 +192,7 @@ const Button = styled.button`
   right: 7%;
   bottom: 4%;
   position: fixed;
+  font-size: 0.95rem;
 `;
 
 const Wrapper = styled.div`

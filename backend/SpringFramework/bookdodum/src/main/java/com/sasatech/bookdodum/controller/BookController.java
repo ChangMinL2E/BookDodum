@@ -67,9 +67,15 @@ public class BookController {
 
     @GetMapping("/isbn")
     @Operation(summary = "ISBN 조회")
-    public ResponseEntity<?> readIsbn(@RequestParam("path") String path) {
-        return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", bookService.readIsbn(path)), HttpStatus.OK);
+    public ResponseEntity<?> readIsbn(@RequestParam("path") String path,
+                                      @Parameter(hidden = true)
+                                      @AuthenticationPrincipal User user,
+                                      @Parameter(hidden = true)
+                                      @RequestHeader("Authorization") String authorizationHeader) {
+        String jwtToken = authorizationHeader.substring(7);
+        return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", bookService.readIsbn(path, user, jwtToken)), HttpStatus.OK);
     }
+
 
     @PostMapping("/{bookid}")
     @Operation(summary = "읽는 도서 등록")

@@ -12,8 +12,7 @@ export async function getBookInfoAPI(imgUrl: string) {
       url: `${baseUrl}/book/isbn`,
       params: { path: imgUrl },
     });
-    console.log(data);
-    return data;
+    return data.responseData;
   } catch (e) {
     console.log(e);
   }
@@ -24,6 +23,22 @@ export async function postBookIdAPI(id: number) {
   try {
     const { data } = await axios({
       method: "POST",
+      url: `${baseUrl}/book/${id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data.success;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+// 다 읽은 책 갱신하기
+export async function putBookIdAPI(id: number) {
+  try {
+    const { data } = await axios({
+      method: "PUT",
       url: `${baseUrl}/book/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,

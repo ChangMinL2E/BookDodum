@@ -1,24 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 
-// types.ts
 interface Props {
-  imageUrl: string;
+  imageUrl: string|undefined;
   size: string;
   name?: string;
 }
 
-
 // handlechange 이벤트 
 export default function ImageAI({ imageUrl, size, name}: Props) {
-
-  console.log(imageUrl,'🎈🎈')
   return (
     <>
       <Container>
         <Image className={name} imageUrl={imageUrl} size={size}  />
       </Container>
-      
     </>
   );
 }
@@ -37,12 +32,12 @@ const Image = styled.div<Props>`
   &.img {
     z-index: 1;
     position: relative;
-    top: 110px;
+    top: 100px;
     left: 60px;
   }
   &.select{
-    border: 5px solid black;
+    border: 3px solid #5c5649;;
   }
-`;
+`; 
 
 

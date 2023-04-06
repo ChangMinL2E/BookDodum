@@ -62,6 +62,8 @@ public class MeetingService {
                     .content(meetingRequestDto.getContent())
                     .authority(meetingRequestDto.isAuthority())
                     .book(book)
+                    .leaderUserId(user.getId())
+                    .leaderUserName(user.getName())
                     .build());
 
             userMeetingRepository.save(UserMeeting.builder()
@@ -81,20 +83,18 @@ public class MeetingService {
         List<Meeting> meetingList = meetingScrollQdslRepositoryImpl.findNoOffsetMeetingPaging(pageable, idx, bookId);
         List<MeetingListResponseDto> dtoList = new ArrayList<>();
 
+        // 책 id를 기준으로 찾은 meetingList 를 찾아옴
         for (Meeting meeting : meetingList) {
-            UserMeeting userMeeting = userMeetingRepository.findByMeeting_Id(meeting.getId());
-            User user = userMeeting.getUser();
-
             Long commentCnt = (long) commentRepository.findAllByMeeting_Id(meeting.getId()).size();
 
             dtoList.add(MeetingListResponseDto.builder()
                     .meetingId(meeting.getId())
                     .title(meeting.getTitle())
                     .content(meeting.getContent())
-                    .userName(user.getName())
+                    .leaderUserId(meeting.getLeaderUserId())
+                    .leaderUserName(meeting.getLeaderUserName())
                     .commentCnt(commentCnt)
                     .imageUrl(meeting.getBook().getImageUrl())
-//                    .userImageUrl(null)
                     .build());
         }
 
@@ -106,16 +106,14 @@ public class MeetingService {
         List<MeetingListResponseDto> dtoList = new ArrayList<>();
 
         for (Meeting meeting : meetingList) {
-            UserMeeting userMeeting = userMeetingRepository.findByMeeting_Id(meeting.getId());
-            User user = userMeeting.getUser();
-
             Long commentCnt = (long) commentRepository.findAllByMeeting_Id(meeting.getId()).size();
 
             dtoList.add(MeetingListResponseDto.builder()
                     .meetingId(meeting.getId())
                     .title(meeting.getTitle())
                     .content(meeting.getContent())
-                    .userName(user.getName())
+                    .leaderUserName(meeting.getLeaderUserName())
+                    .leaderUserId(meeting.getLeaderUserId())
                     .commentCnt(commentCnt)
                     .imageUrl(meeting.getBook().getImageUrl())
 //                    .userImageUrl(null)
@@ -153,10 +151,8 @@ public class MeetingService {
         // 모임의 장 이라면, leader_content 를 가져온다. 그렇지 않으면 null 을 가져온다.
         // 모임의 장을 찾으려면 meetingId를 통해 찾는다.
 
-        UserMeeting userMeeting = userMeetingRepository.findByMeeting_Id(meetingId);
-        Meeting meeting = meetingRepository.findById(userMeeting.getMeeting().getId()).orElseThrow();
-
-        Long leader_id = userMeeting.getUser().getId();
+        Meeting meeting = meetingRepository.findById(meetingId).orElseThrow();
+        Long leader_id = meeting.getLeaderUserId();
 
         for (Comment comment : commentList) {
             Long user_id = comment.getUser().getId();

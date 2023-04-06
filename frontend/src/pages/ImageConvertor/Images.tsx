@@ -1,21 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ImageAI from "../../Components/Contents/ImageAI";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
+=======
+import { saveImageAPI } from "../../apis/saveImage";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { postBookIdAPI } from "../../apis/isbn";
+>>>>>>> abefe15d11a57301a99996ab722cca38e0e8cbf2
 
 interface Props {
   imageUrls: string[];
   bookid?: number;
 }
 
+// axios 요청할 데이터 타입
+interface ImageProps {
+  bookId: number;
+  convertedImageUrl: string;
+}
+
 export default function Images({ imageUrls }: Props) {
+<<<<<<< HEAD
   const navigate = useNavigate();
+=======
+  const bookId = useParams().bookid;
+
+>>>>>>> abefe15d11a57301a99996ab722cca38e0e8cbf2
   // 선택할 인덱스
   const [selectedIdx, setSelectedIdx] = useState<number>(0);
+  const [selectedImage, setSelectedImage] = useState<string>("");
   //클릭 시 인덱스 업데이트
   const handleChange = (idx: number) => {
     setSelectedIdx(idx);
-    console.log(selectedIdx);
+  };
+
+  useEffect(() => {
+    setSelectedImage(imageUrls[selectedIdx]);
+  }, [selectedIdx]);
+
+  const Image: ImageProps = {
+    bookId: Number(bookId),
+    convertedImageUrl: selectedImage,
+  };
+
+  const submitImage = async () => {
+    await saveImageAPI(Image);
   };
 
   return (
@@ -40,7 +70,17 @@ export default function Images({ imageUrls }: Props) {
         </Selected>
       </Contents>
       <ButtonContainer>
+<<<<<<< HEAD
         <Button type="submit" onClick={()=> {navigate('/mypage')}}>확인</Button>
+=======
+        <Button
+          onClick={() => {
+            submitImage();
+          }}
+        >
+          확인
+        </Button>
+>>>>>>> abefe15d11a57301a99996ab722cca38e0e8cbf2
       </ButtonContainer>
     </Container>
   );
