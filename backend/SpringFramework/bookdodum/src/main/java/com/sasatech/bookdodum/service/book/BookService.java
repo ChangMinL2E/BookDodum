@@ -355,7 +355,7 @@ public class BookService {
                 HttpEntity<String> requestEntity = new HttpEntity<>(jsonString, headersDjango);
 
                 // 요청 보내기
-                String addBookPath = "http://dodum.xyz/ml/books/add_book/";
+                String addBookPath = "https://dodum.xyz/ml/books/add_book/";
                 ResponseEntity<String> responseEntity = restTemplate.postForEntity(addBookPath, requestEntity, String.class);
 
                 // 응답 받은 데이터 출력
