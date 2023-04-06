@@ -8,14 +8,6 @@ import { getBookInfoAPI, postBookIdAPI, putBookIdAPI } from "../../apis/isbn";
 import { postRegisterBookAPI } from "../../apis/survey";
 import useSelectorTyped from "../../Store";
 
-const videoConstraints = {
-  width: 360,
-  height: 740,
-  // aspectRatio: 0.4864864865,
-  facingMode: "environment",
-  // facingMode: "user",
-};
-
 interface BookInfo {
   name: string;
   read_books: string[];
@@ -38,10 +30,38 @@ export const Isbn = () => {
     read_books: isbnlist,
   };
 
+  const [videoWidth, setVideoWidth] = useState<number>(window.innerWidth);
+  const [videoHeight, setVideoHeight] = useState<number>(window.innerHeight);
+  const [videoConstraints, setVideoConstraints] = useState<any>({
+    width: videoWidth,
+    height: videoHeight,
+    facingMode: "environment",
+    // facingMode: "user",
+  });
+
+  const updateVideoConstraints = () => {
+    setVideoWidth(window.innerWidth);
+    setVideoHeight(window.innerHeight);
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', updateVideoConstraints);
+
+    return () => {
+      window.removeEventListener('resize', updateVideoConstraints);
+    }
+  }, []);
+
+  useEffect(() => {
+    setVideoConstraints({
+      ...videoConstraints,
+      width: videoWidth,
+      height: videoHeight,
+    });
+  }, [videoWidth, videoHeight]);
+
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
-    console.log(imageSrc);
-    
     if (imageSrc) {
       setUrl(imageSrc);
     }
@@ -54,13 +74,13 @@ export const Isbn = () => {
       setBookId(data.id);
       isbnlist.push(data.isbn);
     } else {
-      alert("다시 촬영해 주세요.");
+      alert('다시 촬영해 주세요.')
     }
   };
 
   useEffect(() => {
     if (url) {
-      getBookInfo(imgUrl);
+      getBookInfo(url);
     }
   }, [url]);
 
@@ -101,18 +121,15 @@ export const Isbn = () => {
   };
 
   return (
-    <Container>
+    <div>
       {!title ? (
         <Cam>
-          <CamWrap>
-            <Webcam
-              audio={false}
-              ref={webcamRef}
-              screenshotFormat="image/png"
-              videoConstraints={videoConstraints}
-              imageSmoothing={true}
-            />
-          </CamWrap>
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/png"
+            videoConstraints={videoConstraints}
+          />
           <Barcode>
             <BarcodeBox />
             <BarcodeText>
@@ -138,54 +155,39 @@ export const Isbn = () => {
           clickYesBtn={clickYesBtn}
         />
       )}
-    </Container>
+    </div>
   );
 };
 
 // styled component
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-`;
-
 const Cam = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const CamWrap = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
 `;
 
 const Barcode = styled.div`
   z-index: 999;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  width: 90%;
+  position: absolute;
+  bottom: 40%;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const BarcodeBox = styled.div`
-  height: 35%;
-  width: 95%;
-  top: 20%;
-  position: fixed;
+  height: 200px;
+  width: 320px;
   border: 4px solid black;
 `;
 
 const BarcodeText = styled.div`
   text-align: center;
-  top: 58%;
-  position: fixed;
   font-weight: bold;
+  margin-top: 16px;
 `;
 
 const Button = styled.div`
-  z-index: 2;
+  z-index: 999;
   border-radius: 100px;
   height: 80px;
   width: 80px;
