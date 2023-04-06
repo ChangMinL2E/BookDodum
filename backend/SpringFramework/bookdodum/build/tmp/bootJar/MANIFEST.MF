@@ -1,6 +1,10 @@
 Manifest-Version: 1.0
 Main-Class: org.springframework.boot.loader.JarLauncher
+<<<<<<< HEAD
 Start-Class: com.sasatech.bookdodum.ProjectApplication
+=======
+Start-Class: com.example.bookdodum.ProjectApplication
+>>>>>>> 6a2a6bccb054ecc366f735049ad7b96d953f134a
 Spring-Boot-Version: 2.5.0
 Spring-Boot-Classes: BOOT-INF/classes/
 Spring-Boot-Lib: BOOT-INF/lib/
