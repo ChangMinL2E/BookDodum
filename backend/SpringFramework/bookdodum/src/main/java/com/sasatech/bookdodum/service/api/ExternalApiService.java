@@ -120,9 +120,12 @@ public class ExternalApiService {
             Pattern pattern = Pattern.compile("region_1depth_name:\\s*'([^']*)'");
             Matcher matcher = pattern.matcher(responseString);
 
+            parsed = matcher.group(1);
+            System.out.println(parsed); // "광주" 출력
+
             if (matcher.find()) {
-                String region1DepthName = matcher.group(1);
-                System.out.println(region1DepthName); // "광주" 출력
+                parsed = matcher.group(1);
+                System.out.println(parsed); // "광주" 출력
             }
 
             System.out.println("======");
