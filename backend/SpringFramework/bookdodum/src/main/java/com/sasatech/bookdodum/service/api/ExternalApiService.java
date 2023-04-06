@@ -1,6 +1,10 @@
 package com.sasatech.bookdodum.service.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -8,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Service
@@ -15,8 +21,8 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class ExternalApiService {
 
-    String LIBRARY_API_URL = "https://data4library.kr/api";
-    String LIBRARY_API_KEY = "51a8da7baad88780d6babbd001a93462a79d0ba621c9b1cb06f620b0b5f766a4";
+    String LIBRARY_API_URL = "http://data4library.kr/api";
+    String LIBRARY_API_KEY = "8d68d2128616bfdd1da6626c700be7582d734f42a805a55b497eea79cca5f424";
 
     RestTemplate restTemplate;
 
@@ -32,6 +38,7 @@ public class ExternalApiService {
         System.out.println(url);
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+
 
         return response;
     }
@@ -72,19 +79,57 @@ public class ExternalApiService {
         return response;
     }
 
-    public ResponseEntity getRegionCodeAPI(String longitude, String latitude) {
+    public String getRegionCodeAPI(String longitude, String latitude) {
         restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "KakaoAK 478bf2d6060b924f62f3dd80e053b26d");
+        headers.add("Authorization", "KakaoAK a2fdc2709cf221f727ad494fbeae1392");
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
+        ////
 
         // 현재 좌표를 기준으로 지역코드 불러오기
         String url = "https://dapi.kakao.com/v2/local/geo/coord2address.json?x=" + longitude + "&y=" + latitude + "&input_coord=WGS84";
 
+        System.out.println(url);
+
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
-        return response;
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+            String region1DepthName = jsonNode.get("documents")
+                    .get(0)
+                    .get("address")
+                    .get("region_1depth_name")
+                    .asText();
+
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("region_1depth_name", region1DepthName);
+            ResponseEntity<JsonObject> response2 = new ResponseEntity<>(jsonObject, HttpStatus.OK);
+
+            System.out.println("====================");
+            System.out.println(response2.getBody());
+            System.out.println("====================");
+
+
+            String responseString = response2.getBody().toString(); // 응답 문자열 예시
+
+            // 정규 표현식을 사용하여 "광주"라는 문자열 추출
+            String[] split = responseString.split(":");
+            String s = split[1];
+
+            System.out.println(s);
+            String substring = s.substring(1, s.length() - 2);
+
+            System.out.println(substring);
+            return substring;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
     }
 
     public ResponseEntity<?> getLibraryBooksAPI(String regionCode) {

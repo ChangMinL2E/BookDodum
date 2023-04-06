@@ -58,7 +58,7 @@ export default function Recommend() {
   return (
     <Container>
       <Title>
-        {nickname}님을 위한<br></br>추천도서
+        {nickname}님을 위한<br></br>북돋움 추천도서
       </Title>
       <Tags>#취향분석 #맞춤추천</Tags>
       <Contents
