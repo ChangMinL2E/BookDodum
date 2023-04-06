@@ -4,7 +4,7 @@ import ImageAI from "../../Components/Contents/ImageAI";
 import { saveImageAPI } from "../../apis/saveImage";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { postBookIdAPI } from "../../apis/isbn";
-import ImageLoading from "../ImageConvertor/ImageLoading";
+
 
 interface Props {
   imageUrls: string[];
@@ -18,13 +18,8 @@ interface ImageProps {
 }
 
 export default function Images({ imageUrls }: Props) {
-  const navigate = useNavigate();
   const bookId = useParams().bookid;
-<<<<<<< HEAD
   const navigate = useNavigate();
-=======
-  const [isLoading, setIsLoading] = useState<boolean>(false);
->>>>>>> 6b35f3bdc8d00e83d203752474e1805f92fc40a2
 
   // 선택할 인덱스
   const [selectedIdx, setSelectedIdx] = useState<number>(0);
@@ -44,21 +39,15 @@ export default function Images({ imageUrls }: Props) {
   };
 
   const submitImage = async () => {
-    setIsLoading(true);
+
     await saveImageAPI(Image);
     navigate("/mypage");
   };
 
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 5000);
 
   return (
     <Container>
-      <Contents>
-        {isLoading ? (
-          <ImageLoading />
-          ) : (
+      <Contents> 
             <Minis>
             {/* for문 돌려 */}
             {imageUrls?.map((image, idx) => (
@@ -75,7 +64,6 @@ export default function Images({ imageUrls }: Props) {
               </div>
             ))}
           </Minis>
-        )}
 
         {/* 선택된 사진 업데이트 */}
         <Selected>
