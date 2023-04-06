@@ -28,7 +28,7 @@ const regions: { [key: string]: number } = {
 // 현재 좌표를 기준으로 지역코드 불러오기
 export async function getRegionCodeAPI(longitude: number, latitude: number) {
   try {
-    const { data } = await axios({
+    const data  = await axios({
       method: "GET",
       url: `${API_URL}/external/regioncode?longitude=${longitude}&latitude=${latitude}`,
       headers: {
@@ -56,15 +56,13 @@ export async function getRegionCodeAPI(longitude: number, latitude: number) {
 // 도서 소장 도서관 정보 불러오기
 export async function getLibraryAPI(ISBN: any, REGION_CODE: number) {
   try {
-    const data = await axios({
+    const { data } = await axios({
       method: "GET",
       url: `${API_URL}/external/library?isbn=${ISBN}&regioncode=${REGION_CODE}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log(data);
-    
     return data.response.libs;
   } catch (e) {
     console.log(e);
