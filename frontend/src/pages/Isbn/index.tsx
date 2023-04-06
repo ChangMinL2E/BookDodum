@@ -23,14 +23,8 @@ export const Isbn = () => {
   const [videoHeight, setVideoHeight] = useState<number>(window.innerHeight);
 
   useEffect(() => {
-    const handleResize = () => {
-      setVideoWidth(window.innerWidth);
-      setVideoHeight(window.innerHeight);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    setVideoWidth(window.innerWidth);
+    setVideoHeight(window.innerHeight);
   }, []);
 
   const videoConstraints = {
@@ -108,7 +102,6 @@ export const Isbn = () => {
           clickYesBtn={clickYesBtn}
         />
       )}
-      {/* <div>{url}</div> */}
     </div>
   );
 };
@@ -122,23 +115,24 @@ const Cam = styled.div`
 const Barcode = styled.div`
   z-index: 999;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
+  position: absolute;
+  bottom: 40%;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const BarcodeBox = styled.div`
-  height: 35%;
-  width: 95%;
-  top: 20%;
-  position: fixed;
+  height: 200px;
+  width: 320px;
   border: 4px solid black;
 `;
 
 const BarcodeText = styled.div`
   text-align: center;
-  top: 58%;
-  position: fixed;
   font-weight: bold;
+  margin-top: 16px;
 `;
 
 const Button = styled.div`

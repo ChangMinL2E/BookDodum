@@ -10,7 +10,7 @@ export async function getBookInfoAPI(imgUrl: string) {
     const { data } = await axios({
       method: "GET",
       url: `${baseUrl}/book/isbn`,
-      params: { path: imgUrl },
+      data: { path: imgUrl },
     });
     return data.responseData;
   } catch (e) {
