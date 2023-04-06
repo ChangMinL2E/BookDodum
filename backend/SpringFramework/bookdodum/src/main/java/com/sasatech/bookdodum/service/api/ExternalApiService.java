@@ -115,9 +115,10 @@ public class ExternalApiService {
 
             String responseString = response2.getBody().toString(); // 응답 문자열 예시
             String parsed = "";
-            // 정규 표현식을 사용하여 region_1depth_name 값을 추출
-            Pattern pattern = Pattern.compile("region_1depth_name:\\s*'([가-힣]+)'");
+            // 정규 표현식을 사용하여 작은 따옴표를 제거
+            Pattern pattern = Pattern.compile("'(.*?)'");
             Matcher matcher = pattern.matcher(responseString);
+
 
             if (matcher.find()) {
                 parsed = matcher.group(1);
