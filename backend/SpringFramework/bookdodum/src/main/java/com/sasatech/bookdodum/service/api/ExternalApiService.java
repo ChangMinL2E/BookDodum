@@ -114,28 +114,16 @@ public class ExternalApiService {
 
 
             String responseString = response2.getBody().toString(); // 응답 문자열 예시
-            String parsed = "";
 
             // 정규 표현식을 사용하여 "광주"라는 문자열 추출
-            Pattern pattern = Pattern.compile("(?<=\")[ㄱ-ㅎ가-힣]+(?=\")");
-            Matcher matcher = pattern.matcher(responseString);
+            String[] split = responseString.split(":");
+            String s = split[1];
 
-            parsed = matcher.group(0);
-            System.out.println(parsed); // "광주" 출력
+            System.out.println(s);
+            String substring = s.substring(1, s.length() - 2);
 
-            parsed = matcher.group(1);
-            System.out.println(parsed); // "광주" 출력
-
-            if (matcher.find()) {
-                parsed = matcher.group(1);
-                System.out.println(parsed); // "광주" 출력
-            }
-
-            System.out.println("======");
-            System.out.println(parsed); // "광주" 출력
-            System.out.println("======");
-
-            return parsed;
+            System.out.println(substring);
+            return substring;
 
         } catch (Exception e) {
             e.printStackTrace();
