@@ -1,6 +1,7 @@
 package com.sasatech.bookdodum.service.api;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -91,9 +92,22 @@ public class ExternalApiService {
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
-        System.out.println(response);
+        String region1DepthName = JsonParser.parseString(response.getBody())
+                .getAsJsonObject()
+                .getAsJsonArray("documents")
+                .get(0)
+                .getAsJsonObject()
+                .getAsJsonObject("address")
+                .get("region_1depth_name")
+                .getAsString();
 
-        return response;
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("region_1depth_name", region1DepthName);
+        ResponseEntity<JsonObject> response2 = new ResponseEntity<>(jsonObject, HttpStatus.OK);
+
+        System.out.println(response2.getBody());
+
+        return response2;
     }
 
     public ResponseEntity<?> getLibraryBooksAPI(String regionCode) {
