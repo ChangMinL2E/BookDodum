@@ -77,7 +77,7 @@ public class ExternalApiService {
         return response;
     }
 
-    public ResponseEntity getRegionCodeAPI(String longitude, String latitude) {
+    public String getRegionCodeAPI(String longitude, String latitude) {
         restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "KakaoAK a2fdc2709cf221f727ad494fbeae1392");
@@ -110,7 +110,7 @@ public class ExternalApiService {
             System.out.println(response2.getBody());
             System.out.println("====================");
 
-            return response2;
+            return response2.getBody().toString();
 
         } catch (Exception e) {
             e.printStackTrace();
