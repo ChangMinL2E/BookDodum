@@ -6,12 +6,12 @@ import Check from "./Check";
 import { useNavigate } from "react-router-dom";
 import { getBookInfoAPI, postBookIdAPI } from "../../apis/isbn";
 
-const videoConstraints = {
-  width: 360,
-  height: 740,
-  facingMode: "environment",
-  // facingMode: "user",
-};
+// const videoConstraints = {
+//   width: 360,
+//   height: 740,
+//   facingMode: "environment",
+//   // facingMode: "user",
+// };
 
 export const Isbn = () => {
   const navigate = useNavigate();
@@ -19,6 +19,20 @@ export const Isbn = () => {
   const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [bookId, setBookId] = useState<number>(0);
+  const [videoWidth, setVideoWidth] = useState<number>(0);
+  const [videoHeight, setVideoHeight] = useState<number>(0);
+  
+  useEffect(() => {
+    setVideoWidth(window.innerWidth);
+    setVideoHeight(window.innerHeight);
+  }, []);
+
+  const videoConstraints = {
+    width: videoWidth,
+    height: videoHeight,
+    facingMode: "environment",
+    // facingMode: "user",
+  };
 
   const capture = useCallback(() => {
     const imageSrc = webcamRef.current?.getScreenshot();
@@ -35,7 +49,7 @@ export const Isbn = () => {
 
   useEffect(() => {
     if (url) {
-      getBookInfo(url);
+      getBookInfo(imgUrl);
     }
   }, [url]);
 
@@ -63,14 +77,14 @@ export const Isbn = () => {
             screenshotFormat="image/png"
             videoConstraints={videoConstraints}
           />
-          <Barcode>
+          {/* <Barcode>
             <BarcodeBox />
             <BarcodeText>
               도서 바코드를 사각형 안에 맞추고
               <br />
               사진을 찍어 책을 등록하세요!
             </BarcodeText>
-          </Barcode>
+          </Barcode> */}
           <Button onClick={capture}>
             <Camera>
               <CameraIcon
