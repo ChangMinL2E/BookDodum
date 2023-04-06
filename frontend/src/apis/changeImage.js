@@ -18,10 +18,13 @@ export async function changeImageAPI(result) {
         n: 3,
         size: "1024x1024",
       }),
+
     });
+    console.log(REACT_APP_CHANGE_API_KEY);
     return data.data;
    
   } catch (e) {
+    console.log(REACT_APP_CHANGE_API_KEY);
     console.log(e);
   }
 }
