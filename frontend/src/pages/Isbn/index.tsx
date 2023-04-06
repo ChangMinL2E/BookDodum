@@ -9,11 +9,10 @@ import { postRegisterBookAPI } from "../../apis/survey";
 import useSelectorTyped from "../../Store";
 
 const videoConstraints = {
-  width: 360,
-  height: 740,
-  // aspectRatio: 0.4864864865,
+  width: { min: 360 },
+  height: { min: 640 },
+  aspectRatio: 0.4864864865,
   facingMode: "environment",
-  // facingMode: "user",
 };
 
 interface BookInfo {
@@ -153,34 +152,36 @@ const Container = styled.div`
 
 const Cam = styled.div`
   display: flex;
+  width: 100%;
+  height : 100vh;
   flex-direction: column;
+  align-items : center;
+  justify-contents: center;
 `;
+
 const CamWrap = styled.div`
   position: absolute;
   top: 0;
   left: 0;
+  z-index: -1;
 `;
 
 const Barcode = styled.div`
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: fixed;
+  top: 30%;
+  left: 4%;
   width: 90%;
 `;
 
 const BarcodeBox = styled.div`
-  height: 35%;
-  width: 95%;
-  top: 20%;
-  position: fixed;
+  height: 35vh;
+  width: 100%;
   border: 4px solid black;
 `;
 
 const BarcodeText = styled.div`
+margin-top : 7%;
   text-align: center;
-  top: 58%;
-  position: fixed;
   font-weight: bold;
 `;
 
