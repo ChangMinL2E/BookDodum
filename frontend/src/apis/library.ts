@@ -30,7 +30,7 @@ export async function getRegionCodeAPI(longitude: number, latitude: number) {
   try {
     const data = await axios({
       method: "GET",
-      url: `${API_URL}/api/regioncode?longitude=${longitude}&latitude=${latitude}`,
+      url: `${API_URL}/external/regioncode?longitude=${longitude}&latitude=${latitude}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -52,7 +52,7 @@ export async function getLibraryAPI(ISBN: any, REGION_CODE: number) {
   try {
     const { data } = await axios({
       method: "GET",
-      url: `${API_URL}/api/library?isbn=${ISBN}&regioncode=${REGION_CODE}`,
+      url: `${API_URL}/external/library?isbn=${ISBN}&regioncode=${REGION_CODE}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -69,7 +69,7 @@ export async function getItemSrchAPI(ISBN: any, LIB_CODE: number) {
   try {
     const { data } = await axios({
       method: "GET",
-      url: `${API_URL}/api/itemsrch?isbn=${ISBN}&libcode=${LIB_CODE}`,
+      url: `${API_URL}/external/itemsrch?isbn=${ISBN}&libcode=${LIB_CODE}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -85,7 +85,7 @@ export async function getBookExistAPI(ISBN: any, LIB_CODE: number) {
   try {
     const { data } = await axios({
       method: "GET",
-      url: `${API_URL}/api/bookexist?isbn=${ISBN}&libcode=${LIB_CODE}`,
+      url: `${API_URL}/external/bookexist?isbn=${ISBN}&libcode=${LIB_CODE}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -102,7 +102,7 @@ export async function getBestKeywordAPI(YEAR: string, MONTH: string) {
   try {
     const { data } = await axios({
       method: "GET",
-      url: `${API_URL}/api/bestkeyword?year=${YEAR}&month=${MONTH}`,
+      url: `${API_URL}/external/bestkeyword?year=${YEAR}&month=${MONTH}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -121,7 +121,7 @@ export async function getLibraryBooksAPI(REGION_CODE: number) {
   try {
     const data = await axios({
       method: "GET",
-      url: `${API_URL}/api/librarybooks?regioncode=${REGION_CODE}`,
+      url: `${API_URL}/external/librarybooks?regioncode=${REGION_CODE}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
