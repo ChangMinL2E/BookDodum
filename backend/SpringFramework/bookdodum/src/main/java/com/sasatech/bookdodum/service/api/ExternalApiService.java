@@ -77,7 +77,6 @@ public class ExternalApiService {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "KakaoAK 478bf2d6060b924f62f3dd80e053b26d");
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_XML)); // Accept 헤더를 XML로 설정
 
 
 
