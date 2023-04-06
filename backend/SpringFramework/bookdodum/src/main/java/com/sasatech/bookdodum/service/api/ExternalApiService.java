@@ -33,6 +33,10 @@ public class ExternalApiService {
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
+        System.out.println("======== getBestKeywordAPI ======");
+        System.out.println(response);
+        System.out.println("========  ======");
+
         return response;
     }
 
