@@ -1,5 +1,7 @@
 package com.sasatech.bookdodum.service.api;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -35,9 +37,6 @@ public class ExternalApiService {
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
-        System.out.println("======== getBestKeywordAPI ======");
-        System.out.println(response);
-        System.out.println("========  ======");
 
         return response;
     }
@@ -93,23 +92,31 @@ public class ExternalApiService {
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 
-        String responseBody = response.getBody();
-        JsonElement jsonElement = JsonParser.parseString(responseBody);
-        String region1DepthName = jsonElement.getAsJsonObject()
-                .getAsJsonArray("documents")
-                .get(0)
-                .getAsJsonObject()
-                .getAsJsonObject("address")
-                .get("region_1depth_name")
-                .getAsString();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("region_1depth_name", region1DepthName);
-        ResponseEntity<JsonObject> response2 = new ResponseEntity<>(jsonObject, HttpStatus.OK);
+        try {
+            JsonNode jsonNode = objectMapper.readTree(response.getBody());
+            String region1DepthName = jsonNode.get("documents")
+                    .get(0)
+                    .get("address")
+                    .get("region_1depth_name")
+                    .asText();
 
-        System.out.println(response2.getBody());
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("region_1depth_name", region1DepthName);
+            ResponseEntity<JsonObject> response2 = new ResponseEntity<>(jsonObject, HttpStatus.OK);
 
-        return response2;
+            System.out.println("====================");
+            System.out.println(response2.getBody());
+            System.out.println("====================");
+
+            return response2;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
     }
 
     public ResponseEntity<?> getLibraryBooksAPI(String regionCode) {
