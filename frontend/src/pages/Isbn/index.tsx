@@ -3,22 +3,33 @@ import Webcam from "react-webcam";
 import styled from "styled-components";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import Check from "./Check";
-import { useNavigate } from "react-router-dom";
-import { getBookInfoAPI, postBookIdAPI } from "../../apis/isbn";
+import { useNavigate, useLocation } from "react-router-dom";
+import { getBookInfoAPI, postBookIdAPI, putBookIdAPI } from "../../apis/isbn";
+import { postRegisterBookAPI } from "../../apis/survey";
+import useSelectorTyped from "../../Store";
 
-// const videoConstraints = {
-//   width: 360,
-//   height: 740,
-//   facingMode: "environment",
-//   // facingMode: "user",
-// };
+interface BookInfo {
+  name: string;
+  read_books: string[];
+}
 
 export const Isbn = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const webcamRef = useRef<Webcam>(null);
   const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [bookId, setBookId] = useState<number>(0);
+  const isbnlist: string[] = [];
+
+  const type = location?.state?.type;
+
+  const bookinfo: BookInfo = {
+    name: useSelectorTyped((state) => state.user.userid),
+    read_books: isbnlist,
+  };
+
   const [videoWidth, setVideoWidth] = useState<number>(window.innerWidth);
   const [videoHeight, setVideoHeight] = useState<number>(window.innerHeight);
   const [videoConstraints, setVideoConstraints] = useState<any>({
@@ -58,28 +69,55 @@ export const Isbn = () => {
 
   const getBookInfo = async (url: string) => {
     const data = await getBookInfoAPI(url);
-    setTitle(data.responseData.title);
-    setBookId(data.responseData.id);
+    if (data) {
+      setTitle(data.title);
+      setBookId(data.id);
+      isbnlist.push(data.isbn);
+    } else {
+      alert('다시 촬영해 주세요.')
+    }
   };
 
   useEffect(() => {
     if (url) {
-      getBookInfo(imgUrl);
+      getBookInfo(url);
     }
   }, [url]);
 
   const bookCheck = async () => {
-    await postBookIdAPI(bookId);
+    const data = await postBookIdAPI(bookId);
+    if (data) {
+      postRegister();
+      alert("등록되었습니다.");
+      navigate("/");
+    } else {
+      alert("이미 읽은 책입니다.");
+      setTitle("");
+    }
+  };
+
+  // 읽은 책 등록 - django 서버
+  const postRegister = async () => {
+    await postRegisterBookAPI(bookinfo);
+  };
+
+  // 다 읽었을 때
+  const bookFinish = async () => {
+    await putBookIdAPI(bookId);
   };
 
   const clickNoBtn = () => {
     setTitle("");
   };
 
+  // 읽을 때 / 읽었을 때 다른 axios 보내기
   const clickYesBtn = () => {
-    bookCheck();
-    alert("등록되었습니다.");
-    navigate("/");
+    if (type) {
+      bookCheck();
+    } else {
+      bookFinish();
+      navigate(`/image/${bookId}`);
+    }
   };
 
   return (
@@ -123,8 +161,6 @@ export const Isbn = () => {
 
 // styled component
 const Cam = styled.div`
-  width: 100vw;
-  height: 100vh;
 `;
 
 const Barcode = styled.div`
