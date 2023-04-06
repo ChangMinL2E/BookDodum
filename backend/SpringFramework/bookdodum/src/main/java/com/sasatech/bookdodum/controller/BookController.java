@@ -70,6 +70,8 @@ public class BookController {
                                       @Parameter(hidden = true)
                                       @RequestHeader("Authorization") String authorizationHeader) {
         String jwtToken = authorizationHeader.substring(7);
+        System.out.println(jwtToken);
+        System.out.println(authorizationHeader);
         return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", bookService.readIsbn(isbnRequestDto.getPath(), user, jwtToken)), HttpStatus.OK);
     }
 
