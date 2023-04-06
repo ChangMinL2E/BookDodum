@@ -66,7 +66,7 @@ export default function Images({ imageUrls }: Props) {
         <Button
           onClick={() => {
             submitImage();
-            navigate(`reading/${bookId}`)
+            navigate("/mypage")
           }}
         >
           확인
