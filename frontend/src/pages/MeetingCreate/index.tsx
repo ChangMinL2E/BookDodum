@@ -47,7 +47,7 @@ export default function MeetingCreate() {
     const data = await getBooksAPI();
     let list: BookInfo[] = [];
 
-    data.forEach((item: UserBook) => {
+    data?.forEach((item: UserBook) => {
       list.push({
         bookId: item.bookId,
         title: item.title,
