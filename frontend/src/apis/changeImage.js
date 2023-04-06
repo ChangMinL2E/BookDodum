@@ -10,8 +10,8 @@ export async function changeImageAPI(result) {
       method: "POST",
       url: REACT_APP_CHANGE_API_URL,
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${REACT_APP_CHANGE_API_KEY}`,
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${REACT_APP_CHANGE_API_KEY}`
       },
       data: JSON.stringify({
         prompt: result,
