@@ -153,11 +153,11 @@ const Title = styled.div`
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translate(50%, 30px);
     }
     to {
       opacity:3;
-      transform: none;
+      transform: translate(50%, 0);
     }   
   }
 `;
