@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @Service
@@ -110,7 +112,20 @@ public class ExternalApiService {
             System.out.println(response2.getBody());
             System.out.println("====================");
 
-            return response2.getBody().toString();
+
+            String responseString = response2.getBody().toString(); // 응답 문자열 예시
+            String parsed = "";
+            // 정규 표현식을 사용하여 region_1depth_name 값을 추출
+            Pattern pattern = Pattern.compile("region_1depth_name:\\s*'([가-힣]+)'");
+            Matcher matcher = pattern.matcher(responseString);
+
+            if (matcher.find()) {
+                parsed = matcher.group(1);
+            }
+
+            System.out.println(parsed); // "광주" 출력
+
+            return parsed;
 
         } catch (Exception e) {
             e.printStackTrace();

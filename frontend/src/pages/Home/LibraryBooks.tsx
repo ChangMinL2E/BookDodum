@@ -49,8 +49,8 @@ export default function LibraryBooks() {
   const getRegionCode = async () => {
     const data = await getRegionCodeAPI(position[0], position[1]);
     console.log(data, '!!')
-    // setRegionName(data?.regionName);
-    // setRegionCode(data?.regionCode);
+    setRegionName(data?.regionName);
+    setRegionCode(data?.regionCode);
   };
 
   const getLibraryBooks = async (REGION_CODE: number) => {
