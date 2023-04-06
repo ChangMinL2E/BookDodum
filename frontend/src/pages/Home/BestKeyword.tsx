@@ -16,7 +16,9 @@ export default function BestKeyword() {
 
   useEffect(() => {
     // 이달의 키워드 요청
-    if (inView) getBestKeyword();
+    if (inView) {
+      getBestKeyword();
+    }
   }, [inView]);
 
   const options: any = {
@@ -44,10 +46,10 @@ export default function BestKeyword() {
     const data = await getBestKeywordAPI(
       String(year),
       String(month).padStart(2, "0")
-      );
-      
+    );
+
     let tmp: KeyWord[] = [];
-    data.forEach((item: any) => {
+    data?.forEach((item: any) => {
       tmp.push({
         text: item.keyword.word,
         value: item.keyword.weight,

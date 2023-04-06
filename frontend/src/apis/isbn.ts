@@ -8,9 +8,12 @@ const token = JSON.parse(user);
 export async function getBookInfoAPI(imgUrl: string) {
   try {
     const { data } = await axios({
-      method: "GET",
+      method: "POST",
       url: `${baseUrl}/book/isbn`,
-      params: { path: imgUrl },
+      data: { path: imgUrl },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data.responseData;
   } catch (e) {

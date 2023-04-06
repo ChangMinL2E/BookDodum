@@ -32,7 +32,7 @@ export default function BookList({ type, bookId, title }: Props) {
     const data = await getUserRecommendAPI(bookId);
 
     let tmp: BookInfo[] = [];
-    data.forEach((book: BookInfo) => {
+    data?.forEach((book: BookInfo) => {
       tmp.push({
         title: book.title,
         imageUrl: book.imageUrl,

@@ -38,7 +38,7 @@ export default function ImageConvertor() {
     const data = await changeImageAPI(result);
     setIsLoaded(true);
     let tmp: string[] = [];
-    data.forEach((item: any) => {
+    data?.forEach((item: any) => {
       tmp.push(item.url);
     });
     setImageUrls(tmp);

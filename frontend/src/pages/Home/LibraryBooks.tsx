@@ -48,14 +48,15 @@ export default function LibraryBooks() {
 
   const getRegionCode = async () => {
     const data = await getRegionCodeAPI(position[0], position[1]);
+    console.log(data, '!!')
     setRegionName(data?.regionName);
     setRegionCode(data?.regionCode);
   };
 
   const getLibraryBooks = async (REGION_CODE: number) => {
-    const data = await getLibraryBooksAPI(REGION_CODE);
+    const data = await getLibraryBooksAPI(24);
     let tmp: LibraryBook[] = [];
-    data.forEach((book: any) => {
+    data?.forEach((book: any) => {
       tmp.push({
         imageUrl: book.bookImageURL,
         ISBN: book.isbn13,
@@ -161,12 +162,12 @@ const Title = styled.div`
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translate(50%, 30px);
     }
     to {
-      opacity: 3;
-      transform: none;
-    }
+      opacity:3;
+      transform: translate(50%, 0);
+    }   
   }
 `;
 

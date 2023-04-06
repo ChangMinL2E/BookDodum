@@ -37,7 +37,7 @@ export default function Home() {
       <Recommend />
       <ReadingBooks theme={"light"} type={""} />
       {/* <BookList type={'contents'} bookId={-1} title={""} /> */}
-      {reading?.map((book) => {
+      {reading?.slice(0, 3).map((book) => {
         return (
           <BookList
             key={book.bookId}
