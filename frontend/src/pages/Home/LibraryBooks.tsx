@@ -48,12 +48,13 @@ export default function LibraryBooks() {
 
   const getRegionCode = async () => {
     const data = await getRegionCodeAPI(position[0], position[1]);
+    console.log(data, '!!')
     setRegionName(data?.regionName);
     setRegionCode(data?.regionCode);
   };
 
   const getLibraryBooks = async (REGION_CODE: number) => {
-    const data = await getLibraryBooksAPI(REGION_CODE);
+    const data = await getLibraryBooksAPI(24);
     let tmp: LibraryBook[] = [];
     data?.forEach((book: any) => {
       tmp.push({

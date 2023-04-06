@@ -65,8 +65,15 @@ export default function MeetingCreate() {
     } else if (meeting.content === "") {
       alert("모임 설명을 입력해주세요.");
     } else {
-      await createMeetingAPI(meeting);
-      navigate(`/bookmeeting`);
+      const data = await createMeetingAPI(meeting);
+      if (!data) {
+        setBookId(0)
+        setTitle("")
+        setContent("")
+        alert('이미 생성한 모임이 있습니다.')
+      } else {
+        navigate(`/bookmeeting`);
+      }
     }
   };
 
@@ -101,12 +108,14 @@ export default function MeetingCreate() {
 
         <Text>모임 만들기</Text>
         <Title
+          value={title}
           placeholder="모임 제목을 입력해주세요"
           onChange={(e) => setTitle(e.target.value)}
         />
 
         <Text>모임지기의 말</Text>
         <Say
+          value={content}
           placeholder="모임에 대한 설명을 입력해주세요."
           onChange={(e) => setContent(e.target.value)}
         />

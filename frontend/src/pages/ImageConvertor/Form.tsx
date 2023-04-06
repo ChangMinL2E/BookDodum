@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import oilpainting from "../../Assets/Images/oilpainting.png";
 import oneline from "../../Assets/Images/oneline.png";
 import styled from "styled-components";
-import Loading from "../../Components/Common/Loading";
 
 type option = {
   name: string;
@@ -52,9 +51,7 @@ export default function Form({
           onInput={handleInput}
         />
       </form>
-      {isLoading ? (
-        <Loading />
-      ) : (
+  
         <Wrapper>
           {options.map((option, idx) => (
             <Option key={idx}>
@@ -73,7 +70,7 @@ export default function Form({
             </Option>
           ))}
         </Wrapper>
-      )}
+      
 
       <ButtonContainer>
         <Button type="submit" onClick={handleSubmit}>
