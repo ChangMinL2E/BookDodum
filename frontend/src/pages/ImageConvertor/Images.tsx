@@ -54,20 +54,20 @@ export default function Images({ imageUrls }: Props) {
       <Contents>
         {isLoading ? (
           <ImageLoading />
-        ) : (
-          <Minis>
+          ) : (
+            <Minis>
             {/* for문 돌려 */}
             {imageUrls?.map((image, idx) => (
               <div
-                style={{ margin: "5% 1%" }}
-                onClick={() => handleChange(idx)}
+              style={{ margin: "5% 1%" }}
+              onClick={() => handleChange(idx)}
               >
                 <ImageAI
                   key={idx}
                   imageUrl={image}
                   size="60px"
                   name={selectedIdx === idx ? "select" : ""}
-                />
+                  />
               </div>
             ))}
           </Minis>

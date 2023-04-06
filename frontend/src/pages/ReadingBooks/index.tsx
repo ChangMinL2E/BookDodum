@@ -119,7 +119,7 @@ const Writing = styled.div`
   display: flex;
   align-items: center;
   color: #5c5649;
-  margin: 2% auto;
+  margin: 10% auto;
 `
 
 const WriteIcon = styled.div`
