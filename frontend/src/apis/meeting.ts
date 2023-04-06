@@ -27,7 +27,7 @@ export async function createMeetingAPI(meeting: Meeting) {
         Authorization: `Bearer ${token}`,
       },
     });
-    return data;
+    return data.success;
   } catch (e) {
     console.log(e);
   }
@@ -103,6 +103,7 @@ export async function getBooksAPI() {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log(data)
     return data.responseData;
   } catch (e) {
     console.log(e);

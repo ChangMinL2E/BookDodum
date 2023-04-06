@@ -1,14 +1,17 @@
 import styled from "styled-components";
-import Spinner from '../../Assets/Images/spinner.gif'
+import Spinner from "../../Assets/Images/spinner.gif";
 import useSelectorTyped from "../../Store";
 
 export default function Loading() {
-  const nickname = useSelectorTyped((state) => state.user.name)
+  const nickname = useSelectorTyped((state) => state.user.name);
 
   return (
     <Background>
-      <LoadingText>{nickname}님을 위한 책을 찾고 있어요!
-      <br/>잠시만 기다려 주세요 😊</LoadingText>
+      <LoadingText>
+        {nickname}님을 위한 책을 찾고 있어요!
+        <br />
+        잠시만 기다려 주세요 😊
+      </LoadingText>
       <LoadingText>
         <img src={Spinner} width="50%" />
       </LoadingText>
@@ -22,7 +25,7 @@ const Background = styled.div`
   height: 100vh;
   top: 0;
   left: 0;
-  background: #F9F9F7;
+  background: #f9f9f7;
   z-index: 11;
   display: flex;
   flex-direction: column;

@@ -34,7 +34,7 @@ export default function Mybook() {
       const data = await getUserRecommendAPI(Number(bookId));
       
       let tmp: BookInfo[] = []
-    data.forEach((book: BookInfo) => {
+    data?.forEach((book: BookInfo) => {
       tmp.push({
         title: book.title,
         imageUrl: book.imageUrl,
@@ -119,7 +119,7 @@ const Writing = styled.div`
   display: flex;
   align-items: center;
   color: #5c5649;
-  margin: 2% auto;
+  margin: 10% auto;
 `
 
 const WriteIcon = styled.div`
