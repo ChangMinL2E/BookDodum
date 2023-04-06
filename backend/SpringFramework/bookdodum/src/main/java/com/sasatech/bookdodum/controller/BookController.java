@@ -1,10 +1,7 @@
 package com.sasatech.bookdodum.controller;
 
 
-import com.sasatech.bookdodum.dto.request.book.BookRequestDto;
-import com.sasatech.bookdodum.dto.request.book.PapagoRequestDto;
-import com.sasatech.bookdodum.dto.request.book.BookConvertRequestDto;
-import com.sasatech.bookdodum.dto.request.book.ReviewRequestDto;
+import com.sasatech.bookdodum.dto.request.book.*;
 import com.sasatech.bookdodum.dto.resposne.api.ApiResponseDto;
 import com.sasatech.bookdodum.entity.user.User;
 import com.sasatech.bookdodum.service.book.BookService;
@@ -67,13 +64,13 @@ public class BookController {
 
     @GetMapping("/isbn")
     @Operation(summary = "ISBN 조회")
-    public ResponseEntity<?> readIsbn(@RequestParam("path") String path,
+    public ResponseEntity<?> readIsbn(@RequestBody IsbnRequestDto isbnRequestDto,
                                       @Parameter(hidden = true)
                                       @AuthenticationPrincipal User user,
                                       @Parameter(hidden = true)
                                       @RequestHeader("Authorization") String authorizationHeader) {
         String jwtToken = authorizationHeader.substring(7);
-        return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", bookService.readIsbn(path, user, jwtToken)), HttpStatus.OK);
+        return new ResponseEntity(new ApiResponseDto(true, "readIsbn Success", bookService.readIsbn(isbnRequestDto.getPath(), user, jwtToken)), HttpStatus.OK);
     }
 
 
