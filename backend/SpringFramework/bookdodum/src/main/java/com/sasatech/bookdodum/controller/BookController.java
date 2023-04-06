@@ -153,6 +153,10 @@ public class BookController {
                                           @Parameter(hidden = true)
                                           @AuthenticationPrincipal User user) {
 
+        System.out.println(user.getId());
+        System.out.println(reviewRequestDto.getBookId());
+        System.out.println(reviewRequestDto.getContent());
+
         if (reviewService.createReview(reviewRequestDto, user.getId())) {
             return new ResponseEntity(new ApiResponseDto(true, "createReview Success", null), HttpStatus.OK);
         } else {
