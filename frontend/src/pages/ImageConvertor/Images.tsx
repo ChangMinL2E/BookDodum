@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ImageAI from "../../Components/Contents/ImageAI";
+import { useNavigate } from "react-router-dom";
 import { saveImageAPI } from "../../apis/saveImage";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { postBookIdAPI } from "../../apis/isbn";
@@ -17,6 +18,7 @@ interface ImageProps {
 }
 
 export default function Images({ imageUrls }: Props) {
+  const navigate = useNavigate();
   const bookId = useParams().bookid;
 
   // 선택할 인덱스
@@ -38,6 +40,7 @@ export default function Images({ imageUrls }: Props) {
 
   const submitImage = async () => {
     await saveImageAPI(Image);
+    navigate("/mypage");
   };
 
   return (
@@ -116,4 +119,6 @@ const Button = styled.button`
   width: 100%;
   color: #5c5649;
   font-weight: bold;
+  .active {
+  }
 `;

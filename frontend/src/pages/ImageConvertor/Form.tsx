@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import oilpainting from "../../Assets/Images/oilpainting.png";
 import oneline from "../../Assets/Images/oneline.png";
 import styled from "styled-components";
+import Loading from "../../Components/Common/Loading";
 
 type option = {
   name: string;
@@ -24,7 +25,6 @@ export default function Form({
   setSelectedOption,
   selectedOption,
 }: Props) {
-
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKorean(e.target.value);
   };
@@ -41,6 +41,11 @@ export default function Form({
       image: oneline,
     },
   ];
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 5000);
 
   return (
     <Container>
@@ -53,24 +58,29 @@ export default function Form({
           onInput={handleInput}
         />
       </form>
-      <Wrapper>
-        {options.map((option, idx) => (
-          <Option key={idx}>
-            <Image>
-              <img src={option.image} width="80px" height="80px" />
-            </Image>
-            <OptionValue>
-              <input
-                type="radio"
-                value={option.value}
-                checked={selectedOption === option.value}
-                onChange={(e) => setSelectedOption(e.target.value)}
-              />
-              <OptionName>{option.name}</OptionName>
-            </OptionValue>
-          </Option>
-        ))}
-      </Wrapper>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <Wrapper>
+          {options.map((option, idx) => (
+            <Option key={idx}>
+              <Image>
+                <img src={option.image} width="80px" height="80px" />
+              </Image>
+              <OptionValue>
+                <input
+                  type="radio"
+                  value={option.value}
+                  checked={selectedOption === option.value}
+                  onChange={(e) => setSelectedOption(e.target.value)}
+                />
+                <OptionName>{option.name}</OptionName>
+              </OptionValue>
+            </Option>
+          ))}
+        </Wrapper>
+      )}
+
       <ButtonContainer>
         <Button type="submit" onClick={handleSubmit}>
           변환하기
