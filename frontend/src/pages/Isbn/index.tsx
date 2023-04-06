@@ -19,12 +19,18 @@ export const Isbn = () => {
   const [url, setUrl] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [bookId, setBookId] = useState<number>(0);
-  const [videoWidth, setVideoWidth] = useState<number>(0);
-  const [videoHeight, setVideoHeight] = useState<number>(0);
-  
+  const [videoWidth, setVideoWidth] = useState<number>(window.innerWidth);
+  const [videoHeight, setVideoHeight] = useState<number>(window.innerHeight);
+
   useEffect(() => {
-    setVideoWidth(window.innerWidth);
-    setVideoHeight(window.innerHeight);
+    const handleResize = () => {
+      setVideoWidth(window.innerWidth);
+      setVideoHeight(window.innerHeight);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const videoConstraints = {
