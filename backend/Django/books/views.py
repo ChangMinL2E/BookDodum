@@ -12,7 +12,7 @@ import json, Levenshtein
 import numpy as np
 import nltk
 import time
-# nltk.download('punkt')
+nltk.download('punkt')
 
 from .models import Book, Matrix, ID
 from .serializers import BookListSerializer

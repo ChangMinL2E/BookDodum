@@ -16,6 +16,16 @@ export interface BookInfo {
   isbn: number;
 }
 
+export interface BookDetail {
+  bookId: number;
+  title: string;
+  author: string;
+  publisher: string;
+  imageUrl: string;
+  content: string;
+  category: string[];
+}
+
 // user의 book
 export interface UserBook {
   bookId: number;
