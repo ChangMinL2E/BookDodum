@@ -11,6 +11,9 @@ export async function getBookInfoAPI(imgUrl: string) {
       method: "POST",
       url: `${baseUrl}/book/isbn`,
       data: { path: imgUrl },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     return data.responseData;
   } catch (e) {
