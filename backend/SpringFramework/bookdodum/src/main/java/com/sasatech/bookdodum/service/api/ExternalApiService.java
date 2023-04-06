@@ -117,7 +117,7 @@ public class ExternalApiService {
             String parsed = "";
 
             // 정규 표현식을 사용하여 "광주"라는 문자열 추출
-            Pattern pattern = Pattern.compile("'([^']*)'");
+            Pattern pattern = Pattern.compile("(?<=\")[ㄱ-ㅎ가-힣]+(?=\")");
             Matcher matcher = pattern.matcher(responseString);
 
             parsed = matcher.group(1);
