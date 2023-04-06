@@ -11,6 +11,7 @@ import useSelectorTyped from "../../Store";
 const videoConstraints = {
   width: 360,
   height: 740,
+  // aspectRatio: 0.4864864865,
   facingMode: "environment",
   // facingMode: "user",
 };
@@ -100,15 +101,18 @@ export const Isbn = () => {
   };
 
   return (
-    <div>
+    <Container>
       {!title ? (
         <Cam>
-          <Webcam
-            audio={false}
-            ref={webcamRef}
-            screenshotFormat="image/png"
-            videoConstraints={videoConstraints}
-          />
+          <CamWrap>
+            <Webcam
+              audio={false}
+              ref={webcamRef}
+              screenshotFormat="image/png"
+              videoConstraints={videoConstraints}
+              imageSmoothing={true}
+            />
+          </CamWrap>
           <Barcode>
             <BarcodeBox />
             <BarcodeText>
@@ -134,18 +138,35 @@ export const Isbn = () => {
           clickYesBtn={clickYesBtn}
         />
       )}
-    </div>
+    </Container>
   );
 };
 
 // styled component
-const Cam = styled.div``;
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+`;
+
+const Cam = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const CamWrap = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
 
 const Barcode = styled.div`
   z-index: 999;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 90%;
 `;
 
 const BarcodeBox = styled.div`
@@ -164,7 +185,7 @@ const BarcodeText = styled.div`
 `;
 
 const Button = styled.div`
-  z-index: 999;
+  z-index: 2;
   border-radius: 100px;
   height: 80px;
   width: 80px;
