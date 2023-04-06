@@ -123,7 +123,9 @@ public class ExternalApiService {
                 parsed = matcher.group(1);
             }
 
+            System.out.println("======");
             System.out.println(parsed); // "광주" 출력
+            System.out.println("======");
 
             return parsed;
 
