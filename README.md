@@ -159,17 +159,8 @@ if sum(user_matrix) == 0:
 
 ---
 
-<br/>
-<br/>
 
-## 와이어 프레임
 
-![와이어프레임](images/wireframe.png)
-
-<br/>
-<br/>
-
----
 
 <br/>
 <br/>
