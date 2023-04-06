@@ -259,7 +259,7 @@ def register_data(request):
                 read_books = read_books
             )
         data.save()
-        return HttpResponse('등록 완료.')
+        # return HttpResponse('등록 완료.')
     # 이미 존재한다면,
     else:
         if not survey:
@@ -282,8 +282,39 @@ def register_data(request):
             )
 
         data.save()
-        
-        return HttpResponse('데이터 추가 저장')
+
+    append_data = []
+    try:
+        with open('register_data.json', 'r', encoding='utf-8-sig') as file:
+            append_data = json.load(file) 
+    except:
+        pass
+
+
+    if survey and read_books:
+        append_data.append({
+            "name" : user_id,
+            "survey":survey,
+            "read_books": read_books
+        })
+    elif survey:
+        append_data.append({
+            "name" : user_id,
+            "survey":survey
+        })
+    elif read_books:
+        user = list(ID.objects.filter(name=user_id))
+        append_data.append({
+            "name" : user_id,
+            "survey":user[-1].survey,
+            "read_books": read_books
+        })
+
+    with open('register_data.json','w',encoding='utf-8-sig') as file:
+        json.dump(append_data, file, ensure_ascii=False)
+
+    
+    return HttpResponse('데이터 저장')
 
 def update_matrix(isbn):
     matrix = list(Matrix.objects.values())
@@ -329,6 +360,14 @@ def add_book(request):
     data = dict_data.get('data')
     # update_matrix(isbn)
     # 새로운 책 등록
+    append_books = []
+    try:
+        with open('new_books.json', 'r', encoding='utf-8-sig') as file:
+            append_books = json.load(file)
+    except:
+        pass
+    
+
     if data:
         book = list(Book.objects.filter(title=data.get('title')))
         if len(book) == 0:
@@ -345,6 +384,19 @@ def add_book(request):
             print("새로운 책 등록")
             # matrix 수정도 이루어져야 한다.
             update_matrix(isbn)
+            test_book = {
+                "title":data['title'],
+                "author":data['author'],
+                "publisher":data['publisher'],
+                "image_url":data['image_url'],
+                "isbn":data['isbn'],
+                "category":['국내도서'],
+                "content": data['content']
+            }
+            if not test_book in append_books:
+                append_books.append(test_book)
+            with open('new_books.json','w',encoding='utf-8-sig') as file:
+                json.dump(append_books, file, ensure_ascii=False)
         else:
             print("이미 db에 존재하는 책입니다.")
 
@@ -353,18 +405,32 @@ def add_book(request):
 
 
 
+    append_data = []
+    try:
+        with open('register_data.json', 'r', encoding='utf-8-sig') as file:
+            append_data = json.load(file) 
+    except:
+        pass
     # 읽은 책 등록
     user = list(ID.objects.filter(name=user_id))
 
     user_books = user[-1].read_books
     # 읽은 책이 없는 경우,
     if user_books == '':
-            data = ID(
-            name = user_id,
-            survey = user[-1].survey,
-            read_books = [isbn]
-            )
-            data.save()
+        data = ID(
+        name = user_id,
+        survey = user[-1].survey,
+        read_books = [isbn]
+        )
+        data.save()
+        append_data.append({
+            "name" : user_id,
+            "survey" : user[-1].survey,
+            "read_books" : [isbn]
+        })
+        with open('register_data.json','w',encoding='utf-8-sig') as file:
+            json.dump(append_data, file, ensure_ascii=False)
+
     # 책을 등록한 적이 있는 경우,
     else:
         user_books = list(eval(user_books))
@@ -376,8 +442,72 @@ def add_book(request):
                 read_books = user_books
                 )
             data.save()
+            append_data.append({
+                "name" : user_id,
+                "survey" : user[-1].survey,
+                "read_books" : user_books
+            })
+            with open('register_data.json','w',encoding='utf-8-sig') as file:
+                json.dump(append_data, file, ensure_ascii=False)
+
         else:
             return HttpResponse("이미 등록한 책입니다.")
 
     return HttpResponse("책 등록 성공!")
 
+def update_database():
+    append_data = []
+    try:
+        with open('register_data.json', 'r', encoding='utf-8-sig') as file:
+            append_data = json.load(file) 
+    except:
+        pass
+    
+    user_names = []
+
+    for data in append_data[::-1]:
+        # print(data)
+        if not data['name'] in user_names:
+            if len(list(ID.objects.filter(name=data['name']))) == 0:
+                if data.get("read_books") != "":
+                    id_data = ID(
+                        name = data.get("name"),
+                        survey = data.get("survey"),
+                        read_books = data.get("read_books")
+                    )
+                else:
+                    id_data = ID(
+                        name = data.get("name"),
+                        survey = data.get("survey")
+                    )
+                id_data.save()
+                user_names.append(data.get("name"))
+                print(f"{data.get('name')} 등록")
+
+            # print(ID.objects.filter(name=data['name']))
+        # print(data in users)
+
+    append_books = []
+    try:
+        with open('new_books.json', 'r', encoding='utf-8-sig') as file:
+            append_books = json.load(file) 
+    except:
+        pass
+
+    for book in append_books:
+        if len(list(Book.objects.filter(isbn=book['isbn']))) == 0:
+            new_book = Book(
+                title=book['title'],
+                author=book['author'],
+                publisher=book['publisher'],
+                image_url=book['image_url'],
+                isbn=book['isbn'],
+                category=['국내도서'],
+                content = book['content']
+            )
+            new_book.save()
+            
+            update_matrix(book['isbn'])
+            print("update 진행중")
+
+    
