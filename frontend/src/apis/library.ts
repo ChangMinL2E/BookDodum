@@ -30,7 +30,7 @@ export async function getRegionCodeAPI(longitude: number, latitude: number) {
   try {
     const data = await axios({
       method: "GET",
-      url: `${API_URL}/external/regioncode?longitude=${longitude}&latitude=${latitude}`,
+      url: `http://43.201.102.210:8081/api/external/regioncode?longitude=${longitude}&latitude=${latitude}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
