@@ -120,6 +120,9 @@ public class ExternalApiService {
             Pattern pattern = Pattern.compile("(?<=\")[ㄱ-ㅎ가-힣]+(?=\")");
             Matcher matcher = pattern.matcher(responseString);
 
+            parsed = matcher.group(0);
+            System.out.println(parsed); // "광주" 출력
+
             parsed = matcher.group(1);
             System.out.println(parsed); // "광주" 출력
 
