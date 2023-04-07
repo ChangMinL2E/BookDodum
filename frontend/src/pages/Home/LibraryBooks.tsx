@@ -53,7 +53,7 @@ export default function LibraryBooks() {
   };
 
   const getLibraryBooks = async (REGION_CODE: number) => {
-    const data = await getLibraryBooksAPI(REGION_CODE);
+    const data = await getLibraryBooksAPI(24);
     let tmp: LibraryBook[] = [];
     data?.forEach((book: any) => {
       tmp.push({
@@ -152,7 +152,7 @@ const Title = styled.div`
   font-size: 25px;
   font-weight: 700;
   text-align: center;
-  margin: 3% 0;
+  margin: 3% auto;
   text-shadow: 0px 3px 3px #00000040;
   &.title {
     animation: fadeIn 2s ease-in-out;

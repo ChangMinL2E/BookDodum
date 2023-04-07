@@ -24,7 +24,6 @@ export default function Form({
   setSelectedOption,
   selectedOption,
 }: Props) {
-
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKorean(e.target.value);
   };
@@ -41,7 +40,6 @@ export default function Form({
       image: oneline,
     },
   ];
-
   return (
     <Container>
       <Title>기억나는 장면이나 문구를 그림으로 남겨드립니다.</Title>
@@ -53,24 +51,27 @@ export default function Form({
           onInput={handleInput}
         />
       </form>
-      <Wrapper>
-        {options.map((option, idx) => (
-          <Option key={idx}>
-            <Image>
-              <img src={option.image} width="80px" height="80px" />
-            </Image>
-            <OptionValue>
-              <input
-                type="radio"
-                value={option.value}
-                checked={selectedOption === option.value}
-                onChange={(e) => setSelectedOption(e.target.value)}
-              />
-              <OptionName>{option.name}</OptionName>
-            </OptionValue>
-          </Option>
-        ))}
-      </Wrapper>
+  
+        <Wrapper>
+          {options.map((option, idx) => (
+            <Option key={idx}>
+              <Image>
+                <img src={option.image} width="80px" height="80px" />
+              </Image>
+              <OptionValue>
+                <input
+                  type="radio"
+                  value={option.value}
+                  checked={selectedOption === option.value}
+                  onChange={(e) => setSelectedOption(e.target.value)}
+                />
+                <OptionName>{option.name}</OptionName>
+              </OptionValue>
+            </Option>
+          ))}
+        </Wrapper>
+      
+
       <ButtonContainer>
         <Button type="submit" onClick={handleSubmit}>
           변환하기
