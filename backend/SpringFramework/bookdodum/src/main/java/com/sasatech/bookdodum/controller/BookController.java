@@ -125,6 +125,9 @@ public class BookController {
     public ResponseEntity<?> convertBook(@RequestBody BookConvertRequestDto bookConvertRequestDto,
                                          @Parameter(hidden = true)
                                          @AuthenticationPrincipal User user) {
+
+        System.out.println(user.getId());
+        System.out.println(user.getName());
         if (bookService.convertBook(bookConvertRequestDto, user.getId())) {
             return new ResponseEntity(new ApiResponseDto(true, "convertBook Success", null), HttpStatus.OK);
         } else {
