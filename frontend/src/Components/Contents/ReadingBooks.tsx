@@ -45,7 +45,7 @@ export default function ReadingBooks({ theme, type }: Props) {
         isbn: 0,
       });
     });
-    setBooks(tmp);
+    setBooks(tmp.reverse());
   };
 
   return (
