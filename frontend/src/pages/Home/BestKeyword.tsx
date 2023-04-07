@@ -101,18 +101,18 @@ const Title = styled.div`
   margin: 3% auto;
   text-shadow: 0px 3px 3px #00000040;
   &.title {
-    /* animation: fadeIn 2s ease-in-out; */
+    animation: fadeIn 2s ease-in-out;
   }
 
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translate(50%, 30px);
     }
     to {
-      opacity: 3;
-      transform: none;
-    }
+      opacity:3;
+      transform: translate(50%, 0);
+    }   
   }
 `;
 

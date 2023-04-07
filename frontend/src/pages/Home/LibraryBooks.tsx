@@ -149,7 +149,6 @@ const Container = styled.div`
 `;
 
 const Title = styled.div`
-border: 2px solid red;
   font-size: 25px;
   font-weight: 700;
   text-align: center;
