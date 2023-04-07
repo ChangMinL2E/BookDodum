@@ -39,7 +39,7 @@ export default function MeetingList() {
       </MeetingText>
       <Contents>
         {bookMeetings.length === 0 ? (
-          <div style={{ fontSize: "13px" }}>아직 없어요😥</div>
+          <div style={{ fontSize: "13px", width: "100%", textAlign:'center'}}>아직 없어요😥</div>
         ) : (
           <List>
             <>
