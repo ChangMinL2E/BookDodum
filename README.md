@@ -9,7 +9,7 @@
 
 > #### **"종이책을 즐겨읽는 사용자를 위한 빅데이터 기반 도서 추천 및 독서 모임 서비스"<br/>**
 >
-> <b style="color:#555555">프로젝트 기간 : 2023.03.06 ~ 2023.04.07</b>
+> <b style="color:#555555">프로젝트 기간 : 2023.02.20 ~ 2023.04.07</b>
 
 <br/>
 
@@ -104,8 +104,9 @@ if sum(user_matrix) == 0:
 > ### 독서 모임
 
 <div style="margin:10px 0 20px 0;display:flex">
- <img style="margin: 0 10px 0 0" src='images/survey.gif' width="200px"/>
- <img style="margin: 0 10px 0 0" src='images/result.gif' width="200px"/>
+ <img style="margin: 0 10px 0 0" src='images/meetingcreate.gif' width="200px"/>
+ <img style="margin: 0 10px 0 0" src='images/meetingtab.gif' width="200px"/>
+ <img style="margin: 0 10px 0 0" src='images/meetingin.gif' width="200px"/>
 </div>
 
 현재 읽고 있는 책을 중심으로 독서 모임을 생성하고, 생각을 나눌 수 있습니다. <br> 비공개로 설정한 모임에는 책을 읽었거나, 읽고 있는 사용자만 글을 작성할 수 있습니다.
