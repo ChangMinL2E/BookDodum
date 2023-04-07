@@ -59,7 +59,7 @@ public class ExternalApiController {
     // 현재 좌표를 기준으로 지역코드 불러오기
     @GetMapping("/regioncode")
     @Operation(summary = "현재 좌표를 기준으로 지역코드 불러오기")
-    public ResponseEntity<?> getRegionCodeAPI(@RequestParam("longitude") String longitude,
+    public String getRegionCodeAPI(@RequestParam("longitude") String longitude,
                                               @RequestParam("latitude") String latitude){
         System.out.println(longitude + ", " +latitude);
         return externalApiService.getRegionCodeAPI(longitude, latitude);

@@ -82,7 +82,7 @@ _북돋움은 사용자의 행동을 기반으로 **개인 맞춤형 도서 추�
 </div>
 
 
-데이터베이스에 존재하는 책마다 미리 만들어놓은 벡터들과 자연어처리한 토큰들로 고유한 행렬을 만들고, 유저 활동을 벡터별 가중치를 만들어서 이를 이용한 추천을 진행하고 있습니다.
+데이터베이스에 존재하는 책마다 미리 만들어놓은 벡터들과 자연어처리한 토큰들로 고유한 행렬을 만들고,<br> 유저 활동을 벡터별 가중치를 만들어서 이를 이용한 추천을 진행하고 있습니다.
 
 ```
 if sum(user_matrix) == 0:
@@ -108,10 +108,22 @@ if sum(user_matrix) == 0:
  <img style="margin: 0 10px 0 0" src='images/result.gif' width="200px"/>
 </div>
 
-현재 읽고 있는 책을 중심으로 독서 모임을 생성하고, 생각을 나눌 수 있습니다. 비공개로 설정한 모임에는 책을 읽었거나, 읽고 있는 사용자만 글을 작성할 수 있습니다.
+<<<<<<< HEAD
+현재 읽고 있는 책을 중심으로 독서 모임을 생성하고, 생각을 나눌 수 있습니다. <br>비공개로 설정한 모임에는 책을 읽었거나, 읽고 있는 사용자만 글을 작성할 수 있습니다.
+=======
+현재 읽고 있는 책을 중심으로 독서 모임을 생성하고, 생각을 나눌 수 있습니다. <br> 비공개로 설정한 모임에는 책을 읽었거나, 읽고 있는 사용자만 글을 작성할 수 있습니다.
+>>>>>>> 6b35f3bdc8d00e83d203752474e1805f92fc40a2
 
 <br/>
 
+> ### 독후감 작성
+
+<div style="margin:10px 0 20px 0;display:flex">
+ <img style="margin: 0 10px 0 0" src='images/write.png' width="200px"/>
+ <img style="margin: 0 10px 0 0" src='images/dalle.gif' width="320px"/>
+</div>
+
+책을 읽으면서 독후감 페이지에서 독후감을 작성할 수 있습니다. <br> 책을 다 읽은 후 가장 기억에 남는 장면을 작성하면 이미지로 변환해줍니다.  
 
 <br/>
 <br/>
@@ -120,32 +132,58 @@ if sum(user_matrix) == 0:
 
 <br/>
 <br/>
+
+## 기대효과 🔔
+<br/>
+
+>### 추천
+
+추천을 통해 책을 고르는 시간을 아낄 수 있습니다.<br> 또한 유저간에 무슨 책을 읽었는지, 다음에 무슨 책을 읽었는지 알 수 있어 다양한 분야의 책을 읽으며 식견을 넓힐 수 있습니다. 
+
+<br/>
+
+>### 독서모임
+
+자신의 생각을 표현하며 한 번 더 책을 소화할 수 있습니다. <br> 이러한 생각을 사람들과 함께 공유함으로써 책 한권이 아닌 N권을 읽는 효과를 낼 수 있습니다. 
+
+<br/>
+
+>### 독후감작성
+
+기록하지 않으면 기억에 잘 남지 않습니다. <br> 따라서 책을 읽을 때마다 독후감을 작성함으로써 오래 기억할 수 있게 합니다. 추가로 텍스트를 이미지로 변환해줌으로써 기억할 수 있는 효과를 극대화 해 줄 수 있습니다. 
+
+<br/>
+<br/>
+
+
+---
 
 ## 아키텍처 설계도
 
-<br/>
-<br/>
-
----
-
-<br/>
-<br/>
-
-## 와이어 프레임
-
-![와이어프레임](images/wireframe.png)
+![아키텍처 설계도](images/architecture.png)
 
 <br/>
 <br/>
 
 ---
+## 와이어프레임 
+
+![와이어 프레임](images/wireframe.png)
 
 <br/>
 <br/>
+
+--- 
+
+<br/>
+<br/>
+
+
+
 
 ## 팀원 소개
 
-|    <img src='images/ziu.png' width='150px'>    |  <img src='images/yuna.png' width='150px'>  |    <img src='images/hye.png' width='150px'>    |     <img src='images/woogie.png' width='150px'>     |     <img src='images/won.png' width='150px'>     |    <img src='images/chang.png' width='150px'>    |
+|    <img src='images/ziu.png' width='150px'>    |  <img src='images/yunam.png' width='150px'>  |    <img src='images/hye.png' width='150px'>    |     <img src='images/woogie.png' width='150px'>     |     <img src='images/won.png' width='150px'>     |    <img src='images/chang.png' width='150px'>    |
 | :--------------------------------------------: | :-----------------------------------------: | :--------------------------------------------: | :-------------------------------------------------: | :----------------------------------------------: | :----------------------------------------------: |
 | **[FE 최지우👑](https://github.com/choizlor)** | **[FE 김유나](https://yunae.tistory.com/)** | **[FE 나혜승](https://github.com/HyeseungNA)** | **[BE 최종욱](https://whitedevelper.tistory.com/)** | **[BE 이원석](https://github.com/wonseokLee97)** | **[AI 이창민](https://changmiin2.tistory.com/)** |
 

@@ -42,7 +42,7 @@ export default function Result() {
 
   setTimeout(() => {
     setIsLoading(false);
-  }, 4000);
+  }, 7000);
 
   const getConentsRecommend = async () => {
     const data = await getContentsRecommendAPI(userId);

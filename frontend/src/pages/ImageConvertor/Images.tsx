@@ -5,6 +5,7 @@ import { saveImageAPI } from "../../apis/saveImage";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { postBookIdAPI } from "../../apis/isbn";
 
+
 interface Props {
   imageUrls: string[];
   bookid?: number;
@@ -18,6 +19,7 @@ interface ImageProps {
 
 export default function Images({ imageUrls }: Props) {
   const bookId = useParams().bookid;
+  const navigate = useNavigate();
 
   // 선택할 인덱스
   const [selectedIdx, setSelectedIdx] = useState<number>(0);
@@ -37,25 +39,32 @@ export default function Images({ imageUrls }: Props) {
   };
 
   const submitImage = async () => {
+
     await saveImageAPI(Image);
+    navigate("/mypage");
   };
+
 
   return (
     <Container>
-      <Contents>
-        <Minis>
-          {/* for문 돌려 */}
-          {imageUrls?.map((image, idx) => (
-            <div style={{ margin: "5% 1%" }} onClick={() => handleChange(idx)}>
-              <ImageAI
-                key={idx}
-                imageUrl={image}
-                size="60px"
-                name={selectedIdx === idx ? "select" : ""}
-              />
-            </div>
-          ))}
-        </Minis>
+      <Contents> 
+            <Minis>
+            {/* for문 돌려 */}
+            {imageUrls?.map((image, idx) => (
+              <div
+              style={{ margin: "5% 1%" }}
+              onClick={() => handleChange(idx)}
+              >
+                <ImageAI
+                  key={idx}
+                  imageUrl={image}
+                  size="60px"
+                  name={selectedIdx === idx ? "select" : ""}
+                  />
+              </div>
+            ))}
+          </Minis>
+
         {/* 선택된 사진 업데이트 */}
         <Selected>
           <ImageAI imageUrl={imageUrls[selectedIdx]} size="250px" />
@@ -65,6 +74,7 @@ export default function Images({ imageUrls }: Props) {
         <Button
           onClick={() => {
             submitImage();
+            navigate("/mypage")
           }}
         >
           확인
@@ -116,4 +126,6 @@ const Button = styled.button`
   width: 100%;
   color: #5c5649;
   font-weight: bold;
+  .active {
+  }
 `;
