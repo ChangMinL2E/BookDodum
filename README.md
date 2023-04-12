@@ -643,6 +643,18 @@ frontend
 <br/>
 
 --- 
+## ERD
+
+![ERD](images/ERD.png)
+
+---
+## API 명세서
+
+![API1](images/API1.png)
+![API2](images/API2.png)
+![API3](images/API3.png)
+![API4](images/API4.png)
+
 
 <br/>
 <br/>
