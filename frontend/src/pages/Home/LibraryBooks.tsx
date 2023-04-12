@@ -48,7 +48,6 @@ export default function LibraryBooks() {
 
   const getRegionCode = async () => {
     const data = await getRegionCodeAPI(position[0], position[1]);
-    console.log(data, '!!')
     setRegionName(data?.regionName);
     setRegionCode(data?.regionCode);
   };
@@ -153,7 +152,7 @@ const Title = styled.div`
   font-size: 25px;
   font-weight: 700;
   text-align: center;
-  margin: 3% 0;
+  margin: 3% auto;
   text-shadow: 0px 3px 3px #00000040;
   &.title {
     animation: fadeIn 2s ease-in-out;

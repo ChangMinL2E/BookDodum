@@ -98,7 +98,7 @@ const Title = styled.div`
   font-size: 25px;
   font-weight: 700;
   text-align: center;
-  margin: 3% 0;
+  margin: 3% auto;
   text-shadow: 0px 3px 3px #00000040;
   &.title {
     animation: fadeIn 2s ease-in-out;
@@ -107,12 +107,12 @@ const Title = styled.div`
   @keyframes fadeIn {
     from {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translate(50%, 30px);
     }
     to {
-      opacity: 3;
-      transform: none;
-    }
+      opacity:3;
+      transform: translate(50%, 0);
+    }   
   }
 `;
 
