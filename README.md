@@ -651,6 +651,13 @@ frontend
 ![사이트 맵](/images/sitemap.png)
 
 ---
+## 기능명세서
+
+![기능명세서1](https://user-images.githubusercontent.com/87683992/231486951-260297c5-23f7-465b-af87-fc51d4f6062e.PNG)
+![기능명세서2](https://user-images.githubusercontent.com/87683992/231487026-1fcd96b0-13a0-4501-a4bf-81d35f612c67.PNG)
+![기능명세서3](https://user-images.githubusercontent.com/87683992/231487105-5541e5ba-f59f-4e09-bc25-e5cbff6434e2.PNG)
+
+---
 ## ERD
 
 ![ERD](images/ERD.png)
