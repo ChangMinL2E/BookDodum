@@ -157,49 +157,20 @@ if sum(user_matrix) == 0:
 ### Backend
 ```
 backend
-├─ .idea
-│  ├─ backend.iml
-│  ├─ misc.xml
-│  ├─ modules.xml
-│  ├─ vcs.xml
-│  └─ workspace.xml
 ├─ Django
 │  ├─ books
-│  │  ├─ admin.py
 │  │  ├─ apps.py
 │  │  ├─ fixtures
-│  │  │  └─ books.json
 │  │  ├─ migrations
-│  │  │  ├─ 0001_initial.py
-│  │  │  ├─ 0002_matrix.py
-│  │  │  ├─ 0003_id.py
-│  │  │  ├─ 0004_rename_isbns_id_isbn_books.py
-│  │  │  ├─ 0005_rename_isbn_books_id_read_books.py
-│  │  │  └─ __init__.py
 │  │  ├─ models.py
 │  │  ├─ serializers.py
 │  │  ├─ tests.py
 │  │  ├─ urls.py
-│  │  ├─ views.py
-│  │  └─ __init__.py
+│  │  └─ views.py
 │  ├─ data
-│  │  ├─ merged_data.csv
-│  │  └─ merged_data.json
 │  ├─ data_crawling.py
-│  ├─ Dockerfile
-│  ├─ image
-│  │  └─ api목록.PNG
 │  ├─ manage.py
-│  ├─ MVP
-│  │  ├─ asgi.py
-│  │  ├─ settings.py
-│  │  ├─ urls.py
-│  │  ├─ wsgi.py
-│  │  └─ __init__.py
-│  ├─ new_books.json
-│  ├─ README.md
-│  ├─ register_data.json
-│  └─ requirements.txt
+│  └─new_books.json
 └─ SpringFramework
    └─ bookdodum
       ├─ .DS_Store
@@ -628,120 +599,31 @@ backend
 ```
 frontend
 ├─ .env
-├─ Dockerfile
-├─ package-lock.json
-├─ package.json
-├─ public
-│  ├─ favicon.ico
-│  └─ index.html
 └─ src
    ├─ apis
-   │  ├─ auth.ts
-   │  ├─ changeImage.js
-   │  ├─ detail.ts
-   │  ├─ isbn.ts
-   │  ├─ library.ts
-   │  ├─ meeting.ts
-   │  ├─ read.ts
-   │  ├─ reading.ts
-   │  ├─ readwith.ts
-   │  ├─ recommend.ts
-   │  ├─ saveImage.ts
-   │  ├─ survey.ts
-   │  ├─ translate.ts
-   │  └─ write.ts
-   ├─ App.css
    ├─ App.tsx
    ├─ Assets
-   │  ├─ Fonts
-   │  └─ Images
-   │     └─ survey
    ├─ Components
    │  ├─ Common
-   │  │  ├─ Loading.tsx
-   │  │  ├─ Nav.tsx
-   │  │  ├─ ScrollTop.tsx
-   │  │  └─ SideBar.tsx
    │  └─ Contents
-   │     ├─ Book.tsx
-   │     ├─ BookBanner.tsx
-   │     ├─ BookCover.tsx
-   │     ├─ DetailModal.tsx
-   │     ├─ ImageAI.tsx
-   │     ├─ MeetingCover.tsx
-   │     ├─ NavBack.tsx
-   │     └─ ReadingBooks.tsx
-   ├─ custom.d.ts
-   ├─ font.d.ts
-   ├─ index.css
-   ├─ index.tsx
    ├─ pages
    │  ├─ Home
-   │  │  ├─ Banner.tsx
-   │  │  ├─ BestKeyword.tsx
-   │  │  ├─ BookList.tsx
-   │  │  ├─ index.tsx
-   │  │  ├─ LibraryBooks.tsx
-   │  │  └─ Recommend.tsx
    │  ├─ ImageConvertor
-   │  │  ├─ Form.tsx
-   │  │  ├─ ImageLoading.tsx
-   │  │  ├─ Images.tsx
-   │  │  └─ index.tsx
    │  ├─ Intro
-   │  │  └─ index.tsx
    │  ├─ Isbn
-   │  │  ├─ Check.tsx
-   │  │  └─ index.tsx
    │  ├─ Library
-   │  │  ├─ index.tsx
-   │  │  ├─ LibraryList.tsx
-   │  │  └─ LibraryModal.tsx
    │  ├─ Login
-   │  │  └─ index.tsx
    │  ├─ Meeting
-   │  │  ├─ Button.tsx
-   │  │  ├─ index.tsx
-   │  │  ├─ List.tsx
-   │  │  └─ ListCard.tsx
    │  ├─ MeetingCreate
-   │  │  └─ index.tsx
    │  ├─ MeetingRoom
-   │  │  ├─ index.tsx
-   │  │  ├─ List.tsx
-   │  │  └─ ListCard.tsx
    │  ├─ Mypage
-   │  │  ├─ Index.tsx
-   │  │  ├─ MypageBanner.tsx
-   │  │  └─ Read.tsx
    │  ├─ ReadingBooks
-   │  │  ├─ index.tsx
-   │  │  ├─ MeetingList.tsx
-   │  │  ├─ UserList.tsx
-   │  │  └─ UserProfile.tsx
    │  ├─ RecommendList
-   │  │  └─ index.tsx
    │  ├─ Signup
-   │  │  └─ Index.tsx
    │  ├─ Survey
-   │  │  ├─ EmotionCard.tsx
-   │  │  ├─ FieldCard.tsx
-   │  │  ├─ GenderCard.tsx
-   │  │  ├─ index.tsx
-   │  │  ├─ ReasonCard.tsx
-   │  │  ├─ Result.tsx
-   │  │  └─ Step.tsx
    │  └─ WriteText
-   │     ├─ Comment.tsx
-   │     ├─ index.tsx
-   │     └─ TextForm.tsx
    ├─ Store
-   │  ├─ index.ts
-   │  ├─ Types.ts
-   │  └─ userSlice.ts
    └─ Styles
-      ├─ GlobalFont.ts
-      └─ GlobalStyle.ts
 ```
 
 ---
