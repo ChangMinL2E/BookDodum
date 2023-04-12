@@ -592,7 +592,6 @@ backend
                   └─ sasatech
                      └─ bookdodum
                         └─ ProjectApplicationTests.java
-
 ```
 
 ### Frontend
@@ -625,6 +624,8 @@ frontend
    ├─ Store
    └─ Styles
 ```
+
+
 <br/>
 <br/>
 
@@ -645,9 +646,17 @@ frontend
 <br/>
 
 --- 
+## 사이트맵
+
+![사이트 맵](/images/sitemap.png)
+
+---
 ## ERD
 
 ![ERD](images/ERD.png)
+
+<br/>
+<br/>
 
 ---
 ## API 명세서
@@ -662,12 +671,72 @@ frontend
 <br/>
 
 ---
-## 프로젝트 결과물
-- [포팅메뉴얼] (https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22C104/-/blob/develop/exec/%ED%8A%B9%ED%99%94PJT_%EA%B4%91%EC%A3%BC_1%EB%B0%98_C104_%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC.docx)
-- [중간발표자료] (https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22C104/-/blob/develop/ppt/%EB%B6%81%EB%8F%8B%EC%9B%80_%EC%A4%91%EA%B0%84%EB%B0%9C%ED%91%9C.pdf)
-- [최종발표자료] (https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22C104/-/blob/develop/ppt/%EB%B6%81%EB%8F%8B%EC%9B%80_%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.pdf)
+## 컨벤션 ➰
+
+### Coding Convention
+
+> **GIT Branch Convention**
+>
+
+| master | - 배포 가능한 상태의 결과물 |
+| --- | --- |
+| develop | - 구현할 기능을 병합하기 위한 브랜치, 통합 폴더의 기능 |
+| release | - 개발된 내용을 배포하기 위해 준비하는 브랜치, 버그 수정 내용을 develop 브랜치에도 반영하고, 최종적으로 master 브랜치에 머지 |
+| feature | - 개발 기능 구현 브랜치, 기능 개발 완료 시 삭제 |
+| hotfix | - 수정 |
 
 <br/>
+
+> **GIT Commit Convention**
+> 
+
+**ex) FEAT: 로그인 rest api 추가**
+
+| FEAT | 새로운 기능을 추가할 경우 |
+| --- | --- |
+| FIX | 버그를 고친 경우 |
+| STYLE | 코드 포맷 변경, 간단한 수정, 코드 변경이 없는 경우 |
+| REFACTOR | 프로덕션 코드 리팩토링 |
+| DOCS | 문서를 수정한 경우 |
+| RENAME | 파일 혹은 폴더명 수정 및 이동 |
+| REMOVE | 파일 삭제 |
+| CHORE | build task 수정, 프로젝트 매니저 설정 수정 등 |
+
+<br/>
+
+> **JIRA Convention**
+> 
+
+- **에픽**
+    - 큰 단위의 업무(여러 User Story, Task 등을 묶은 단위)
+    - **생성 Convention**
+        - Epic을 생성할 때 파트를 적어준다.
+        - ex) BE 개발, FE 개발
+- **스토리**
+    - 해당 Epic의 하위 단위 작업으로 직접적인 개발과 기능 구현을 기본으로 한다.
+    - User Story의 크기는 sprint내에 완료 가능한 단위로 분할 필요
+    - **생성 Convention**
+        - ex) 로그인 기능
+            - 로그인 기능 개발
+            - UI/UX 구현
+            - 합의 알고리즘 구현
+- **부작업**
+    - Story, Task를 더 작은 단위로 나눈 업무
+    - **생성 Convention**
+        - 작업을 직관적으로 알 수 있도록 작성
+        - ex) 자동 로그인 기능 구현
+- **작업**
+
+<br/>
+<br/>
+
+---
+## 프로젝트 결과물
+- [포팅메뉴얼](https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22C104/-/blob/develop/exec/%ED%8A%B9%ED%99%94PJT_%EA%B4%91%EC%A3%BC_1%EB%B0%98_C104_%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC.docx)
+- [중간발표자료](https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22C104/-/blob/develop/ppt/%EB%B6%81%EB%8F%8B%EC%9B%80_%EC%A4%91%EA%B0%84%EB%B0%9C%ED%91%9C.pdf)
+- [최종발표자료](https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22C104/-/blob/develop/ppt/%EB%B6%81%EB%8F%8B%EC%9B%80_%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.pdf)
+
+
 <br/>
 
 ---
