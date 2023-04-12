@@ -634,7 +634,6 @@ frontend
 ├─ public
 │  ├─ favicon.ico
 │  └─ index.html
-├─ README.md
 └─ src
    ├─ apis
    │  ├─ auth.ts
@@ -655,44 +654,8 @@ frontend
    ├─ App.tsx
    ├─ Assets
    │  ├─ Fonts
-   │  │  ├─ KoPubBatangBold.ttf
-   │  │  ├─ KoPubBatangLight.ttf
-   │  │  └─ KoPubBatangMedium.ttf
    │  └─ Images
-   │     ├─ banner1.png
-   │     ├─ banner2.png
-   │     ├─ banner3.png
-   │     ├─ banner4.png
-   │     ├─ bookBanner.png
-   │     ├─ bookside.png
-   │     ├─ booktop.png
-   │     ├─ intro.png
-   │     ├─ logo-black.png
-   │     ├─ logo-white.png
-   │     ├─ mypagebanner.png
-   │     ├─ oilpainting.png
-   │     ├─ oneline.png
-   │     ├─ profile.png
-   │     ├─ spinner.gif
-   │     ├─ survey
-   │     │  ├─ bestseller.png
-   │     │  ├─ boring.png
-   │     │  ├─ confidence.png
-   │     │  ├─ development.png
-   │     │  ├─ farewell.png
-   │     │  ├─ frustrated.png
-   │     │  ├─ funny.png
-   │     │  ├─ happy.png
-   │     │  ├─ healing.png
-   │     │  ├─ love.png
-   │     │  ├─ man.png
-   │     │  ├─ sad.png
-   │     │  ├─ spec.png
-   │     │  ├─ stress.png
-   │     │  ├─ unrest.png
-   │     │  └─ woman.png
-   │     ├─ tape.png
-   │     └─ windflower.png
+   │     └─ survey
    ├─ Components
    │  ├─ Common
    │  │  ├─ Loading.tsx
