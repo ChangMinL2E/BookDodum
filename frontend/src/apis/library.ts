@@ -35,13 +35,10 @@ export async function getRegionCodeAPI(longitude: number, latitude: number) {
         Authorization: `Bearer ${token}`,
       },
     });
-
-    console.log(data);
     
     // 지역 이름 - string
     // const region: string = data["region_1depth_name"];
     
-
     return { regionName: data.data, regionCode: regions[data.data] };
     // return data;
   } catch (e) {

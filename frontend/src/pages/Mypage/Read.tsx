@@ -78,8 +78,8 @@ const ReadText = styled.div`
 const BooksWrap = styled.div`
   width: 90%;
   margin: auto;
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 `;
 
 const BookItem = styled.div`

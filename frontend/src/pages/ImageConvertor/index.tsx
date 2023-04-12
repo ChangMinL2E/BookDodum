@@ -5,11 +5,13 @@ import Images from "./Images";
 import { getTextAPI } from "../../apis/translate";
 import { changeImageAPI } from "../../apis/changeImage";
 
+import ImageLoading from "../ImageConvertor/ImageLoading";
+
 export default function ImageConvertor() {
   const [selectedOption, setSelectedOption] = useState<string>(""); // 그림 옵션 선택
   const [korean, setKorean] = useState<string>(""); // 번역할 문장
   const [imageUrls, setImageUrls] = useState<string[]>([]); // 변환된 이미지 url
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [translated, setTranslated] = useState<string>("");
 
   // 변환하기 버튼 눌렀을 때
@@ -35,14 +37,21 @@ export default function ImageConvertor() {
 
   // 그림 변환 api
   const changeImage = async (result: string) => {
+    setIsLoading(true);
     const data = await changeImageAPI(result);
-    setIsLoaded(true);
+
     let tmp: string[] = [];
     data?.forEach((item: any) => {
       tmp.push(item.url);
     });
     setImageUrls(tmp);
   };
+
+  
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 5000);
+
 
   return (
     <>
@@ -53,7 +62,9 @@ export default function ImageConvertor() {
         setSelectedOption={setSelectedOption}
         selectedOption={selectedOption}
       />
-      {isLoaded && <Images imageUrls={imageUrls} />}
+      {isLoading ? <ImageLoading/> :  <Images imageUrls={imageUrls} /> }
+    
+
     </>
   );
 }
