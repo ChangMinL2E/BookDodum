@@ -152,9 +152,636 @@ if sum(user_matrix) == 0:
 <br/>
 <br/>
 
+---
+## 프로젝트 파일 구조 ✔
+### Backend
+```
+backend
+├─ .idea
+│  ├─ backend.iml
+│  ├─ misc.xml
+│  ├─ modules.xml
+│  ├─ vcs.xml
+│  └─ workspace.xml
+├─ Django
+│  ├─ books
+│  │  ├─ admin.py
+│  │  ├─ apps.py
+│  │  ├─ fixtures
+│  │  │  └─ books.json
+│  │  ├─ migrations
+│  │  │  ├─ 0001_initial.py
+│  │  │  ├─ 0002_matrix.py
+│  │  │  ├─ 0003_id.py
+│  │  │  ├─ 0004_rename_isbns_id_isbn_books.py
+│  │  │  ├─ 0005_rename_isbn_books_id_read_books.py
+│  │  │  └─ __init__.py
+│  │  ├─ models.py
+│  │  ├─ serializers.py
+│  │  ├─ tests.py
+│  │  ├─ urls.py
+│  │  ├─ views.py
+│  │  └─ __init__.py
+│  ├─ data
+│  │  ├─ merged_data.csv
+│  │  └─ merged_data.json
+│  ├─ data_crawling.py
+│  ├─ Dockerfile
+│  ├─ image
+│  │  └─ api목록.PNG
+│  ├─ manage.py
+│  ├─ MVP
+│  │  ├─ asgi.py
+│  │  ├─ settings.py
+│  │  ├─ urls.py
+│  │  ├─ wsgi.py
+│  │  └─ __init__.py
+│  ├─ new_books.json
+│  ├─ README.md
+│  ├─ register_data.json
+│  └─ requirements.txt
+└─ SpringFramework
+   └─ bookdodum
+      ├─ .DS_Store
+      ├─ .gradle
+      │  ├─ 7.4
+      │  │  ├─ checksums
+      │  │  │  ├─ checksums.lock
+      │  │  │  ├─ md5-checksums.bin
+      │  │  │  └─ sha1-checksums.bin
+      │  │  ├─ dependencies-accessors
+      │  │  │  ├─ dependencies-accessors.lock
+      │  │  │  └─ gc.properties
+      │  │  ├─ executionHistory
+      │  │  │  ├─ executionHistory.bin
+      │  │  │  └─ executionHistory.lock
+      │  │  ├─ fileChanges
+      │  │  │  └─ last-build.bin
+      │  │  ├─ fileHashes
+      │  │  │  ├─ fileHashes.bin
+      │  │  │  └─ fileHashes.lock
+      │  │  └─ gc.properties
+      │  ├─ 7.6.1
+      │  │  ├─ checksums
+      │  │  │  ├─ checksums.lock
+      │  │  │  ├─ md5-checksums.bin
+      │  │  │  └─ sha1-checksums.bin
+      │  │  ├─ dependencies-accessors
+      │  │  │  ├─ dependencies-accessors.lock
+      │  │  │  └─ gc.properties
+      │  │  ├─ executionHistory
+      │  │  │  ├─ executionHistory.bin
+      │  │  │  └─ executionHistory.lock
+      │  │  ├─ fileChanges
+      │  │  │  └─ last-build.bin
+      │  │  ├─ fileHashes
+      │  │  │  ├─ fileHashes.bin
+      │  │  │  ├─ fileHashes.lock
+      │  │  │  └─ resourceHashesCache.bin
+      │  │  └─ gc.properties
+      │  ├─ buildOutputCleanup
+      │  │  ├─ buildOutputCleanup.lock
+      │  │  ├─ cache.properties
+      │  │  └─ outputFiles.bin
+      │  ├─ file-system.probe
+      │  └─ vcs-1
+      │     └─ gc.properties
+      ├─ .idea
+      │  ├─ compiler.xml
+      │  ├─ gradle.xml
+      │  ├─ inspectionProfiles
+      │  │  └─ Project_Default.xml
+      │  ├─ jarRepositories.xml
+      │  ├─ misc.xml
+      │  ├─ modules
+      │  │  └─ bookdodum.main.iml
+      │  ├─ uiDesigner.xml
+      │  └─ vcs.xml
+      ├─ build
+      │  ├─ bootRunMainClassName
+      │  ├─ classes
+      │  │  └─ java
+      │  │     └─ main
+      │  │        └─ com
+      │  │           └─ sasatech
+      │  │              └─ bookdodum
+      │  │                 ├─ config
+      │  │                 │  ├─ PasswordEncoderConfigurations.class
+      │  │                 │  ├─ QueryDslConfig.class
+      │  │                 │  ├─ SwaggerConfig.class
+      │  │                 │  └─ WebMvcConfig.class
+      │  │                 ├─ controller
+      │  │                 │  ├─ BookController.class
+      │  │                 │  ├─ ExternalApiController.class
+      │  │                 │  ├─ MeetingController.class
+      │  │                 │  └─ UserController.class
+      │  │                 ├─ dto
+      │  │                 │  ├─ jwt
+      │  │                 │  │  ├─ SignInResultDto$SignInResultDtoBuilder.class
+      │  │                 │  │  ├─ SignInResultDto.class
+      │  │                 │  │  └─ SignUpResultDto.class
+      │  │                 │  ├─ request
+      │  │                 │  │  ├─ book
+      │  │                 │  │  │  ├─ BookConvertRequestDto$BookConvertRequestDtoBuilder.class
+      │  │                 │  │  │  ├─ BookConvertRequestDto.class
+      │  │                 │  │  │  ├─ BookRequestDto$BookRequestDtoBuilder.class
+      │  │                 │  │  │  ├─ BookRequestDto.class
+      │  │                 │  │  │  ├─ IsbnRequestDto$IsbnRequestDtoBuilder.class
+      │  │                 │  │  │  ├─ IsbnRequestDto.class
+      │  │                 │  │  │  ├─ PapagoRequestDto$PapagoRequestDtoBuilder.class
+      │  │                 │  │  │  ├─ PapagoRequestDto.class
+      │  │                 │  │  │  ├─ ReviewRequestDto$ReviewRequestDtoBuilder.class
+      │  │                 │  │  │  └─ ReviewRequestDto.class
+      │  │                 │  │  ├─ meeting
+      │  │                 │  │  │  ├─ CommentRequestDto$CommentRequestDtoBuilder.class
+      │  │                 │  │  │  ├─ CommentRequestDto.class
+      │  │                 │  │  │  ├─ MeetingRequestDto$MeetingRequestDtoBuilder.class
+      │  │                 │  │  │  └─ MeetingRequestDto.class
+      │  │                 │  │  └─ user
+      │  │                 │  │     ├─ UserLoginRequestDto$UserLoginRequestDtoBuilder.class
+      │  │                 │  │     ├─ UserLoginRequestDto.class
+      │  │                 │  │     ├─ UserSignupRequestDto$UserSignupRequestDtoBuilder.class
+      │  │                 │  │     └─ UserSignupRequestDto.class
+      │  │                 │  ├─ resposne
+      │  │                 │  │  ├─ api
+      │  │                 │  │  │  ├─ ApiResponseDto$ApiResponseDtoBuilder.class
+      │  │                 │  │  │  ├─ ApiResponseDto$ApiResponseDtoBuilderImpl.class
+      │  │                 │  │  │  └─ ApiResponseDto.class
+      │  │                 │  │  ├─ book
+      │  │                 │  │  │  ├─ BookDataResponseDto$BookDataResponseDtoBuilder.class
+      │  │                 │  │  │  ├─ BookDataResponseDto.class
+      │  │                 │  │  │  ├─ BookDetailResponseDto$BookDetailResponseDtoBuilder.class
+      │  │                 │  │  │  ├─ BookDetailResponseDto.class
+      │  │                 │  │  │  ├─ BookListResponseDto$BookListResponseDtoBuilder.class
+      │  │                 │  │  │  ├─ BookListResponseDto.class
+      │  │                 │  │  │  ├─ BookResponseDto$BookResponseDtoBuilder.class
+      │  │                 │  │  │  ├─ BookResponseDto.class
+      │  │                 │  │  │  ├─ NewBookDetailResponseDto$NewBookDetailResponseDtoBuilder.class
+      │  │                 │  │  │  └─ NewBookDetailResponseDto.class
+      │  │                 │  │  ├─ meeting
+      │  │                 │  │  │  ├─ CommentListResponseDto$CommentListResponseDtoBuilder.class
+      │  │                 │  │  │  ├─ CommentListResponseDto.class
+      │  │                 │  │  │  ├─ MeetingListResponseDto$MeetingListResponseDtoBuilder.class
+      │  │                 │  │  │  └─ MeetingListResponseDto.class
+      │  │                 │  │  ├─ review
+      │  │                 │  │  │  ├─ ReviewListResponseDto$ReviewListResponseDtoBuilder.class
+      │  │                 │  │  │  └─ ReviewListResponseDto.class
+      │  │                 │  │  └─ user
+      │  │                 │  │     ├─ UserResponseDto$UserResponseDtoBuilder.class
+      │  │                 │  │     └─ UserResponseDto.class
+      │  │                 │  └─ user
+      │  │                 │     └─ Gender.class
+      │  │                 ├─ entity
+      │  │                 │  ├─ book
+      │  │                 │  │  ├─ Book$BookBuilder.class
+      │  │                 │  │  ├─ Book.class
+      │  │                 │  │  ├─ Category$CategoryBuilder.class
+      │  │                 │  │  ├─ Category.class
+      │  │                 │  │  ├─ QBook.class
+      │  │                 │  │  ├─ QCategory.class
+      │  │                 │  │  ├─ QReview.class
+      │  │                 │  │  ├─ Review$ReviewBuilder.class
+      │  │                 │  │  └─ Review.class
+      │  │                 │  ├─ meeting
+      │  │                 │  │  ├─ Comment$CommentBuilder.class
+      │  │                 │  │  ├─ Comment.class
+      │  │                 │  │  ├─ Meeting$MeetingBuilder.class
+      │  │                 │  │  ├─ Meeting.class
+      │  │                 │  │  ├─ QComment.class
+      │  │                 │  │  ├─ QMeeting.class
+      │  │                 │  │  ├─ QUserMeeting.class
+      │  │                 │  │  ├─ UserMeeting$UserMeetingBuilder.class
+      │  │                 │  │  └─ UserMeeting.class
+      │  │                 │  └─ user
+      │  │                 │     ├─ QUser.class
+      │  │                 │     ├─ QUserBook.class
+      │  │                 │     ├─ User$UserBuilder.class
+      │  │                 │     ├─ User.class
+      │  │                 │     ├─ UserBook$UserBookBuilder.class
+      │  │                 │     └─ UserBook.class
+      │  │                 ├─ ProjectApplication.class
+      │  │                 ├─ repository
+      │  │                 │  ├─ BookRepository.class
+      │  │                 │  ├─ CategoryRepository.class
+      │  │                 │  ├─ CommentRepository.class
+      │  │                 │  ├─ CommentScrollQdslRepository.class
+      │  │                 │  ├─ CommentScrollQdslRepositoryImpl.class
+      │  │                 │  ├─ MeetingRepository.class
+      │  │                 │  ├─ MeetingScrollQdslRepository.class
+      │  │                 │  ├─ MeetingScrollQdslRepositoryImpl.class
+      │  │                 │  ├─ ReviewRepository.class
+      │  │                 │  ├─ UserBookQdslRepository.class
+      │  │                 │  ├─ UserBookQdslRepositoryImpl.class
+      │  │                 │  ├─ UserBookRepository.class
+      │  │                 │  ├─ UserMeetingRepository.class
+      │  │                 │  └─ UserRepository.class
+      │  │                 ├─ security
+      │  │                 │  ├─ common
+      │  │                 │  │  └─ CommonResponse.class
+      │  │                 │  ├─ CustomAcessDeniedHandler.class
+      │  │                 │  ├─ CustomAuthenticationEntryPoint.class
+      │  │                 │  ├─ EntryPointErrorResponse.class
+      │  │                 │  ├─ JwtAuthenticationFilter.class
+      │  │                 │  ├─ JwtTokenProvider.class
+      │  │                 │  └─ SecurityConfiguration.class
+      │  │                 └─ service
+      │  │                    ├─ api
+      │  │                    │  └─ ExternalApiService.class
+      │  │                    ├─ book
+      │  │                    │  ├─ BookService$1.class
+      │  │                    │  ├─ BookService.class
+      │  │                    │  ├─ ReviewService.class
+      │  │                    │  └─ TranslationService.class
+      │  │                    ├─ meeting
+      │  │                    │  └─ MeetingService.class
+      │  │                    └─ user
+      │  │                       ├─ UserDetailServiceImpl.class
+      │  │                       └─ UserService.class
+      │  ├─ generated
+      │  │  └─ sources
+      │  │     └─ annotationProcessor
+      │  │        └─ java
+      │  │           └─ main
+      │  │              └─ com
+      │  │                 └─ sasatech
+      │  │                    └─ bookdodum
+      │  │                       └─ entity
+      │  │                          ├─ book
+      │  │                          │  ├─ QBook.java
+      │  │                          │  ├─ QCategory.java
+      │  │                          │  └─ QReview.java
+      │  │                          ├─ meeting
+      │  │                          │  ├─ QComment.java
+      │  │                          │  ├─ QMeeting.java
+      │  │                          │  └─ QUserMeeting.java
+      │  │                          └─ user
+      │  │                             ├─ QUser.java
+      │  │                             └─ QUserBook.java
+      │  ├─ resources
+      │  │  └─ main
+      │  │     └─ application.yml
+      │  └─ tmp
+      │     ├─ bootJar
+      │     │  └─ MANIFEST.MF
+      │     └─ compileJava
+      │        └─ previous-compilation-data.bin
+      ├─ build.gradle
+      ├─ Dockerfile
+      ├─ gradle
+      │  └─ wrapper
+      │     ├─ gradle-wrapper.jar
+      │     └─ gradle-wrapper.properties
+      ├─ gradlew
+      ├─ isbn.png
+      ├─ isbn1.png
+      ├─ isbn2.png
+      ├─ META-INF
+      │  └─ MANIFEST.MF
+      ├─ nginx.conf
+      ├─ org
+      │  └─ springframework
+      │     └─ boot
+      │        └─ loader
+      │           ├─ archive
+      │           │  ├─ Archive$Entry.class
+      │           │  ├─ Archive$EntryFilter.class
+      │           │  ├─ Archive.class
+      │           │  ├─ ExplodedArchive$AbstractIterator.class
+      │           │  ├─ ExplodedArchive$ArchiveIterator.class
+      │           │  ├─ ExplodedArchive$EntryIterator.class
+      │           │  ├─ ExplodedArchive$FileEntry.class
+      │           │  ├─ ExplodedArchive$SimpleJarFileArchive.class
+      │           │  ├─ ExplodedArchive.class
+      │           │  ├─ JarFileArchive$AbstractIterator.class
+      │           │  ├─ JarFileArchive$EntryIterator.class
+      │           │  ├─ JarFileArchive$JarFileEntry.class
+      │           │  ├─ JarFileArchive$NestedArchiveIterator.class
+      │           │  └─ JarFileArchive.class
+      │           ├─ ClassPathIndexFile.class
+      │           ├─ data
+      │           │  ├─ RandomAccessData.class
+      │           │  ├─ RandomAccessDataFile$1.class
+      │           │  ├─ RandomAccessDataFile$DataInputStream.class
+      │           │  ├─ RandomAccessDataFile$FileAccess.class
+      │           │  └─ RandomAccessDataFile.class
+      │           ├─ ExecutableArchiveLauncher.class
+      │           ├─ jar
+      │           │  ├─ AbstractJarFile$JarFileType.class
+      │           │  ├─ AbstractJarFile.class
+      │           │  ├─ AsciiBytes.class
+      │           │  ├─ Bytes.class
+      │           │  ├─ CentralDirectoryEndRecord$1.class
+      │           │  ├─ CentralDirectoryEndRecord$Zip64End.class
+      │           │  ├─ CentralDirectoryEndRecord$Zip64Locator.class
+      │           │  ├─ CentralDirectoryEndRecord.class
+      │           │  ├─ CentralDirectoryFileHeader.class
+      │           │  ├─ CentralDirectoryParser.class
+      │           │  ├─ CentralDirectoryVisitor.class
+      │           │  ├─ FileHeader.class
+      │           │  ├─ Handler.class
+      │           │  ├─ JarEntry.class
+      │           │  ├─ JarEntryCertification.class
+      │           │  ├─ JarEntryFilter.class
+      │           │  ├─ JarFile$1.class
+      │           │  ├─ JarFile$JarEntryEnumeration.class
+      │           │  ├─ JarFile.class
+      │           │  ├─ JarFileEntries$1.class
+      │           │  ├─ JarFileEntries$EntryIterator.class
+      │           │  ├─ JarFileEntries.class
+      │           │  ├─ JarFileWrapper.class
+      │           │  ├─ JarURLConnection$1.class
+      │           │  ├─ JarURLConnection$JarEntryName.class
+      │           │  ├─ JarURLConnection.class
+      │           │  ├─ StringSequence.class
+      │           │  └─ ZipInflaterInputStream.class
+      │           ├─ JarLauncher.class
+      │           ├─ jarmode
+      │           │  ├─ JarMode.class
+      │           │  ├─ JarModeLauncher.class
+      │           │  └─ TestJarMode.class
+      │           ├─ LaunchedURLClassLoader$DefinePackageCallType.class
+      │           ├─ LaunchedURLClassLoader$UseFastConnectionExceptionsEnumeration.class
+      │           ├─ LaunchedURLClassLoader.class
+      │           ├─ Launcher.class
+      │           ├─ MainMethodRunner.class
+      │           ├─ PropertiesLauncher$1.class
+      │           ├─ PropertiesLauncher$ArchiveEntryFilter.class
+      │           ├─ PropertiesLauncher$ClassPathArchives.class
+      │           ├─ PropertiesLauncher$PrefixMatchingArchiveFilter.class
+      │           ├─ PropertiesLauncher.class
+      │           ├─ util
+      │           │  └─ SystemPropertyUtils.class
+      │           └─ WarLauncher.class
+      ├─ settings.gradle
+      └─ src
+         ├─ main
+         │  ├─ java
+         │  │  └─ com
+         │  │     └─ sasatech
+         │  │        └─ bookdodum
+         │  │           ├─ config
+         │  │           │  ├─ PasswordEncoderConfigurations.java
+         │  │           │  ├─ QueryDslConfig.java
+         │  │           │  ├─ SwaggerConfig.java
+         │  │           │  └─ WebMvcConfig.java
+         │  │           ├─ controller
+         │  │           │  ├─ BookController.java
+         │  │           │  ├─ ExternalApiController.java
+         │  │           │  ├─ MeetingController.java
+         │  │           │  └─ UserController.java
+         │  │           ├─ dto
+         │  │           │  ├─ jwt
+         │  │           │  │  ├─ SignInResultDto.java
+         │  │           │  │  └─ SignUpResultDto.java
+         │  │           │  ├─ request
+         │  │           │  │  ├─ book
+         │  │           │  │  │  ├─ BookConvertRequestDto.java
+         │  │           │  │  │  ├─ BookRequestDto.java
+         │  │           │  │  │  ├─ IsbnRequestDto.java
+         │  │           │  │  │  ├─ PapagoRequestDto.java
+         │  │           │  │  │  └─ ReviewRequestDto.java
+         │  │           │  │  ├─ meeting
+         │  │           │  │  │  ├─ CommentRequestDto.java
+         │  │           │  │  │  └─ MeetingRequestDto.java
+         │  │           │  │  └─ user
+         │  │           │  │     ├─ UserLoginRequestDto.java
+         │  │           │  │     └─ UserSignupRequestDto.java
+         │  │           │  ├─ resposne
+         │  │           │  │  ├─ api
+         │  │           │  │  │  └─ ApiResponseDto.java
+         │  │           │  │  ├─ book
+         │  │           │  │  │  ├─ BookDataResponseDto.java
+         │  │           │  │  │  ├─ BookDetailResponseDto.java
+         │  │           │  │  │  ├─ BookListResponseDto.java
+         │  │           │  │  │  ├─ BookResponseDto.java
+         │  │           │  │  │  └─ NewBookDetailResponseDto.java
+         │  │           │  │  ├─ meeting
+         │  │           │  │  │  ├─ CommentListResponseDto.java
+         │  │           │  │  │  └─ MeetingListResponseDto.java
+         │  │           │  │  ├─ review
+         │  │           │  │  │  └─ ReviewListResponseDto.java
+         │  │           │  │  └─ user
+         │  │           │  │     └─ UserResponseDto.java
+         │  │           │  └─ user
+         │  │           │     └─ Gender.java
+         │  │           ├─ entity
+         │  │           │  ├─ book
+         │  │           │  │  ├─ Book.java
+         │  │           │  │  ├─ Category.java
+         │  │           │  │  └─ Review.java
+         │  │           │  ├─ meeting
+         │  │           │  │  ├─ Comment.java
+         │  │           │  │  ├─ Meeting.java
+         │  │           │  │  └─ UserMeeting.java
+         │  │           │  └─ user
+         │  │           │     ├─ User.java
+         │  │           │     └─ UserBook.java
+         │  │           ├─ ProjectApplication.java
+         │  │           ├─ repository
+         │  │           │  ├─ BookRepository.java
+         │  │           │  ├─ CategoryRepository.java
+         │  │           │  ├─ CommentRepository.java
+         │  │           │  ├─ CommentScrollQdslRepository.java
+         │  │           │  ├─ CommentScrollQdslRepositoryImpl.java
+         │  │           │  ├─ MeetingRepository.java
+         │  │           │  ├─ MeetingScrollQdslRepository.java
+         │  │           │  ├─ MeetingScrollQdslRepositoryImpl.java
+         │  │           │  ├─ ReviewRepository.java
+         │  │           │  ├─ UserBookQdslRepository.java
+         │  │           │  ├─ UserBookQdslRepositoryImpl.java
+         │  │           │  ├─ UserBookRepository.java
+         │  │           │  ├─ UserMeetingRepository.java
+         │  │           │  └─ UserRepository.java
+         │  │           ├─ security
+         │  │           │  ├─ common
+         │  │           │  │  └─ CommonResponse.java
+         │  │           │  ├─ CustomAcessDeniedHandler.java
+         │  │           │  ├─ CustomAuthenticationEntryPoint.java
+         │  │           │  ├─ EntryPointErrorResponse.java
+         │  │           │  ├─ JwtAuthenticationFilter.java
+         │  │           │  ├─ JwtTokenProvider.java
+         │  │           │  └─ SecurityConfiguration.java
+         │  │           └─ service
+         │  │              ├─ api
+         │  │              │  └─ ExternalApiService.java
+         │  │              ├─ book
+         │  │              │  ├─ BookService.java
+         │  │              │  ├─ ReviewService.java
+         │  │              │  └─ TranslationService.java
+         │  │              ├─ meeting
+         │  │              │  └─ MeetingService.java
+         │  │              └─ user
+         │  │                 ├─ UserDetailServiceImpl.java
+         │  │                 └─ UserService.java
+         │  └─ resources
+         │     └─ application.yml
+         └─ test
+            └─ java
+               └─ com
+                  └─ sasatech
+                     └─ bookdodum
+                        └─ ProjectApplicationTests.java
+
+```
+
+### Frontend
+```
+frontend
+├─ .env
+├─ Dockerfile
+├─ package-lock.json
+├─ package.json
+├─ public
+│  ├─ favicon.ico
+│  └─ index.html
+├─ README.md
+└─ src
+   ├─ apis
+   │  ├─ auth.ts
+   │  ├─ changeImage.js
+   │  ├─ detail.ts
+   │  ├─ isbn.ts
+   │  ├─ library.ts
+   │  ├─ meeting.ts
+   │  ├─ read.ts
+   │  ├─ reading.ts
+   │  ├─ readwith.ts
+   │  ├─ recommend.ts
+   │  ├─ saveImage.ts
+   │  ├─ survey.ts
+   │  ├─ translate.ts
+   │  └─ write.ts
+   ├─ App.css
+   ├─ App.tsx
+   ├─ Assets
+   │  ├─ Fonts
+   │  │  ├─ KoPubBatangBold.ttf
+   │  │  ├─ KoPubBatangLight.ttf
+   │  │  └─ KoPubBatangMedium.ttf
+   │  └─ Images
+   │     ├─ banner1.png
+   │     ├─ banner2.png
+   │     ├─ banner3.png
+   │     ├─ banner4.png
+   │     ├─ bookBanner.png
+   │     ├─ bookside.png
+   │     ├─ booktop.png
+   │     ├─ intro.png
+   │     ├─ logo-black.png
+   │     ├─ logo-white.png
+   │     ├─ mypagebanner.png
+   │     ├─ oilpainting.png
+   │     ├─ oneline.png
+   │     ├─ profile.png
+   │     ├─ spinner.gif
+   │     ├─ survey
+   │     │  ├─ bestseller.png
+   │     │  ├─ boring.png
+   │     │  ├─ confidence.png
+   │     │  ├─ development.png
+   │     │  ├─ farewell.png
+   │     │  ├─ frustrated.png
+   │     │  ├─ funny.png
+   │     │  ├─ happy.png
+   │     │  ├─ healing.png
+   │     │  ├─ love.png
+   │     │  ├─ man.png
+   │     │  ├─ sad.png
+   │     │  ├─ spec.png
+   │     │  ├─ stress.png
+   │     │  ├─ unrest.png
+   │     │  └─ woman.png
+   │     ├─ tape.png
+   │     └─ windflower.png
+   ├─ Components
+   │  ├─ Common
+   │  │  ├─ Loading.tsx
+   │  │  ├─ Nav.tsx
+   │  │  ├─ ScrollTop.tsx
+   │  │  └─ SideBar.tsx
+   │  └─ Contents
+   │     ├─ Book.tsx
+   │     ├─ BookBanner.tsx
+   │     ├─ BookCover.tsx
+   │     ├─ DetailModal.tsx
+   │     ├─ ImageAI.tsx
+   │     ├─ MeetingCover.tsx
+   │     ├─ NavBack.tsx
+   │     └─ ReadingBooks.tsx
+   ├─ custom.d.ts
+   ├─ font.d.ts
+   ├─ index.css
+   ├─ index.tsx
+   ├─ pages
+   │  ├─ Home
+   │  │  ├─ Banner.tsx
+   │  │  ├─ BestKeyword.tsx
+   │  │  ├─ BookList.tsx
+   │  │  ├─ index.tsx
+   │  │  ├─ LibraryBooks.tsx
+   │  │  └─ Recommend.tsx
+   │  ├─ ImageConvertor
+   │  │  ├─ Form.tsx
+   │  │  ├─ ImageLoading.tsx
+   │  │  ├─ Images.tsx
+   │  │  └─ index.tsx
+   │  ├─ Intro
+   │  │  └─ index.tsx
+   │  ├─ Isbn
+   │  │  ├─ Check.tsx
+   │  │  └─ index.tsx
+   │  ├─ Library
+   │  │  ├─ index.tsx
+   │  │  ├─ LibraryList.tsx
+   │  │  └─ LibraryModal.tsx
+   │  ├─ Login
+   │  │  └─ index.tsx
+   │  ├─ Meeting
+   │  │  ├─ Button.tsx
+   │  │  ├─ index.tsx
+   │  │  ├─ List.tsx
+   │  │  └─ ListCard.tsx
+   │  ├─ MeetingCreate
+   │  │  └─ index.tsx
+   │  ├─ MeetingRoom
+   │  │  ├─ index.tsx
+   │  │  ├─ List.tsx
+   │  │  └─ ListCard.tsx
+   │  ├─ Mypage
+   │  │  ├─ Index.tsx
+   │  │  ├─ MypageBanner.tsx
+   │  │  └─ Read.tsx
+   │  ├─ ReadingBooks
+   │  │  ├─ index.tsx
+   │  │  ├─ MeetingList.tsx
+   │  │  ├─ UserList.tsx
+   │  │  └─ UserProfile.tsx
+   │  ├─ RecommendList
+   │  │  └─ index.tsx
+   │  ├─ Signup
+   │  │  └─ Index.tsx
+   │  ├─ Survey
+   │  │  ├─ EmotionCard.tsx
+   │  │  ├─ FieldCard.tsx
+   │  │  ├─ GenderCard.tsx
+   │  │  ├─ index.tsx
+   │  │  ├─ ReasonCard.tsx
+   │  │  ├─ Result.tsx
+   │  │  └─ Step.tsx
+   │  └─ WriteText
+   │     ├─ Comment.tsx
+   │     ├─ index.tsx
+   │     └─ TextForm.tsx
+   ├─ Store
+   │  ├─ index.ts
+   │  ├─ Types.ts
+   │  └─ userSlice.ts
+   └─ Styles
+      ├─ GlobalFont.ts
+      └─ GlobalStyle.ts
+```
 
 ---
-
 ## 아키텍처 설계도
 
 ![아키텍처 설계도](images/architecture.png)
