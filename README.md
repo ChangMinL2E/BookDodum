@@ -664,10 +664,12 @@ frontend
 ---
 ## 프로젝트 결과물
 - [포팅메뉴얼] (링크)
-- [중간발표자료] (링크)
-- [최종발표자료] (링크)
+- [중간발표자료] (https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22C104/-/blob/develop/ppt/%EB%B6%81%EB%8F%8B%EC%9B%80_%EC%A4%91%EA%B0%84%EB%B0%9C%ED%91%9C.pdf)
+- [최종발표자료] (https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22C104/-/blob/develop/ppt/%EB%B6%81%EB%8F%8B%EC%9B%80_%EC%B5%9C%EC%A2%85%EB%B0%9C%ED%91%9C.pdf)
+
 <br/>
 <br/>
+
 ---
 
 ## 팀원 소개
