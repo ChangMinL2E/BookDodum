@@ -151,6 +151,8 @@ if sum(user_matrix) == 0:
 
 <br/>
 <br/>
+<br/>
+<br/>
 
 ---
 ## 프로젝트 파일 구조 ✔
@@ -237,44 +239,56 @@ frontend
 
 <br/>
 <br/>
+<br/>
+<br/>
 
----
 ## 아키텍처 설계도
 
 ![아키텍처 설계도](images/architecture.png)
 
 <br/>
 <br/>
+<br/>
+<br/>
 
----
 ## 와이어프레임 
 
 ![와이어 프레임](images/wireframe.png)
 
 <br/>
 <br/>
+<br/>
+<br/>
 
---- 
 ## 사이트맵
 
 ![사이트 맵](/images/sitemap.png)
 
----
+<br/>
+<br/>
+<br/>
+<br/>
+
 ## 기능명세서
 
 ![기능명세서1](https://user-images.githubusercontent.com/87683992/231486951-260297c5-23f7-465b-af87-fc51d4f6062e.PNG)
 ![기능명세서2](https://user-images.githubusercontent.com/87683992/231487026-1fcd96b0-13a0-4501-a4bf-81d35f612c67.PNG)
 ![기능명세서3](https://user-images.githubusercontent.com/87683992/231487105-5541e5ba-f59f-4e09-bc25-e5cbff6434e2.PNG)
 
----
+<br/>
+<br/>
+<br/>
+<br/>
+
 ## ERD
 
 ![ERD](images/ERD.png)
 
 <br/>
 <br/>
+<br/>
+<br/>
 
----
 ## API 명세서
 
 ![API1](images/API1.png)
@@ -282,11 +296,60 @@ frontend
 ![API3](images/API3.png)
 ![API4](images/API4.png)
 
-
+<br/>
+<br/>
 <br/>
 <br/>
 
----
+## 시스템 기술서
+
+## 1. 프로젝트 핵심 기술
+- Spring Web
+- Spring Secutiry + JWT
+- Spring Data JPA
+- Let’s Encrypt
+- Lombok
+- MySQL MariaDB
+- AWS (EC2)
+- Jenkins
+
+<br/>
+
+## 2. 핵심 기술 소개
+
+### 2-1. Spring Data JPA (+ QureyDsl)
+
+<br/>
+
+ORM(Object Relational Mapping) 기술을 기반하는 JPA를 활용하여 객체와 테이블을 매핑하였습니다. 추가적으로 동적 쿼리문를 통한 유연한 쿼리문을 생성하기 위해서 QueryDsl을 활용하였습니다. 또한, Pagable 을 이용하여 무한 스크롤을 구현하였습니다.
+
+<br/>
+
+![SYS1](images/SystemTech1.png)
+![SYS2](images/SystemTech2.png)
+
+<br/>
+
+### 2-2. Spring Security (+ JWT)
+
+<br/>
+
+사용자가 로그인을 하게 되면, 서버는 JWT 토큰을 생성하고 클라이언트에게 반환합니다. 클라이언트는 이 JWT 토큰을 저장하고, 서버에 요청할 때마다 헤더에 포함하여 서버에 전송합니다. 서버는 JWT 토큰을 검증하여 사용자를 인증하고, 필요한 권한을 확인하여 해당 작업을 수행합니다. 
+
+이 JWT 토큰은 클라이언트가 자원 서버에 접근할 때 Access Token으로 사용합니다. 자원 서버는 Access Token을 검증하여 클라이언트의 권한을 확인하고, 요청을 처리할 수 있습니다.
+
+<br/>
+
+![SYS3](images/SystemTech3.png)
+
+
+
+
+<br/>
+<br/>
+<br/>
+<br/>
+
 ## 컨벤션 ➰
 
 ### Coding Convention
@@ -345,8 +408,9 @@ frontend
 
 <br/>
 <br/>
+<br/>
+<br/>
 
----
 ## 프로젝트 결과물
 - [포팅메뉴얼](https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22C104/-/blob/develop/exec/%ED%8A%B9%ED%99%94PJT_%EA%B4%91%EC%A3%BC_1%EB%B0%98_C104_%ED%8F%AC%ED%8C%85%EB%A7%A4%EB%89%B4%EC%96%BC.docx)
 - [중간발표자료](https://lab.ssafy.com/s08-bigdata-recom-sub2/S08P22C104/-/blob/develop/ppt/%EB%B6%81%EB%8F%8B%EC%9B%80_%EC%A4%91%EA%B0%84%EB%B0%9C%ED%91%9C.pdf)
@@ -354,8 +418,8 @@ frontend
 
 
 <br/>
-
----
+<br/>
+<br/>
 
 ## 팀원 소개
 
